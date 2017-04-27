@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Tasree7a</string>
+    <string name="FORGOT_PASSWORD">Forgot password?</string>
+    <string name="SIGN_UP">Sign up</string>
+    <string name="NEW_USER">New user?</string>
+    <string name="LOGIN_WITH_FB">Login with Facebook</string>
+    <string name="OR">Or</string>
+    <string name="EMAIL">Email</string>
+    <string name="Password">Password</string>
+    <string name="LOGIN">Login</string>
+</resources>

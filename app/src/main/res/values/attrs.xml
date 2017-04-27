@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="customFonts" format="enum">
+        <enum name="BOOK" value="0" />
+        <enum name="HEAVY" value="1" />
+        <enum name="BLACK" value="2" />
+        <enum name="MEDIUM" value="3" />
+        <enum name="ROMAN" value="4" />
+    </attr>
+
+    <declare-styleable name="CustomButton">
+        <attr name="customButtonText" format="string"/>
+        <attr name="customButtonTextSize" format="dimension"/>
+        <attr name="customButtonTextColor" format="color"/>
+        <attr name="customButtonBackgroundColor" format="color"/>
+        <attr name="customButtonBackgroundDrawable" format="reference"/>
+        <attr name="customButtonStrokeColor" format="color"/>
+        <attr name="customButtonImageSrc" format="reference"/>
+        <attr name="makeIconWhite" format="boolean"/>
+        <attr name="customFonts" />
+    </declare-styleable>
+</resources>

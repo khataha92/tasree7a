@@ -10,9 +10,9 @@ components:
     # The BuildTools version used by your project
     - tools
     - platform-tools
-    - build-tools-25.0.2
+    - build-tools-23.0.1
     - android-25
-    
+
 licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'

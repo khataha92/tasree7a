@@ -10,6 +10,10 @@ android:
     - android-25
     # The BuildTools version used by your project
     #- build-tools-19.1.0
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    
 jdk: oraclejdk8
 os:
   - linux

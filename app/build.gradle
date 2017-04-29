@@ -6,6 +6,10 @@ buildscript {
 
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath('com.android.tools.build:gradle:2.1.0') {
+            force = true
+        }
+
     }
 }
 
@@ -28,10 +32,27 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs{
+        release{
+            storeFile file("tasree7a.jks") 
+            storePassword "test123"
+            keyAlias "TEST"
+            keyPassword "test123"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            ext.enableCrashlytics = true
+            buildConfigField "boolean", "REPORT_CRASHES", "true"
+            ext.betaDistributionGroupAliases = System.getenv("EMAILS_GROUP") ?: "android-testers"
         }
     }
     compileOptions {

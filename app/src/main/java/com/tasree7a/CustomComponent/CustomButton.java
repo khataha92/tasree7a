@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tasree7a.Enums.FontsType;
@@ -283,7 +284,7 @@ public class CustomButton extends LinearLayout {
 
     public void setButtonHeight(int val){
 
-        ((LinearLayout)findViewById(R.id.button_container)).getLayoutParams().height = val;
+        ((RelativeLayout)findViewById(R.id.button_container)).getLayoutParams().height = val;
 
     }
 

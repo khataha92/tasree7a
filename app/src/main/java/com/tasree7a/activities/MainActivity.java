@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 
 import com.facebook.login.LoginManager;
@@ -24,6 +28,8 @@ import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.R;
 import com.crashlytics.android.Crashlytics;
 import com.tasree7a.ThisApplication;
+
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -41,11 +47,28 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     LoginButton loginButton;
 
+    TextView signup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Fabric.with(this, new Crashlytics());
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.tasree7a",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
 
         sdkInitialize(getApplicationContext());
 
@@ -55,21 +78,49 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         setContentView(R.layout.activity_main);
 
+        signup = (TextView) findViewById(R.id.sign_up);
+
+        signup.setOnClickListener(this);
+
         login = (CustomButton) findViewById(R.id.login_with_fb);
 
         login.setOnClickListener(this);
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
-        loginButton.setReadPermissions("email");
-
         callbackManager = CallbackManager.Factory.create();
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                Log.d("status","success");
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+
+                                // Application code
+                                try {
+
+                                    String email = object.getString("email");
+                                    String birthday = object.getString("birthday"); // 01/31/1980 format
+                                    Log.d("emailAddress",email + ", " + birthday);
+
+                                } catch (Exception e){
+
+                                    e.printStackTrace();
+
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields",
+                        "id,name,email,gender,birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
@@ -104,7 +155,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             case R.id.login_with_fb:
 
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email","user_birthday"));
+
+                break;
+
+            case R.id.sign_up:
+
+                startActivity(new Intent(this,SignupActivity.class));
 
                 break;
         }

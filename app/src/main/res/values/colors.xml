@@ -9,4 +9,5 @@
     <color name="BLACK">#000000</color>
     <color name="WHITE">#FFFFFF</color>
     <color name="FB_COLOR">#4b60a4</color>
+    <color name="APP_BLACK">#242424</color>
 </resources>

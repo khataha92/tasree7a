@@ -1,7 +1,16 @@
 package com.tasree7a.utils;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
+import com.tasree7a.Fragments.BaseFragment;
+import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.ThisApplication;
 
 /**
@@ -28,5 +37,80 @@ public class UIUtils {
         int aChannel = (int)(alpha * 255);
 
         return Color.argb(aChannel, Color.red(color), Color.green(color), Color.blue(color));
+    }
+
+    public static void hideSoftKeyboard(EditText editText) {
+
+        if (ThisApplication.getCurrentActivity() == null) {
+
+            return;
+
+        }
+
+        // Hide soft keyboard if it is visible
+        InputMethodManager inputManager = (InputMethodManager) ThisApplication.getCurrentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        View v = editText != null ? editText : ThisApplication.getCurrentActivity().getCurrentFocus();
+
+        if (v != null) {
+
+            changeSoftKeyboardMode(FragmentManager.getCurrentVisibleFragment(), WindowManager.LayoutParams
+                    .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+            inputManager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        }
+
+    }
+
+    public static void forceHideKeyboard(EditText editText) {
+
+        Log.d("keyboard", "forceHide!");
+
+        if (ThisApplication.getCurrentActivity() == null) {
+
+            return;
+
+        }
+
+        // Hide soft keyboard if it is visible
+        InputMethodManager inputManager = (InputMethodManager) ThisApplication.getCurrentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        View v = editText != null ? editText : ThisApplication.getCurrentActivity().getCurrentFocus();
+
+        if (v != null) {
+
+            changeSoftKeyboardMode(FragmentManager.getCurrentVisibleFragment(), WindowManager.LayoutParams
+                    .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+            inputManager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+
+        }
+
+
+    }
+
+    public static void forceHideKeyboard() {
+
+        forceHideKeyboard(null);
+
+    }
+
+    public static void hideSoftKeyboard() {
+
+        hideSoftKeyboard(null);
+
+    }
+
+    public static void changeSoftKeyboardMode(BaseFragment fragment, int keyboardMode) {
+
+        if (fragment != null
+                && !fragment.isDestroyed()
+                && fragment.getActivity() != null
+                && fragment.getActivity().getWindow() != null) {
+
+            fragment.getActivity().getWindow().setSoftInputMode(keyboardMode);
+
+        }
     }
 }

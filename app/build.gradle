@@ -6,7 +6,7 @@ buildscript {
 
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath('com.android.tools.build:gradle:2.1.0') {
+        classpath('com.android.tools.build:gradle:2.3.1') {
             force = true
         }
 
@@ -38,7 +38,7 @@ android {
 
     signingConfigs{
         release{
-            storeFile file("tasree7a.jks") 
+            storeFile file("tasree7a.jks")
             storePassword "test123"
             keyAlias "TEST"
             keyPassword "test123"
@@ -73,9 +73,11 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
+    compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.android.gms:play-services-gcm:10.2.0'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     testCompile 'junit:junit:4.12'
 }

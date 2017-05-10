@@ -24,6 +24,11 @@
             android:windowSoftInputMode="stateHidden"
             />
 
+        <activity android:name=".activities.HomeActivity"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="15754c068ce302896698c2beb44c5fd9ecd76f4d" />

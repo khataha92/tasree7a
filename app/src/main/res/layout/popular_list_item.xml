@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="197dp"
+        android:background="@color/BG_GRAY"
+        >
+
+    <com.tasree7a.CustomComponent.RoundedCornersImageView
+        android:layout_width="match_parent"
+        android:layout_height="126dp"
+        android:src="@drawable/sallon"
+        android:scaleType="centerCrop"
+        android:id="@+id/sallon_image"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/sallon_image"
+        android:background="@color/WHITE"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19.3sp"
+        android:layout_marginLeft="12.3dp"
+        android:layout_marginTop="13.7dp"
+        android:text="Malki Sallon,"
+        android:textColor="@color/APP_BLACK"
+        android:id="@+id/sallon_name"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/sallon_name"
+        android:layout_toRightOf="@+id/sallon_name"
+        android:layout_marginLeft="10dp"
+        android:text="Ramallah"
+        android:textColor="@color/APP_BLACK"
+        android:textSize="10sp"
+        />
+    
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="22dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="13.7dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="11dp"
+        android:src="@drawable/like"
+        />
+
+    </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

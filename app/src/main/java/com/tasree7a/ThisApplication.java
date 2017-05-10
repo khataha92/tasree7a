@@ -2,6 +2,7 @@ package com.tasree7a;
 
 import android.app.Activity;
 import android.app.Application;
+import android.support.v4.app.FragmentActivity;
 
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -11,13 +12,13 @@ import com.tasree7a.utils.UserDefaultUtil;
 
 public class ThisApplication extends Application {
 
-    private static Activity currentActivity;
+    private static FragmentActivity currentActivity;
 
-    public static void setCurrentActivity(Activity currentActivity) {
+    public static void setCurrentActivity(FragmentActivity currentActivity) {
         ThisApplication.currentActivity = currentActivity;
     }
 
-    public static Activity getCurrentActivity() {
+    public static FragmentActivity getCurrentActivity() {
         return currentActivity;
     }
 

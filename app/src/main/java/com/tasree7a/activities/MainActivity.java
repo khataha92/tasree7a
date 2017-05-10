@@ -106,8 +106,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                 try {
 
                                     String email = object.getString("email");
-                                    String birthday = object.getString("birthday"); // 01/31/1980 format
-                                    Log.d("emailAddress",email + ", " + birthday);
+                                    String birthday = object.getString("birthday");
+
+                                    startActivity(new Intent(MainActivity.this,HomeActivity.class));
+
+                                    finish();
 
                                 } catch (Exception e){
 
@@ -166,5 +169,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ThisApplication.setCurrentActivity(this);
     }
 }

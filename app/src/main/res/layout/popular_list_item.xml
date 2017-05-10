@@ -6,13 +6,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="197dp"
+        android:layout_height="221dp"
         android:background="@color/BG_GRAY"
         >
 
     <com.tasree7a.CustomComponent.RoundedCornersImageView
         android:layout_width="match_parent"
-        android:layout_height="126dp"
+        android:layout_height="150dp"
         android:src="@drawable/sallon"
         android:scaleType="centerCrop"
         android:id="@+id/sallon_image"

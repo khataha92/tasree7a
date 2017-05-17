@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
 import com.google.common.base.Strings;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.UserDefaultKeys;
 import com.tasree7a.ThisApplication;
 
@@ -22,7 +23,7 @@ public class UserDefaultUtil {
 
     public static boolean deviceLanguageIsArabic() {
 
-        return "ar".equalsIgnoreCase(getUserLanguage());
+        return Language.AR == getUserLanguage();
 
     }
 
@@ -31,11 +32,11 @@ public class UserDefaultUtil {
         preferences = PreferenceManager.getDefaultSharedPreferences(ThisApplication.getCurrentActivity());
     }
 
-    public static String getUserLanguage() {
+    public static Language getUserLanguage() {
 
         if (!Strings.isNullOrEmpty(cachedUserLanguage)) {
 
-            return cachedUserLanguage;
+            return Language.valueOf(cachedUserLanguage.toUpperCase());
 
         }
 
@@ -45,7 +46,7 @@ public class UserDefaultUtil {
 
             cachedUserLanguage = deviceLanguage;
 
-            return deviceLanguage;
+            return Language.valueOf(deviceLanguage.toUpperCase());
 
         }
 
@@ -53,7 +54,7 @@ public class UserDefaultUtil {
 
         cachedUserLanguage = deviceLanguage;
 
-        return deviceLanguage;
+        return Language.valueOf(deviceLanguage.toUpperCase());
 
     }
 

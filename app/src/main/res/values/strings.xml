@@ -15,4 +15,6 @@
     <string name="REGISTER">Register</string>
     <string name="HAVE_ACCOUNT">Have an account?</string>
     <string name="SALLONS">SALLONS</string>
+    <string name="AR">ع</string>
+    <string name="EN">ENG</string>
 </resources>

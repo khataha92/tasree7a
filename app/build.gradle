@@ -79,5 +79,6 @@ dependencies {
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.android.gms:play-services-gcm:10.2.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
     testCompile 'junit:junit:4.12'
 }

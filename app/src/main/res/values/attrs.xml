@@ -20,4 +20,15 @@
         <attr name="makeIconWhite" format="boolean"/>
         <attr name="customFonts" />
     </declare-styleable>
+
+    <declare-styleable name="CustomSwitch">
+
+        <attr name="checked" format="boolean" />
+
+    </declare-styleable>
+
+    <declare-styleable name="CustomRatingBar">
+
+        <attr name="rating" format="float"/>
+    </declare-styleable>
 </resources>

@@ -6,11 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:listDivider">@color/APP_TEXT_COLOR</item>
+        <item name="colorControlNormal">@color/APP_GREEN</item>
+        <item name="colorControlActivated">@color/APP_GREEN</item>
+        <item name="colorControlHighlight">@color/APP_GREEN</item>
+
     </style>
 
 
     <style name="NoActionBar" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:listDivider">@color/APP_TEXT_COLOR</item>
+        <item name="colorControlNormal">@color/APP_GREEN</item>
+        <item name="colorControlActivated">@color/APP_GREEN</item>
+        <item name="colorControlHighlight">@color/APP_GREEN</item>
+
     </style>
 </resources>

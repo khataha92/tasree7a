@@ -1,67 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/BG_GRAY"
-    >
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <!-- This LinearLayout represents the contents of the screen  -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
-        android:background="@color/WHITE"
-        android:id="@+id/top_bar"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="23.5dp"
-            android:layout_height="27dp"
-            android:src="@drawable/ic_side_menu"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="19dp"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/BG_GRAY"
+            >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"
-            android:textSize="19.3sp"
-            android:textColor="@color/APP_BLACK"
-            android:text="@string/SALLONS"
-            />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_bar_height"
+                android:background="@color/WHITE"
+                android:id="@+id/top_bar"
+                >
 
-        <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/ic_search"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="14dp"
-            android:id="@+id/search"
-            />
+                <ImageView
+                    android:layout_width="23.5dp"
+                    android:layout_height="27dp"
+                    android:id="@+id/open_menu"
+                    android:src="@drawable/ic_side_menu"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="19dp"
+                    />
 
-        <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/ic_filter"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="18dp"
-            android:id="@+id/filter"
-            android:layout_toLeftOf="@+id/search"
-            />
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:textSize="19.3sp"
+                    android:textColor="@color/APP_BLACK"
+                    android:text="@string/SALLONS"
+                    />
 
-    <android.support.v7.widget.RecyclerView
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_search"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="14dp"
+                    android:id="@+id/search"
+                    />
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_filter"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="18dp"
+                    android:id="@+id/filter"
+                    android:layout_toLeftOf="@+id/search"
+                    />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                android:layout_marginTop="17dp"
+                android:background="@color/BG_GRAY"
+                android:layout_below="@+id/top_bar"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/popular_sallons"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nvView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="17dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:background="@color/BG_GRAY"
-        android:layout_below="@+id/top_bar"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/popular_sallons"
-        ></android.support.v7.widget.RecyclerView>
-
-</RelativeLayout>
+        app:menu="@menu/drawer_view"
+        app:headerLayout="@layout/side_menu"
+        app:itemTextColor="@color/APP_TEXT_COLOR"
+        app:itemIconTint="@color/APP_TEXT_COLOR"
+        />
+</android.support.v4.widget.DrawerLayout>

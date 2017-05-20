@@ -10,4 +10,5 @@
     <color name="WHITE">#FFFFFF</color>
     <color name="FB_COLOR">#4b60a4</color>
     <color name="APP_BLACK">#242424</color>
+    <color name="GRAY">#CCCCCC</color>
 </resources>

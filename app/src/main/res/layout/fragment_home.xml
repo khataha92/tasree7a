@@ -28,6 +28,7 @@
                 <ImageView
                     android:layout_width="23.5dp"
                     android:layout_height="27dp"
+                    android:id="@+id/open_menu"
                     android:src="@drawable/ic_side_menu"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="19dp"
@@ -75,22 +76,20 @@
                 android:layout_below="@+id/top_bar"
                 android:layout_alignParentBottom="true"
                 android:id="@+id/popular_sallons"
-                ></android.support.v7.widget.RecyclerView>
+                />
 
         </RelativeLayout>
     </LinearLayout>
 
-    <!-- The navigation drawer that comes from the left -->
-    <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nvView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
-        >
-        <include
-            layout="@layout/side_menu"
-            />
-        </android.support.design.widget.NavigationView>
+        android:background="@color/BG_GRAY"
+        app:menu="@menu/drawer_view"
+        app:headerLayout="@layout/side_menu"
+        app:itemTextColor="@color/APP_TEXT_COLOR"
+        app:itemIconTint="@color/APP_TEXT_COLOR"
+        />
 </android.support.v4.widget.DrawerLayout>

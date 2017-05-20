@@ -14,7 +14,14 @@
     <string name="USERNAME">Username</string>
     <string name="REGISTER">Register</string>
     <string name="HAVE_ACCOUNT">Have an account?</string>
-    <string name="SALLONS">SALLONS</string>
+    <string name="SALLONS">SALONS</string>
+    <string name="MENU_SALONS">Salons</string>
     <string name="AR">ع</string>
     <string name="EN">ENG</string>
+    <string name="MAP_VIEW">Map view</string>
+    <string name="BOOKINGS">Bookings</string>
+    <string name="FAVORITES">Favorites</string>
+    <string name="FAQs">FAQs</string>
+    <string name="LOGOUT">Logout</string>
+    <string name="SETTINGS">Settings</string>
 </resources>

@@ -26,4 +26,9 @@
         <attr name="checked" format="boolean" />
 
     </declare-styleable>
+
+    <declare-styleable name="CustomRatingBar">
+
+        <attr name="rating" format="float"/>
+    </declare-styleable>
 </resources>

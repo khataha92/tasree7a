@@ -96,6 +96,21 @@ public class UIUtils {
 
     }
 
+    public static void showSoftKeyboard(EditText text){
+
+        if(text == null) {
+
+            return;
+
+        }
+
+        InputMethodManager imm = (InputMethodManager) ThisApplication.getCurrentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
+        text.requestFocus();
+    }
+
     public static void hideSoftKeyboard() {
 
         hideSoftKeyboard(null);

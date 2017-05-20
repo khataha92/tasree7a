@@ -24,4 +24,5 @@
     <string name="FAQs">FAQs</string>
     <string name="LOGOUT">Logout</string>
     <string name="SETTINGS">Settings</string>
+    <string name="SEARCH_HINT">Search for salons and cities</string>
 </resources>

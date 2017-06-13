@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/FILTER_BG"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="17dp"
+        android:background="@color/WHITE"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="13.3dp"
+            android:gravity="center_horizontal"
+            android:text="Rate this place "
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:textSize="13.3sp" />
+
+        <com.tasree7a.CustomComponent.CustomRate
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="26dp"
+            />
+
+    </LinearLayout>
+</LinearLayout>

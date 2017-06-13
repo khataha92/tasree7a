@@ -5,9 +5,15 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
 import com.google.common.base.Strings;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.UserDefaultKeys;
+import com.tasree7a.Models.SearchHistory.SearchHistoryItem;
 import com.tasree7a.ThisApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //import br.com.objectos.core.lang.Strings;
 
@@ -30,6 +36,22 @@ public class UserDefaultUtil {
     public static void init(){
 
         preferences = PreferenceManager.getDefaultSharedPreferences(ThisApplication.getCurrentActivity());
+    }
+
+    public static List<SearchHistoryItem> getSearchHistory(){
+
+        String searchHistory = getStringValue(UserDefaultKeys.SEARCH_HISTORY.getValue());
+
+        if(Strings.isNullOrEmpty(searchHistory)){
+
+            return new ArrayList<>();
+
+        }
+
+        List<SearchHistoryItem> searchHistoryItems = new Gson().fromJson(searchHistory, new TypeToken<ArrayList<SearchHistoryItem>>(){}.getType());
+
+        return searchHistoryItems;
+
     }
 
     public static Language getUserLanguage() {

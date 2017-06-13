@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="146dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/BG_GRAY"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <!--<com.google.android.gms.maps.MapView android:id="@+id/mapview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:background="@color/WHITE"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ramallah, Al Masyoun, Mahmoud Darwish St."
+            android:layout_centerHorizontal="true"
+            android:textSize="10sp"
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:layout_marginTop="9.3dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:text="0599000000"
+            android:textColor="@color/APP_GREEN"
+            android:textStyle="bold"
+            />
+
+    </RelativeLayout>
+
+    <!--<android.support.v4.widget.CircleImageView-->
+        <!--android:layout_width="52dp"-->
+        <!--android:layout_height="52dp"-->
+        <!--android:src="@drawable/ic_call"-->
+        <!--android:padding="10dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--/>-->
+
+</RelativeLayout>

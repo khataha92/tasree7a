@@ -11,4 +11,8 @@
     <color name="FB_COLOR">#4b60a4</color>
     <color name="APP_BLACK">#242424</color>
     <color name="GRAY">#CCCCCC</color>
+    <color name="TEXT_HINT_COLOR">#8d9aa9</color>
+    <color name="TRANSPARENT_BLACK_COLOR">#80000000</color>
+    <color name="VERY_TRANSPARENT_BLACK_COLOR">#AA000000</color>
+    <color name="FILTER_BG">#F3F2F2</color>
 </resources>

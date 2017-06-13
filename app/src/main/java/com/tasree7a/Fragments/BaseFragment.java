@@ -17,11 +17,9 @@ import com.tasree7a.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Arrays;
-
 /**
  */
-public abstract class BaseFragment extends Fragment  {
+public abstract class BaseFragment extends Fragment {
 
     private static final String TAG = BaseFragment.class.getSimpleName();
 
@@ -47,8 +45,6 @@ public abstract class BaseFragment extends Fragment  {
     public void fragmentIsVisible() {
 
     }
-
-
 
     /**
      * THis will be called whenever another fragment become in front if this, is hidden by another fragment

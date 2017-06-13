@@ -23,4 +23,8 @@
         <item name="colorControlHighlight">@color/APP_GREEN</item>
 
     </style>
+
+    <style name="SpinnerTheme" parent="Base.Widget.AppCompat.Spinner.Underlined">
+        <item name="android:background">@drawable/bg_spinner</item>
+    </style>
 </resources>

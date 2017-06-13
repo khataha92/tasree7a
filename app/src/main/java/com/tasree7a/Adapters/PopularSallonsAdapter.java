@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.ViewHolders.PopularSallonsItemViewHolder;
@@ -23,7 +24,18 @@ public class PopularSallonsAdapter extends RecyclerView.Adapter<PopularSallonsIt
     }
 
     @Override
-    public void onBindViewHolder(PopularSallonsItemViewHolder holder, int position) {
+    public void onBindViewHolder(PopularSallonsItemViewHolder holder, final int position) {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.showSalonDetailsFragment();
+
+            }
+
+        });
 
     }
 

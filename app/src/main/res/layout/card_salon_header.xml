@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/WHITE"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="143dp"
+        android:src="@drawable/sallon"
+        android:id="@+id/salon_image"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="143dp"
+        android:background="@color/VERY_TRANSPARENT_BLACK_COLOR"
+        />
+    
+    <ImageView
+        android:layout_width="21.3dp"
+        android:layout_height="31.7dp"
+        android:padding="5dp"
+        android:id="@+id/back"
+        android:layout_marginTop="17.3dp"
+        android:layout_marginLeft="13dp"
+        android:src="@drawable/ic_back"
+        android:tint="@color/APP_GREEN"
+        />
+
+    <ImageView
+        android:layout_width="35.3dp"
+        android:layout_height="32.3dp"
+        android:padding="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="17.3dp"
+        android:layout_marginRight="13dp"
+        android:src="@drawable/ic_favorite_unchecked"
+        />
+
+    <RelativeLayout
+        android:layout_width="122.3dp"
+        android:layout_height="41dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/salon_image"
+        android:layout_marginBottom="11.3dp">
+        <ImageView
+            android:layout_width="122.3dp"
+            android:layout_height="41dp"
+            android:src="@drawable/ic_book"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19.3sp"
+            android:textColor="@color/WHITE"
+            android:layout_centerInParent="true"
+            android:lineSpacingExtra="-16.7sp"
+            android:gravity="center_horizontal"
+            android:text="@string/BOOK"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19.3sp"
+        android:textColor="@color/WHITE"
+        android:lineSpacingExtra="-16.7sp"
+        tools:text="Samer Salon"
+        android:layout_toRightOf="@+id/back"
+        android:layout_alignBottom="@+id/salon_image"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/sallon_name"
+        />
+
+    <com.tasree7a.CustomComponent.CustomRatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sallon_name"
+        android:layout_alignBottom="@+id/salon_image"
+        android:layout_marginBottom="13.7dp"
+        app:rating="4"
+        />
+
+</RelativeLayout>

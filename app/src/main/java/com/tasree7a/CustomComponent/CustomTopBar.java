@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
 import com.tasree7a.interfaces.OnSearchBarStateChange;
 import com.tasree7a.utils.UIUtils;
@@ -89,7 +90,24 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
         closeSearch.setOnClickListener(this);
 
-        openMenu.setOnClickListener(onFirstIconClickListener);
+        openMenu.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if(onFirstIconClickListener != null){
+
+                    onFirstIconClickListener.onClick(v);
+                }
+            }
+        });
+
+        filter.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager.showFilterFragment();
+            }
+        });
 
         searchHistoryContainer = (LinearLayout) findViewById(R.id.search_history_container);
 

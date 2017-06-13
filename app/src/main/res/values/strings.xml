@@ -25,4 +25,16 @@
     <string name="LOGOUT">Logout</string>
     <string name="SETTINGS">Settings</string>
     <string name="SEARCH_HINT">Search for salons and cities</string>
+    <string name="BOOK">BOOK</string>
+    <string name="APPLY">Apply</string>
+    <string name="CITY">City</string>
+    <string name="SORT_BY">Sort by</string>
+    <string name="PRICE">Price</string>
+    <string name="DISTANCE">Distance</string>
+    <string name="RATING">Rating</string>
+    <string name="SHOW_ONLY">Show only</string>
+    <string name="AVAILABLE_NOW">Available now</string>
+    <string name="ALL">All</string>
+    <string name="FILTER">Filter</string>
+    <string name="GALLERY">Gallery</string>
 </resources>

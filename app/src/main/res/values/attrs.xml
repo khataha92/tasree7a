@@ -21,9 +21,16 @@
         <attr name="customFonts" />
     </declare-styleable>
 
+    <declare-styleable name="CustomRadioButton">
+
+        <attr name="text" format="string"/>
+
+    </declare-styleable>
+
     <declare-styleable name="CustomSwitch">
 
         <attr name="checked" format="boolean" />
+        <attr name="stroke" format="reference" />
 
     </declare-styleable>
 

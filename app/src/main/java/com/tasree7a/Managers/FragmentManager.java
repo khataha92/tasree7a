@@ -1,6 +1,7 @@
 package com.tasree7a.Managers;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -8,11 +9,15 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.tasree7a.Fragments.BaseFragment;
+import com.tasree7a.Fragments.FragmentFilter;
+import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.HomeFragment;
-import com.tasree7a.Fragments.TestFragment;
+import com.tasree7a.Fragments.SalonDetailsFragment;
+import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
+import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -41,22 +46,36 @@ public class FragmentManager {
         return currentFragments.get(index);
     }
 
-    public static void showHomeFragment(){
+    public static void showHomeFragment() {
 
         HomeFragment homeFragment = new HomeFragment();
 
-        replaceFragment(homeFragment,true);
-
-    }
-public static void showSecondFragment(){
-
-        TestFragment homeFragment = new TestFragment();
-
-        replaceFragment(homeFragment,true);
+        replaceFragment(homeFragment, true);
 
     }
 
-    private static void destroyFragmentProcess(BaseFragment fromFragment){
+    public static void showFragmentGallery(ArrayList<ImageModel> imageModels){
+
+        FragmentGallery fragmentGallery = new FragmentGallery() ;
+
+        Bundle bundle = new Bundle();
+
+        bundle.putSerializable(FragmentArg.IMAGE_LIST,imageModels);
+
+        fragmentGallery.setArguments(bundle);
+
+        replaceFragment(fragmentGallery,true);
+    }
+
+    public static void showSalonDetailsFragment() {
+
+        SalonDetailsFragment homeFragment = new SalonDetailsFragment();
+
+        replaceFragment(homeFragment, true);
+
+    }
+
+    private static void destroyFragmentProcess(BaseFragment fromFragment) {
 
         fromFragment.fragmentIsHidden();
 
@@ -80,7 +99,7 @@ public static void showSecondFragment(){
 
         final BaseFragment fromFragment = currentFragments.get(index);
 
-        BaseFragment toFragment = index > 0? currentFragments.get(index - 1) : null;
+        BaseFragment toFragment = index > 0 ? currentFragments.get(index - 1) : null;
 
         UIUtils.hideSoftKeyboard();
 
@@ -118,7 +137,7 @@ public static void showSecondFragment(){
 
                     toFragment.fragmentIsVisible();
 
-                } else{
+                } else {
 
                     ThisApplication.getCurrentActivity().finish();
                 }
@@ -290,16 +309,16 @@ public static void showSecondFragment(){
      */
     public static void cleanBackStack() {
 
-            try {
+        try {
 
-                ThisApplication.getCurrentActivity().getSupportFragmentManager().popBackStack(null, android.support.v4.app.FragmentManager
-                        .POP_BACK_STACK_INCLUSIVE);
+            ThisApplication.getCurrentActivity().getSupportFragmentManager().popBackStack(null, android.support.v4.app.FragmentManager
+                    .POP_BACK_STACK_INCLUSIVE);
 
-            } catch (Throwable t) {
+        } catch (Throwable t) {
 
-            }
+        }
 
-            currentFragments.clear();
+        currentFragments.clear();
 
 
     }
@@ -321,4 +340,10 @@ public static void showSecondFragment(){
         return list;
     }
 
+    public static void showFilterFragment() {
+
+        FragmentFilter fragment = new FragmentFilter();
+
+        replaceFragment(fragment, true);
+    }
 }

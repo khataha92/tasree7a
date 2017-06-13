@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/FILTER_BG"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:id="@+id/top_bar"
+        android:background="@color/WHITE"
+        >
+        <ImageView
+            android:layout_width="31dp"
+            android:layout_height="41dp"
+            android:padding="10dp"
+            android:id="@+id/back"
+            android:src="@drawable/ic_back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/GRAY"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:text="@string/FILTER"
+            android:layout_centerInParent="true"
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            />
+        </RelativeLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/btn_apply"
+    android:background="@color/FILTER_BG"
+    android:layout_below="@+id/top_bar"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/WHITE"
+        android:layout_margin="17dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:id="@+id/layout1"
+            >
+        <com.tasree7a.CustomComponent.CustomSwitch
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:stroke="@drawable/switch_style_black"
+            android:id="@+id/male_female"
+            app:checked="true"
+            />
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_toLeftOf="@+id/male_female"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_male"
+            />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_toRightOf="@+id/male_female"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_female"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19sp"
+            android:layout_below="@+id/layout1"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/CITY"
+            android:textStyle="bold"
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:id="@+id/city_title"
+            />
+        
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            style="@style/SpinnerTheme"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/city_title"
+            android:id="@+id/cities_spinner"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/APP_GREEN"
+            android:layout_below="@+id/cities_spinner"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19sp"
+            android:layout_below="@+id/cities_spinner"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/SORT_BY"
+            android:textStyle="bold"
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:id="@+id/title_sort_by"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sort_choices"
+            android:orientation="vertical"
+            android:layout_below="@+id/title_sort_by"
+            android:layout_marginTop="20dp"
+            >
+
+                <com.tasree7a.CustomComponent.CustomRadioGroup
+                    android:layout_width="match_parent"
+                    android:weightSum="3"
+                    android:layout_height="wrap_content">
+
+                    <com.tasree7a.CustomComponent.CustomRadioButton
+                        android:layout_width="0dp"
+                        app:text="@string/PRICE"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                    />
+
+                    <com.tasree7a.CustomComponent.CustomRadioButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        app:text="@string/DISTANCE"
+                        android:layout_height="wrap_content"
+                    />
+
+                    <com.tasree7a.CustomComponent.CustomRadioButton
+                        android:layout_width="0dp"
+                        app:text="@string/RATING"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                    />
+
+                </com.tasree7a.CustomComponent.CustomRadioGroup>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19sp"
+            android:layout_below="@+id/sort_choices"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/SHOW_ONLY"
+            android:textStyle="bold"
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:id="@+id/title_show_only"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/title_show_only"
+            android:layout_marginTop="20dp"
+            >
+
+            <com.tasree7a.CustomComponent.CustomRadioGroup
+                android:layout_width="match_parent"
+                android:weightSum="3"
+                android:layout_height="wrap_content">
+
+                <com.tasree7a.CustomComponent.CustomRadioButton
+                    android:layout_width="0dp"
+                    app:text="@string/FAVORITES"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    />
+
+                <com.tasree7a.CustomComponent.CustomRadioButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    app:text="@string/AVAILABLE_NOW"
+                    android:layout_height="wrap_content"
+                    />
+
+                <com.tasree7a.CustomComponent.CustomRadioButton
+                    android:layout_width="0dp"
+                    app:text="@string/ALL"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.tasree7a.CustomComponent.CustomRadioGroup>
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
+
+    <com.tasree7a.CustomComponent.CustomButton
+        android:layout_width="140dp"
+        android:layout_centerHorizontal="true"
+        app:customButtonBackgroundColor="@color/APP_GREEN"
+        app:customButtonTextColor="@color/WHITE"
+        app:customButtonText="@string/APPLY"
+        app:customButtonTextSize="19sp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp"
+        android:id="@+id/btn_apply"
+        />
+
+</RelativeLayout>

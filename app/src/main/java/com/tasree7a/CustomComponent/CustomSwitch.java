@@ -97,6 +97,14 @@ public class CustomSwitch extends LinearLayout {
 
                         break;
 
+                    case R.styleable.CustomSwitch_stroke:
+
+                        int reference = array.getResourceId(attr,R.drawable.switch_style);
+
+                        setBackgroundResource(reference);
+
+                        break;
+
                 }
 
             }

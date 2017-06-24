@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.tasree7a.Constants;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
+import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
+import com.tasree7a.Models.Signup.SignupModel;
+import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.ServiceRequest;
 
@@ -61,6 +64,66 @@ public class RetrofitManager {
 
     }
 
+    public void getNearestSalons(double lat, double lng, final AbstractCallback callback){
+
+        Call<PopularSalonsResponseModel> call = request.getNearestSalons(lat,lng);
+
+        call.enqueue(new Callback<PopularSalonsResponseModel>() {
+
+            @Override
+            public void onResponse(Call<PopularSalonsResponseModel> call, Response<PopularSalonsResponseModel> response) {
+
+                if(response.isSuccessful() && response.body() != null){
+
+                    callback.onResult(true,response.body());
+
+                } else{
+
+                    callback.onResult(false,null);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<PopularSalonsResponseModel> call, Throwable t) {
+
+                callback.onResult(false,null);
+
+            }
+        });
+
+    }
+
+    public void register(SignupModel model, final AbstractCallback callback){
+
+        Call<SignupResponseModel> call = request.register(model.getFirstName(),model.getLastName(),model.getEmail(),model.getPassword(),model.getUsername(),model.isFbLogin()?1:0);
+
+        call.enqueue(new Callback<SignupResponseModel>() {
+
+            @Override
+            public void onResponse(Call<SignupResponseModel> call, Response<SignupResponseModel> response) {
+
+                if(response.body() != null && response.code() == 200 && response.body().getResponseCode().equalsIgnoreCase("200")){
+
+                    callback.onResult(true,response.body());
+
+                } else{
+
+                    callback.onResult(false,null);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SignupResponseModel> call, Throwable t) {
+
+                callback.onResult(false,null);
+
+            }
+        });
+    }
+
     public void login(LoginModel loginModel, final AbstractCallback callback){
 
         Call<LoginResponseModel> call = request.login(loginModel.getUsername(),loginModel.getPassword(),loginModel.isFacebookLogin());
@@ -74,7 +137,15 @@ public class RetrofitManager {
 
                     LoginResponseModel result = response.body();
 
+                    if(result != null){
 
+                        callback.onResult(true,result);
+
+                    } else{
+
+                        callback.onResult(false,null);
+
+                    }
 
 
                 } catch (Exception e){

@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -25,9 +27,15 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.tasree7a.CustomComponent.CustomButton;
+import com.tasree7a.Managers.RetrofitManager;
+import com.tasree7a.Models.Login.LoginModel;
+import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.R;
 import com.crashlytics.android.Crashlytics;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.StringUtil;
+import com.tasree7a.utils.UIUtils;
 
 import org.json.JSONObject;
 
@@ -46,6 +54,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     CustomButton login ;
 
     LoginButton loginButton;
+
+    CustomButton normalLogin;
 
     TextView signup;
 
@@ -85,6 +95,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         login = (CustomButton) findViewById(R.id.login_with_fb);
 
         login.setOnClickListener(this);
+
+        normalLogin = (CustomButton) findViewById(R.id.normal_login_button);
+
+        normalLogin.setOnClickListener(this);
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
@@ -165,6 +179,63 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.sign_up:
 
                 startActivity(new Intent(this,SignupActivity.class));
+
+                break;
+
+            case R.id.normal_login_button:
+
+                EditText email = (EditText) findViewById(R.id.input_email);
+
+                EditText password = (EditText) findViewById(R.id.input_password);
+
+                String emailStr = email.getText().toString();
+
+                String pass = password.getText().toString();
+
+                if(!emailStr.isEmpty() && !pass.isEmpty()){
+
+                    LoginModel model = new LoginModel();
+
+                    model.setUsername(emailStr);
+
+                    model.setPassword(pass);
+
+                    model.setFacebookLogin(false);
+
+                    UIUtils.showSweetLoadingDialog();
+
+                    RetrofitManager.getInstance().login(model, new AbstractCallback() {
+
+                        @Override
+                        public void onResult(boolean isSuccess, Object result) {
+
+                            UIUtils.hideSweetLoadingDialog();
+
+                            if(isSuccess){
+
+                                LoginResponseModel responseModel = (LoginResponseModel) result;
+
+                                if(responseModel.getResponseCode().equalsIgnoreCase("200")){
+
+                                    startActivity(new Intent(MainActivity.this,HomeActivity.class));
+
+                                    finish();
+
+                                } else{
+
+                                    Toast.makeText(getApplicationContext(),"Error in login ",Toast.LENGTH_LONG).show();
+
+                                }
+
+                            }
+
+                        }
+                    });
+
+                } else{
+
+
+                }
 
                 break;
         }

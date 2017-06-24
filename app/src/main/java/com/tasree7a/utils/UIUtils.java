@@ -1,5 +1,6 @@
 package com.tasree7a.utils;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -11,13 +12,44 @@ import android.widget.EditText;
 
 import com.tasree7a.Fragments.BaseFragment;
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by KhalidTaha on 4/20/17.
  */
 
 public class UIUtils {
+
+    static SweetAlertDialog loadingDialog;
+
+    public static void showSweetLoadingDialog(){
+
+        if(loadingDialog == null){
+
+            loadingDialog = new SweetAlertDialog(ThisApplication.getCurrentActivity(), SweetAlertDialog.PROGRESS_TYPE);
+
+            loadingDialog.getProgressHelper().setBarColor(getColor(R.color.WHITE));
+
+            loadingDialog.setTitleText(getString(R.string.LOADING));
+
+            loadingDialog.setCancelable(false);
+
+        }
+
+        loadingDialog.show();
+    }
+
+    public static void hideSweetLoadingDialog(){
+
+        if(loadingDialog != null && loadingDialog.isShowing()){
+
+            loadingDialog.hide();
+
+        }
+    }
 
     public static int dpToPx(float dp) {
 
@@ -114,6 +146,12 @@ public class UIUtils {
     public static void hideSoftKeyboard() {
 
         hideSoftKeyboard(null);
+
+    }
+
+    public static String getString(int id){
+
+        return ThisApplication.getCurrentActivity().getString(id);
 
     }
 

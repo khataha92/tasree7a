@@ -37,4 +37,6 @@
     <string name="ALL">All</string>
     <string name="FILTER">Filter</string>
     <string name="GALLERY">Gallery</string>
+    <string name="ERROR_FIRST_NAME_LAST_NAME">Full name must contain first name, and last name</string>
+    <string name="SIGN_UP_ERROR_MISSING_INPUT">Please fill all fields with correct data</string>
 </resources>

@@ -6,5 +6,5 @@ package com.tasree7a;
 
 public class Constants {
 
-    public static final String SERVICE_API = "http://tasree7a.ps/services/public/";
+    public static final String SERVICE_API = "http://tasree7a.ps/services/public/api/";
 }

@@ -49,6 +49,14 @@
                 android:background="@drawable/rounded_corders_bg"
                 android:backgroundTint="@color/WHITE" />
 
+            <include layout="@layout/loading_view"
+                android:id="@+id/loading"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/top_bar_container"
+                />
+
         </RelativeLayout>
     </LinearLayout>
 

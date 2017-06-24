@@ -41,6 +41,16 @@ public class StringUtil {
         return result;
     }
 
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+
     private static List<String> splitIntoStringsThatFit(String source, float maxWidthPx, Paint paint) {
         if(TextUtils.isEmpty(source) || paint.measureText(source) <= maxWidthPx) {
             return Arrays.asList(source);

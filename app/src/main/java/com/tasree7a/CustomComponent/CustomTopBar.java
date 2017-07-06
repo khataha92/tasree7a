@@ -1,6 +1,7 @@
 package com.tasree7a.CustomComponent;
 
 import android.content.Context;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,8 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
     OnSearchBarStateChange onSearchBarStateChange;
 
     private OnClickListener onFirstIconClickListener;
+
+    private TextWatcher onSearchTextChanged;
 
     public CustomTopBar(Context context) {
 
@@ -215,6 +218,12 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
                 break;
         }
+    }
+
+    public void setOnSearchTextChanged(TextWatcher onSearchTextChanged) {
+        this.onSearchTextChanged = onSearchTextChanged;
+
+        searchText.addTextChangedListener(onSearchTextChanged);
     }
 
     public void setOnSearchBarStateChange(OnSearchBarStateChange onSearchBarStateChange) {

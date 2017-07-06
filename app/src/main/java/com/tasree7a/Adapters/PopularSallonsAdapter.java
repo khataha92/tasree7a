@@ -98,6 +98,10 @@ public class PopularSallonsAdapter extends RecyclerView.Adapter<PopularSallonsIt
 
     }
 
+    public List<SalonModel> getSalonModels() {
+        return salonModels;
+    }
+
     public void setSalonModels(List<SalonModel> salonModels) {
         this.salonModels = salonModels;
     }

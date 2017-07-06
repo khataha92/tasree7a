@@ -34,6 +34,7 @@ import com.tasree7a.R;
 import com.crashlytics.android.Crashlytics;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.StringUtil;
 import com.tasree7a.utils.UIUtils;
 
@@ -86,6 +87,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         ThisApplication.setCurrentActivity(this);
 
+        if(AppUtil.isLoggedIn()){
+
+            startHomeActivity();
+        }
+
         setContentView(R.layout.activity_main);
 
         signup = (TextView) findViewById(R.id.sign_up);
@@ -120,11 +126,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                 try {
 
                                     String email = object.getString("email");
+
                                     String birthday = object.getString("birthday");
 
-                                    startActivity(new Intent(MainActivity.this,HomeActivity.class));
-
-                                    finish();
+                                    startHomeActivity();
 
                                 } catch (Exception e){
 
@@ -239,6 +244,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
         }
+
+    }
+
+    private void startHomeActivity(){
+
+        startActivity(new Intent(MainActivity.this,HomeActivity.class));
+
+        finish();
 
     }
 

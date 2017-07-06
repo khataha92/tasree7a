@@ -9,6 +9,22 @@
         <enum name="ROMAN" value="4" />
     </attr>
 
+    <attr name="SortType" format="enum">
+
+        <enum name="Rating" value="1"/>
+        <enum name="Distance" value="2" />
+        <enum name="Price" value="3" />
+
+    </attr>
+
+    <attr name="FilterType" format="enum">
+
+        <enum name="ALL" value="3" />
+        <enum name="Available" value="2"/>
+        <enum name="Favorite" value="1"/>
+
+    </attr>
+
     <declare-styleable name="CustomButton">
         <attr name="customButtonText" format="string"/>
         <attr name="customButtonTextSize" format="dimension"/>
@@ -24,6 +40,8 @@
     <declare-styleable name="CustomRadioButton">
 
         <attr name="text" format="string"/>
+        <attr name="SortType" />
+        <attr name="FilterType" />
 
     </declare-styleable>
 

@@ -105,7 +105,9 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
         filter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 FragmentManager.showFilterFragment();
+
             }
         });
 

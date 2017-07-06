@@ -17,8 +17,16 @@ import android.widget.ListView;
 
 import com.tasree7a.Adapters.PopularSallonsAdapter;
 import com.tasree7a.CustomComponent.CustomTopBar;
+import com.tasree7a.Enums.FilterType;
+import com.tasree7a.Enums.ResponseCode;
+import com.tasree7a.Managers.FilterAndSortManager;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
+import com.tasree7a.Managers.SalonsComparable;
+import com.tasree7a.Managers.SessionManager;
+import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
+import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Observables.FilterAndSortObservable;
 import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
@@ -26,6 +34,9 @@ import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.OnSearchBarStateChange;
 import com.tasree7a.utils.AppUtil;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -50,6 +61,8 @@ public class HomeFragment extends BaseFragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        FilterAndSortObservable.getInstance().addObserver(this);
 
         PermissionGrantedObservable.getInstance().addObserver(this);
 
@@ -145,7 +158,25 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                     hideLoadingView();
 
-                    popularSallons.setAdapter(new PopularSallonsAdapter());
+                    PopularSalonsResponseModel model = (PopularSalonsResponseModel) result;
+
+                    if(model.getResponseCode() == ResponseCode.SUCCESS){
+
+                        List<SalonModel> salons = model.getSalons();
+
+                        SessionManager.getInstance().setSalons(salons);
+
+                        PopularSallonsAdapter adapter = new PopularSallonsAdapter();
+
+                        adapter.setSalonModels(salons);
+
+                        popularSallons.setAdapter(adapter);
+
+                    } else{
+
+                        // TODO: 7/4/17 to show message
+                    }
+
 
                 }
 
@@ -163,6 +194,40 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             getSalons(location);
 
+        } else if(o instanceof FilterAndSortObservable){
+
+            List<SalonModel> filteredSalons = new ArrayList<>();
+
+            List<FilterType> filterTypes = FilterAndSortManager.getInstance().getFilters();
+
+            List<SalonModel> allSalons = SessionManager.getInstance().getSalons();
+
+            for(int i = 0; i < allSalons.size() ; i++){
+
+                boolean shouldContain = true;
+
+                for(int j = 0 ; j < filterTypes.size() ;j ++){
+
+                    if(!allSalons.get(i).filterValue(filterTypes.get(j))){
+
+                        shouldContain = false;
+
+                        break;
+                    }
+                }
+
+                if(shouldContain){
+
+                    filteredSalons.add(allSalons.get(i));
+
+                }
+            }
+
+            Collections.sort(filteredSalons,new SalonsComparable(FilterAndSortManager.getInstance().getSortType()));
+
+            ((PopularSallonsAdapter)popularSallons.getAdapter()).setSalonModels(filteredSalons);
+
+            popularSallons.getAdapter().notifyDataSetChanged();
         }
     }
 
@@ -181,5 +246,12 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             loadingView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        FilterAndSortObservable.getInstance().deleteObserver(this);
     }
 }

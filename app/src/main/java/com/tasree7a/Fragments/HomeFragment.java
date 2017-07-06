@@ -9,6 +9,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,8 @@ public class HomeFragment extends BaseFragment implements Observer {
     View transparentView;
 
     View loadingView;
+
+    List<SalonModel> filteredSalons;
 
     @Nullable
     @Override
@@ -114,6 +118,41 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         });
 
+        topBar.setOnSearchTextChanged(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String searchText = s.toString();
+
+                List<SalonModel> salonModels = new ArrayList<>();
+
+                for(int i = 0 ; i < filteredSalons.size() ; i++){
+
+                    if(filteredSalons.get(i).getName().contains(searchText)){
+
+                        salonModels.add(filteredSalons.get(i));
+
+                    }
+                }
+
+                ((PopularSallonsAdapter)popularSallons.getAdapter()).setSalonModels(salonModels);
+
+                popularSallons.getAdapter().notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         closeDrawer.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -164,6 +203,8 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                         List<SalonModel> salons = model.getSalons();
 
+                        filteredSalons = salons;
+
                         SessionManager.getInstance().setSalons(salons);
 
                         PopularSallonsAdapter adapter = new PopularSallonsAdapter();
@@ -196,7 +237,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         } else if(o instanceof FilterAndSortObservable){
 
-            List<SalonModel> filteredSalons = new ArrayList<>();
+            filteredSalons = new ArrayList<>();
 
             List<FilterType> filterTypes = FilterAndSortManager.getInstance().getFilters();
 

@@ -11,11 +11,15 @@ import android.widget.ScrollView;
 import com.tasree7a.interfaces.Checkable;
 import com.tasree7a.interfaces.SingleCheckableGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by mac on 6/13/17.
  */
 
 public class CustomRadioGroup extends LinearLayout implements SingleCheckableGroup {
+
     public CustomRadioGroup(Context context) {
 
         super(context);
@@ -57,5 +61,19 @@ public class CustomRadioGroup extends LinearLayout implements SingleCheckableGro
                 ((Checkable) getChildAt(i)).uncheck();
             }
         }
+    }
+
+    public Checkable getCheckedItem(){
+
+        for(int i = 0 ; i < getChildCount() ; i++){
+
+            if(getChildAt(i) instanceof CustomRadioButton && ((CustomRadioButton)getChildAt(i)).isChecked()){
+
+                return (CustomRadioButton) getChildAt(i);
+
+            }
+        }
+
+        return null;
     }
 }

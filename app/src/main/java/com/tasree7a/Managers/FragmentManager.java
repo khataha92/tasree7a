@@ -14,6 +14,7 @@ import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;

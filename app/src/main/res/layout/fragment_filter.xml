@@ -39,7 +39,7 @@
             android:textStyle="bold"
             />
         </RelativeLayout>
-<RelativeLayout
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@+id/btn_apply"
@@ -52,22 +52,14 @@
         android:background="@color/WHITE"
         android:layout_margin="17dp"
         >
-        <RelativeLayout
+        <LinearLayout
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:id="@+id/layout1"
             >
-        <com.tasree7a.CustomComponent.CustomSwitch
-            android:layout_width="24dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            app:stroke="@drawable/switch_style_black"
-            android:id="@+id/male_female"
-            app:checked="true"
-            />
         
         <ImageView
             android:layout_width="wrap_content"
@@ -77,6 +69,16 @@
             android:src="@drawable/ic_male"
             />
 
+            <com.tasree7a.CustomComponent.CustomSwitch
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:stroke="@drawable/switch_style_black"
+                android:id="@+id/male_female"
+                app:checked="true"
+                />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
@@ -85,7 +87,7 @@
                 android:src="@drawable/ic_female"
                 />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -145,6 +147,7 @@
                 <com.tasree7a.CustomComponent.CustomRadioGroup
                     android:layout_width="match_parent"
                     android:weightSum="3"
+                    android:id="@+id/sort_by"
                     android:layout_height="wrap_content">
 
                     <com.tasree7a.CustomComponent.CustomRadioButton
@@ -152,6 +155,7 @@
                         app:text="@string/PRICE"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        app:SortType="Price"
                     />
 
                     <com.tasree7a.CustomComponent.CustomRadioButton
@@ -159,6 +163,7 @@
                         android:layout_weight="1"
                         app:text="@string/DISTANCE"
                         android:layout_height="wrap_content"
+                        app:SortType="Distance"
                     />
 
                     <com.tasree7a.CustomComponent.CustomRadioButton
@@ -166,6 +171,7 @@
                         app:text="@string/RATING"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        app:SortType="Rating"
                     />
 
                 </com.tasree7a.CustomComponent.CustomRadioGroup>
@@ -193,37 +199,41 @@
             android:layout_marginTop="20dp"
             >
 
-            <com.tasree7a.CustomComponent.CustomRadioGroup
+            <com.tasree7a.CustomComponent.CustomCheckableGroup
                 android:layout_width="match_parent"
                 android:weightSum="3"
+                android:id="@+id/filters"
                 android:layout_height="wrap_content">
 
-                <com.tasree7a.CustomComponent.CustomRadioButton
+                <com.tasree7a.CustomComponent.CustomCheckbox
                     android:layout_width="0dp"
                     app:text="@string/FAVORITES"
                     android:layout_weight="1"
+                    app:FilterType="Favorite"
                     android:layout_height="wrap_content"
                     />
 
-                <com.tasree7a.CustomComponent.CustomRadioButton
+                <com.tasree7a.CustomComponent.CustomCheckbox
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     app:text="@string/AVAILABLE_NOW"
+                    app:FilterType="Available"
                     android:layout_height="wrap_content"
                     />
 
-                <com.tasree7a.CustomComponent.CustomRadioButton
+                <com.tasree7a.CustomComponent.CustomCheckbox
                     android:layout_width="0dp"
                     app:text="@string/ALL"
                     android:layout_weight="1"
+                    app:FilterType="ALL"
                     android:layout_height="wrap_content"
                     />
 
-            </com.tasree7a.CustomComponent.CustomRadioGroup>
+            </com.tasree7a.CustomComponent.CustomCheckableGroup>
         </LinearLayout>
 
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>
 
     <com.tasree7a.CustomComponent.CustomButton
         android:layout_width="140dp"

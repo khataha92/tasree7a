@@ -9,6 +9,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.UserDefaultKeys;
+import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.Models.SearchHistory.SearchHistoryItem;
 import com.tasree7a.ThisApplication;
 
@@ -54,6 +55,74 @@ public class UserDefaultUtil {
 
     }
 
+    public static void removeSalonFromFavorite(SalonModel salonModel){
+
+        List<SalonModel> favoriteSalons = getFavoriteSalons();
+
+        for(int i = 0 ; i < favoriteSalons.size() ; i++){
+
+            if(favoriteSalons.get(i).getId().equalsIgnoreCase(salonModel.getId())){
+
+                favoriteSalons.remove(i);
+
+                i--;
+            }
+        }
+
+        setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(),new Gson().toJson(favoriteSalons));
+    }
+
+    public static void addSalonToFavorite(SalonModel salonModel){
+
+        List<SalonModel> favoriteSalons = getFavoriteSalons();
+
+        for(int i = 0 ; i < favoriteSalons.size() ; i++){
+
+            if(favoriteSalons.get(i).getId().equalsIgnoreCase(salonModel.getId())){
+
+                return;
+
+            }
+
+        }
+
+        favoriteSalons.add(salonModel);
+
+        setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(),new Gson().toJson(favoriteSalons));
+
+    }
+
+    public static List<SalonModel> getFavoriteSalons(){
+
+        String favoriteList = getStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue());
+
+        if(Strings.isNullOrEmpty(favoriteList)){
+
+           return new ArrayList<>();
+
+        }
+
+        List<SalonModel> favorites = new Gson().fromJson(favoriteList, new TypeToken<ArrayList<SalonModel>>(){}.getType());
+
+        return favorites;
+
+    }
+
+    public static boolean isSalonFavorite(SalonModel salonModel){
+
+        List<SalonModel> favorites = getFavoriteSalons();
+
+        for(int i = 0 ; i < favorites.size() ; i++){
+
+            if(salonModel.getId().equalsIgnoreCase(favorites.get(i).getId())){
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static Language getUserLanguage() {
 
         if (!Strings.isNullOrEmpty(cachedUserLanguage)) {
@@ -97,6 +166,18 @@ public class UserDefaultUtil {
 
             return "en";
         }
+
+    }
+
+    private static void setStringValue(String key,String val){
+
+        if (key == null || preferences == null) {
+
+            return;
+
+        }
+
+        preferences.edit().putString(key,val).commit();
 
     }
 

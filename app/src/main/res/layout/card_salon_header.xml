@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="143dp"
-        android:src="@drawable/sallon"
+        android:src="@drawable/salon"
         android:id="@+id/salon_image"
         />
 

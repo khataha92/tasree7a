@@ -14,7 +14,7 @@
     <com.tasree7a.CustomComponent.RoundedCornersImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:src="@drawable/sallon"
+        android:src="@drawable/salon"
         android:scaleType="centerCrop"
         android:id="@+id/sallon_image"
         />
@@ -45,8 +45,9 @@
         android:layout_toRightOf="@+id/sallon_name"
         android:layout_marginLeft="10dp"
         android:text="Ramallah"
+        android:id="@+id/salon_city"
         android:textColor="@color/APP_BLACK"
-        android:textSize="10sp"
+        android:textSize="13sp"
         />
     
     <ImageView
@@ -57,6 +58,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="11dp"
         android:src="@drawable/like"
+        android:id="@+id/is_popular"
         />
         
         <com.tasree7a.CustomComponent.CustomRatingBar
@@ -65,7 +67,7 @@
             android:layout_below="@+id/sallon_name"
             android:layout_alignLeft="@+id/sallon_name"
             android:layout_marginTop="3dp"
-            app:rating="3"
+            android:id="@+id/salon_rating"
             />
 
     </RelativeLayout>

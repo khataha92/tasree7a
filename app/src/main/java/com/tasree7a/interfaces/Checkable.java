@@ -9,4 +9,5 @@ public interface Checkable {
     void check();
 
     void uncheck();
+
 }

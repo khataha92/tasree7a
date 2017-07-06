@@ -6,7 +6,7 @@ package com.tasree7a.Enums;
 
 public enum UserDefaultKeys {
 
-    DEVICE_LANGUAGE ("DEVICE_LANGUAGE"),SEARCH_HISTORY("SEARCH_HISTORY");
+    DEVICE_LANGUAGE ("DEVICE_LANGUAGE"),SEARCH_HISTORY("SEARCH_HISTORY"),FAVORITE_SALONS("FAVORITE_SALONS");
 
     private String value;
 

@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
 import com.facebook.AccessToken;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 
@@ -85,4 +87,13 @@ public class AppUtil {
 
         }
     }
+
+    public static boolean checkPlayServices() {
+
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+
+        return !(ThisApplication.getCurrentActivity() == null || apiAvailability == null) && apiAvailability.isGooglePlayServicesAvailable(ThisApplication.getCurrentActivity()) == ConnectionResult.SUCCESS;
+
+    }
+
 }

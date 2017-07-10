@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.tasree7a.Fragments.BaseFragment;
 import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
+import com.tasree7a.Fragments.FragmentMapView;
 import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
@@ -30,7 +31,7 @@ import java.util.List;
  * replace fragments
  */
 
-public class FragmentManager {
+public class FragmentManager  {
 
     private static ArrayList<BaseFragment> currentFragments = new ArrayList<>();
 
@@ -341,10 +342,21 @@ public class FragmentManager {
         return list;
     }
 
+    public static void showMapViewFragment(List<SalonModel> salonModels){
+
+        FragmentMapView fragment = new FragmentMapView();
+
+        fragment.setSalonModelList(salonModels);
+
+        replaceFragment(fragment,true);
+    }
+
     public static void showFilterFragment() {
 
         FragmentFilter fragment = new FragmentFilter();
 
         replaceFragment(fragment, true);
     }
+
+
 }

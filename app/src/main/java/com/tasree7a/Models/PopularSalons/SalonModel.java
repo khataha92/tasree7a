@@ -1,8 +1,11 @@
 package com.tasree7a.Models.PopularSalons;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
+import com.google.maps.android.clustering.ClusterItem;
 import com.tasree7a.Constants;
 import com.tasree7a.Enums.FilterType;
+import com.tasree7a.Models.MapView.GeoLocationModel;
 import com.tasree7a.interfaces.Filterable;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -10,7 +13,7 @@ import com.tasree7a.utils.UserDefaultUtil;
  * Created by mac on 7/4/17.
  */
 
-public class SalonModel implements Filterable {
+public class SalonModel implements Filterable, ClusterItem {
 
     @SerializedName("rank")
     RankModel rank;
@@ -41,6 +44,8 @@ public class SalonModel implements Filterable {
 
     @SerializedName("salon_img")
     String image;
+
+    GeoLocationModel locationModel;
 
     public String getImage() {
         return Constants.IMAGE_PREFIX+image;
@@ -137,6 +142,37 @@ public class SalonModel implements Filterable {
         }
 
         return false;
+
+    }
+
+    public void setLocationModel(GeoLocationModel locationModel) {
+        this.locationModel = locationModel;
+    }
+
+    public GeoLocationModel getLocationModel() {
+        if(locationModel == null){
+
+            locationModel = new GeoLocationModel();
+
+            locationModel.setLat(lat);
+
+            locationModel.setLng(lng);
+        }
+
+        return locationModel;
+    }
+
+    @Override
+    public LatLng getPosition() {
+
+        LatLng latLng = new LatLng(lat,lng);
+
+        return latLng;
+    }
+
+    public boolean isFavorite(){
+
+        return UserDefaultUtil.isSalonFavorite(this);
 
     }
 }

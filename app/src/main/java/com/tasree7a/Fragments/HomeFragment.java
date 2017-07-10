@@ -1,7 +1,5 @@
 package com.tasree7a.Fragments;
 
-import android.Manifest;
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.tasree7a.Adapters.PopularSallonsAdapter;
 import com.tasree7a.CustomComponent.CustomTopBar;
@@ -28,6 +26,7 @@ import com.tasree7a.Managers.SalonsComparable;
 import com.tasree7a.Managers.SessionManager;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
 import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Observables.FavoriteChangeObservable;
 import com.tasree7a.Observables.FilterAndSortObservable;
 import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
@@ -70,6 +69,8 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         PermissionGrantedObservable.getInstance().addObserver(this);
 
+        FavoriteChangeObservable.sharedInstance().addObserver(this);
+
         topBar = (CustomTopBar) rootView.findViewById(R.id.top_bar);
 
         nvDrawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
@@ -83,6 +84,46 @@ public class HomeFragment extends BaseFragment implements Observer {
         int width = (int)(getResources().getDisplayMetrics().widthPixels/1.5);
 
         loadingView = rootView.findViewById(R.id.loading);
+
+        nvView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                        int itemId = menuItem.getItemId();
+
+                        switch (itemId){
+
+                            case R.id.map_view:
+
+                                FragmentManager.showMapViewFragment(SessionManager.getInstance().getSalons());
+
+                                break;
+
+                            case R.id.favorites:
+
+                                FilterAndSortManager.getInstance().getFilters().add(FilterType.FAVORITE);
+
+                                FilterAndSortObservable.getInstance().notifyFilterChanged();
+
+                                break;
+
+                            case R.id.sallons:
+
+                                FilterAndSortManager.getInstance().reset();
+
+                                FilterAndSortObservable.getInstance().notifyFilterChanged();
+
+                                break;
+
+
+                        }
+
+                        nvDrawer.closeDrawers();
+
+                        return true;
+                    }
+                });
 
         showLoadingView();
 
@@ -229,7 +270,11 @@ public class HomeFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        if(o instanceof PermissionGrantedObservable){
+        if(o instanceof FavoriteChangeObservable) {
+
+            popularSallons.getAdapter().notifyDataSetChanged();
+
+        } else if(o instanceof PermissionGrantedObservable){
 
             Location location = AppUtil.getCurrentLocation();
 
@@ -294,5 +339,9 @@ public class HomeFragment extends BaseFragment implements Observer {
         super.onDestroy();
 
         FilterAndSortObservable.getInstance().deleteObserver(this);
+
+        PermissionGrantedObservable.getInstance().deleteObserver(this);
+
+        FavoriteChangeObservable.sharedInstance().deleteObserver(this);
     }
 }

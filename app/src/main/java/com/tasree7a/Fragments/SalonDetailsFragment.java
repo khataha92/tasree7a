@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 
 import com.tasree7a.Adapters.BaseCardAdapter;
 import com.tasree7a.Adapters.CardsRecyclerAdapter;
+import com.tasree7a.CustomComponent.SalonMapDetails;
 import com.tasree7a.Enums.CardFactory;
 import com.tasree7a.Enums.CardType;
 import com.tasree7a.Models.BaseCardModel;
+import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.R;
 
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
 
     @Override
     public int getFactoryId() {

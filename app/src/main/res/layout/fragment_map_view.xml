@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <FrameLayout
+        android:id="@+id/map_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+<com.tasree7a.CustomComponent.SalonMapDetails
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/salon_map_details"
+    android:layout_alignParentBottom="true"
+    android:visibility="invisible"
+
+    />
+    <RelativeLayout
+        android:id="@+id/no_hotels_loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/action_view"
+        android:layout_below="@+id/dateViewContainer"
+        android:background="@color/WHITE"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/no_hotels_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

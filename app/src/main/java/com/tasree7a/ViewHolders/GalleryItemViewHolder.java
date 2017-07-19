@@ -14,6 +14,8 @@ import com.tasree7a.utils.UIUtils;
 
 /**
  * Created by mac on 6/14/17.
+ *
+ * gallery
  */
 
 public class GalleryItemViewHolder extends RecyclerView.ViewHolder {

@@ -12,8 +12,6 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.PermissionCode;
 
-import java.security.Permission;
-
 /**
  * Created by mac on 5/4/17.
  */

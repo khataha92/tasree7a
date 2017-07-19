@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="158dp" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/WHITE"
+    android:orientation="horizontal"
+    android:id="@+id/main_view"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4">
+
+        <ImageView
+            android:id="@+id/salon_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <com.tasree7a.CustomComponent.AutoStopRippleBackground
+            android:id="@+id/favouriteContainer"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="4dp"
+            app:rb_color="@color/LIGHT_RED"
+            app:rb_radius="5dp"
+            app:rb_rippleAmount="1"
+            app:rb_duration="1000"
+            app:rb_scale="4">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/add_to_favorite"
+                android:src="@drawable/favorite_red"/>
+
+        </com.tasree7a.CustomComponent.AutoStopRippleBackground>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="5dp">
+
+
+        <TextView
+            android:id="@+id/salon_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/VERY_DARK_BLUE"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/salon_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="1"
+            android:textColor="@color/MEDIUM_GRAY"
+            android:textSize="13sp"/>
+
+        <com.tasree7a.CustomComponent.CustomRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/salon_rating"
+            android:layout_marginTop="5dp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

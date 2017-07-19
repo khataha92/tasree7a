@@ -9,7 +9,8 @@ import java.util.List;
  * Created by mac on 6/20/17.
  */
 
-public class PopularSalonsResponseModel {
+public class
+PopularSalonsResponseModel {
 
     @SerializedName("response_code")
     ResponseCode responseCode;

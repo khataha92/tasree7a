@@ -5,6 +5,7 @@ import com.tasree7a.Constants;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
+import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.interfaces.AbstractCallback;
@@ -61,6 +62,36 @@ public class RetrofitManager {
                 .build();
 
         request = retrofit.create(ServiceRequest.class);
+
+    }
+
+    public void getSalonDetails(String salonId, final AbstractCallback callback){
+
+        Call<SalonDetailsResponseModel> call = request.getSalonDetails(salonId);
+
+        call.enqueue(new Callback<SalonDetailsResponseModel>() {
+
+            @Override
+            public void onResponse(Call<SalonDetailsResponseModel> call, Response<SalonDetailsResponseModel> response) {
+
+                if(response.isSuccessful() && response.body() != null){
+
+                    callback.onResult(true,response.body().getSalon());
+
+                } else{
+
+                    callback.onResult(false,null);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SalonDetailsResponseModel> call, Throwable t) {
+
+                callback.onResult(false,null);
+
+            }
+        });
 
     }
 

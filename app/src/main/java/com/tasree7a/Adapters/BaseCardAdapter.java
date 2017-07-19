@@ -51,6 +51,10 @@ public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder>{
 
     }
 
+    public void setCardModels(List<BaseCardModel> cardModels) {
+        this.cardModels = cardModels;
+    }
+
     @Override
     public int getItemCount() {
         return cardModels.size();

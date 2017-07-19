@@ -39,6 +39,11 @@ public class UserDefaultUtil {
         preferences = PreferenceManager.getDefaultSharedPreferences(ThisApplication.getCurrentActivity());
     }
 
+    public static void logout(){
+
+        preferences.edit().clear().commit();
+    }
+
     public static List<SearchHistoryItem> getSearchHistory(){
 
         String searchHistory = getStringValue(UserDefaultKeys.SEARCH_HISTORY.getValue());

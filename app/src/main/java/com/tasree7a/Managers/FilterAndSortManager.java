@@ -37,6 +37,13 @@ public class FilterAndSortManager {
 
     }
 
+    public void reset(){
+
+        sortType = SortType.DISTANCE;
+
+        filters.clear();
+    }
+
     public List<FilterType> getFilters() {
         return filters;
     }

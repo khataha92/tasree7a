@@ -72,7 +72,6 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
      * Make an BaseCardViewHolder by run the internal method on a second thread away from main UI thread
      *
      * @param parent    ViewGroup
-     * @param cardModel BaseCardModel
      * @return BaseCardViewHolder
      */
     public static BaseCardViewHolder createViewHolder(final ViewGroup parent, final BaseCardModel cardModel) {
@@ -142,23 +141,30 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
                 return new ImageCardViewHolder(itemView,cardModel);
 
+            case PRODUCTS_CARD:
             case GALARY_CARD:
 
                 itemView = inflate(R.layout.card_salon_galary,parent);
 
                 return  new GalaryCardViewHolder(itemView,cardModel);
 
-            case PRODUCTS_CARD:
-
-                itemView = inflate(R.layout.card_salon_products,parent);
-
-                return new ProductsCardViewHolder(itemView,cardModel);
+//            case PRODUCTS_CARD:
+//
+//                itemView = inflate(R.layout.card_salon_products,parent);
+//
+//                return new ProductsCardViewHolder(itemView,cardModel);
 
             case MAP_CARD:
 
-                itemView = inflate(R.layout.card_salon_map,parent);
+                itemView = inflate(R.layout.view_salon_location,parent);
 
-                return new MapCardViewHolder(itemView,cardModel);
+                return new LocationCardViewHolder(itemView, cardModel);
+
+            case CONTACT_DETAILS:
+
+                itemView = inflate(R.layout.view_contact_details,parent);
+
+                return new ContactDetailsViewHolder(itemView,cardModel);
 
 
             default:

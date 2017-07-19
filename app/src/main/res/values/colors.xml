@@ -15,4 +15,7 @@
     <color name="TRANSPARENT_BLACK_COLOR">#80000000</color>
     <color name="VERY_TRANSPARENT_BLACK_COLOR">#AA000000</color>
     <color name="FILTER_BG">#F3F2F2</color>
+    <color name="LIGHT_RED">#F0645A</color>
+    <color name="VERY_DARK_BLUE">#2854A1</color>
+    <color name="MEDIUM_GRAY">#9B9EAB</color>
 </resources>

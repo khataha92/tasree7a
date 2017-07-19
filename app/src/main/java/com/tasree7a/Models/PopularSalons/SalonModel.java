@@ -1,16 +1,25 @@
 package com.tasree7a.Models.PopularSalons;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
+import com.google.maps.android.clustering.ClusterItem;
 import com.tasree7a.Constants;
 import com.tasree7a.Enums.FilterType;
+import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.SalonDetails.SalonProduct;
+import com.tasree7a.Models.MapView.GeoLocationModel;
 import com.tasree7a.interfaces.Filterable;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mac on 7/4/17.
  */
 
-public class SalonModel implements Filterable {
+public class SalonModel implements Filterable, ClusterItem {
 
     @SerializedName("rank")
     RankModel rank;
@@ -41,6 +50,14 @@ public class SalonModel implements Filterable {
 
     @SerializedName("salon_img")
     String image;
+
+    @SerializedName("salon_images")
+    List<ImageModel> gallery;
+
+    @SerializedName("products")
+    List<SalonProduct> products;
+
+    GeoLocationModel locationModel;
 
     public String getImage() {
         return Constants.IMAGE_PREFIX+image;
@@ -111,6 +128,56 @@ public class SalonModel implements Filterable {
         return salonCity;
     }
 
+    public List<ImageModel> getProducts() {
+
+        List<ImageModel> productList =  new ArrayList<>();
+
+        for(int i = 0 ; i < products.size() ; i ++){
+
+            ImageModel imageModel = new ImageModel();
+
+            imageModel.setImagePath(Constants.IMAGE_PREFIX + products.get(i).getUrl());
+
+            productList.add(imageModel);
+
+        }
+
+        return productList;
+    }
+
+    public List<ImageModel> getGallery() {
+
+        if(gallery == null || gallery.isEmpty()){
+
+            gallery = new ArrayList<>();
+
+            int start = Integer.parseInt(id);
+
+            for(int i = (start-1) * 9 ; i < UIUtils.images.length && i < start * 9 ; i++){
+
+                ImageModel imageModel = new ImageModel();
+
+                imageModel.setImagePath(UIUtils.images[i]);
+
+                gallery.add(imageModel);
+            }
+
+        } else {
+
+            for (int i = 0 ; i< gallery.size() ;i++){
+
+                if(!gallery.get(i).getImagePath().startsWith("http")) {
+
+                    gallery.get(i).setImagePath(Constants.IMAGE_PREFIX + gallery.get(i).getImagePath());
+
+                }
+
+            }
+        }
+
+        return gallery;
+    }
+
     public int getRating() {
 
         return (int)rank.getRank();
@@ -137,6 +204,37 @@ public class SalonModel implements Filterable {
         }
 
         return false;
+
+    }
+
+    public void setLocationModel(GeoLocationModel locationModel) {
+        this.locationModel = locationModel;
+    }
+
+    public GeoLocationModel getLocationModel() {
+        if(locationModel == null){
+
+            locationModel = new GeoLocationModel();
+
+            locationModel.setLat(lat);
+
+            locationModel.setLng(lng);
+        }
+
+        return locationModel;
+    }
+
+    @Override
+    public LatLng getPosition() {
+
+        LatLng latLng = new LatLng(lat,lng);
+
+        return latLng;
+    }
+
+    public boolean isFavorite(){
+
+        return UserDefaultUtil.isSalonFavorite(this);
 
     }
 }

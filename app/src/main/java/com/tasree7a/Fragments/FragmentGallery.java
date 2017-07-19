@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.tasree7a.Adapters.GalleryAdapter;
 import com.tasree7a.CustomComponent.SpacesItemDecoration;
+import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.R;
 import com.tasree7a.utils.FragmentArg;
@@ -55,6 +56,15 @@ public class FragmentGallery extends BaseFragment {
         gallery.addItemDecoration(new SpacesItemDecoration(UIUtils.dpToPx(7)));
 
         gallery.setAdapter(adapter);
+
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.popCurrentVisibleFragment();
+
+            }
+        });
 
         return rootView;
     }

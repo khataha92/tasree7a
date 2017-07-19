@@ -39,7 +39,7 @@ public class PopularSallonsAdapter extends RecyclerView.Adapter<PopularSallonsIt
             @Override
             public void onClick(View v) {
 
-                FragmentManager.showSalonDetailsFragment();
+                FragmentManager.showSalonDetailsFragment(salonModels.get(position));
 
             }
 

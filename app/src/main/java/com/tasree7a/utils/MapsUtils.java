@@ -62,6 +62,15 @@ public class MapsUtils {
                 .position(new LatLng(location.getLatitude(), location.getLongitude())));
     }
 
+    public static String generateStaticMapUrl(double lat, double lng, int width, int height) {
+
+        return "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng
+                + "&zoom=15&size=" + width + "x" + (height)
+                + "&sensor=false"
+                + "&markers=anchor:0.5,1|icon:http://www.onfi.org.uy/onfi_mixto/media/contacts/images/con_address.png|"+"backgroundColor:blue|" + lat + "," + lng;
+
+    }
+
 
     /**
      * If want to get zoom level for LatLngBounds in map

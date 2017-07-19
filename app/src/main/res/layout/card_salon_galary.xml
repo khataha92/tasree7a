@@ -14,6 +14,7 @@
 
     <TextView
         android:layout_width="wrap_content"
+        android:id="@+id/gallery_title"
         android:layout_height="wrap_content"
         android:textSize="19.3sp"
         android:textColor="@color/APP_TEXT_COLOR"
@@ -31,40 +32,23 @@
         android:id="@+id/see_all"
         />
     </RelativeLayout>
-    
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_below="@+id/title_container">
+
     <LinearLayout
+        android:id="@+id/images_container"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_below="@+id/title_container"
         android:layout_marginTop="11.3dp"
         android:orientation="horizontal"
         android:paddingLeft="18.3dp"
         >
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/first_image"
-            android:layout_marginRight="4.3dp"
-            />
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/second_image"
-            android:layout_marginRight="4.3dp"
-            />
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/third_image"
-            android:layout_marginRight="4.3dp"
-            />
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/first_image"
-            android:layout_marginRight="4.3dp"
-            />
     </LinearLayout>
+
+    </HorizontalScrollView>
 </RelativeLayout>

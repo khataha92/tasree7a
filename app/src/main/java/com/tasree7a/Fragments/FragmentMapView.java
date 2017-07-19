@@ -225,7 +225,7 @@ public class FragmentMapView extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                FragmentManager.showSalonDetailsFragment();
+                FragmentManager.showSalonDetailsFragment(salonModel);
 
             }
         });

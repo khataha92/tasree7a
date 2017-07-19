@@ -69,11 +69,13 @@ public class FragmentManager  {
         replaceFragment(fragmentGallery,true);
     }
 
-    public static void showSalonDetailsFragment() {
+    public static void showSalonDetailsFragment(SalonModel salonModel) {
 
-        SalonDetailsFragment homeFragment = new SalonDetailsFragment();
+        SalonDetailsFragment salonDetailsFragment = new SalonDetailsFragment();
 
-        replaceFragment(homeFragment, true);
+        salonDetailsFragment.setSalonModel(salonModel);
+
+        replaceFragment(salonDetailsFragment, true);
 
     }
 

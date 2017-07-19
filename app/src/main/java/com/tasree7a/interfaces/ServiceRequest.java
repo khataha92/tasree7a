@@ -3,6 +3,7 @@ package com.tasree7a.interfaces;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
+import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
 
 import retrofit2.Call;
@@ -34,5 +35,7 @@ public interface ServiceRequest {
     @POST("getNearestSalons")
     Call<PopularSalonsResponseModel> getNearestSalons(@Field("currentUserLat") double lat, @Field("currentUserLong") double lng);
 
-
+    @FormUrlEncoded
+    @POST("getSalonDetails")
+    Call<SalonDetailsResponseModel> getSalonDetails(@Field("salonID") String salonId);
 }

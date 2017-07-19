@@ -1,5 +1,7 @@
 package com.tasree7a.Models.Gallery;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,7 @@ import java.io.Serializable;
 
 public class ImageModel implements Serializable{
 
+    @SerializedName("url")
     String imagePath;
 
     public void setImagePath(String imagePath) {

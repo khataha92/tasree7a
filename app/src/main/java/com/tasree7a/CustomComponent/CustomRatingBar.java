@@ -20,6 +20,8 @@ public class CustomRatingBar extends LinearLayout {
 
     float rating = 0;
 
+    int width = 13;
+
     public CustomRatingBar(Context context) {
 
         super(context);
@@ -90,13 +92,18 @@ public class CustomRatingBar extends LinearLayout {
             addSubStart();
         }
 
+        for(int i = (int)rating +1 ; i <= 5 ; i++){
+
+            addEmptyStar();
+        }
+
     }
 
     private void addStar(boolean isFirstItem){
 
         ImageView star = new ImageView(getContext());
 
-        int width = UIUtils.dpToPx(11);
+        int width = UIUtils.dpToPx(this.width);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,width);
 
@@ -121,6 +128,33 @@ public class CustomRatingBar extends LinearLayout {
 
         addView(star);
 
+    }
+
+    private void addEmptyStar(){
+
+        ImageView star = new ImageView(getContext());
+
+        int width = UIUtils.dpToPx(this.width);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,width);
+
+        int margin = UIUtils.dpToPx(4);
+
+        if(UserDefaultUtil.getUserLanguage() == Language.AR){
+
+            params.setMargins(0,0,margin,0);
+
+        } else{
+
+            params.setMargins(margin,0,0,0);
+
+        }
+
+        star.setLayoutParams(params);
+
+        star.setImageResource(R.drawable.ic_star_unchecked);
+
+        addView(star);
     }
 
     private void addSubStart(){

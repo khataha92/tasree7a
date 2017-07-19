@@ -1,5 +1,7 @@
 package com.tasree7a.Fragments;
 
+import android.accounts.AccountManager;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.facebook.AccessToken;
 import com.tasree7a.Adapters.PopularSallonsAdapter;
 import com.tasree7a.CustomComponent.CustomTopBar;
 import com.tasree7a.Enums.FilterType;
@@ -31,9 +34,11 @@ import com.tasree7a.Observables.FilterAndSortObservable;
 import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.activities.MainActivity;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.OnSearchBarStateChange;
 import com.tasree7a.utils.AppUtil;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,6 +118,18 @@ public class HomeFragment extends BaseFragment implements Observer {
                                 FilterAndSortManager.getInstance().reset();
 
                                 FilterAndSortObservable.getInstance().notifyFilterChanged();
+
+                                break;
+
+                            case R.id.logout:
+
+                                UserDefaultUtil.logout();
+
+                                AccessToken.setCurrentAccessToken(null);
+
+                                startActivity(new Intent(getContext(), MainActivity.class));
+
+                                getActivity().finish();
 
                                 break;
 

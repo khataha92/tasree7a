@@ -1,7 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/activity_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/login_bg"
+                android:hapticFeedbackEnabled="true"
+                tools:context="com.tasree7a.activities.MainActivity">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="437dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="false"
+        android:layout_marginBottom="28.7dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:background="@drawable/rounded_corders_bg_gray"
+        android:focusableInTouchMode="true"
+        >
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_full_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/or_container"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="15dp"
+            android:textColorHint="@color/APP_TEXT_COLOR"
+            >
+
+            <EditText
+                android:id="@+id/input_full_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/FULL_NAME"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:textColor="@color/APP_TEXT_COLOR"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_layout_full_name"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="15dp"
+            android:textColorHint="@color/APP_TEXT_COLOR"
+            >
+
+            <EditText
+                android:id="@+id/input_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/USERNAME"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:textColor="@color/APP_TEXT_COLOR"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_layout_username"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="15dp"
+            android:textColorHint="@color/APP_TEXT_COLOR"
+            >
+
+            <EditText
+                android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/EMAIL"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:textColor="@color/APP_TEXT_COLOR"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_layout_email"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/APP_TEXT_COLOR"
+            >
+
+            <EditText
+                android:id="@+id/input_password"
+                RTL
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Password"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textColor="@color/APP_TEXT_COLOR"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <com.tasree7a.CustomComponent.CustomButton
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/login_container"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:backgroundTint="@color/APP_GREEN"
+            app:customButtonBackgroundDrawable="@drawable/rounded_corders_bg"
+            app:customButtonText="@string/REGISTER"
+            app:customButtonTextColor="@color/WHITE"
+            app:customButtonTextSize="19sp"
+            />
+
+        <RelativeLayout
+            android:id="@+id/login_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="13.8dp"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:id="@+id/have_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/login"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentRight="true"
+                android:text="@string/HAVE_ACCOUNT"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="14.8sp"
+                />
+
+            <TextView
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/have_account"
+                android:gravity="center"
+                android:paddingBottom="7.5dp"
+                android:paddingTop="5dp"
+                android:text="@string/LOGIN"
+                android:textColor="@color/APP_GREEN"
+                android:textSize="14.8sp"
+                />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

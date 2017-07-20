@@ -1,7 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/drawer_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
 
-</LinearLayout>
+    <!-- This LinearLayout represents the contents of the screen  -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/BG_GRAY">
+
+            <RelativeLayout
+                android:id="@+id/top_bar_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_bar_height"
+                android:background="@color/WHITE"></RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/popular_sallons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/top_bar_container"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                android:layout_marginTop="17dp"
+                android:background="@color/BG_GRAY" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:clickable="true"
+                android:id="@+id/transparent_view"
+                android:background="@color/TRANSPARENT_BLACK_COLOR"
+                />
+
+            <com.tasree7a.CustomComponent.CustomTopBar
+                android:id="@+id/top_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4.7dp"
+                android:background="@drawable/rounded_corders_bg"
+                android:backgroundTint="@color/WHITE" />
+
+            <include layout="@layout/loading_view"
+                     android:id="@+id/loading"
+                     android:visibility="visible"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_below="@+id/top_bar_container"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nvView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/BG_GRAY"
+        app:headerLayout="@layout/side_menu"
+        app:itemIconTint="@color/APP_TEXT_COLOR"
+        app:itemTextColor="@color/APP_TEXT_COLOR"
+        app:menu="@menu/drawer_view" />
+</android.support.v4.widget.DrawerLayout>

@@ -151,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="13.8dp"
             android:text="@string/FORGOT_PASSWORD"
             android:textColor="@color/APP_TEXT_COLOR"
@@ -164,8 +164,8 @@
             android:layout_height="wrap_content"
             android:textSize="14.8sp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="25dp"
             android:layout_marginBottom="13.8dp"
             android:textColor="@color/APP_GREEN"
             android:text="@string/SIGN_UP"
@@ -177,9 +177,9 @@
             android:textSize="14.8sp"
             android:textColor="@color/APP_TEXT_COLOR"
             android:text="@string/NEW_USER"
-            android:layout_toLeftOf="@+id/sign_up"
+            android:layout_toRightOf="@+id/sign_up"
             android:layout_alignTop="@+id/sign_up"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             />
     </RelativeLayout>
 

@@ -4,49 +4,50 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
+import com.crashlytics.android.Crashlytics;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
-
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.tasree7a.CustomComponent.CustomButton;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.R;
-import com.crashlytics.android.Crashlytics;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.AppUtil;
-import com.tasree7a.utils.StringUtil;
 import com.tasree7a.utils.UIUtils;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
 
 import static com.facebook.FacebookSdk.sdkInitialize;
+import static com.tasree7a.utils.AppUtil.restartApp;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -91,6 +92,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             startHomeActivity();
         }
+
+        AppUtil.checkAppLanguage();
 
         setContentView(R.layout.activity_main);
 
@@ -162,7 +165,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         });
         
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

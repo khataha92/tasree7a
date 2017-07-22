@@ -23,13 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:background="@drawable/rounded_corders_bg_gray"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="28.7dp"
+        android:layout_marginBottom="28dp"
         android:layout_marginLeft="19dp"
         android:layout_marginRight="19dp"
-        android:layout_alignParentTop="false"
         android:focusableInTouchMode="true"
-        >
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
 
 
         <com.facebook.login.widget.LoginButton
@@ -127,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:singleLine="true"
-                android:hint="@string/Password"
+                android:hint="@string/PASSWORD"
                 android:textColor="@color/APP_TEXT_COLOR"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -152,6 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
             android:layout_marginBottom="13.8dp"
             android:text="@string/FORGOT_PASSWORD"
             android:textColor="@color/APP_TEXT_COLOR"

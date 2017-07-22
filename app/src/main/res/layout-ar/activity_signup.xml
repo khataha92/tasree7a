@@ -102,7 +102,7 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/Password"
+                android:hint="@string/PASSWORD"
                 android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="@color/APP_TEXT_COLOR"

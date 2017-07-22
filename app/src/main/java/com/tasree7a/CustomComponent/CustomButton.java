@@ -34,31 +34,41 @@ public class CustomButton extends LinearLayout {
     private ImageView buttonIcon;
 
     private TextView buttonText;
+
     private int icon;
 
+    private int radius = 0;
+
+
     public CustomButton(Context context) {
+
         super(context);
 
         init(context, null);
     }
 
+
     public CustomButton(Context context, AttributeSet attrs) {
+
         super(context, attrs);
 
         init(context, attrs);
     }
 
+
     public CustomButton(Context context, AttributeSet attrs, int defStyleAttr) {
+
         super(context, attrs, defStyleAttr);
 
         init(context, attrs);
     }
 
+
     private void init(Context context, AttributeSet attrs) {
 
         setGravity(Gravity.CENTER);
 
-        Context appContext = isInEditMode()? context : ThisApplication.getCurrentActivity();
+        Context appContext = isInEditMode() ? context : ThisApplication.getCurrentActivity();
 
         LayoutInflater inflater = (LayoutInflater) appContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -98,7 +108,7 @@ public class CustomButton extends LinearLayout {
 
                     case R.styleable.CustomButton_customButtonTextColor:
 
-                        setTextColor(a.getColor(attr,ThisApplication.getCurrentActivity().getResources().getColor(R.color.BLACK)));
+                        setTextColor(a.getColor(attr, ThisApplication.getCurrentActivity().getResources().getColor(R.color.BLACK)));
 
                         break;
 
@@ -106,7 +116,7 @@ public class CustomButton extends LinearLayout {
 
                         backgroundColor = a.getColor(attr, 0);
 
-                        setBackgroundColor(backgroundColor);
+//                        setBackgroundColor(backgroundColor);
 
                         break;
 
@@ -134,12 +144,18 @@ public class CustomButton extends LinearLayout {
 
                         break;
 
+                    case R.styleable.CustomButton_customButtonRadius:
+
+                        radius = a.getInt(attr, 0);
+
+                        break;
+
 
                 }
 
-
-
             }
+
+//            setButtonBackgroundAndStrock(backgroundColor, strokeColor, GradientDrawable.RECTANGLE, radius);
 
             a.recycle();
 
@@ -147,14 +163,24 @@ public class CustomButton extends LinearLayout {
 
     }
 
+
+    private void setButtonBackgroundAndStrock(int bg, int strock, int shape, int radius) {
+
+        UIUtils.generateShapeBackground(bg, strock, shape, radius);
+
+    }
+
+
     public void setText(String string) {
 
         buttonText.setText(string);
 
     }
 
+
     /**
      * Text size in sp
+     *
      * @param textSize in text size in sp
      */
     public void setTextSize(float textSize) {
@@ -163,15 +189,18 @@ public class CustomButton extends LinearLayout {
 
     }
 
-    public void setText(SpannableString spannableString){
+
+    public void setText(SpannableString spannableString) {
 
         buttonText.setText(spannableString);
     }
 
+
     /**
      * Text size in specific unit
+     *
      * @param textSize value in unit that you specified
-     * @param unit int represents unit from ex: TypedValue.COMPLEX_UNIT_PX, TypedValue.COMPLEX_UNIT_SP
+     * @param unit     int represents unit from ex: TypedValue.COMPLEX_UNIT_PX, TypedValue.COMPLEX_UNIT_SP
      */
     public void setTextSize(int unit, float textSize) {
 
@@ -220,6 +249,7 @@ public class CustomButton extends LinearLayout {
 
     }
 
+
     public void setButtonEnabled(boolean buttonEnabled) {
 
         setEnabled(buttonEnabled);
@@ -253,42 +283,51 @@ public class CustomButton extends LinearLayout {
     // To prevent multilple clicks in a hort time
     private long previousClickTime = System.currentTimeMillis();
 
+
     @Override
     public void setOnClickListener(final OnClickListener onClickListener) {
 
         OnClickListener incubatingOnClick = new OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
-                    if (onClickListener == null) return;
+                if (onClickListener == null) return;
 
-                    long nowClickTime = System.currentTimeMillis();
+                long nowClickTime = System.currentTimeMillis();
 
-                    if (nowClickTime - previousClickTime > 500) { // time between first click and second click more than half sec
+                if (nowClickTime - previousClickTime > 500) { // time between first click and second click more than half sec
 
-                        onClickListener.onClick(v);
+                    onClickListener.onClick(v);
 
-                        previousClickTime = nowClickTime;
+                    previousClickTime = nowClickTime;
 
-                    }
+                }
 
-                };
-        } ;
+            }
+
+
+            ;
+        };
         super.setOnClickListener(incubatingOnClick);
 
     }
 
+
     public int getIcon() {
+
         return icon;
     }
 
-    public void setButtonHeight(int val){
 
-        ((RelativeLayout)findViewById(R.id.button_container)).getLayoutParams().height = val;
+    public void setButtonHeight(int val) {
+
+        ((RelativeLayout) findViewById(R.id.button_container)).getLayoutParams().height = val;
 
     }
 
-    public void setButtonLineSpacing(){
+
+    public void setButtonLineSpacing() {
 
         buttonText.setLineSpacing(0.3f, 1.0f);
 

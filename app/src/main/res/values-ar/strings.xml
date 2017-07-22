@@ -8,7 +8,7 @@
     <string name="LOGIN_WITH_FB">تسجيل الدخول باستخدام الفيسبوك</string>
     <string name="OR">أو</string>
     <string name="EMAIL">البريد الإلكتروني</string>
-    <string name="Password">كلمة السر</string>
+    <string name="PASSWORD">كلمة السر</string>
     <string name="LOGIN">تسجيل الدخول</string>
     <string name="facebook_app_id">442974186045880</string>
     <string name="fb_login_protocol_scheme">fb442974186045880</string>
@@ -43,5 +43,13 @@
     <string name="SIGN_UP_ERROR_MISSING_INPUT">يرجى ملء جميع الحقول مع البيانات الصحيحة</string>
     <string name="YOUR_LOCATION">موقعك</string>
     <string name="PRODUCTS">المنتجات</string>
-
+    <string name="LANGUAGE">اللغة</string>
+    <string name="CHANGE_PASSWORD">غيّر كلمة السر</string>
+    <string name="NOTIFICATION">الإشعارات</string>
+    <string name="NOTIFY_FAV_TEXT">نبهني عندما يكون هنالك تحديث على مفضلتي</string>
+    <string name="NOTIFY_BOOK_UPDATE_TEXT">نبهني عندما يحصل تغيير على حجزي</string>
+    <string name="YES">نعم</string>
+    <string name="NO">لا</string>
+    <string name="CONFILM_LANG_CHANGE_TITLE">تأكيد تغيير اللغة</string>
+    <string name="CONFILM_LANG_CHANGE_TEXT">هل انت متأكد؟</string>
 </resources>

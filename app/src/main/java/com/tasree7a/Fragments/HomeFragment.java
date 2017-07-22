@@ -19,6 +19,7 @@ import android.widget.ImageView;
 
 import com.facebook.AccessToken;
 import com.tasree7a.Adapters.PopularSallonsAdapter;
+import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.CustomComponent.CustomTopBar;
 import com.tasree7a.Enums.FilterType;
 import com.tasree7a.Enums.ResponseCode;
@@ -38,6 +39,7 @@ import com.tasree7a.activities.MainActivity;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.OnSearchBarStateChange;
 import com.tasree7a.utils.AppUtil;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
@@ -64,6 +66,8 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     List<SalonModel> filteredSalons;
 
+    CustomSwitch langSwitch;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,6 +93,19 @@ public class HomeFragment extends BaseFragment implements Observer {
         int width = (int)(getResources().getDisplayMetrics().widthPixels/1.5);
 
         loadingView = rootView.findViewById(R.id.loading);
+
+        langSwitch = (CustomSwitch) nvView.getHeaderView(0).findViewById(R.id.switch_item);
+
+        langSwitch.setAction(new Runnable() {
+
+            @Override
+            public void run() {
+
+                UIUtils.showConfirmLanguageChangeDialog();
+
+            }
+        });
+
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -133,6 +150,11 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                                 break;
 
+                            case R.id.settings:
+
+                                FragmentManager.showSettingsFragment();
+
+                                break;
 
                         }
 

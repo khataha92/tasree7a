@@ -2,19 +2,20 @@ package com.tasree7a.CustomComponent;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.tasree7a.Enums.FontsType;
 import com.tasree7a.Enums.Language;
 import com.tasree7a.R;
-import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by mac on 5/17/17.
@@ -24,6 +25,9 @@ public class CustomSwitch extends LinearLayout {
 
     private boolean isChecked;
 
+    private Runnable action;
+
+
     public CustomSwitch(Context context) {
 
         super(context);
@@ -31,6 +35,7 @@ public class CustomSwitch extends LinearLayout {
         init(null);
 
     }
+
 
     public CustomSwitch(Context context, @Nullable AttributeSet attrs) {
 
@@ -40,6 +45,7 @@ public class CustomSwitch extends LinearLayout {
 
     }
 
+
     public CustomSwitch(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
 
         super(context, attrs, defStyleAttr);
@@ -48,7 +54,8 @@ public class CustomSwitch extends LinearLayout {
 
     }
 
-    private void init(AttributeSet attrs){
+
+    private void init(AttributeSet attrs) {
 
         setOrientation(HORIZONTAL);
 
@@ -56,7 +63,7 @@ public class CustomSwitch extends LinearLayout {
 
         int diameter = UIUtils.dpToPx(10);
 
-        LinearLayout.LayoutParams params = new LayoutParams(diameter,diameter);
+        LinearLayout.LayoutParams params = new LayoutParams(diameter, diameter);
 
         view.setLayoutParams(params);
 
@@ -66,22 +73,29 @@ public class CustomSwitch extends LinearLayout {
 
         int padding = UIUtils.dpToPx(2);
 
-        setPadding(padding,padding,padding,padding);
+        setPadding(padding, padding, padding, padding);
 
-        setBackgroundResource(R.drawable.switch_style);
+        setBackgroundResource(R.drawable.switch_light_style);
 
         setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
                 setChecked(!isChecked);
 
+                if (action != null) {
+
+                    action.run();
+
+                }
+
             }
         });
 
-        if(attrs != null){
+        if (attrs != null) {
 
-            TypedArray array = getContext().obtainStyledAttributes(attrs,R.styleable.CustomSwitch);
+            TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.CustomSwitch);
 
             for (int i = 0; i < array.getIndexCount(); ++i) {
 
@@ -91,22 +105,34 @@ public class CustomSwitch extends LinearLayout {
 
                     case R.styleable.CustomSwitch_checked:
 
-                        boolean isChecked = array.getBoolean(attr,false);
+                        boolean isChecked = array.getBoolean(attr, false);
 
                         setChecked(isChecked);
 
                         break;
 
-                    case R.styleable.CustomSwitch_stroke:
+                    case R.styleable.CustomSwitch_light:
 
-                        int reference = array.getResourceId(attr,R.drawable.switch_style);
+                        boolean light = array.getBoolean(attr, true);
 
-                        setBackgroundResource(reference);
+                        if (!light) {
+
+                            int reference = array.getResourceId(attr, R.drawable.switch_dark_style);
+
+                            setBackgroundResource(reference);
+                        }
 
                         break;
 
-                }
+                    case R.styleable.CustomSwitch_stroke:
 
+                        int reference = array.getResourceId(attr, R.drawable.switch_light_style);
+
+                        //TODO: Fix it ... needs to be borders not BG
+                        setBackgroundResource(reference);
+
+                        break;
+                }
             }
 
             array.recycle();
@@ -114,36 +140,50 @@ public class CustomSwitch extends LinearLayout {
 
     }
 
+
     public boolean isChecked() {
 
         return isChecked;
 
     }
 
-    public void setChecked(boolean isChecked){
+
+    public Runnable getAction() {
+
+        return action;
+    }
+
+
+    public void setAction(Runnable action) {
+
+        this.action = action;
+    }
+
+
+    public void setChecked(boolean isChecked) {
 
         this.isChecked = isChecked;
 
-        if(UserDefaultUtil.getUserLanguage() == Language.AR){
+        if (UserDefaultUtil.getUserLanguage() == Language.AR) {
 
-            if(isChecked){
+            if (isChecked) {
 
-                setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
+                setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 
-            } else{
+            } else {
 
-                setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
+                setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
             }
 
-        } else{
+        } else {
 
-            if(isChecked){
+            if (isChecked) {
 
-                setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
+                setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
 
-            } else{
+            } else {
 
-                setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
+                setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             }
 
         }

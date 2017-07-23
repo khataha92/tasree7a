@@ -65,7 +65,7 @@
         android:id="@+id/nvView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="left"
         android:background="@color/BG_GRAY"
         app:headerLayout="@layout/side_menu"
         app:itemIconTint="@color/APP_TEXT_COLOR"

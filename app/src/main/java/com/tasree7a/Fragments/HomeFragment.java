@@ -67,6 +67,8 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     CustomSwitch langSwitch;
 
+    View navHeader;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +86,8 @@ public class HomeFragment extends BaseFragment implements Observer {
         nvDrawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
 
         nvView = (NavigationView) rootView.findViewById(R.id.nvView);
+
+        navHeader =  nvView.getHeaderView(0);
 
         closeDrawer = (ImageView) nvView.getHeaderView(0).findViewById(R.id.close_menu);
 
@@ -243,7 +247,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     private void initLangButton() {
 
-        langSwitch = (CustomSwitch) nvView.getHeaderView(0).findViewById(R.id.switch_item);
+        langSwitch = (CustomSwitch) navHeader.findViewById(R.id.switch_item);
 
         langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
 

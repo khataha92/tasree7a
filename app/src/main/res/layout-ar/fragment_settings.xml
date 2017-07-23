@@ -68,7 +68,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/ar"
-            app:checked="true"
+            android:rotationX="180"
             app:light="false"/>
 
 
@@ -145,7 +145,6 @@
                 android:layout_width="30dp"
                 android:layout_height="15dp"
                 android:layout_alignParentLeft="true"
-                app:checked="true"
                 app:light="false"
                 />
 
@@ -172,7 +171,6 @@
                 android:layout_width="30dp"
                 android:layout_height="15dp"
                 android:layout_alignParentLeft="true"
-                app:checked="true"
                 app:light="false"
                 />
 

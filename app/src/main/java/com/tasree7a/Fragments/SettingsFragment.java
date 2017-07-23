@@ -51,6 +51,8 @@ public class SettingsFragment extends BaseFragment {
 
         langSwitch.setChecked(isAppLanguageArabic());
 
+        Log.d("switchh", "is check: " + langSwitch.isChecked());
+
         //   local    isChecked
         //    ar   ->   true
         //    en   ->   false
@@ -60,7 +62,7 @@ public class SettingsFragment extends BaseFragment {
             @Override
             public void run() {
 
-                UIUtils.showConfirmLanguageChangeDialog();
+                UIUtils.showConfirmLanguageChangeDialog(langSwitch);
 
             }
         });

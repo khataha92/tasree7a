@@ -82,7 +82,7 @@ public class CustomSwitch extends LinearLayout {
             @Override
             public void onClick(View v) {
 
-                setChecked(!isChecked);
+//                setChecked(!isChecked);
 
                 if (action != null) {
 
@@ -164,7 +164,7 @@ public class CustomSwitch extends LinearLayout {
 
         this.isChecked = isChecked;
 
-        if (UserDefaultUtil.getUserLanguage() == Language.AR) {
+        if (UserDefaultUtil.isAppLanguageArabic()) {
 
             if (isChecked) {
 

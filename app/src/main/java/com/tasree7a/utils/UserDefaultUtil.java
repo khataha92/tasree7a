@@ -194,7 +194,9 @@ public class UserDefaultUtil {
 
     public static Language getAppLanguage() {
 
-        return Language.valueOf(getStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString()));
+        String lang = getStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString());
+
+        return lang == null ? Language.EN : Language.valueOf(lang);
 
     }
 

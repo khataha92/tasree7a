@@ -15,6 +15,7 @@
             android:id="@+id/back"
             android:layout_width="31dp"
             android:rotation="180"
+            android:layout_alignParentRight="true"
             android:layout_height="41dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="17dp"

@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.Sizes;
 import com.tasree7a.Fragments.BaseFragment;
@@ -172,7 +173,7 @@ public class UIUtils {
     }
 
 
-    public static void showConfirmLanguageChangeDialog() {
+    public static void showConfirmLanguageChangeDialog(final CustomSwitch langSwitch) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ThisApplication.getCurrentActivity())
 
@@ -186,6 +187,8 @@ public class UIUtils {
                     public void onClick(DialogInterface dialog, int which) {
 
                         Language lang = UserDefaultUtil.isAppLanguageArabic() ? Language.EN : Language.AR;
+
+                        langSwitch.setChecked(!langSwitch.isChecked());
 
                         UserDefaultUtil.setAppLanguage(lang);
 
@@ -209,7 +212,6 @@ public class UIUtils {
 //        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLUE);
 
 //        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLUE);
-
 
     }
 

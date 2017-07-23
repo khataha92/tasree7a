@@ -1,6 +1,5 @@
 package com.tasree7a.Fragments;
 
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -94,18 +93,8 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         loadingView = rootView.findViewById(R.id.loading);
 
-        langSwitch = (CustomSwitch) nvView.getHeaderView(0).findViewById(R.id.switch_item);
 
-        langSwitch.setAction(new Runnable() {
-
-            @Override
-            public void run() {
-
-                UIUtils.showConfirmLanguageChangeDialog();
-
-            }
-        });
-
+        initLangButton();
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -250,6 +239,26 @@ public class HomeFragment extends BaseFragment implements Observer {
         return rootView;
 
     }
+
+
+    private void initLangButton() {
+
+        langSwitch = (CustomSwitch) nvView.getHeaderView(0).findViewById(R.id.switch_item);
+
+        langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
+
+        langSwitch.setAction(new Runnable() {
+
+            @Override
+            public void run() {
+
+                UIUtils.showConfirmLanguageChangeDialog(langSwitch);
+
+            }
+        });
+
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

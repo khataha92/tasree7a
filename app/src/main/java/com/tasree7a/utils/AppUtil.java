@@ -13,6 +13,7 @@ import android.util.Log;
 import com.facebook.AccessToken;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.ThisApplication;
 
 import java.util.List;
@@ -52,7 +53,9 @@ public class AppUtil {
 
         android.content.res.Configuration conf = res.getConfiguration();
 
-        conf.locale = new Locale(UserDefaultUtil.getAppLanguage().toString());
+        Language lang = UserDefaultUtil.getAppLanguage();
+
+        conf.locale = new Locale(lang == null ? Language.EN.toString() : lang.toString());
 
         res.updateConfiguration(conf, dm);
 

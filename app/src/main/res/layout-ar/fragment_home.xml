@@ -71,4 +71,5 @@
         app:itemIconTint="@color/APP_TEXT_COLOR"
         app:itemTextColor="@color/APP_TEXT_COLOR"
         app:menu="@menu/drawer_view" />
+
 </android.support.v4.widget.DrawerLayout>

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.Enums.Language;
+import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
@@ -30,6 +31,16 @@ public class SettingsFragment extends BaseFragment {
 
         rootView = inflater.inflate(R.layout.fragment_settings, container, false);
 
+
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.popCurrentVisibleFragment();
+
+            }
+        });
         //TODO: When font are ready
 
 //        ((TextView)rootView.findViewById(R.id.language_tv)).setTypeface(FontUtil.heavy());

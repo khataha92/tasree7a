@@ -14,6 +14,7 @@ import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
 import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
+import com.tasree7a.Fragments.SettingsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.R;
@@ -53,6 +54,14 @@ public class FragmentManager  {
         HomeFragment homeFragment = new HomeFragment();
 
         replaceFragment(homeFragment, true);
+
+    }
+
+    public static void showSettingsFragment(){
+
+        SettingsFragment settingsFragment = new SettingsFragment();
+
+        replaceFragment(settingsFragment, true);
 
     }
 

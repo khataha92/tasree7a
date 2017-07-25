@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/BG_GRAY"
+                xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:id="@+id/title_container"
+        >
+
+        <ImageView
+            android:layout_width="22.7dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_gallery"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="26dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19.3sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:layout_marginRight="30dp"
+            android:lineSpacingExtra="-16.7sp"
+            android:text="@string/PRODUCTS"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/title_container"
+        android:layout_marginTop="11.3dp"
+        android:orientation="horizontal"
+        android:paddingLeft="18.3dp"
+        >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/gel"
+            android:layout_marginRight="4.3dp"
+            />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/gel2"
+            android:layout_marginRight="4.3dp"
+            />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ampro"
+            android:layout_marginRight="4.3dp"
+            />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/gel2"
+            android:layout_marginRight="4.3dp"
+            />
+    </LinearLayout>
+</RelativeLayout>

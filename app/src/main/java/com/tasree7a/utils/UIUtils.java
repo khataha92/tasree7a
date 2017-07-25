@@ -1,16 +1,20 @@
 package com.tasree7a.utils;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -24,6 +28,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.tasree7a.CustomComponent.CustomSwitch;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.Sizes;
 import com.tasree7a.Fragments.BaseFragment;
 import com.tasree7a.Managers.FragmentManager;
@@ -32,7 +38,8 @@ import com.tasree7a.ThisApplication;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static java.security.AccessController.getContext;
+import static android.R.id.message;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by KhalidTaha on 4/20/17.
@@ -147,9 +154,10 @@ public class UIUtils {
             "http://hairstyleonpoint.com/wp-content/uploads/2015/08/11811288_937523026308702_756256385143542710_n.jpg"
     };
 
-    public static void showSweetLoadingDialog(){
 
-        if(loadingDialog == null){
+    public static void showSweetLoadingDialog() {
+
+        if (loadingDialog == null) {
 
             loadingDialog = new SweetAlertDialog(ThisApplication.getCurrentActivity(), SweetAlertDialog.PROGRESS_TYPE);
 
@@ -164,7 +172,51 @@ public class UIUtils {
         loadingDialog.show();
     }
 
-    public static Point getScreenSize(){
+
+    public static void showConfirmLanguageChangeDialog(final CustomSwitch langSwitch) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ThisApplication.getCurrentActivity())
+
+                .setTitle(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.CONFILM_LANG_CHANGE_TITLE))
+
+                .setMessage(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.CONFILM_LANG_CHANGE_TEXT))
+
+                .setPositiveButton(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.YES), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Language lang = UserDefaultUtil.isAppLanguageArabic() ? Language.EN : Language.AR;
+
+                        langSwitch.setChecked(!langSwitch.isChecked());
+
+                        UserDefaultUtil.setAppLanguage(lang);
+
+                    }
+                })
+
+                .setNegativeButton(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.NO), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+//        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLUE);
+
+//        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLUE);
+
+    }
+
+
+    public static Point getScreenSize() {
 
         Display display = ThisApplication.getCurrentActivity().getWindowManager().getDefaultDisplay();
 
@@ -175,14 +227,16 @@ public class UIUtils {
         return size;
     }
 
-    public static void hideSweetLoadingDialog(){
 
-        if(loadingDialog != null && loadingDialog.isShowing()){
+    public static void hideSweetLoadingDialog() {
+
+        if (loadingDialog != null && loadingDialog.isShowing()) {
 
             loadingDialog.hide();
 
         }
     }
+
 
     public static void loadUrlIntoImageView(String urlString, ImageView imageView, Sizes size) {
 
@@ -190,12 +244,13 @@ public class UIUtils {
 
     }
 
+
     public static void loadUrlIntoImageView(String urlString, final ImageView imageView, Sizes size, int placeholderId, RequestListener requestListener) {
 
         if (Strings.isNullOrEmpty(urlString)) return;
 
         // If the memory is incapable of handling full feature image loading
-        boolean minimumImageMode =false;
+        boolean minimumImageMode = false;
 
         // No large images on minimum mode
         if (minimumImageMode && (size == Sizes.LARGE || size == null)) {
@@ -253,15 +308,23 @@ public class UIUtils {
 
             }
 
-            ThisApplication.getCurrentActivity().runOnUiThread(new Runnable(){ public  void run(){
-                ImageLoader.getInstance().displayImage(urlStringWithSize, imageView);
-            }});
+            ThisApplication.getCurrentActivity().runOnUiThread(new Runnable() {
+
+                public void run() {
+
+                    ImageLoader.getInstance().displayImage(urlStringWithSize, imageView);
+                }
+            });
 
         } else {
 
-            ThisApplication.getCurrentActivity().runOnUiThread(new Runnable(){ public  void run(){
-                imageRequest.into(imageView);
-            }});
+            ThisApplication.getCurrentActivity().runOnUiThread(new Runnable() {
+
+                public void run() {
+
+                    imageRequest.into(imageView);
+                }
+            });
 
         }
 
@@ -272,21 +335,24 @@ public class UIUtils {
 
         float resultPix = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ThisApplication.getCurrentActivity().getResources().getDisplayMetrics());
 
-        return (int)resultPix;
+        return (int) resultPix;
     }
 
-    public static int getColor(int colorResId){
+
+    public static int getColor(int colorResId) {
 
         return ThisApplication.getCurrentActivity().getResources().getColor(colorResId);
 
     }
 
+
     public static int changeAlpha(int color, float alpha) {
 
-        int aChannel = (int)(alpha * 255);
+        int aChannel = (int) (alpha * 255);
 
         return Color.argb(aChannel, Color.red(color), Color.green(color), Color.blue(color));
     }
+
 
     public static void hideSoftKeyboard(EditText editText) {
 
@@ -311,6 +377,7 @@ public class UIUtils {
         }
 
     }
+
 
     public static void forceHideKeyboard(EditText editText) {
 
@@ -339,15 +406,17 @@ public class UIUtils {
 
     }
 
+
     public static void forceHideKeyboard() {
 
         forceHideKeyboard(null);
 
     }
 
-    public static void showSoftKeyboard(EditText text){
 
-        if(text == null) {
+    public static void showSoftKeyboard(EditText text) {
+
+        if (text == null) {
 
             return;
 
@@ -355,10 +424,11 @@ public class UIUtils {
 
         InputMethodManager imm = (InputMethodManager) ThisApplication.getCurrentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
         text.requestFocus();
     }
+
 
     public static void hideSoftKeyboard() {
 
@@ -366,11 +436,43 @@ public class UIUtils {
 
     }
 
-    public static String getString(int id){
+
+    public static String getString(int id) {
 
         return ThisApplication.getCurrentActivity().getString(id);
 
     }
+
+
+    public static GradientDrawable generateShapeBackground(int backgroundColor, int strokeColor, int shape, int radius) {
+
+        GradientDrawable shapeDrawable = new GradientDrawable();
+
+        shapeDrawable.setShape(shape);
+
+        if (shape == GradientDrawable.RECTANGLE) {
+
+            shapeDrawable.setCornerRadii(new float[]{dpToPx(radius), dpToPx(radius), dpToPx(radius), dpToPx(radius),
+                    dpToPx(radius), dpToPx(radius), dpToPx(radius), dpToPx(radius)});
+
+        }
+
+        shapeDrawable.setColor(backgroundColor);
+
+        shapeDrawable.setStroke(dpToPx(1f), strokeColor);
+
+        return shapeDrawable;
+
+    }
+
+
+    public static int dpToPx(int dp) {
+
+        float resultPix = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getApplicationContext().getResources().getDisplayMetrics());
+
+        return (int) resultPix;
+    }
+
 
     public static void changeSoftKeyboardMode(BaseFragment fragment, int keyboardMode) {
 

@@ -1,6 +1,5 @@
 package com.tasree7a.Fragments;
 
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import android.widget.ImageView;
 
 import com.facebook.AccessToken;
 import com.tasree7a.Adapters.PopularSallonsAdapter;
+import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.CustomComponent.CustomTopBar;
 import com.tasree7a.Enums.FilterType;
 import com.tasree7a.Enums.ResponseCode;
@@ -38,6 +38,7 @@ import com.tasree7a.activities.MainActivity;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.OnSearchBarStateChange;
 import com.tasree7a.utils.AppUtil;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
@@ -64,6 +65,10 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     List<SalonModel> filteredSalons;
 
+    CustomSwitch langSwitch;
+
+    View navHeader;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,6 +87,8 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         nvView = (NavigationView) rootView.findViewById(R.id.nvView);
 
+        navHeader =  nvView.getHeaderView(0);
+
         closeDrawer = (ImageView) nvView.getHeaderView(0).findViewById(R.id.close_menu);
 
         transparentView = rootView.findViewById(R.id.transparent_view);
@@ -89,6 +96,9 @@ public class HomeFragment extends BaseFragment implements Observer {
         int width = (int)(getResources().getDisplayMetrics().widthPixels/1.5);
 
         loadingView = rootView.findViewById(R.id.loading);
+
+
+        initLangButton();
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -133,6 +143,11 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                                 break;
 
+                            case R.id.settings:
+
+                                FragmentManager.showSettingsFragment();
+
+                                break;
 
                         }
 
@@ -228,6 +243,26 @@ public class HomeFragment extends BaseFragment implements Observer {
         return rootView;
 
     }
+
+
+    private void initLangButton() {
+
+        langSwitch = (CustomSwitch) navHeader.findViewById(R.id.switch_item);
+
+        langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
+
+        langSwitch.setAction(new Runnable() {
+
+            @Override
+            public void run() {
+
+                UIUtils.showConfirmLanguageChangeDialog(langSwitch);
+
+            }
+        });
+
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

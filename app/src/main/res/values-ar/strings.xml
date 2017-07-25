@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">تسريحة</string>
+    <string name="FORGOT_PASSWORD">هل نسيت كلمة المرور؟</string>
+    <string name="SIGN_UP">انشئ حساباً</string>
+    <string name="NEW_USER">عضو جديد؟</string>
+    <string name="LOGIN_WITH_FB">تسجيل الدخول باستخدام الفيسبوك</string>
+    <string name="OR">أو</string>
+    <string name="EMAIL">البريد الإلكتروني</string>
+    <string name="PASSWORD">كلمة السر</string>
+    <string name="LOGIN">تسجيل الدخول</string>
+    <string name="facebook_app_id">442974186045880</string>
+    <string name="fb_login_protocol_scheme">fb442974186045880</string>
+    <string name="FULL_NAME">الإسم الكامل</string>
+    <string name="USERNAME">اسم المستخدم</string>
+    <string name="REGISTER">تسجيل</string>
+    <string name="HAVE_ACCOUNT">هل لديك حساب؟</string>
+    <string name="SALLONS">صالونات</string>
+    <string name="MENU_SALONS">صالونات</string>
+    <string name="AR">ع</string>
+    <string name="EN">ENG</string>
+    <string name="MAP_VIEW">الخارطة</string>
+    <string name="BOOKINGS">الحجوزات</string>
+    <string name="FAVORITES">المفضلة</string>
+    <string name="FAQs">الأسئلة الشائعة</string>
+    <string name="LOGOUT">تسجيل الخروج</string>
+    <string name="SETTINGS">الإعدادات</string>
+    <string name="SEARCH_HINT">ابحث عن صالونات و مدن</string>
+    <string name="BOOK">احجز</string>
+    <string name="APPLY">تطبيق</string>
+    <string name="CITY">مدينة</string>
+    <string name="SORT_BY">ترتيب حسب</string>
+    <string name="PRICE">السعر</string>
+    <string name="DISTANCE">المسافة</string>
+    <string name="RATING">التقييم</string>
+    <string name="SHOW_ONLY">أظهر فقط</string>
+    <string name="AVAILABLE_NOW">متوفر الآن</string>
+    <string name="ALL">All</string>
+    <string name="FILTER">تصفية</string>
+    <string name="GALLERY">Gallery</string>
+    <string name="ERROR_FIRST_NAME_LAST_NAME">يجب أن يحتوي الاسم الكامل على الاسم الأول والاسم الأخير</string>
+    <string name="SIGN_UP_ERROR_MISSING_INPUT">يرجى ملء جميع الحقول مع البيانات الصحيحة</string>
+    <string name="YOUR_LOCATION">موقعك</string>
+    <string name="PRODUCTS">المنتجات</string>
+    <string name="LANGUAGE">اللغة</string>
+    <string name="CHANGE_PASSWORD">غيّر كلمة السر</string>
+    <string name="NOTIFICATION">الإشعارات</string>
+    <string name="NOTIFY_FAV_TEXT">نبهني عندما يكون هنالك تحديث على مفضلتي</string>
+    <string name="NOTIFY_BOOK_UPDATE_TEXT">نبهني عندما يحصل تغيير على حجزي</string>
+    <string name="YES">نعم</string>
+    <string name="NO">لا</string>
+    <string name="CONFILM_LANG_CHANGE_TITLE">تأكيد تغيير اللغة</string>
+    <string name="CONFILM_LANG_CHANGE_TEXT">هل انت متأكد؟</string>
+</resources>

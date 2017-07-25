@@ -78,7 +78,7 @@ public class FontUtil {
 
         boolean isArabic = false;
 
-        if (language == null && UserDefaultUtil.deviceLanguageIsArabic()) {
+        if (language == null && UserDefaultUtil.isAppLanguageArabic()) {
 
             isArabic = true;
 

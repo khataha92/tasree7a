@@ -91,7 +91,7 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
 
             // circleCenter is the x or y of the view's center
             // radius is the radius in pixels of the cirle to be drawn
-            // paint contains the shader that will texture the shape
+            // paint contains the shader that will texture the green_rounded_bg
             canvas.drawCircle(circleCenter + borderWidth, circleCenter + borderWidth, circleCenter + borderWidth, paintBorder);
             canvas.drawCircle(circleCenter + borderWidth, circleCenter + borderWidth, circleCenter, paint);
         }

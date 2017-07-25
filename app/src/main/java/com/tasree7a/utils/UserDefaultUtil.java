@@ -3,6 +3,8 @@ package com.tasree7a.utils;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.google.common.base.Strings;
 import com.google.common.reflect.TypeToken;
@@ -11,12 +13,14 @@ import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.UserDefaultKeys;
 import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.Models.SearchHistory.SearchHistoryItem;
-import com.tasree7a.ThisApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-//import br.com.objectos.core.lang.Strings;
+import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.tasree7a.ThisApplication.getCurrentActivity;
+import static com.tasree7a.utils.AppUtil.restartApp;
 
 /**
  * Created by KhalidTaha on 4/20/17.
@@ -26,47 +30,53 @@ public class UserDefaultUtil {
 
     private static String cachedUserLanguage = null;
 
-    private static SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ThisApplication.getCurrentActivity());
+    private static SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getCurrentActivity());
 
-    public static boolean deviceLanguageIsArabic() {
+    public static boolean isAppLanguageArabic() {
 
-        return Language.AR == getUserLanguage();
+        return Language.AR == getAppLanguage();
 
     }
 
-    public static void init(){
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(ThisApplication.getCurrentActivity());
+    public static void init() {
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getCurrentActivity());
     }
 
-    public static void logout(){
+
+    public static void logout() {
 
         preferences.edit().clear().commit();
     }
 
-    public static List<SearchHistoryItem> getSearchHistory(){
+
+    public static List<SearchHistoryItem> getSearchHistory() {
 
         String searchHistory = getStringValue(UserDefaultKeys.SEARCH_HISTORY.getValue());
 
-        if(Strings.isNullOrEmpty(searchHistory)){
+        if (Strings.isNullOrEmpty(searchHistory)) {
 
             return new ArrayList<>();
 
         }
 
-        List<SearchHistoryItem> searchHistoryItems = new Gson().fromJson(searchHistory, new TypeToken<ArrayList<SearchHistoryItem>>(){}.getType());
+        List<SearchHistoryItem> searchHistoryItems = new Gson().fromJson(searchHistory, new TypeToken<ArrayList<SearchHistoryItem>>() {
+
+        }.getType());
 
         return searchHistoryItems;
 
     }
 
-    public static void removeSalonFromFavorite(SalonModel salonModel){
+
+    public static void removeSalonFromFavorite(SalonModel salonModel) {
 
         List<SalonModel> favoriteSalons = getFavoriteSalons();
 
-        for(int i = 0 ; i < favoriteSalons.size() ; i++){
+        for (int i = 0; i < favoriteSalons.size(); i++) {
 
-            if(favoriteSalons.get(i).getId().equalsIgnoreCase(salonModel.getId())){
+            if (favoriteSalons.get(i).getId().equalsIgnoreCase(salonModel.getId())) {
 
                 favoriteSalons.remove(i);
 
@@ -74,16 +84,17 @@ public class UserDefaultUtil {
             }
         }
 
-        setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(),new Gson().toJson(favoriteSalons));
+        setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(), new Gson().toJson(favoriteSalons));
     }
 
-    public static void addSalonToFavorite(SalonModel salonModel){
+
+    public static void addSalonToFavorite(SalonModel salonModel) {
 
         List<SalonModel> favoriteSalons = getFavoriteSalons();
 
-        for(int i = 0 ; i < favoriteSalons.size() ; i++){
+        for (int i = 0; i < favoriteSalons.size(); i++) {
 
-            if(favoriteSalons.get(i).getId().equalsIgnoreCase(salonModel.getId())){
+            if (favoriteSalons.get(i).getId().equalsIgnoreCase(salonModel.getId())) {
 
                 return;
 
@@ -93,33 +104,37 @@ public class UserDefaultUtil {
 
         favoriteSalons.add(salonModel);
 
-        setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(),new Gson().toJson(favoriteSalons));
+        setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(), new Gson().toJson(favoriteSalons));
 
     }
 
-    public static List<SalonModel> getFavoriteSalons(){
+
+    public static List<SalonModel> getFavoriteSalons() {
 
         String favoriteList = getStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue());
 
-        if(Strings.isNullOrEmpty(favoriteList)){
+        if (Strings.isNullOrEmpty(favoriteList)) {
 
-           return new ArrayList<>();
+            return new ArrayList<>();
 
         }
 
-        List<SalonModel> favorites = new Gson().fromJson(favoriteList, new TypeToken<ArrayList<SalonModel>>(){}.getType());
+        List<SalonModel> favorites = new Gson().fromJson(favoriteList, new TypeToken<ArrayList<SalonModel>>() {
+
+        }.getType());
 
         return favorites;
 
     }
 
-    public static boolean isSalonFavorite(SalonModel salonModel){
+
+    public static boolean isSalonFavorite(SalonModel salonModel) {
 
         List<SalonModel> favorites = getFavoriteSalons();
 
-        for(int i = 0 ; i < favorites.size() ; i++){
+        for (int i = 0; i < favorites.size(); i++) {
 
-            if(salonModel.getId().equalsIgnoreCase(favorites.get(i).getId())){
+            if (salonModel.getId().equalsIgnoreCase(favorites.get(i).getId())) {
 
                 return true;
             }
@@ -127,6 +142,7 @@ public class UserDefaultUtil {
 
         return false;
     }
+
 
     public static Language getUserLanguage() {
 
@@ -154,9 +170,10 @@ public class UserDefaultUtil {
 
     }
 
+
     public static String getDeviceLanguage() {
 
-        Resources res = ThisApplication.getCurrentActivity().getResources();
+        Resources res = getCurrentActivity().getResources();
         // Change locale settings in the app.
 
         android.content.res.Configuration conf = res.getConfiguration();
@@ -174,7 +191,25 @@ public class UserDefaultUtil {
 
     }
 
-    private static void setStringValue(String key,String val){
+
+    public static Language getAppLanguage() {
+
+        String lang = getStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString());
+
+        return lang == null ? Language.EN : Language.valueOf(lang);
+
+    }
+
+
+    public static void setAppLanguage(Language lang) {
+
+        setStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString(), lang.toString());
+
+        restartApp();
+    }
+
+
+    private static void setStringValue(String key, String val) {
 
         if (key == null || preferences == null) {
 
@@ -182,9 +217,10 @@ public class UserDefaultUtil {
 
         }
 
-        preferences.edit().putString(key,val).commit();
+        preferences.edit().putString(key, val).commit();
 
     }
+
 
     private static String getStringValue(final String key) {
 

@@ -242,7 +242,7 @@ public class SalonMapDetails extends LinearLayout implements Observer {
         if (isInEditMode()) return;
 
 
-        if (UserDefaultUtil.deviceLanguageIsArabic()) {
+        if (UserDefaultUtil.isAppLanguageArabic()) {
 
             getLayoutParams().height = UIUtils.dpToPx(180);
 

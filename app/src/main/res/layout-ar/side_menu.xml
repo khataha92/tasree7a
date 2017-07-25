@@ -1,85 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/BG_GRAY">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/BG_GRAY"
+                xmlns:tools="http://schemas.android.com/tools">
 
 
     <ImageView
-        android:id="@+id/side_menu_header"
         android:layout_width="match_parent"
         android:layout_height="124dp"
         android:scaleType="centerCrop"
+        android:id="@+id/side_menu_header"
         android:src="@drawable/login_bg"
         />
+
 
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
+        android:layout_alignParentRight="true"
+        android:scaleType="centerCrop"
         android:layout_width="68dp"
         android:layout_height="68dp"
-        android:layout_below="@+id/side_menu_header"
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="-34dp"
-        android:scaleType="centerCrop"
         android:src="@drawable/person"
+        android:layout_below="@+id/side_menu_header"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="-34dp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/side_menu_header"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/profile_image"
-        android:textColor="@color/APP_GREEN"
         android:textSize="13.3sp"
+        android:textColor="@color/APP_GREEN"
         tools:text="Sam Jackson "
+        android:layout_toLeftOf="@+id/profile_image"
+        android:layout_alignBottom="@+id/side_menu_header"
+        android:layout_marginRight="10dp"
         />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp">
-
         <ImageView
-            android:id="@+id/close_menu"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="7dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="7dp"
             android:padding="10dp"
             android:src="@drawable/ic_close_menu"
+            android:id="@+id/close_menu"
             />
 
         <TextView
-            android:id="@+id/ar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/ar"
+            android:textColor="@color/APP_GREEN"
             android:text="@string/AR"
             />
 
         <com.tasree7a.CustomComponent.CustomSwitch
-            android:id="@+id/switch_item"
             android:layout_width="30dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/ar"
+            android:layout_toRightOf="@+id/ar"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/switch_item"
             app:checked="true"
             />
-
         <TextView
-            android:id="@+id/EN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/switch_item"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/switch_item"
+            android:id="@+id/EN"
             android:text="@string/EN"
             android:textColor="@color/APP_GREEN"
             android:textStyle="bold"

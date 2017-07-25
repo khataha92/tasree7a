@@ -1,24 +1,25 @@
 package com.tasree7a.utils;
 
 import android.Manifest;
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.tasree7a.R;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.ThisApplication;
 
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tasree7a.utils.PermissionCode.MY_PERMISSIONS_REQUEST_LOCATION;
 
 /**
@@ -30,6 +31,33 @@ public class AppUtil {
     public static int checkPermissionStatus(String permission) {
 
         return ActivityCompat.checkSelfPermission(ThisApplication.getCurrentActivity(), permission);
+
+    }
+
+    public static void restartApp(){
+
+        Intent i =  ThisApplication.getCurrentActivity().getApplicationContext().getPackageManager()
+                .getLaunchIntentForPackage( ThisApplication.getCurrentActivity().getApplicationContext().getPackageName() );
+
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        ThisApplication.getCurrentActivity().getApplicationContext().startActivity(i);
+
+    }
+
+    public static void checkAppLanguage(){
+
+        Resources res =  ThisApplication.getCurrentActivity().getApplicationContext().getResources();
+        // Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+
+        android.content.res.Configuration conf = res.getConfiguration();
+
+        Language lang = UserDefaultUtil.getAppLanguage();
+
+        conf.locale = new Locale(lang == null ? Language.EN.toString() : lang.toString());
+
+        res.updateConfiguration(conf, dm);
 
     }
 

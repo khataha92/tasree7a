@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/FILTER_BG"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@color/WHITE">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="31dp"
+            android:rotation="180"
+            android:layout_alignParentRight="true"
+            android:layout_height="41dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="17dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_back" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/GRAY" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/GALLERY"
+                android:textAllCaps="true"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sallon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="-10.7sp"
+                android:text="Samer Salon"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="13.3sp" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false" />
+
+</LinearLayout>

@@ -51,4 +51,9 @@
     <string name="CONFILM_LANG_CHANGE_TITLE">Confirm changing language</string>
     <string name="CONFILM_LANG_CHANGE_TEXT">Are you sure?</string>
 
+    <string name="CUSTOMER_TAB_TITLE">Customer</string>
+    <string name="BUSINESS_TAB_TITLE">Business</string>
+
+    <string name="SHOP_NAME_PLACEHOLDER">Salon / Barber shop name</string>
+    <string name="OWNER_NAME_PLACEHOLDER">Owner name</string>
 </resources>

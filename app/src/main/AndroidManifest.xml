@@ -18,7 +18,7 @@
         tools:replace="android:icon">
         <activity android:name=".activities.MainActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,12 +29,12 @@
 
         <activity android:name=".activities.SignupActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             />
 
         <activity android:name=".activities.HomeActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             />
 
         <meta-data

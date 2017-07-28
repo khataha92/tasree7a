@@ -52,4 +52,7 @@
     <string name="NO">لا</string>
     <string name="CONFILM_LANG_CHANGE_TITLE">تأكيد تغيير اللغة</string>
     <string name="CONFILM_LANG_CHANGE_TEXT">هل انت متأكد؟</string>
+
+    <string name="CUSTOMER_TAB_TITLE">زبون</string>
+    <string name="BUSINESS_TAB_TITLE">تجاري</string>
 </resources>

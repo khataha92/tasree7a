@@ -2,20 +2,15 @@ package com.tasree7a.CustomComponent;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.tasree7a.Enums.Language;
 import com.tasree7a.R;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by mac on 5/17/17.

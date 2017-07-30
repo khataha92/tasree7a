@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -26,7 +24,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.Enums.Language;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
@@ -35,19 +32,16 @@ import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.UIUtils;
-import com.tasree7a.utils.UserDefaultUtil;
 
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
 
 import static com.facebook.FacebookSdk.sdkInitialize;
-import static com.tasree7a.utils.AppUtil.restartApp;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 

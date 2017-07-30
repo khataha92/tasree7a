@@ -10,6 +10,7 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.Models.Gallery.GalleryModel;
 import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.UIUtils;
@@ -24,6 +25,8 @@ import java.util.List;
 public class GalaryCardViewHolder extends BaseCardViewHolder {
 
     ImageView seeAll;
+
+    List<SalonProduct> salonProducts = null;
 
     public GalaryCardViewHolder(View view, final BaseCardModel cardModel) {
 
@@ -61,11 +64,13 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
         }
 
+        final List<SalonProduct> salonProducts = galleryModel.getProducts();
+
         seeAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                FragmentManager.showFragmentGallery(new ArrayList<>(imageModels));
+                FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
 
             }
         });

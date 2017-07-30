@@ -6,14 +6,16 @@
               android:gravity="center"
               android:orientation="vertical">
 
-    <!--TODO: Add elevation here-->
+    <!--
+        TODO: Add elevation here
+        TODO: ROUNDED CORNERS FROM TOP IF PRODUCT
+        -->
 
-    <ImageView
+    <com.tasree7a.CustomComponent.RoundedCornersImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:background="@drawable/rounded_corner_from_top"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher"/>
 
@@ -21,6 +23,7 @@
         android:id="@+id/product_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_gravity="center"
         android:layout_marginBottom="7dp"
         android:layout_marginTop="7dp"

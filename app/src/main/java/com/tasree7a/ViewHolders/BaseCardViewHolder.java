@@ -1,19 +1,10 @@
 package com.tasree7a.ViewHolders;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
-/**
- * Created by mac on 6/4/17.
- */
-
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
 import com.tasree7a.Enums.CardType;
@@ -24,6 +15,10 @@ import com.tasree7a.utils.FontUtil;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
+
+/**
+ * Created by mac on 6/4/17.
+ */
 
 
 /**

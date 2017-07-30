@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,13 +11,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.tasree7a.Enums.FilterType;
-import com.tasree7a.Enums.FontsType;
 import com.tasree7a.Enums.SortType;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.Checkable;
 import com.tasree7a.interfaces.SingleCheckableGroup;
-import com.tasree7a.utils.UIUtils;
 
 /**
  * Created by mac on 6/13/17.

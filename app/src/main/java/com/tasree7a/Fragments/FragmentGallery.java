@@ -12,6 +12,7 @@ import com.tasree7a.Adapters.GalleryAdapter;
 import com.tasree7a.CustomComponent.SpacesItemDecoration;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
@@ -27,6 +28,10 @@ public class FragmentGallery extends BaseFragment {
     RecyclerView gallery ;
 
     List<ImageModel> imageModelList;
+
+    List<SalonProduct> productsList;
+
+    boolean isProduct = false;
 
     @Nullable
     @Override
@@ -46,12 +51,27 @@ public class FragmentGallery extends BaseFragment {
                 imageModelList = (List<ImageModel>)getArguments().getSerializable(FragmentArg.IMAGE_LIST);
 
             }
+            if(args.getSerializable(FragmentArg.PRODUCTS_LIST) != null){
+
+                productsList = (List<SalonProduct>)getArguments().getSerializable(FragmentArg.PRODUCTS_LIST);
+
+                isProduct = true;
+
+            }
 
         }
 
         GalleryAdapter adapter = new GalleryAdapter();
 
         adapter.setImageModels(imageModelList);
+
+        if (isProduct){
+
+            adapter.setProductsList(productsList);
+
+        }
+
+        adapter.setIsProduct(isProduct);
 
         gallery.addItemDecoration(new SpacesItemDecoration(UIUtils.dpToPx(7)));
 

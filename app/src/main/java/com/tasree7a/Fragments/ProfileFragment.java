@@ -1,8 +1,6 @@
 package com.tasree7a.Fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.activities.MainActivity;
 
 /**
  * Created by SamiKhleaf on 7/31/17.

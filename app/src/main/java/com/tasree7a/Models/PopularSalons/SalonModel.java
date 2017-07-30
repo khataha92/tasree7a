@@ -6,8 +6,8 @@ import com.google.maps.android.clustering.ClusterItem;
 import com.tasree7a.Constants;
 import com.tasree7a.Enums.FilterType;
 import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.Models.MapView.GeoLocationModel;
+import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.interfaces.Filterable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
@@ -128,7 +128,7 @@ public class SalonModel implements Filterable, ClusterItem {
         return salonCity;
     }
 
-    public List<ImageModel> getProducts() {
+    public List<ImageModel> getProductsImages(){
 
         List<ImageModel> productList =  new ArrayList<>();
 
@@ -143,6 +143,13 @@ public class SalonModel implements Filterable, ClusterItem {
         }
 
         return productList;
+
+    }
+
+    public List<SalonProduct> getProducts() {
+
+        return products;
+
     }
 
     public List<ImageModel> getGallery() {

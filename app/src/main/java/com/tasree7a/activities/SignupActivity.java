@@ -1,6 +1,5 @@
 package com.tasree7a.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,28 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.Fragments.BusinessRegistrationFragment;
 import com.tasree7a.Fragments.CustomerRegistrationFragment;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.interfaces.AbstractCallback;
-import com.tasree7a.utils.StringUtil;
-import com.tasree7a.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.tasree7a.R.id.register;
 
 /**
  * Created by mac on 5/3/17.

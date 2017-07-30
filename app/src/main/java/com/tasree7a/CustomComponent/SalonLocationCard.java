@@ -7,11 +7,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.LocationCard.LocationCardModel;
 import com.tasree7a.R;
-import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.MapsUtils;
 import com.tasree7a.utils.UIUtils;
 

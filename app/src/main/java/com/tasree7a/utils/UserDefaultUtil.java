@@ -3,8 +3,6 @@ package com.tasree7a.utils;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.google.common.base.Strings;
 import com.google.common.reflect.TypeToken;
@@ -16,9 +14,7 @@ import com.tasree7a.Models.SearchHistory.SearchHistoryItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tasree7a.ThisApplication.getCurrentActivity;
 import static com.tasree7a.utils.AppUtil.restartApp;
 

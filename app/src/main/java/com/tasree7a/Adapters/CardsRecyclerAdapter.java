@@ -3,7 +3,6 @@ package com.tasree7a.Adapters;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-
 import com.tasree7a.Enums.CardFactory;
 import com.tasree7a.Enums.CardType;
 import com.tasree7a.Models.BaseCardModel;

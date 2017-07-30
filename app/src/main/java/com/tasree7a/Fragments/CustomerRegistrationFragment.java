@@ -2,43 +2,23 @@ package com.tasree7a.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Login.LoginModel;
-import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
-import com.tasree7a.activities.MainActivity;
-import com.tasree7a.activities.SignupActivity;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UIUtils;
 
-import org.json.JSONObject;
-
-import java.util.Arrays;
-
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.tasree7a.R.id.login;
 
 /**
  * Created by SamiKhleaf on 7/28/17.

@@ -27,7 +27,6 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
 import com.google.maps.android.ui.SquareTextView;
 import com.tasree7a.Fragments.FragmentMapView;
-import com.tasree7a.Fragments.SalonDetailsFragment;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.R;

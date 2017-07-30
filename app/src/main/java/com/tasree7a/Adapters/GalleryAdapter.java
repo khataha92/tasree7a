@@ -4,9 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.ViewHolders.GalleryItemViewHolder;
@@ -21,6 +21,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
 
     List<ImageModel> imageModels ;
 
+    List<SalonProduct> productsList;
+
+    boolean isProduct;
+
     @Override
     public GalleryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -33,7 +37,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
     @Override
     public void onBindViewHolder(GalleryItemViewHolder holder, int position) {
 
-        holder.init(imageModels.get(position));
+        holder.init(imageModels.get(position), isProduct, isProduct ? productsList.get(position) : null);
 
     }
 
@@ -44,5 +48,23 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
 
     public void setImageModels(List<ImageModel> imageModels) {
         this.imageModels = imageModels;
+    }
+
+
+    public void setProductsList(List<SalonProduct> productsList) {
+
+        this.productsList = productsList;
+    }
+
+
+    public boolean isProduct() {
+
+        return isProduct;
+    }
+
+
+    public void setIsProduct(boolean product) {
+
+        isProduct = product;
     }
 }

@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tasree7a.CustomComponent.CustomSwitch;
-import com.tasree7a.Enums.Language;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
 import com.tasree7a.utils.UIUtils;
-import com.tasree7a.utils.UserDefaultUtil;
 
 import static com.tasree7a.utils.UserDefaultUtil.isAppLanguageArabic;
 

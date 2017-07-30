@@ -64,4 +64,6 @@
     <string name="CANCEL">الغاء</string>
 
     <string name="CHANGE">تغيير</string>
+    <string name="TAKE_A_PICTURE">التقط صورة</string>
+
 </resources>

@@ -64,4 +64,6 @@
     <string name="CANCEL">Cancel</string>
 
     <string name="CHANGE">Change</string>
+
+    <string name="TAKE_A_PICTURE">Take a Picture</string>
 </resources>

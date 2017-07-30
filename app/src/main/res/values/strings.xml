@@ -56,4 +56,10 @@
 
     <string name="SHOP_NAME_PLACEHOLDER">Salon / Barber shop name</string>
     <string name="OWNER_NAME_PLACEHOLDER">Owner name</string>
+
+    <string name="OLD_PASSWORD">Old Password</string>
+    <string name="NEW_PASSWORD">New Password</string>
+    <string name="CONFIRM_PASSWORD">Confirm New Password</string>
+
+    <string name="CANCEL">Cancel</string>
 </resources>

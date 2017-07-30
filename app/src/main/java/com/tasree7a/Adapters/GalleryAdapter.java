@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.R;
@@ -25,6 +26,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
 
         View itemView = LayoutInflater.from(ThisApplication.getCurrentActivity()).inflate(R.layout.gallery_image,null);
 
+//        ((TextView)itemView.findViewById(R.id.product_name)).setText();
         return new GalleryItemViewHolder(itemView);
     }
 

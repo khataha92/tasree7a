@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.tasree7a.Fragments.BaseFragment;
+import com.tasree7a.Fragments.ChangePasswordFragment;
 import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
@@ -65,11 +66,21 @@ public class FragmentManager  {
 
     }
 
+    public static void showChangePasswordFragment(){
+
+        ChangePasswordFragment fragment = new ChangePasswordFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+
     public static void showFragmentGallery(ArrayList<ImageModel> imageModels){
 
         FragmentGallery fragmentGallery = new FragmentGallery() ;
 
         Bundle bundle = new Bundle();
+
+        bundle.putSerializable(FragmentArg.IMAGE_LIST,imageModels);
 
         bundle.putSerializable(FragmentArg.IMAGE_LIST,imageModels);
 

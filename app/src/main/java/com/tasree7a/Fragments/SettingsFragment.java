@@ -41,6 +41,17 @@ public class SettingsFragment extends BaseFragment {
 
             }
         });
+
+        rootView.findViewById(R.id.change_pass_btn).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.showChangePasswordFragment();
+
+            }
+        });
+
         //TODO: When font are ready
 
 //        ((TextView)rootView.findViewById(R.id.language_tv)).setTypeface(FontUtil.heavy());

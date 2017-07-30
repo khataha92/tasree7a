@@ -55,4 +55,11 @@
 
     <string name="CUSTOMER_TAB_TITLE">زبون</string>
     <string name="BUSINESS_TAB_TITLE">تجاري</string>
+
+
+    <string name="OLD_PASSWORD">كلمة السر القديمة</string>
+    <string name="NEW_PASSWORD">كلمة السر الجديدة</string>
+    <string name="CONFIRM_PASSWORD">تاكيد كلمة السر الجديدة</string>
+
+    <string name="CANCEL">الغاء</string>
 </resources>

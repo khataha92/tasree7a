@@ -62,4 +62,6 @@
     <string name="CONFIRM_PASSWORD">تاكيد كلمة السر الجديدة</string>
 
     <string name="CANCEL">الغاء</string>
+
+    <string name="CHANGE">تغيير</string>
 </resources>

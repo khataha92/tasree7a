@@ -97,7 +97,15 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         loadingView = rootView.findViewById(R.id.loading);
 
+        navHeader.findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.showProfileFragment();
+
+            }
+        });
         initLangButton();
 
         nvView.setNavigationItemSelectedListener(

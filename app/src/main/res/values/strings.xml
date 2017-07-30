@@ -62,4 +62,6 @@
     <string name="CONFIRM_PASSWORD">Confirm New Password</string>
 
     <string name="CANCEL">Cancel</string>
+
+    <string name="CHANGE">Change</string>
 </resources>

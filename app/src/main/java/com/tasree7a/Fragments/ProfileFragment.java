@@ -1,7 +1,5 @@
 package com.tasree7a.Fragments;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,18 +10,16 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
 
 /**
- * Created by SamiKhleaf on 7/30/17.
+ * Created by SamiKhleaf on 7/31/17.
  */
 
-public class ChangePasswordFragment extends BaseFragment {
+public class ProfileFragment extends BaseFragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_change_password, container, false);
-
-        rootView.findViewById(R.id.apply).getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
 
@@ -35,15 +31,16 @@ public class ChangePasswordFragment extends BaseFragment {
             }
         });
 
-        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.change_pass_btn).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                FragmentManager.popCurrentVisibleFragment();
+                FragmentManager.showChangePasswordFragment();
 
             }
         });
+
 
         return rootView;
     }

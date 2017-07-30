@@ -14,6 +14,7 @@ import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
 import com.tasree7a.Fragments.HomeFragment;
+import com.tasree7a.Fragments.ProfileFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
 import com.tasree7a.Fragments.SettingsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
@@ -69,6 +70,14 @@ public class FragmentManager  {
     public static void showChangePasswordFragment(){
 
         ChangePasswordFragment fragment = new ChangePasswordFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+
+    public static void showProfileFragment(){
+
+        ProfileFragment fragment = new ProfileFragment();
 
         replaceFragment(fragment, true);
 

@@ -3,11 +3,9 @@ package com.tasree7a.CustomComponent;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.tasree7a.interfaces.Checkable;
-import com.tasree7a.interfaces.SingleCheckableGroup;
 
 import java.util.ArrayList;
 import java.util.List;

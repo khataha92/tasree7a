@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import com.tasree7a.Enums.ResponseCode;
 import com.tasree7a.Models.PopularSalons.SalonModel;
 
-import java.util.List;
-
 /**
  * Created by mac on 7/18/17.
  */

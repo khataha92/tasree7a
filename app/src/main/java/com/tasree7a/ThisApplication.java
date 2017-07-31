@@ -1,6 +1,5 @@
 package com.tasree7a;
 
-import android.app.Activity;
 import android.app.Application;
 import android.os.Build;
 import android.support.v4.app.FragmentActivity;

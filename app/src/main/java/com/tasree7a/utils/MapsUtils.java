@@ -18,7 +18,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.ui.IconGenerator;
-import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 

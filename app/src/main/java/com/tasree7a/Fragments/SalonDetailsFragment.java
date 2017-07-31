@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.tasree7a.Adapters.BaseCardAdapter;
 import com.tasree7a.Adapters.CardsRecyclerAdapter;
-import com.tasree7a.CustomComponent.SalonMapDetails;
 import com.tasree7a.Enums.CardFactory;
 import com.tasree7a.Enums.CardType;
 import com.tasree7a.Managers.RetrofitManager;
@@ -130,7 +129,9 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory {
 
                 galleryModel.setTitle(getString(R.string.PRODUCTS));
 
-                galleryModel.setImageModelList(salonModel.getProducts());
+                galleryModel.setImageModelList(salonModel.getProductsImages());
+
+                galleryModel.setProducts(salonModel.getProducts());
 
                 cardModel.setCardValue(galleryModel);
 

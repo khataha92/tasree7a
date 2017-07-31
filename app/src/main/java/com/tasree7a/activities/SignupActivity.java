@@ -1,40 +1,30 @@
 package com.tasree7a.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Signup.SignupModel;
+import com.tasree7a.Fragments.BusinessRegistrationFragment;
+import com.tasree7a.Fragments.CustomerRegistrationFragment;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.interfaces.AbstractCallback;
-import com.tasree7a.utils.StringUtil;
-import com.tasree7a.utils.UIUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mac on 5/3/17.
  */
 
-public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignupActivity extends AppCompatActivity  {
 
-    EditText fullName;
-
-    EditText username;
-
-    EditText inputEmail;
-
-    EditText inputPassword;
-
-    CustomButton register;
+    TabLayout tabs;
+    ViewPager tabsPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,22 +33,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         setContentView(R.layout.activity_signup);
 
-        RelativeLayout login = (RelativeLayout) findViewById(R.id.login_container);
-
-        login.setOnClickListener(this);
-
-        fullName = (EditText) findViewById(R.id.input_full_name);
-
-        username = (EditText) findViewById(R.id.input_username);
-
-        inputEmail = (EditText) findViewById(R.id.input_email);
-
-        inputPassword = (EditText) findViewById(R.id.input_password);
-
-        register = (CustomButton) findViewById(R.id.register);
-
-        register.setOnClickListener(this);
-
+        initTabsView();
     }
 
     @Override
@@ -68,90 +43,86 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         ThisApplication.setCurrentActivity(this);
     }
 
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()){
+    public void setUpViewPager(ViewPager tabsViewPager) {
 
-            case R.id.login_container:
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-                finish();
+        adapter.addFragment(new CustomerRegistrationFragment(), getApplicationContext().getResources().getString(R.string.CUSTOMER_TAB_TITLE));
 
-                break;
+        adapter.addFragment(new BusinessRegistrationFragment(), getApplicationContext().getResources().getString(R.string.BUSINESS_TAB_TITLE));
 
-            case R.id.register:
+        tabsViewPager.setAdapter(adapter);
 
-                signup();
-
-                break;
-        }
     }
 
-    private void signup(){
-
-        try {
-
-            String firstName = fullName.getText().toString().substring(0, fullName.getText().toString().indexOf(' '));
-
-            String lastName = fullName.getText().toString().substring(fullName.getText().toString().indexOf(' ') + 1);
-
-            String username = this.username.getText().toString();
-
-            String password = inputPassword.getText().toString();
-
-            String email = inputEmail.getText().toString();
-
-            if(!firstName.isEmpty() && !lastName.isEmpty() && !username.isEmpty() && !password.isEmpty()){
-
-                SignupModel model = new SignupModel();
-
-                model.setUsername(username);
-
-                model.setPassword(password);
-
-                model.setEmail(email);
-
-                model.setFbLogin(false);
-
-                model.setFirstName(firstName);
-
-                model.setLastName(lastName);
-
-                model.setFbLogin(false);
-
-                UIUtils.showSweetLoadingDialog();
-
-                RetrofitManager.getInstance().register(model, new AbstractCallback() {
-
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
-
-                        UIUtils.hideSweetLoadingDialog();
-
-                        if(isSuccess){
-
-                            startActivity(new Intent(SignupActivity.this,HomeActivity.class));
-
-                            finish();
-
-                        } else{
+    private void initTabsView() {
 
 
-                        }
+        tabs = (TabLayout) findViewById(R.id.tabs);
 
-                    }
-                });
+        tabsPager = (ViewPager) findViewById(R.id.viewpager);
 
+        setUpViewPager(tabsPager);
 
-            } else{
+        tabs.setupWithViewPager(tabsPager);
 
-                Toast.makeText(this, getString(R.string.SIGN_UP_ERROR_MISSING_INPUT), Toast.LENGTH_SHORT).show();
+        findViewById(R.id.tabs).bringToFront();
+
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                tabsPager.setCurrentItem(tab.getPosition());
+
             }
 
-        } catch (IndexOutOfBoundsException e){
 
-            Toast.makeText(getApplicationContext(),getString(R.string.ERROR_FIRST_NAME_LAST_NAME),Toast.LENGTH_LONG).show();
-        }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
     }
+
+
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
 }

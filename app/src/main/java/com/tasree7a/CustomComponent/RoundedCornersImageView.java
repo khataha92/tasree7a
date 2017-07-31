@@ -5,8 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
-import android.util.AttributeSet;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.AttributeSet;
 
 import com.tasree7a.utils.UIUtils;
 

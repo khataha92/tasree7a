@@ -1,6 +1,5 @@
 package com.tasree7a.interfaces;
 
-import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;

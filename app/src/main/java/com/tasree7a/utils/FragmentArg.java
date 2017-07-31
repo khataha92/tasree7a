@@ -7,4 +7,6 @@ package com.tasree7a.utils;
 public final class FragmentArg {
 
     public static final String IMAGE_LIST = "IMAGE_LIST";
+
+    public static final String PRODUCTS_LIST = "PRODUCTS_LIST";
 }

@@ -1,7 +1,6 @@
 package com.tasree7a.utils;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -9,12 +8,10 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -38,7 +35,6 @@ import com.tasree7a.ThisApplication;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static android.R.id.message;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**

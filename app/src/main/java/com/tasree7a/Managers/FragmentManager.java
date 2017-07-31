@@ -9,14 +9,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.tasree7a.Fragments.BaseFragment;
+import com.tasree7a.Fragments.ChangePasswordFragment;
 import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
 import com.tasree7a.Fragments.HomeFragment;
+import com.tasree7a.Fragments.ProfileFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
 import com.tasree7a.Fragments.SettingsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
@@ -65,13 +68,35 @@ public class FragmentManager  {
 
     }
 
-    public static void showFragmentGallery(ArrayList<ImageModel> imageModels){
+    public static void showChangePasswordFragment(){
+
+        ChangePasswordFragment fragment = new ChangePasswordFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+
+    public static void showProfileFragment(){
+
+        ProfileFragment fragment = new ProfileFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+
+    public static void showFragmentGallery(ArrayList<ImageModel> imageModels, ArrayList<SalonProduct> salonProducts){
 
         FragmentGallery fragmentGallery = new FragmentGallery() ;
 
         Bundle bundle = new Bundle();
 
         bundle.putSerializable(FragmentArg.IMAGE_LIST,imageModels);
+
+        if (salonProducts != null) {
+
+            bundle.putSerializable(FragmentArg.PRODUCTS_LIST, salonProducts);
+
+        }
 
         fragmentGallery.setArguments(bundle);
 

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -16,6 +15,7 @@ import com.tasree7a.CustomComponent.CustomCheckbox;
 import com.tasree7a.CustomComponent.CustomRadioButton;
 import com.tasree7a.CustomComponent.CustomRadioGroup;
 import com.tasree7a.Enums.FilterType;
+import com.tasree7a.Managers.FilterAndSortManager;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.SessionManager;
 import com.tasree7a.Models.PopularSalons.CityModel;
@@ -24,12 +24,9 @@ import com.tasree7a.Observables.FilterAndSortObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.Checkable;
-import com.tasree7a.Managers.FilterAndSortManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by mac on 6/5/17.

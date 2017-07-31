@@ -46,10 +46,10 @@
     <RelativeLayout
         android:id="@+id/language_cont"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/top_bar"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="52dp"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="52dp">
 
         <TextView
             android:id="@+id/language_tv"
@@ -94,9 +94,9 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_below="@+id/language_cont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/language_cont"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:orientation="vertical">
@@ -113,6 +113,7 @@
 
         <!--TODO: Add shadow && fix radius attr + add elevation-->
         <com.tasree7a.CustomComponent.CustomButton
+            android:id="@+id/change_pass_btn"
             android:layout_width="230dp"
             android:layout_height="65dp"
             android:layout_gravity="center_horizontal"

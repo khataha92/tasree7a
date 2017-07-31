@@ -8,7 +8,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.google.android.gms.common.ConnectionResult;

@@ -7,8 +7,6 @@ import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.Models.LocationCard.LocationCardModel;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by Khalid on 3/20/16.

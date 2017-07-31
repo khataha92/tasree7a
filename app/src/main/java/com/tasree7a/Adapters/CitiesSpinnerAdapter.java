@@ -1,12 +1,7 @@
 package com.tasree7a.Adapters;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v4.graphics.ColorUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,7 +12,6 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.UIUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -11,11 +11,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.tasree7a.Enums.FilterType;
-import com.tasree7a.Enums.SortType;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.Checkable;
-import com.tasree7a.interfaces.SingleCheckableGroup;
 
 /**
  * Created by mac on 6/13/17.

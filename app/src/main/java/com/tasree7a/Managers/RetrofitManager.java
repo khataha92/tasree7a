@@ -1,6 +1,5 @@
 package com.tasree7a.Managers;
 
-import com.google.gson.Gson;
 import com.tasree7a.Constants;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;

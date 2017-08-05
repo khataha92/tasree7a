@@ -16,8 +16,6 @@ import com.facebook.appevents.AppEventsLogger;
 import com.tasree7a.Adapters.ViewPagerAdapter;
 import com.tasree7a.Enums.LoginType;
 import com.tasree7a.Fragments.BaseLoginFragment;
-import com.tasree7a.Fragments.BusinessRegistrationFragment;
-import com.tasree7a.Fragments.CustomerRegistrationFragment;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.AppUtil;

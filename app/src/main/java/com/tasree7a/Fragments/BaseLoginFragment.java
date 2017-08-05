@@ -60,7 +60,11 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
     boolean isBusiness;
 
-    public BaseLoginFragment(){}
+
+    public BaseLoginFragment() {
+
+    }
+
 
     @SuppressLint("ValidFragment")
     public BaseLoginFragment(LoginType type) {
@@ -259,4 +263,12 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+    }
 }

@@ -11,6 +11,9 @@ import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.PermissionCode;
+import com.tasree7a.utils.UIUtils;
+
+import static com.tasree7a.utils.UIUtils.hideSweetLoadingDialog;
 
 /**
  * Created by mac on 5/4/17.
@@ -27,6 +30,8 @@ public class HomeActivity extends FragmentActivity {
         setContentView(R.layout.activity_home);
 
         FragmentManager.showHomeFragment();
+
+        UIUtils.hideSweetLoadingDialog();
     }
 
     @Override

@@ -14,6 +14,8 @@ public class LoginModel {
     String password;
     @SerializedName("fb_flag")
     boolean isFacebookLogin;
+    @SerializedName("isBusiness")
+    boolean isBusiness;
 
     public String getUsername() {
         return username;
@@ -38,4 +40,8 @@ public class LoginModel {
     public void setFacebookLogin(boolean facebookLogin) {
         isFacebookLogin = facebookLogin;
     }
+
+    public boolean isBusiness() { return isBusiness; }
+
+    public void setBusiness(boolean business) { isBusiness = business; }
 }

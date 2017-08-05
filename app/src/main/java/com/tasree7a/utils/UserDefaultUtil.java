@@ -9,6 +9,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.UserDefaultKeys;
+import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.Models.SearchHistory.SearchHistoryItem;
 
@@ -44,6 +45,30 @@ public class UserDefaultUtil {
     public static void logout() {
 
         preferences.edit().clear().commit();
+    }
+
+    public static void saveLogedUser(LoginModel user){
+
+        if (user != null){
+
+            setIsFBUser(user.isFacebookLogin());
+
+            setStringValue(UserDefaultKeys.LOGIN_USER_MODEL.toString(), new Gson().toJson(user));
+
+        }
+
+    }
+
+    private static void setIsFBUser(boolean isFBUser){
+
+        setStringValue(UserDefaultKeys.IS_FB.toString(), isFBUser + "");
+
+    }
+
+    public static boolean isFBUser(){
+
+        return getStringValue(UserDefaultKeys.IS_FB.toString()).equalsIgnoreCase("true");
+
     }
 
 

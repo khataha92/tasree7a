@@ -8,7 +8,7 @@ public class SignupModel {
 
     String firstName,lastName,email,username,password;
 
-    boolean isFbLogin;
+    boolean isFbLogin, isBuisness;
 
     public String getFirstName() {
         return firstName;
@@ -57,4 +57,8 @@ public class SignupModel {
     public void setFbLogin(boolean fbLogin) {
         isFbLogin = fbLogin;
     }
+
+    public boolean isBuisness() { return isBuisness; }
+
+    public void setBuisness(boolean buisness) { isBuisness = buisness; }
 }

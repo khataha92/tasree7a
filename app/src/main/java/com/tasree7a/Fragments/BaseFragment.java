@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UIUtils;
 
@@ -54,7 +55,15 @@ public abstract class BaseFragment extends Fragment {
 
     public boolean onBackPressed() {
 
-        FragmentManager.popCurrentVisibleFragment();
+        if (FragmentManager.getCurrentVisibleFragment() instanceof HomeFragment){
+
+            ThisApplication.getCurrentActivity().finishAffinity();
+
+        } else {
+
+            FragmentManager.popCurrentVisibleFragment();
+
+        }
 
         return true;
 

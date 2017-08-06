@@ -199,7 +199,7 @@ public class UIUtils {
                         dialog.dismiss();
 
                     }
-                });
+                }).setCancelable(false);
 
         AlertDialog dialog = builder.create();
 
@@ -293,6 +293,7 @@ public class UIUtils {
                 DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                         .imageScaleType(ImageScaleType.EXACTLY)
                         .bitmapConfig(Bitmap.Config.RGB_565)
+                        .cacheInMemory()
                         .build();
 
 

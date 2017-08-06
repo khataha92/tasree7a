@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
 import com.tasree7a.Constants;
 import com.tasree7a.Enums.FilterType;
+import com.tasree7a.Enums.Gender;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.MapView.GeoLocationModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
@@ -56,6 +57,9 @@ public class SalonModel implements Filterable, ClusterItem {
 
     @SerializedName("products")
     List<SalonProduct> products;
+
+    @SerializedName("salon_type")
+    Gender salonType;
 
     GeoLocationModel locationModel;
 
@@ -243,5 +247,13 @@ public class SalonModel implements Filterable, ClusterItem {
 
         return UserDefaultUtil.isSalonFavorite(this);
 
+    }
+
+    public Gender getSalonType() {
+        return salonType;
+    }
+
+    public void setSalonType(Gender salonType) {
+        this.salonType = salonType;
     }
 }

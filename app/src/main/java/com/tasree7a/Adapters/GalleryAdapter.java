@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
@@ -35,9 +36,18 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(GalleryItemViewHolder holder, int position) {
+    public void onBindViewHolder(GalleryItemViewHolder holder, final int position) {
 
         holder.init(imageModels.get(position), isProduct, isProduct ? productsList.get(position) : null);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.showGalleryFullScreenFragment(imageModels,position);
+
+            }
+        });
 
     }
 

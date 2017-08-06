@@ -164,6 +164,7 @@
                         android:layout_marginLeft="-75dp"
                         android:background="@drawable/shadow"
                         android:visibility="visible"
+                        android:paddingBottom="5dp"
                         app:customButtonRadius="20"
                         app:customButtonText="@string/CHANGE"
                         app:customButtonTextColor="@color/WHITE"
@@ -180,6 +181,7 @@
         android:layout_height="160dp"
         android:layout_below="@+id/top_bar"
         android:layout_centerHorizontal="true"
+        android:paddingBottom="10dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:background="@color/WHITE">

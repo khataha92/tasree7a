@@ -114,6 +114,7 @@
 
         <!--TODO: Add shadow && fix radius attr + add elevation-->
         <com.tasree7a.CustomComponent.CustomButton
+            android:id="@+id/change_pass_btn"
             android:layout_width="230dp"
             android:layout_height="65dp"
             android:layout_gravity="center_horizontal"

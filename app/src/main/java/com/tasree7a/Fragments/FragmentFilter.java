@@ -14,7 +14,9 @@ import com.tasree7a.CustomComponent.CustomCheckableGroup;
 import com.tasree7a.CustomComponent.CustomCheckbox;
 import com.tasree7a.CustomComponent.CustomRadioButton;
 import com.tasree7a.CustomComponent.CustomRadioGroup;
+import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.Enums.FilterType;
+import com.tasree7a.Enums.Gender;
 import com.tasree7a.Managers.FilterAndSortManager;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.SessionManager;
@@ -36,6 +38,8 @@ public class FragmentFilter extends BaseFragment {
 
     CustomButton applyButton;
 
+    CustomSwitch genderFilter;
+
     CustomRadioGroup sortTypeGroup = null;
 
     CustomCheckableGroup filters = null;
@@ -54,6 +58,16 @@ public class FragmentFilter extends BaseFragment {
 
         filters = (CustomCheckableGroup) rootView.findViewById(R.id.filters);
 
+        genderFilter = (CustomSwitch) rootView.findViewById(R.id.male_female);
+
+        genderFilter.setChecked(FilterAndSortManager.getInstance().getSalonType() == Gender.FEMALE);
+
+        genderFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                genderFilter.setChecked(!genderFilter.isChecked());
+            }
+        });
         Spinner citiesSpinner = (Spinner) rootView.findViewById(R.id.cities_spinner);
 
         List<SalonModel> salonModels = SessionManager.getInstance().getSalons();
@@ -124,6 +138,18 @@ public class FragmentFilter extends BaseFragment {
 
                     filterTypes.add(((CustomCheckbox)checkables.get(i)).getFilterType());
                 }
+
+//                if (genderFilter.isChecked()){
+//
+//                    filterTypes.add(FilterType.FEMALE);
+//
+//                } else {
+//
+//                    filterTypes.add(FilterType.MALE);
+//
+//                }
+
+                FilterAndSortManager.getInstance().setSalonType(genderFilter.isChecked() ? Gender.FEMALE : Gender.MALE);
 
                 filterAndSortManager.getFilters().clear();
 

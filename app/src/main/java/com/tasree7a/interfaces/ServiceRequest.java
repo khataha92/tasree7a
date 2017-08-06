@@ -1,5 +1,6 @@
 package com.tasree7a.interfaces;
 
+import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
@@ -18,7 +19,8 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("login")
-    Call<LoginResponseModel> login(@Field("username") String username,@Field("password") String password, @Field("fb_flag") boolean isFBLogin, @Field("isBusiness") boolean isBusiness);
+    Call<LoginResponseModel> login(@Field("username") String username, @Field("password") String password, @Field("fb_flag") boolean isFBLogin, @Field("isBusiness") boolean isBusiness);
+
 
     @FormUrlEncoded
     @POST("register")
@@ -32,8 +34,21 @@ public interface ServiceRequest {
 
 
     @FormUrlEncoded
+    @POST("getUserFavoriteSalons")
+    Call<FavoriteResponseModel> getUserFavorates(@Field("userId") String userName);
+
+
+    @FormUrlEncoded
+    @POST("changeFavorite")
+    Call<SignupResponseModel> changeUserFavorite(@Field("userId") String userName,
+                                                @Field("salonId") String salonId,
+                                                @Field("action") String action);
+
+
+    @FormUrlEncoded
     @POST("getNearestSalons")
     Call<PopularSalonsResponseModel> getNearestSalons(@Field("currentUserLat") double lat, @Field("currentUserLong") double lng);
+
 
     @FormUrlEncoded
     @POST("getSalonDetails")

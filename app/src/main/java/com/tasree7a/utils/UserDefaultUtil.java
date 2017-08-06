@@ -9,9 +9,12 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.UserDefaultKeys;
+import com.tasree7a.Enums.UserFavoriteAction;
+import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.Models.SearchHistory.SearchHistoryItem;
+import com.tasree7a.interfaces.AbstractCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +62,18 @@ public class UserDefaultUtil {
 
     }
 
+    public static LoginModel getLogedUser(){
+
+        return new Gson().fromJson(getStringValue(UserDefaultKeys.LOGIN_USER_MODEL.toString()), LoginModel.class);
+
+    }
+
+    public static boolean isBusinessUser(){
+
+        return new Gson().fromJson(getStringValue(UserDefaultKeys.LOGIN_USER_MODEL.toString()) , LoginModel.class).isBusiness();
+
+    }
+
     private static void setIsFBUser(boolean isFBUser){
 
         setStringValue(UserDefaultKeys.IS_FB.toString(), isFBUser + "");
@@ -93,8 +108,6 @@ public class UserDefaultUtil {
 
     public static void removeSalonFromFavorite(SalonModel salonModel) {
 
-        List<SalonModel> favoriteSalons = getFavoriteSalons();
-
         for (int i = 0; i < favoriteSalons.size(); i++) {
 
             if (favoriteSalons.get(i).getId().equalsIgnoreCase(salonModel.getId())) {
@@ -105,13 +118,23 @@ public class UserDefaultUtil {
             }
         }
 
-        setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(), new Gson().toJson(favoriteSalons));
+        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getLogedUser().getUsername(), UserFavoriteAction.DELETE.value, new AbstractCallback() {
+
+            @Override
+            public void onResult(boolean isSuccess, Object result) {
+
+                setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(), new Gson().toJson(favoriteSalons));
+
+            }
+        });
+
     }
 
+    static List<SalonModel> favoriteSalons;
 
     public static void addSalonToFavorite(SalonModel salonModel) {
 
-        List<SalonModel> favoriteSalons = getFavoriteSalons();
+        favoriteSalons = getFavoriteSalons();
 
         for (int i = 0; i < favoriteSalons.size(); i++) {
 
@@ -125,9 +148,29 @@ public class UserDefaultUtil {
 
         favoriteSalons.add(salonModel);
 
+        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getLogedUser().getUsername(), UserFavoriteAction.ADD.value, new AbstractCallback() {
+
+            @Override
+            public void onResult(boolean isSuccess, Object result) {
+
+                setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(), new Gson().toJson(favoriteSalons));
+
+            }
+        });
+    }
+
+    public static void saveFavoriteSalons(List<SalonModel> salonModels) {
+
+        List<SalonModel> favoriteSalons = new ArrayList<>();
+
+        favoriteSalons.clear();
+
+        favoriteSalons.addAll(salonModels);
+
         setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(), new Gson().toJson(favoriteSalons));
 
     }
+
 
 
     public static List<SalonModel> getFavoriteSalons() {

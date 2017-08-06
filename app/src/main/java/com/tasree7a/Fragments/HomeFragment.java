@@ -27,6 +27,8 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Managers.SalonsComparable;
 import com.tasree7a.Managers.SessionManager;
+import com.tasree7a.Models.FavoriteModels.FavoriteDetailsModel;
+import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
 import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.Observables.FavoriteChangeObservable;
@@ -106,7 +108,34 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             }
         });
+
         initLangButton();
+
+        if (!UserDefaultUtil.isBusinessUser()){
+
+         RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getLogedUser().getUsername(), new AbstractCallback() {
+
+             @Override
+             public void onResult(boolean isSuccess, Object result) {
+
+                 if (isSuccess && result != null){
+
+                     List<SalonModel>salonModels = new ArrayList<>();
+
+                     for (FavoriteDetailsModel details : ((FavoriteResponseModel)result).getDetails()){
+
+                         salonModels.add(details.getSalonModel());
+
+                     }
+
+                    UserDefaultUtil.saveFavoriteSalons(salonModels);
+
+                 }
+
+             }
+         });
+
+        }
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {

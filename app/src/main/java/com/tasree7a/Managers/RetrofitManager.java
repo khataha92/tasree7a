@@ -97,12 +97,13 @@ public class RetrofitManager {
 
     public void getUserFavoriteSalons(String userName, final AbstractCallback callback){
 
-        Call<FavoriteResponseModel> call = request.getUserFavorates(userName);
+        Call<FavoriteResponseModel> call = request.getUserFavorites(userName);
 
         call.enqueue(new Callback<FavoriteResponseModel>() {
 
             @Override
             public void onResponse(Call<FavoriteResponseModel> call, Response<FavoriteResponseModel> response) {
+
                 if (response.isSuccessful() && response.body() != null){
 
                     callback.onResult(true, response.body());

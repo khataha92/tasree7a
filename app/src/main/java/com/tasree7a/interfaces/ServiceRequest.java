@@ -35,11 +35,11 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("getUserFavoriteSalons")
-    Call<FavoriteResponseModel> getUserFavorates(@Field("userId") String userName);
+    Call<FavoriteResponseModel> getUserFavorites(@Field("userId") String userName);
 
 
     @FormUrlEncoded
-    @POST("changeFavorite")
+    @POST("changeFavorites")
     Call<SignupResponseModel> changeUserFavorite(@Field("userId") String userName,
                                                 @Field("salonId") String salonId,
                                                 @Field("action") String action);

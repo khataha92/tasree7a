@@ -13,6 +13,7 @@ import com.tasree7a.Fragments.ChangePasswordFragment;
 import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
+import com.tasree7a.Fragments.FullScreenGalleryFragment;
 import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.ProfileFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
@@ -59,6 +60,20 @@ public class FragmentManager  {
         replaceFragment(homeFragment, true);
 
     }
+
+    public static void showGalleryFullScreenFragment(List<ImageModel> images, int position) {
+
+        FullScreenGalleryFragment fragment = new FullScreenGalleryFragment();
+
+        fragment.setPosition(position);
+
+        fragment.setImageModelList(images);
+
+        replaceFragment(fragment, true);
+
+    }
+
+
 
     public static void showSettingsFragment(){
 

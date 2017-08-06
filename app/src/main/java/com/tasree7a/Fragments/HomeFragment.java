@@ -3,6 +3,7 @@ package com.tasree7a.Fragments;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.MessageQueue;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -21,6 +22,7 @@ import com.tasree7a.Adapters.PopularSallonsAdapter;
 import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.CustomComponent.CustomTopBar;
 import com.tasree7a.Enums.FilterType;
+import com.tasree7a.Enums.Gender;
 import com.tasree7a.Enums.ResponseCode;
 import com.tasree7a.Managers.FilterAndSortManager;
 import com.tasree7a.Managers.FragmentManager;
@@ -346,6 +348,8 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             List<FilterType> filterTypes = FilterAndSortManager.getInstance().getFilters();
 
+            boolean isMale = FilterAndSortManager.getInstance().getSalonType() == Gender.MALE ? true : false;
+
             List<SalonModel> allSalons = SessionManager.getInstance().getSalons();
 
             for(int i = 0; i < allSalons.size() ; i++){
@@ -359,7 +363,20 @@ public class HomeFragment extends BaseFragment implements Observer {
                         shouldContain = false;
 
                         break;
+
                     }
+                }
+
+                if(shouldContain && (isMale && allSalons.get(i).getSalonType() == Gender.MALE) || (!isMale && allSalons.get(i).getSalonType() == Gender.FEMALE)){
+
+                    shouldContain = true;
+
+                } else {
+
+                    shouldContain = false;
+
+                    break;
+
                 }
 
                 if(shouldContain){

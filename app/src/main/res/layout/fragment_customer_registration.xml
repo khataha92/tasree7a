@@ -6,68 +6,68 @@
                 android:orientation="vertical">
 
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="25.3dp"
-        android:layout_marginRight="25.3dp"
-        android:layout_marginTop="24dp"
-        android:visibility="gone"
-        />
+    <!--<com.facebook.login.widget.LoginButton-->
+        <!--android:id="@+id/login_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="90dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginBottom="30dp"-->
+        <!--android:layout_marginLeft="25.3dp"-->
+        <!--android:layout_marginRight="25.3dp"-->
+        <!--android:layout_marginTop="24dp"-->
+        <!--android:visibility="gone"-->
+        <!--/>-->
 
-    <com.tasree7a.CustomComponent.CustomButton
-        android:id="@+id/login_with_fb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25.3dp"
-        android:layout_marginRight="25.3dp"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@color/FB_COLOR"
-        android:visibility="visible"
-        app:customButtonBackgroundDrawable="@drawable/rounded_corders_bg"
-        app:customButtonImageSrc="@drawable/ic_fb"
-        app:customButtonText="@string/LOGIN_WITH_FB"
-        app:customButtonTextColor="@color/WHITE"
-        />
+    <!--<com.tasree7a.CustomComponent.CustomButton-->
+        <!--android:id="@+id/login_with_fb"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="25.3dp"-->
+        <!--android:layout_marginRight="25.3dp"-->
+        <!--android:layout_marginTop="24dp"-->
+        <!--android:backgroundTint="@color/FB_COLOR"-->
+        <!--android:visibility="visible"-->
+        <!--app:customButtonBackgroundDrawable="@drawable/rounded_corders_bg"-->
+        <!--app:customButtonImageSrc="@drawable/ic_fb"-->
+        <!--app:customButtonText="@string/LOGIN_WITH_FB"-->
+        <!--app:customButtonTextColor="@color/WHITE"-->
+        <!--/>-->
 
-    <RelativeLayout
-        android:id="@+id/or_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login_with_fb"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp">
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/or_container"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/login_with_fb"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="21dp">-->
 
-        <View
-            android:layout_width="100dp"
-            android:layout_height="0.5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@color/APP_TEXT_COLOR"
-            />
+        <!--<View-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="0.5dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:background="@color/APP_TEXT_COLOR"-->
+            <!--/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@color/BG_GRAY"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="@string/OR"
-            android:textColor="@color/APP_TEXT_COLOR"
-            android:textSize="13.3sp"
-            />
-    </RelativeLayout>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:background="@color/BG_GRAY"-->
+            <!--android:paddingLeft="5dp"-->
+            <!--android:paddingRight="5dp"-->
+            <!--android:text="@string/OR"-->
+            <!--android:textColor="@color/APP_TEXT_COLOR"-->
+            <!--android:textSize="13.3sp"-->
+            <!--/>-->
+    <!--</RelativeLayout>-->
 
     <ScrollView
         android:id="@+id/fields_scroll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/register"
-        android:layout_below="@+id/or_container">
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/register">
 
         <RelativeLayout
             android:layout_width="wrap_content"

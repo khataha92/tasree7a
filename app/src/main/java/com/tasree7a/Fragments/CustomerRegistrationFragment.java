@@ -2,6 +2,7 @@ package com.tasree7a.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by SamiKhleaf on 7/28/17.
  */
 
-public class CustomerRegistrationFragment extends BaseFragment  implements View.OnClickListener{
+public class CustomerRegistrationFragment extends BaseFragment implements View.OnClickListener {
 
     EditText fullName;
 
@@ -36,16 +37,17 @@ public class CustomerRegistrationFragment extends BaseFragment  implements View.
 
     CustomButton register;
 
+
     public CustomerRegistrationFragment() {
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_customer_registration, container, false);
-
 
         fullName = (EditText) rootView.findViewById(R.id.input_full_name);
 
@@ -68,7 +70,8 @@ public class CustomerRegistrationFragment extends BaseFragment  implements View.
         return rootView;
     }
 
-    private void signup(){
+
+    private void signup() {
 
         try {
 
@@ -82,7 +85,7 @@ public class CustomerRegistrationFragment extends BaseFragment  implements View.
 
             String email = inputEmail.getText().toString();
 
-            if(!firstName.isEmpty() && !lastName.isEmpty() && !username.isEmpty() && !password.isEmpty()){
+            if (!firstName.isEmpty() && !lastName.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
 
                 SignupModel model = new SignupModel();
 
@@ -100,6 +103,8 @@ public class CustomerRegistrationFragment extends BaseFragment  implements View.
 
                 model.setFbLogin(false);
 
+                model.setBuisness(false);
+
                 UIUtils.showSweetLoadingDialog();
 
                 RetrofitManager.getInstance().register(model, new AbstractCallback() {
@@ -109,13 +114,13 @@ public class CustomerRegistrationFragment extends BaseFragment  implements View.
 
                         UIUtils.hideSweetLoadingDialog();
 
-                        if(isSuccess){
+                        if (isSuccess) {
 
-                            startActivity(new Intent(ThisApplication.getCurrentActivity(),HomeActivity.class));
-
+                            startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
+                            
                             ThisApplication.getCurrentActivity().finish();
 
-                        } else{
+                        } else {
 
 
                         }
@@ -124,14 +129,14 @@ public class CustomerRegistrationFragment extends BaseFragment  implements View.
                 });
 
 
-            } else{
+            } else {
 
                 Toast.makeText(ThisApplication.getCurrentActivity(), getString(R.string.SIGN_UP_ERROR_MISSING_INPUT), Toast.LENGTH_SHORT).show();
             }
 
-        } catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
 
-            Toast.makeText(getApplicationContext(),getString(R.string.ERROR_FIRST_NAME_LAST_NAME),Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.ERROR_FIRST_NAME_LAST_NAME), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -140,7 +145,7 @@ public class CustomerRegistrationFragment extends BaseFragment  implements View.
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.login_container:
 

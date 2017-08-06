@@ -126,7 +126,7 @@ public class RetrofitManager {
 
     public void register(SignupModel model, final AbstractCallback callback){
 
-        Call<SignupResponseModel> call = request.register(model.getFirstName(),model.getLastName(),model.getEmail(),model.getPassword(),model.getUsername(),model.isFbLogin()?1:0);
+        Call<SignupResponseModel> call = request.register(model.getFirstName(),model.getLastName(),model.getEmail(),model.getPassword(),model.getUsername(),model.isFbLogin()?1:0, model.isBuisness());
 
         call.enqueue(new Callback<SignupResponseModel>() {
 
@@ -156,7 +156,7 @@ public class RetrofitManager {
 
     public void login(LoginModel loginModel, final AbstractCallback callback){
 
-        Call<LoginResponseModel> call = request.login(loginModel.getUsername(),loginModel.getPassword(),loginModel.isFacebookLogin());
+        Call<LoginResponseModel> call = request.login(loginModel.getUsername(),loginModel.getPassword(),loginModel.isFacebookLogin(), loginModel.isBusiness());
 
         call.enqueue(new Callback<LoginResponseModel>() {
 

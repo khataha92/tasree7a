@@ -18,7 +18,7 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("login")
-    Call<LoginResponseModel> login(@Field("username") String username,@Field("password") String password, @Field("fb_flag") boolean isFBLogin);
+    Call<LoginResponseModel> login(@Field("username") String username,@Field("password") String password, @Field("fb_flag") boolean isFBLogin, @Field("isBusiness") boolean isBusiness);
 
     @FormUrlEncoded
     @POST("register")
@@ -27,7 +27,8 @@ public interface ServiceRequest {
                                        @Field("email") String email,
                                        @Field("password") String password,
                                        @Field("username") String userName,
-                                       @Field("fb_flag") int fbFlag);
+                                       @Field("fb_flag") int fbFlag,
+                                       @Field("isBusiness") boolean isBuisness);
 
 
     @FormUrlEncoded

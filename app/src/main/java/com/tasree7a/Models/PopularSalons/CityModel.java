@@ -21,7 +21,7 @@ public class CityModel {
     double lng;
 
     @SerializedName("country_id")
-    String countryId;
+    CountryModel countryId;
 
     public String getId() {
         return id;
@@ -39,7 +39,7 @@ public class CityModel {
         return lng;
     }
 
-    public String getCountryId() {
+    public CountryModel getCountryId() {
         return countryId;
     }
 

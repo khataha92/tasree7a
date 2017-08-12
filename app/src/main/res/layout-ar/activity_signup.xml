@@ -9,11 +9,23 @@
                 android:hapticFeedbackEnabled="true"
                 tools:context="com.tasree7a.activities.MainActivity">
 
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/logo"
+        />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="437dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="false"
+        android:layout_below="@+id/icon"
         android:layout_marginBottom="28.7dp"
         android:layout_marginLeft="19dp"
         android:layout_marginRight="19dp"

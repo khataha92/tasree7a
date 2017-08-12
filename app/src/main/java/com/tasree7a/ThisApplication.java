@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 
+import com.facebook.CallbackManager;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.concurrent.ExecutorService;
@@ -19,6 +20,8 @@ public class ThisApplication extends Application {
     private static ExecutorService nonUIThread;
 
     private static FragmentActivity currentActivity;
+
+    public static CallbackManager callbackManager;
 
     public static void setCurrentActivity(FragmentActivity currentActivity) {
         ThisApplication.currentActivity = currentActivity;

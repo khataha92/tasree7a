@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import io.fabric.sdk.android.Fabric;
 
 import static com.facebook.FacebookSdk.sdkInitialize;
+import static com.tasree7a.ThisApplication.callbackManager;
 
 public class MainActivity extends FragmentActivity {
 
@@ -142,5 +143,17 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(callbackManager != null) {
+
+            callbackManager.onActivityResult(requestCode,
+                    resultCode, data);
+
+        }
     }
 }

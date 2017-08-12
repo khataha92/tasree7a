@@ -69,7 +69,9 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
         try {
 
-            String salonName = fullName.getText().toString();
+            String firstName = fullName.getText().toString().substring(0, fullName.getText().toString().indexOf(' '));
+
+            String lastName = fullName.getText().toString().substring(fullName.getText().toString().indexOf(' ') + 1);
 
             String username = this.username.getText().toString();
 
@@ -77,7 +79,7 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
             String email = inputEmail.getText().toString();
 
-            if (!salonName.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
+            if (!firstName.isEmpty() && !lastName.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
 
                 SignupModel model = new SignupModel();
 
@@ -89,9 +91,9 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
                 model.setFbLogin(false);
 
-                model.setFirstName(salonName);
+                model.setFirstName(firstName);
 
-                model.setLastName("null");
+                model.setLastName(lastName);
 
                 model.setFbLogin(false);
 

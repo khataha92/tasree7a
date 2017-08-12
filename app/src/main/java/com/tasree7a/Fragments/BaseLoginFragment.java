@@ -83,8 +83,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
         signup.setOnClickListener(this);
 
-        rootView.findViewById(R.id.new_user).setOnClickListener(this);
-
         login = (CustomButton) rootView.findViewById(R.id.login_with_fb);
 
         login.setOnClickListener(this);
@@ -96,13 +94,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
 
         callbackManager = CallbackManager.Factory.create();
-
-        if(isBusiness){
-
-            login.setVisibility(View.GONE);
-
-            rootView.findViewById(R.id.or_container).setVisibility(View.GONE);
-        }
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
@@ -184,7 +175,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                 break;
 
-            case R.id.new_user:
             case R.id.sign_up:
 
                 startActivity(new Intent(ThisApplication.getCurrentActivity(), SignupActivity.class));

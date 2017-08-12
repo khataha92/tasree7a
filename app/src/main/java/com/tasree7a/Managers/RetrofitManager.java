@@ -1,6 +1,7 @@
 package com.tasree7a.Managers;
 
 import com.tasree7a.Constants;
+import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
@@ -92,6 +93,66 @@ public class RetrofitManager {
             }
         });
 
+    }
+
+    public void getUserFavoriteSalons(String userName, final AbstractCallback callback){
+
+        Call<FavoriteResponseModel> call = request.getUserFavorites(userName);
+
+        call.enqueue(new Callback<FavoriteResponseModel>() {
+
+            @Override
+            public void onResponse(Call<FavoriteResponseModel> call, Response<FavoriteResponseModel> response) {
+
+                if (response.isSuccessful() && response.body() != null){
+
+                    callback.onResult(true, response.body());
+
+                } else {
+
+                    callback.onResult(false, null);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavoriteResponseModel> call, Throwable t) {
+
+                callback.onResult(false,null);
+
+            }
+        });
+    }
+
+    public void changeSalonToUserFavorite(String salonId, String userId, String action, final AbstractCallback callback){
+
+        Call <SignupResponseModel> call = request.changeUserFavorite(userId, salonId, action);
+
+        call.enqueue(new Callback<SignupResponseModel>() {
+
+            @Override
+            public void onResponse(Call<SignupResponseModel> call, Response<SignupResponseModel> response) {
+
+                if (response.isSuccessful() && response.body() != null){
+
+                    callback.onResult(true, null);
+
+                } else {
+
+                    callback.onResult(false, null);
+
+                }
+
+            }
+
+
+            @Override
+            public void onFailure(Call<SignupResponseModel> call, Throwable t) {
+
+                callback.onResult(false, null);
+
+            }
+        });
     }
 
     public void getNearestSalons(double lat, double lng, final AbstractCallback callback){

@@ -28,7 +28,6 @@ import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
-import com.tasree7a.activities.MainActivity;
 import com.tasree7a.activities.SignupActivity;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UIUtils;
@@ -263,12 +262,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode, resultCode, data);
 
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-
-    }
 }

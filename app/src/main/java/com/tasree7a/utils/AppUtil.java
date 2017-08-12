@@ -1,11 +1,14 @@
 package com.tasree7a.utils;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 
@@ -113,6 +116,32 @@ public class AppUtil {
             return location;
 
         }
+    }
+
+    public static boolean isLocationServiceEnabled(){
+
+        LocationManager lm = (LocationManager)ThisApplication.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+
+            return false;
+
+        } else{
+
+            return true;
+
+        }
+
     }
 
     public static boolean checkPlayServices() {

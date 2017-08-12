@@ -38,14 +38,13 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.tasree7a.ThisApplication.callbackManager;
 
 /**
  * Created by SamiKhleaf on 8/4/17.
  */
 
 public class BaseLoginFragment extends BaseFragment implements View.OnClickListener {
-
-    CallbackManager callbackManager;
 
     CustomButton login;
 
@@ -180,7 +179,9 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
             case R.id.login_with_fb:
 
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
+//                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
+
+                loginButton.callOnClick();
 
                 break;
 

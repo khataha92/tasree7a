@@ -1,12 +1,16 @@
 package com.tasree7a.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.MessageQueue;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -35,8 +39,10 @@ import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
 import com.tasree7a.Models.PopularSalons.SalonModel;
 import com.tasree7a.Observables.FavoriteChangeObservable;
 import com.tasree7a.Observables.FilterAndSortObservable;
+import com.tasree7a.Observables.LocationChangedObservable;
 import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
+import com.tasree7a.Services.LocationService;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
 import com.tasree7a.interfaces.AbstractCallback;
@@ -45,11 +51,14 @@ import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends BaseFragment implements Observer {
 
@@ -73,6 +82,10 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     View navHeader;
 
+    static Location currentLocation;
+
+    public static MyLocationListener listener = new MyLocationListener();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +97,8 @@ public class HomeFragment extends BaseFragment implements Observer {
         PermissionGrantedObservable.getInstance().addObserver(this);
 
         FavoriteChangeObservable.sharedInstance().addObserver(this);
+
+        LocationChangedObservable.sharedInstance().addObserver(this);
 
         topBar = (CustomTopBar) rootView.findViewById(R.id.top_bar);
 
@@ -240,13 +255,13 @@ public class HomeFragment extends BaseFragment implements Observer {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                String searchText = s.toString();
+                String searchText = s.toString().toLowerCase();
 
                 List<SalonModel> salonModels = new ArrayList<>();
 
                 for(int i = 0 ; i < filteredSalons.size() ; i++){
 
-                    if(filteredSalons.get(i).getName().contains(searchText)){
+                    if(filteredSalons.get(i).getName().toLowerCase().contains(searchText)){
 
                         salonModels.add(filteredSalons.get(i));
 
@@ -302,10 +317,53 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     }
 
+    private void buildAlertMessageNoGps() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(ThisApplication.getCurrentActivity());
+
+        builder.setMessage(getString(R.string.LOCATION_DISABLED_MESSAGE))
+
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.ENABLE_LOCATION), new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton(getString(R.string.CLOSE), new DialogInterface.OnClickListener() {
+
+                    public void onClick(final DialogInterface dialog, final int id) {
+
+                        FragmentManager.popCurrentVisibleFragment();
+
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        boolean isLocationServiceEnabled = AppUtil.isLocationServiceEnabled();
+
+        if(!isLocationServiceEnabled) {
+
+            buildAlertMessageNoGps();
+
+        } else{
+
+            getSallons();
+
+        }
+
+        Intent intent = new Intent(ThisApplication.getCurrentActivity(),LocationService.class);
+
+        getContext().startService(intent);
+
+    }
+
+    private void getSallons(){
 
         Location location = AppUtil.getCurrentLocation();
 
@@ -361,7 +419,11 @@ public class HomeFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        if(o instanceof FavoriteChangeObservable) {
+        if(o instanceof LocationChangedObservable){
+
+            getSallons();
+
+        } else if(o instanceof FavoriteChangeObservable) {
 
             popularSallons.getAdapter().notifyDataSetChanged();
 
@@ -449,5 +511,44 @@ public class HomeFragment extends BaseFragment implements Observer {
         PermissionGrantedObservable.getInstance().deleteObserver(this);
 
         FavoriteChangeObservable.sharedInstance().deleteObserver(this);
+
+        LocationChangedObservable.sharedInstance().deleteObserver(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        currentLocation = null;
+    }
+
+    private static class MyLocationListener implements LocationListener , Serializable{
+
+        @Override
+        public void onLocationChanged(Location location) {
+
+            if(currentLocation == null){
+
+                currentLocation = location;
+
+                LocationChangedObservable.sharedInstance().setLocationChanged(currentLocation);
+            }
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
     }
 }

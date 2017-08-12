@@ -66,7 +66,4 @@
     <string name="CHANGE">Change</string>
 
     <string name="TAKE_A_PICTURE">Take a Picture</string>
-    <string name="CLOSE">Close</string>
-    <string name="ENABLE_LOCATION">Enable location service</string>
-    <string name="LOCATION_DISABLED_MESSAGE">Your Location service seems to be disabled, do you want to enable it?</string>
 </resources>

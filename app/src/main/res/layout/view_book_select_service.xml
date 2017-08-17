@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:layout_alignParentTop="true"
+        android:visibility="visible"
+        android:background="@drawable/login_bg">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="31dp"
+            android:layout_height="41dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="21dp"
+            android:padding="10dp"
+            android:tint="@color/APP_GREEN"
+            android:src="@drawable/ic_back" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/GRAY" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/INFORMATION"
+            android:textAllCaps="true"
+            android:textColor="@color/WHITE"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="17dp"
+            android:textSize="19sp"
+            android:textColor="@color/APP_GREEN"
+            android:text="Total: $20"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/select_service_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_bar"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="28dp"
+        android:textColor="@color/APP_TEXT_COLOR"
+        android:textSize="19sp"
+        android:text="@string/SELECT_SERVICE"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/select_service_label"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/services_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="140dp"
+            android:layout_height="45dp"
+            android:background="@drawable/shadow"
+            android:text="@string/CANCEL"
+            android:textSize="19sp"
+            android:textColor="@color/WHITE"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:layout_marginRight="5dp"
+            />
+
+        <TextView
+            android:id="@+id/schedule"
+            android:layout_width="140dp"
+            android:layout_height="45dp"
+            android:background="@drawable/shadow"
+            android:text="@string/SCHEDULE"
+            android:textSize="19sp"
+            android:textColor="@color/WHITE"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            />
+        
+    </LinearLayout>
+
+</RelativeLayout>

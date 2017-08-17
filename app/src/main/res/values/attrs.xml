@@ -38,6 +38,13 @@
         <attr name="customFonts" />
     </declare-styleable>
 
+    <declare-styleable name="CircularCheckBox">
+
+        <attr name="setChecked" format="boolean" />
+        <attr name="customCheckboxText" format="string" />
+
+    </declare-styleable>
+
     <declare-styleable name="CustomRadioButton">
 
         <attr name="text" format="string"/>

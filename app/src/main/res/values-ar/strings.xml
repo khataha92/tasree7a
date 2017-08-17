@@ -64,12 +64,20 @@
     <string name="CONFIRM_PASSWORD">تاكيد كلمة السر الجديدة</string>
 
     <string name="CANCEL">الغاء</string>
-
+    <string name="INFORMATION">معلومات الصالون</string>
+    <string name="BUSINESS_INFO">المعلومات</string>
+    <string name="SALON_NAME">اسم الصالون</string>
+    <string name="ADDRESS">عنوان الصالون</string>
+    <string name="MOBILE">رقم الهاتف</string>
+    <string name="WORKING_DAYS">أيام العمل</string>
+    <string name="OPENING_HOURS">ساعات العمل</string>
+    <string name="STAFF">طاقم العمل</string>
     <string name="CHANGE">تغيير</string>
     <string name="TAKE_A_PICTURE">التقط صورة</string>
     <string name="CLOSE">إغلاق</string>
     <string name="ENABLE_LOCATION">تفعيل الموقع</string>
     <string name="LOCATION_DISABLED_MESSAGE">خدمة الموقع تبدو معطلة، هل تريد تفعيلها الآن؟</string>
-
+    <string name="SELECT_SERVICE">اختر الحلقة</string>
+    <string name="SCHEDULE">استكمال</string>
 
 </resources>

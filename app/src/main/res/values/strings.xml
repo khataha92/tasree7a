@@ -64,6 +64,16 @@
     <string name="CANCEL">Cancel</string>
 
     <string name="CHANGE">Change</string>
+    <string name="INFORMATION">Information</string>
+    <string name="BUSINESS_INFO">Business info</string>
+    <string name="SALON_NAME">Salon / Barber shop name</string>
+    <string name="ADDRESS">Address</string>
+    <string name="MOBILE">Mobile</string>
+    <string name="WORKING_DAYS">Working days</string>
+    <string name="OPENING_HOURS">Opening hours</string>
+    <string name="STAFF">Staff</string>
+    <string name="SELECT_SERVICE">Select service</string>
+    <string name="SCHEDULE">Schedule</string>
 
     <string name="TAKE_A_PICTURE">Take a Picture</string>
     <string name="CLOSE">Close</string>

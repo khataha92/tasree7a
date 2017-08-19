@@ -23,6 +23,11 @@
     <string name="MAP_VIEW">الخارطة</string>
     <string name="BOOKINGS">الحجوزات</string>
     <string name="FAVORITES">المفضلة</string>
+    <string name="FEEDBACK">أراء ومقترحات</string>
+    <string name="APP_FEEDBACK">أراء ومقترحات</string>
+    <string name="SELECT_TIME_AND_BARBER">حدد الوقت و الكوفير</string>
+
+
     <string name="FAQs">الأسئلة الشائعة</string>
     <string name="LOGOUT">تسجيل الخروج</string>
     <string name="SETTINGS">الإعدادات</string>
@@ -38,6 +43,8 @@
     <string name="AVAILABLE_NOW">متوفر الآن</string>
     <string name="ALL">All</string>
     <string name="FILTER">تصفية</string>
+    <string name="APP_ِFEEDBACK"> أراء وإقتراحات</string>
+    <string name="TELL_US">أخبرنا ما لديك <font color='#FF0000'>*</font></string>
     <string name="GALLERY">Gallery</string>
     <string name="ERROR_FIRST_NAME_LAST_NAME">يجب أن يحتوي الاسم الكامل على الاسم الأول والاسم الأخير</string>
     <string name="SIGN_UP_ERROR_MISSING_INPUT">يرجى ملء جميع الحقول مع البيانات الصحيحة</string>
@@ -52,6 +59,9 @@
     <string name="NO">لا</string>
     <string name="CONFILM_LANG_CHANGE_TITLE">تأكيد تغيير اللغة</string>
     <string name="CONFILM_LANG_CHANGE_TEXT">هل انت متأكد؟</string>
+
+    <string name="USER_BOOKINGS">سيتم إعلامك قبل نصف ساعة من الموعد</string>
+    <string name="BOOKING_ID">رمز الحجز</string>
 
     <string name="CUSTOMER_TAB_TITLE">مستخدم</string>
     <string name="BUSINESS_TAB_TITLE">تجاري</string>
@@ -79,5 +89,11 @@
     <string name="LOCATION_DISABLED_MESSAGE">خدمة الموقع تبدو معطلة، هل تريد تفعيلها الآن؟</string>
     <string name="SELECT_SERVICE">اختر الحلقة</string>
     <string name="SCHEDULE">استكمال</string>
+    <string name="CONFIRM">تأكيد</string>
+
+    <string name="REPLAY_MESSAGE">سوف يستجيب أحد أعضاء فريق الدعم باسرع وقت ممكن</string>
+    <string name="ATTACH_IMAGE">أرفق صور (اقصى حد :3)</string>
+    <string name="ATTACH_MESSAGE_HERE">أضف الصور هنا</string>
+    <string name="SUBMIT">إقترح</string>
 
 </resources>

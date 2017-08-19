@@ -203,6 +203,12 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                                 break;
 
+                            case R.id.feedback:
+
+                                FragmentManager.showFeedBackFragment();
+
+                                break;
+
                         }
 
                         nvDrawer.closeDrawers();

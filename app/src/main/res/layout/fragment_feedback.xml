@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BG_GRAY"
+    >
+
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@color/WHITE">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="31dp"
+            android:layout_height="41dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_back" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/GRAY" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/APP_FEEDBACK"
+            android:textAllCaps="true"
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:textSize="19.3sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_bar"
+        android:layout_alignParentBottom="true"
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/add_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_bar"
+        android:layout_marginLeft="44.3dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="10.3dp"
+        android:layout_marginRight="152dp"
+        android:textColor="@color/NOTE_COLOR"
+        android:textSize="14.8sp"
+        android:text="@string/TELL_US"
+        />
+
+
+
+<EditText
+    android:id="@+id/add_feedback_text"
+    android:layout_below="@+id/add_feedback"
+    android:layout_width="295dp"
+    android:layout_height="223.7dp"
+    android:layout_marginLeft="32.7dp"
+    android:layout_marginRight="32.3dp"
+    android:background="@color/WHITE"
+    android:textColor="@color/APP_GREEN"
+    android:gravity="top"
+    android:scrollbars="vertical"
+    android:padding="20dp"
+
+    />
+    <TextView
+        android:id="@+id/replay_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_feedback_text"
+        android:layout_marginLeft="44.3dp"
+        android:layout_marginTop="14.7dp"
+        android:layout_marginRight="75.3dp"
+        android:layout_marginBottom="46dp"
+        android:textColor="@color/NOTE_COLOR"
+        android:textSize="11.4sp"
+        android:text="@string/REPLAY_MESSAGE"
+        />
+
+    <TextView
+        android:id="@+id/attach_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/replay_message"
+        android:layout_marginLeft="44.3dp"
+
+        android:layout_marginRight="131dp"
+        android:textColor="@color/NOTE_COLOR"
+        android:textSize="11.8sp"
+        android:text="@string/ATTACH_IMAGE"
+        />
+
+    <LinearLayout
+        android:id="@+id/add_feedback_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/WHITE"
+        android:layout_marginRight="32.3dp"
+
+        android:layout_marginLeft="32.7dp"
+        android:layout_marginTop="14.7dp"
+        android:layout_marginBottom="32.7dp"
+
+        android:layout_below="@+id/attach_image"
+        >
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="64dp"
+    android:layout_marginTop="13.7dp"
+    android:layout_marginBottom="14dp"
+    android:layout_marginRight="14dp"
+    android:src="@drawable/ic_photo"
+
+    />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18.3dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginRight="65.3dp"
+            android:text="@string/ATTACH_MESSAGE_HERE"
+            android:textSize="11.8sp"
+            android:textColor="@color/APP_BLACK"
+            />
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginBottom="32.3dp"
+        android:layout_below="@+id/add_feedback_image"
+        android:layout_marginLeft="32.7dp"
+        android:layout_marginRight="32.3dp"
+        >
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="140dp"
+            android:layout_height="46dp"
+            android:background="@drawable/shadow"
+            android:text="@string/CANCEL"
+            android:textSize="19.3sp"
+            android:textColor="@color/WHITE"
+            android:gravity="center"
+            android:layout_marginRight="15dp"
+            android:paddingBottom="5dp"
+            />
+
+        <TextView
+            android:id="@+id/submit"
+            android:layout_width="150dp"
+            android:layout_height="46dp"
+            android:background="@drawable/shadow"
+            android:text="@string/SUBMIT"
+            android:textSize="19.3sp"
+            android:textColor="@color/WHITE"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            />
+
+    </LinearLayout>
+     </LinearLayout>
+</ScrollView>
+</RelativeLayout>

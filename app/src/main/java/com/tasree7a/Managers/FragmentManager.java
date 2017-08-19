@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.tasree7a.Fragments.BaseFragment;
 import com.tasree7a.Fragments.ChangePasswordFragment;
+import com.tasree7a.Fragments.FeedBackFragment;
 import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
@@ -94,6 +95,13 @@ public class FragmentManager  {
     public static void showProfileFragment(){
 
         ProfileFragment fragment = new ProfileFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+    public static void showFeedBackFragment(){
+
+        FeedBackFragment fragment = new FeedBackFragment();
 
         replaceFragment(fragment, true);
 

@@ -21,29 +21,27 @@ import com.tasree7a.interfaces.SingleCheckableGroup;
  * Created by mac on 6/13/17.
  */
 
-public class CustomRadioButton extends LinearLayout implements Checkable {
+public class CustomRadioButtonH extends LinearLayout implements Checkable {
 
     TextView text;
 
     RadioButton radio;
 
-    SortType sortType;
 
-    FilterType filterType;
 
-    public CustomRadioButton(Context context) {
+    public CustomRadioButtonH(Context context) {
         super(context);
 
         init(null);
     }
 
-    public CustomRadioButton(Context context, @Nullable AttributeSet attrs) {
+    public CustomRadioButtonH(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         init(attrs);
     }
 
-    public CustomRadioButton(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CustomRadioButtonH(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         init(attrs);
@@ -51,7 +49,8 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
 
     private void init(AttributeSet attrs){
 
-        LayoutInflater.from(getContext()).inflate(R.layout.custom_radio_button,this);
+        LayoutInflater.from(getContext()).inflate(R.layout.custom_radio_button_h,this);
+
         text = (TextView) findViewById(R.id.text);
 
         radio = (RadioButton) findViewById(R.id.radio);
@@ -65,7 +64,7 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
 
                 if(view instanceof SingleCheckableGroup){
 
-                    ((SingleCheckableGroup) view).onItemChecked(CustomRadioButton.this);
+                    ((SingleCheckableGroup) view).onItemChecked(CustomRadioButtonH.this);
                 }
 
             }
@@ -89,17 +88,7 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
 
                         break;
 
-                    case R.styleable.CustomRadioButton_SortType:
 
-                        setSortType(SortType.valueOf(a.getInteger(attr,1)));
-
-                        break;
-
-                    case R.styleable.CustomRadioButton_FilterType:
-
-                        setFilterType(FilterType.valueOf(a.getInteger(attr,3)));
-
-                        break;
 
 
                 }
@@ -123,13 +112,7 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
         return radio.isChecked();
     }
 
-    public void setSortType(SortType sortType) {
-        this.sortType = sortType;
-    }
 
-    public SortType getSortType() {
-        return sortType;
-    }
 
     @Override
     public void uncheck() {
@@ -138,11 +121,5 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
 
     }
 
-    public void setFilterType(FilterType filterType) {
-        this.filterType = filterType;
-    }
 
-    public FilterType getFilterType() {
-        return filterType;
-    }
 }

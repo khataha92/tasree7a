@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.tasree7a.Enums.CustomOrientation;
 import com.tasree7a.Enums.FilterType;
 import com.tasree7a.Enums.SortType;
 import com.tasree7a.R;
@@ -100,6 +101,28 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
                     case R.styleable.CustomRadioButton_FilterType:
 
                         setFilterType(FilterType.valueOf(a.getInteger(attr,3)));
+
+                        break;
+
+                    case R.styleable.CustomRadioButton_CustomOrientation:
+
+                        CustomOrientation orientation = CustomOrientation.valueOf(a.getInteger(attr,2));
+
+                        switch (orientation){
+
+                            case VERTICAL:
+
+                                setOrientation(VERTICAL);
+
+                                break;
+
+                            case HORIZONTAL:
+
+                                setOrientation(HORIZONTAL);
+
+                                break;
+
+                        }
 
                         break;
 

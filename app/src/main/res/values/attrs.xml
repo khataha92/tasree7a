@@ -17,6 +17,13 @@
 
     </attr>
 
+    <attr name="CustomOrientation" format="enum" >
+
+        <enum name="HORIZONTAL" value="1" />
+        <enum name="VERTICAL" value="2" />
+
+    </attr>
+
     <attr name="FilterType" format="enum">
 
         <enum name="ALL" value="3" />
@@ -50,6 +57,7 @@
         <attr name="text" format="string"/>
         <attr name="SortType" />
         <attr name="FilterType" />
+        <attr name="CustomOrientation" />
 
     </declare-styleable>
 

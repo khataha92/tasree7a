@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/main_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:id="@+id/date_segment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/WHITE"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp">
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <com.tasree7a.CustomComponent.CustomGridCalendar
+        android:id="@+id/custom_grid_calender"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/select_date_bottom_view"
+        android:layout_below="@+id/date_segment"/>
+
+    <com.tasree7a.CustomComponent.CustomButton
+        android:id="@+id/select_date_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/APP_GREEN"
+        app:customFonts="MEDIUM"
+        app:customButtonTextColor="@color/WHITE"
+        android:layout_alignParentBottom="true"
+        />
+
+
+</RelativeLayout>

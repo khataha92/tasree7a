@@ -93,6 +93,21 @@ soon as possible</string>
     <string name="CLOSE">Close</string>
     <string name="ENABLE_LOCATION">Enable location service</string>
     <string name="ATTACH_MESSAGE_HERE">Attach image here</string>
+    <string name="CALENDAR">Calendar</string>
+    <string name="TONIGHT">Tonight</string>
+    <string name="TOMMOROW">Tomorrow</string>
+    <string name="CHECK_IN">Check in</string>
+    <string name="CHECK_OUT">Check out</string>
 
     <string name="LOCATION_DISABLED_MESSAGE">Your Location service seems to be disabled, do you want to enable it?</string>
+
+    <string-array name="DAYS_APPREVIATIONS">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
 </resources>

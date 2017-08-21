@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.tasree7a.Fragments.BaseFragment;
+import com.tasree7a.Fragments.CalenderFragment;
 import com.tasree7a.Fragments.ChangePasswordFragment;
-import com.tasree7a.Fragments.FeedBackFragment;
+import com.tasree7a.Fragments.FragmentFeedBack;
 import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
@@ -62,6 +63,13 @@ public class FragmentManager  {
 
     }
 
+    public static void showCalendarFragment(){
+
+        CalenderFragment calenderFragment = new CalenderFragment();
+
+        replaceFragment(calenderFragment,true);
+    }
+
     public static void showGalleryFullScreenFragment(List<ImageModel> images, int position) {
 
         FullScreenGalleryFragment fragment = new FullScreenGalleryFragment();
@@ -101,7 +109,7 @@ public class FragmentManager  {
     }
     public static void showFeedBackFragment(){
 
-        FeedBackFragment fragment = new FeedBackFragment();
+        FragmentFeedBack fragment = new FragmentFeedBack();
 
         replaceFragment(fragment, true);
 

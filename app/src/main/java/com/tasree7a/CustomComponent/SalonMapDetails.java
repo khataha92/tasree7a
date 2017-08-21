@@ -26,7 +26,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by mojadameri on 1/19/17.
+ * Created by Khalid Taha on 1/19/17.
  * Used to display a hotel details in Map View
  */
 

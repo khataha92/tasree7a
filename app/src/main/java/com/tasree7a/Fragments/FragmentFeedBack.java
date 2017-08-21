@@ -14,7 +14,7 @@ import com.tasree7a.R;
  * Created by Mohammad Krm on 8/19/2017.
  */
 
-public class FeedBackFragment extends BaseFragment {
+public class FragmentFeedBack extends BaseFragment {
 
     CustomSwitch langSwitch;
 
@@ -23,7 +23,7 @@ public class FeedBackFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_feedback, container, false);
+        rootView = inflater.inflate(R.layout.view_book_schedule, container, false);
 
 
         rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {

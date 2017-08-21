@@ -83,23 +83,26 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            >
 
-            android:weightSum="3">
-
-            <com.tasree7a.CustomComponent.CustomRadioButtonH
-                android:layout_width="0dp"
+            <com.tasree7a.CustomComponent.CustomRadioButton
+                android:layout_width="wrap_content"
+                app:CustomOrientation="HORIZONTAL"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:text="@string/STAFF" />
 
-            <com.tasree7a.CustomComponent.CustomRadioButtonH
-                android:layout_width="0dp"
+            <com.tasree7a.CustomComponent.CustomRadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:CustomOrientation="HORIZONTAL"
                 android:layout_weight="1"
                 app:text="@string/STAFF" />
-            <com.tasree7a.CustomComponent.CustomRadioButtonH
-                android:layout_width="0dp"
+            <com.tasree7a.CustomComponent.CustomRadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:CustomOrientation="HORIZONTAL"
                 android:layout_weight="1"
                 app:text="@string/STAFF" />
 

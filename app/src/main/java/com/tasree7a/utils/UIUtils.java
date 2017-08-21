@@ -328,6 +328,20 @@ public class UIUtils {
     }
 
 
+    public static int getResourceId(String pVariableName, String pResourcename) {
+
+        try {
+
+            return ThisApplication.getCurrentActivity().getResources().getIdentifier(pVariableName, pResourcename, ThisApplication.getCurrentActivity().getPackageName());
+
+        } catch (Throwable t) {
+
+            Log.e("status", "error in getting resource id ", t);
+
+            return -1;
+        }
+    }
+
     public static int dpToPx(float dp) {
 
         float resultPix = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ThisApplication.getCurrentActivity().getResources().getDisplayMetrics());

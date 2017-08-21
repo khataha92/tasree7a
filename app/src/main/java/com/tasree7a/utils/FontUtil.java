@@ -159,32 +159,32 @@ public class FontUtil {
 
         if (fontsType == FontsType.BOOK) {
 
-            return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(), "fonts/Frutiger/FrutigerLTArabic-45Light.ttf");
+            return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(), "fonts/Frutiger/FrutigerLTArabic-45Light.otf");
 
         }
 
         if (fontsType == FontsType.BLACK) {
 
-            return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(), "fonts/Frutiger/FrutigerLTArabic-75Black.ttf");
+            return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(), "fonts/Frutiger/FrutigerLTArabic-75Black.otf");
 
         }
 
 
         if (fontsType == FontsType.MEDIUM) {
 
-            return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(),  "fonts/Frutiger/FrutigerLTArabic-55Roman.ttf");
+            return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(),  "fonts/Frutiger/FrutigerLTArabic-55Roman.otf");
 
         }
 
 
         if (fontsType == FontsType.HEAVY) {
 
-            return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(),  "fonts/Frutiger/FrutigerLTArabic-65Bold.ttf");
+            return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(),  "fonts/Frutiger/FrutigerLTArabic-65Bold.otf");
 
         }
 
 
-        return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(),  "fonts/Frutiger/FrutigerLTArabic-65Bold.ttf");
+        return Typeface.createFromAsset(ThisApplication.getCurrentActivity().getAssets(),  "fonts/Frutiger/FrutigerLTArabic-65Bold.otf");
 
 
     }

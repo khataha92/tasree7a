@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 
 
 /**
- * Created by Mojahed Dameri on 3/19/16.
+ * Created by Khalid Taha on 3/19/16.
  * BaseCardViewHolder the base and generator for all ViewHolders in CardsRecyclerAdapter
  */
 public class BaseCardViewHolder extends RecyclerView.ViewHolder {

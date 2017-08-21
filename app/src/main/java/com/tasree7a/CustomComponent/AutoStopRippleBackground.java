@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import com.skyfishjy.library.RippleBackground;
 
 /**
- * Created by mojadameri on 10/16/16.
+ * Created by Khalid Taha on 10/16/16.
  */
 
 public class AutoStopRippleBackground extends RippleBackground {

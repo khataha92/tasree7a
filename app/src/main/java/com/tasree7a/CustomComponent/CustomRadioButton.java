@@ -106,17 +106,25 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
 
                         CustomOrientation orientation = CustomOrientation.valueOf(a.getInteger(attr,2));
 
+                        LinearLayout layout = (LinearLayout) getChildAt(0);
+
                         switch (orientation){
 
                             case VERTICAL:
 
-                                setOrientation(VERTICAL);
+                                layout.setOrientation(VERTICAL);
 
                                 break;
 
                             case HORIZONTAL:
 
-                                setOrientation(HORIZONTAL);
+                                layout.setOrientation(HORIZONTAL);
+
+                                View v1 = layout.getChildAt(0);
+
+                                layout.removeView(v1);
+
+                                layout.addView(v1);
 
                                 break;
 

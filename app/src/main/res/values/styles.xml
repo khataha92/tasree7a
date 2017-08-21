@@ -13,6 +13,27 @@
 
     </style>
 
+    <style name="CustomButtonBookBestDeals">
+
+        <item name="customFonts">MEDIUM</item>
+
+        <item name="makeIconWhite">false</item>
+
+        <item name="customButtonTextColor">@color/WHITE</item>
+
+        <item name="customButtonTextSize">18dp</item>
+
+        <item name="customButtonBackgroundColor">@color/APP_GREEN</item>
+
+        <item name="customButtonStrokeColor">@color/APP_GREEN</item>
+
+        <item name="radius">10</item>
+
+        <item name="android:layout_height">65dp</item>
+
+    </style>
+
+
 
     <style name="NoActionBar" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowActionBar">false</item>

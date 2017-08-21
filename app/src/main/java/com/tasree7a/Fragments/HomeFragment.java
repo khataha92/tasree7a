@@ -59,6 +59,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tasree7a.Managers.FragmentManager.showCalendarFragment;
 
 public class HomeFragment extends BaseFragment implements Observer {
 
@@ -299,6 +300,8 @@ public class HomeFragment extends BaseFragment implements Observer {
         popularSallons = (RecyclerView) rootView.findViewById(R.id.popular_sallons);
 
         popularSallons.setLayoutManager(new LinearLayoutManager(ThisApplication.getCurrentActivity()));
+
+        showCalendarFragment();
 
         return rootView;
 

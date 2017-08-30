@@ -30,8 +30,13 @@ import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.Sizes;
 import com.tasree7a.Fragments.BaseFragment;
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.Models.Bookings.BookingModel;
+import com.tasree7a.Models.Bookings.BookingServiceModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -149,6 +154,75 @@ public class UIUtils {
             "https://s-media-cache-ak0.pinimg.com/736x/84/be/cc/84beccaff1e5f07b46814b4a04aa0d94--hipster-hairstyles-hairstyle-for-women.jpg",
             "http://hairstyleonpoint.com/wp-content/uploads/2015/08/11811288_937523026308702_756256385143542710_n.jpg"
     };
+
+
+    public static List<BookingModel> bookingModels = new ArrayList<BookingModel>(){{
+
+        add(new BookingModel(){{
+
+            setBookingId("111111");
+            setBookingTime("Wed, Apr 22, 2017, 12:15 PM - 12:45 PM");
+            setSalonName("Samer Salon");
+            setSalonAddress("Ramallah, Al Masyoun, Mahmoud Darwish St.");
+            setBookingServiceList(new ArrayList<BookingServiceModel>(){{
+
+                add(new BookingServiceModel(){{
+
+                    setCost(2);
+                    setServiceName("Hair only");
+
+                }});
+
+            }});
+
+        }});
+
+        add(new BookingModel(){{
+
+            setBookingId("222222");
+            setBookingTime("Thu, Apr 23, 2017, 1:00 PM - 2:00 PM");
+            setSalonName("Adel Salon");
+            setSalonAddress("Nablus, Rafidia");
+            setBookingServiceList(new ArrayList<BookingServiceModel>(){{
+
+                add(new BookingServiceModel(){{
+
+                    setCost(2);
+                    setServiceName("Hair");
+
+                }});
+
+                add(new BookingServiceModel(){{
+
+                    setCost(1);
+                    setServiceName("Beard");
+
+                }});
+
+            }});
+
+        }});
+
+        add(new BookingModel(){{
+
+            setBookingId("333333");
+            setBookingTime("Fri, Apr 24, 2017, 1:15 PM - 1:45 PM");
+            setSalonName("Samer Salon");
+            setSalonAddress("Jenin, Al-Basatin, Ayash Circle");
+            setBookingServiceList(new ArrayList<BookingServiceModel>(){{
+
+                add(new BookingServiceModel(){{
+
+                    setCost(2);
+                    setServiceName("Hair only");
+
+                }});
+
+            }});
+
+        }});
+
+    }};
 
 
     public static void showSweetLoadingDialog() {

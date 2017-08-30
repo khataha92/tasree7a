@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/BG_GRAY">
 
     <RelativeLayout
@@ -10,8 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:layout_alignParentTop="true"
-        android:visibility="visible"
-        android:background="@drawable/login_bg">
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/login_bg" />
 
         <ImageView
             android:id="@+id/back"
@@ -21,8 +27,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="21dp"
             android:padding="10dp"
-            android:tint="@color/APP_GREEN"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"
+            android:tint="@color/APP_GREEN" />
 
         <View
             android:layout_width="match_parent"
@@ -33,9 +39,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/back"
             android:layout_centerInParent="true"
             android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/back"
             android:text="@string/SALLONS"
             android:textAllCaps="true"
             android:textColor="@color/WHITE"
@@ -46,119 +52,192 @@
             android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="17dp"
-            android:textSize="19sp"
-            android:textColor="@color/APP_GREEN"
             android:text="Total: $20"
-            />
+            android:textColor="@color/APP_GREEN"
+            android:textSize="19sp" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/select_time_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/top_bar"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="28dp"
-        android:textColor="@color/APP_TEXT_COLOR"
-        android:textSize="19.3sp"
-        android:text="@string/SELECT_TIME_AND_BARBER"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_bar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/select_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/SELECT_TIME_AND_BARBER"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="19.3sp" />
+
+            <LinearLayout
+                android:id="@+id/select_barbar"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_below="@+id/select_time_label"
+                android:layout_margin="17.3dp"
+                android:layout_marginBottom="11.7dp"
+                android:background="@color/WHITE">
+
+                <com.tasree7a.CustomComponent.CustomRadioGroup
+                    android:id="@+id/sort_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="18dp"
+                    android:orientation="vertical">
+
+                    <com.tasree7a.CustomComponent.CustomRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:CustomOrientation="HORIZONTAL"
+                        app:text="@string/STAFF" />
+
+                    <com.tasree7a.CustomComponent.CustomRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:CustomOrientation="HORIZONTAL"
+                        app:text="@string/STAFF" />
+
+                    <com.tasree7a.CustomComponent.CustomRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:CustomOrientation="HORIZONTAL"
+                        app:text="@string/STAFF" />
+
+                </com.tasree7a.CustomComponent.CustomRadioGroup>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/select_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/select_barbar"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/SELECT_TIME_AND_BARBER"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="19.3sp" />
+
+            <RelativeLayout
+                android:id="@+id/date_container"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/select_date_label"
+                android:layout_marginBottom="12.3dp"
+                android:layout_marginLeft="17.3dp"
+                android:layout_marginRight="17.3dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/WHITE"
+
+                >
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_calendar" />
+
+                <TextView
+                    android:id="@+id/select_checkin_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/icon"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="@string/CLICK_TO_SELECT_DATE"
+                    android:textColor="@color/APP_TEXT_COLOR" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date_container"
+                android:layout_marginBottom="120dp"
+                >
+
+                <TimePicker
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TimePickerTheme"
+                    ></TimePicker>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/gradient"
+        android:layout_above="@+id/bottom_view"
+        />
+
+    <View
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/WHITE"
         />
 
     <LinearLayout
-        android:id="@+id/select_barbar"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@+id/select_time_label"
-        android:background="@color/WHITE"
-        android:layout_margin="17.3dp"
-        android:layout_marginBottom="11.7dp"
-        >
-        <com.tasree7a.CustomComponent.CustomRadioGroup
-            android:id="@+id/sort_by"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical"
-            >
-
-            <com.tasree7a.CustomComponent.CustomRadioButton
-                android:layout_width="wrap_content"
-                app:CustomOrientation="HORIZONTAL"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:text="@string/STAFF" />
-
-            <com.tasree7a.CustomComponent.CustomRadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:CustomOrientation="HORIZONTAL"
-                android:layout_weight="1"
-                app:text="@string/STAFF" />
-            <com.tasree7a.CustomComponent.CustomRadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:CustomOrientation="HORIZONTAL"
-                android:layout_weight="1"
-                app:text="@string/STAFF" />
-
-        </com.tasree7a.CustomComponent.CustomRadioGroup>
-    </LinearLayout>
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/select_barbar"
-    android:background="@color/WHITE"
-    android:layout_marginRight="17.3dp"
-    android:layout_marginLeft="17.3dp"
-    android:layout_marginBottom="12.3dp">
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_calendar"
-    android:layout_marginLeft="21dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"/>
-    
-</LinearLayout>
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
+        android:layout_marginBottom="25dp"
         android:gravity="center"
-        >
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/cancel"
             android:layout_width="140dp"
             android:layout_height="45dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/shadow"
-            android:text="@string/CANCEL"
-            android:textSize="19sp"
-            android:textColor="@color/WHITE"
             android:gravity="center"
             android:paddingBottom="5dp"
-            android:layout_marginRight="5dp"
-            />
+            android:text="@string/CANCEL"
+            android:textColor="@color/WHITE"
+            android:textSize="19sp" />
 
         <TextView
             android:id="@+id/confirm"
             android:layout_width="140dp"
             android:layout_height="45dp"
             android:background="@drawable/shadow"
-            android:text="@string/CONFIRM"
-            android:textSize="19sp"
-            android:textColor="@color/WHITE"
             android:gravity="center"
             android:paddingBottom="5dp"
-            />
+            android:text="@string/CONFIRM"
+            android:textColor="@color/WHITE"
+            android:textSize="19sp" />
 
     </LinearLayout>
 

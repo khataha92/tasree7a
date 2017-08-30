@@ -14,6 +14,7 @@ import com.tasree7a.FragmentBundle;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.Calendar.CalendarViewsModel;
 import com.tasree7a.R;
+import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.DateCalenderViewListener;
 
 import org.joda.time.LocalDate;
@@ -34,6 +35,8 @@ public class CalenderFragment extends BaseFragment {
     private CustomButton bottomView;
 
     private CalenderType calenderType ;
+
+    AbstractCallback callback;
 
     // LocalDate determine a start of days to be marked always as a special date or something
     private LocalDate markerCheckingDate;
@@ -91,6 +94,12 @@ public class CalenderFragment extends BaseFragment {
 
         LocalDate date = calenderView.getCheckInDate();
 
+        if(callback != null){
+
+            callback.onResult(true,date);
+
+        }
+
         FragmentManager.popCurrentVisibleFragment();
 
     }
@@ -143,7 +152,7 @@ public class CalenderFragment extends BaseFragment {
                 .setCalenderType(calenderType)
                 .setMarkerCheckInDate(markerCheckingDate);
 
-        // Set check in and check out dates only in normal model
+        // Set check in date only in normal model
         if (calenderType == CalenderType.DEFAULT) {
 
             cModel.setCheckInDate(savedChkInDate);
@@ -184,5 +193,9 @@ public class CalenderFragment extends BaseFragment {
 
         updateDateSelection(false);
 
+    }
+
+    public void setCallback(AbstractCallback callback) {
+        this.callback = callback;
     }
 }

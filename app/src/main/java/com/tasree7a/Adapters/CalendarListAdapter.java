@@ -50,7 +50,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarMonthViewH
 
     private List<CalendarMonthAdapter> gridsAdapters;
 
-    private LocalDate checkInDate, markerCheckInDate, markerCheckOutDate, today, maxDayInCalender;
+    private LocalDate checkInDate, markerCheckInDate, today, maxDayInCalender;
 
     private DateCalenderViewListener mOnDateChangeListener;
 
@@ -215,17 +215,6 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarMonthViewH
         this.markerCheckInDate = markerCheckInDate;
     }
 
-
-    public LocalDate getMarkerCheckOutDate() {
-
-        return markerCheckOutDate;
-    }
-
-
-    public void setMarkerCheckOutDate(LocalDate markerCheckOutDate) {
-
-        this.markerCheckOutDate = markerCheckOutDate;
-    }
 
 
     public LocalDate getMaxDayInCalender() {

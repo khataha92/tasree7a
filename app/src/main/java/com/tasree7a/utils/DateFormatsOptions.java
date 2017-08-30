@@ -16,8 +16,6 @@ public enum DateFormatsOptions {
 
     YEAR_MONTH_DAY("yyyy-MM-dd"),
 
-    CHECK_OUT_FORMAT("E, d MMM, yyyy"),
-
     DAY_MONTH_DAY("E MMM d"),
 
     MONTH_DAY_YEAR("MMM d , yyyy"),

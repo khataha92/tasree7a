@@ -99,7 +99,7 @@
     <string name="TONIGHT">الليلة</string>
     <string name="TOMMOROW">غداً</string>
     <string name="CHECK_IN">Check in</string>
-
+    <string name="CLICK_TO_SELECT_DATE">اضغط لاختيار تاريخ الحجز</string>
     <string-array name="DAYS_APPREVIATIONS">
 
         <item>سبت</item>

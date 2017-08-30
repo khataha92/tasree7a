@@ -43,7 +43,7 @@ public class CalendarMonthAdapter extends RecyclerView.Adapter<CalendarDayViewHo
 
     private Context context;
 
-    private LocalDate checkInDate, markerCheckInDate, markerCheckOutDate;
+    private LocalDate checkInDate, markerCheckInDate;
 
     private int indexOfMonth;
 
@@ -100,19 +100,6 @@ public class CalendarMonthAdapter extends RecyclerView.Adapter<CalendarDayViewHo
         if (checkInDate != null && dateInPosition.isEqual(checkInDate)) {
 
             return IN_SELECTION_DAY.getValue();
-
-        }
-
-        // Or a cell within markers dates
-        if (markerCheckInDate != null && markerCheckOutDate != null) {
-
-            if (dateInPosition.isEqual(markerCheckInDate)
-                    || dateInPosition.isEqual(markerCheckOutDate)
-                    || (dateInPosition.isAfter(markerCheckInDate) && dateInPosition.isBefore(markerCheckOutDate))) {
-
-                return IN_MARKERS_INTERVAL_DAY.getValue();
-
-            }
 
         }
 
@@ -186,13 +173,6 @@ public class CalendarMonthAdapter extends RecyclerView.Adapter<CalendarDayViewHo
                 break;
 
             case IN_SELECTION_DAY:
-
-                // Do marker drawables if exists then the selection stuff
-                if (markerCheckInDate != null && markerCheckOutDate != null) {
-
-                    bindViewHolderOnSpecialDay(holder, date, IN_MARKERS_INTERVAL_DAY);
-
-                }
 
                 bindViewHolderOnSpecialDay(holder, date, IN_SELECTION_DAY);
 

@@ -161,6 +161,11 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
                 return new ContactDetailsViewHolder(itemView,cardModel);
 
+            case BOOKING_ITEM:
+
+                itemView = inflate(R.layout.view_booking_item, parent);
+
+                return new BookingItemViewHolder(itemView, cardModel);
 
             default:
 

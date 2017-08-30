@@ -97,8 +97,7 @@ soon as possible</string>
     <string name="TONIGHT">Tonight</string>
     <string name="TOMMOROW">Tomorrow</string>
     <string name="CHECK_IN">Check in</string>
-    <string name="CHECK_OUT">Check out</string>
-
+    <string name="CLICK_TO_SELECT_DATE">Click to select check in date</string>
     <string name="LOCATION_DISABLED_MESSAGE">Your Location service seems to be disabled, do you want to enable it?</string>
 
     <string-array name="DAYS_APPREVIATIONS">

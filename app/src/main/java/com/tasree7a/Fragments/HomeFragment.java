@@ -164,6 +164,12 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                         switch (itemId){
 
+                            case R.id.bookings:
+
+                                FragmentManager.showFragmentBookingList();
+
+                                break;
+
                             case R.id.map_view:
 
                                 FragmentManager.showMapViewFragment(SessionManager.getInstance().getSalons());
@@ -206,7 +212,9 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                             case R.id.feedback:
 
-                                FragmentManager.showFeedBackFragment();
+                                //FragmentManager.showFeedBackFragment();
+
+                                FragmentManager.showFragmentSalonServices();
 
                                 break;
 
@@ -300,8 +308,6 @@ public class HomeFragment extends BaseFragment implements Observer {
         popularSallons = (RecyclerView) rootView.findViewById(R.id.popular_sallons);
 
         popularSallons.setLayoutManager(new LinearLayoutManager(ThisApplication.getCurrentActivity()));
-
-        showCalendarFragment();
 
         return rootView;
 

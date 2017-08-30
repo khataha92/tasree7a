@@ -130,12 +130,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title_sort_by"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                >
 
                 <com.tasree7a.CustomComponent.CustomRadioGroup
                     android:id="@+id/sort_by"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:weightSum="3">
 
                     <com.tasree7a.CustomComponent.CustomRadioButton

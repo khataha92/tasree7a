@@ -37,7 +37,7 @@ public class CustomRadioGroup extends LinearLayout implements SingleCheckableGro
 
     private void init(){
 
-        setOrientation(HORIZONTAL);
+       // setOrientation(HORIZONTAL);
 
     }
 

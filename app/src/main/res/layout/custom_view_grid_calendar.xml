@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/daysLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="1dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/days_horizental"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/d1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1429"
+                android:gravity="center"
+                android:text="S"
+                android:paddingTop="20dp"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/d2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1429"
+                android:gravity="center"
+                android:text="M"
+                android:paddingTop="20dp"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/d3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1429"
+                android:gravity="center"
+                android:text="T"
+                android:paddingTop="20dp"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="13sp"/>
+
+
+            <TextView
+                android:id="@+id/d4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1429"
+                android:gravity="center"
+                android:text="W"
+                android:paddingTop="20dp"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="13sp" />
+
+
+            <TextView
+                android:id="@+id/d5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1429"
+                android:gravity="center"
+                android:text="T"
+                android:paddingTop="20dp"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="13sp" />
+
+
+            <TextView
+                android:id="@+id/d6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1429"
+                android:gravity="center"
+                android:text="F"
+                android:paddingTop="20dp"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="13sp" />
+
+
+            <TextView
+                android:id="@+id/d7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1429"
+                android:gravity="center"
+                android:text="S"
+                android:paddingTop="20dp"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/days_horizental"
+            android:background="@color/BG_GRAY"/>
+
+    </RelativeLayout>
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/calendar_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/daysLine" />
+
+</RelativeLayout>

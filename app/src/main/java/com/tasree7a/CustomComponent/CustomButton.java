@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.util.AttributeSet;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.common.base.Strings;
 import com.tasree7a.Enums.FontsType;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
@@ -24,7 +26,7 @@ import com.tasree7a.utils.FontUtil;
 import com.tasree7a.utils.UIUtils;
 
 /**
- * Created by Mojahed Dameri on 7/31/16.
+ * Created by Khalid Taha on 7/31/16.
  * Custom button that can be customized with ease of use and customizable
  */
 
@@ -316,6 +318,74 @@ public class CustomButton extends LinearLayout {
     public int getIcon() {
 
         return icon;
+    }
+
+    public void setButtonAppearance(@StyleRes int resId) {
+
+        TypedArray typedArray = ThisApplication.getCurrentActivity().obtainStyledAttributes(resId, R.styleable.CustomButton);
+
+        extractAttrs(typedArray);
+
+    }
+
+    private void extractAttrs(TypedArray a) {
+
+        if (a != null) {
+
+            int backgroundColor = 0, strokeColor = 0;
+
+            int radius = 4;
+
+            for (int i = 0; i < a.getIndexCount(); ++i) {
+
+                int attr = a.getIndex(i);
+
+                switch (attr) {
+
+                    case R.styleable.CustomButton_customButtonText:
+
+                        setText(a.getString(attr));
+
+                        break;
+
+                    case R.styleable.CustomButton_customButtonTextSize:
+
+                        setTextSize(TypedValue.COMPLEX_UNIT_PX, a.getDimensionPixelSize(attr, UIUtils.dpToPx(15)));
+
+                        break;
+
+                    case R.styleable.CustomButton_customButtonBackgroundColor:
+
+                        backgroundColor = a.getColor(attr, 0);
+
+                        break;
+
+                    case R.styleable.CustomButton_customButtonStrokeColor:
+
+                        strokeColor = a.getColor(attr, 0);
+
+                        break;
+
+                    case R.styleable.CustomButton_customButtonImageSrc:
+
+                        setIcon(a.getResourceId(attr, 0));
+
+                        break;
+
+                    case R.styleable.CustomButton_radius:
+
+                        radius = a.getInt(attr, 0);
+
+                        break;
+                }
+
+            }
+
+            a.recycle();
+
+        }
+
+
     }
 
 

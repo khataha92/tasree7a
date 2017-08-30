@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/top_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/app_bar_height"
+    android:background="@color/BG_GRAY"
+    >
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@drawable/rounded_corders_bg"
+        android:backgroundTint="@color/WHITE"
+        android:id="@+id/booking_top_bar_container"
+        >
+        <ImageView
+            android:id="@+id/open_menu"
+            android:layout_width="23.5dp"
+            android:layout_height="27dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="19dp"
+            android:src="@drawable/ic_side_menu" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/BOOKINGS"
+            android:textColor="@color/APP_BLACK"
+            android:textSize="19.3sp"
+            android:id="@+id/title"
+             />
+
+        <ImageView
+
+            android:id="@+id/booking_icon"
+            android:layout_width="23.5dp"
+            android:layout_height="27dp"
+            android:layout_marginLeft="91dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_notification" />
+
+
+    </RelativeLayout>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/booking_notify_text"
+    android:layout_below="@+id/booking_top_bar_container"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="21dp"
+    android:layout_marginLeft="19dp"
+    android:layout_marginRight="19dp"
+    android:textSize="13.3sp"
+    android:text="@string/USER_BOOKINGS"/>
+
+    <RelativeLayout
+        android:layout_width="345dp"
+        android:layout_height="323dp"
+        android:layout_below="@+id/booking_notify_text"
+        android:layout_marginLeft="17.3dp"
+        android:layout_marginRight="17.3dp"
+        android:background="@drawable/rounded_corner_white">
+        <RelativeLayout
+            android:id="@+id/salon_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/id_booking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/BOOKING_ID"
+            android:layout_marginLeft="17.7dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="18.7dp"
+            android:textSize="13.3sp"
+            />
+        <TextView
+            android:id="@+id/id_number"
+            android:layout_toRightOf="@+id/id_booking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="111111"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="18.7dp"
+            android:layout_marginRight="134dp"
+            android:layout_marginLeft="3dp"
+            android:textSize="13.3sp"
+            />
+
+               <TextView
+                   android:id="@+id/salon_name"
+                   android:layout_below="@+id/id_booking"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="@string/SALLONS"
+                   android:layout_marginLeft="17.3dp"
+                   android:textSize="19.3sp"
+                   android:textColor="@color/APP_GREEN"
+                   />
+        <TextView
+            android:layout_below="@+id/salon_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17.3dp"
+            android:textSize="13.3sp"
+            android:text="@string/ADDRESS"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_below="@+id/salon_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/booking_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+                android:text="Wed, Apr 22, 2017, 12:15 PM - 12:45 PM"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="20.7dp"/>
+
+            <LinearLayout
+                android:layout_below="@+id/booking_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+
+
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

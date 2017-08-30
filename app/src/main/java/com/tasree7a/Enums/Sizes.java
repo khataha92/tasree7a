@@ -1,7 +1,7 @@
 package com.tasree7a.Enums;
 
 /**
- * Created by mojadameri on 10/4/16.
+ * Created by Khalid Taha on 10/4/16.
  * Holds sizes for load images from uri to ImageView
  */
 

@@ -34,6 +34,7 @@
             android:text="11111111"
             android:textColor="@color/APP_BLACK"
             android:textStyle="bold" />
+       <include layout="@layout/accept_booking" />
 
         <TextView
             android:id="@+id/salon_name"

@@ -96,6 +96,8 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="20dp"
+                    android:textColorHint="@color/APP_TEXT_COLOR"
+                    android:textColor="@color/APP_TEXT_COLOR"
                     />
 
                 <EditText
@@ -106,6 +108,8 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="20dp"
+                    android:textColorHint="@color/APP_TEXT_COLOR"
+                    android:textColor="@color/APP_TEXT_COLOR"
                     />
 
                 <EditText
@@ -116,6 +120,21 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="20dp"
+                    android:textColorHint="@color/APP_TEXT_COLOR"
+                    android:textColor="@color/APP_TEXT_COLOR"
+                    />
+
+                <EditText
+                    android:id="@+id/currency"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="@string/CURRENCY"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="20dp"
+                    android:textColorHint="@color/APP_TEXT_COLOR"
+                    android:textColor="@color/APP_TEXT_COLOR"
+                    android:drawableRight="@drawable/ic_dropdown_arrow"
                     />
 
                 <EditText
@@ -126,6 +145,8 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="20dp"
+                    android:textColorHint="@color/APP_TEXT_COLOR"
+                    android:textColor="@color/APP_TEXT_COLOR"
                     />
 
                 <EditText
@@ -137,6 +158,8 @@
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="25dp"
+                    android:textColorHint="@color/APP_TEXT_COLOR"
+                    android:textColor="@color/APP_TEXT_COLOR"
                     />
 
             </LinearLayout>
@@ -164,7 +187,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:setChecked="true"
-                    app:customCheckboxText="SAT"
+                    app:customCheckboxText="@string/SAT"
                     />
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
@@ -172,7 +195,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:setChecked="true"
-                    app:customCheckboxText="SUN"
+                    app:customCheckboxText="@string/SUN"
                     />
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
@@ -180,7 +203,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:setChecked="false"
-                    app:customCheckboxText="MON"
+                    app:customCheckboxText="@string/MON"
                     />
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
@@ -188,7 +211,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:setChecked="true"
-                    app:customCheckboxText="TUE"
+                    app:customCheckboxText="@string/TUE"
                     />
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
@@ -196,7 +219,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:setChecked="true"
-                    app:customCheckboxText="WED"
+                    app:customCheckboxText="@string/WED"
                     />
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
@@ -204,7 +227,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:setChecked="true"
-                    app:customCheckboxText="THU"
+                    app:customCheckboxText="@string/THU"
                     />
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
@@ -212,7 +235,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:setChecked="true"
-                    app:customCheckboxText="FRI"
+                    app:customCheckboxText="@string/FRI"
                     />
 
                 </com.tasree7a.CustomComponent.CustomCheckableGroup>

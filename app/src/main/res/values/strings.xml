@@ -6,6 +6,7 @@
     <string name="LOGIN_WITH_FB">Login with Facebook</string>
     <string name="OR">Or</string>
     <string name="EMAIL">Email</string>
+    <string name="CURRENCY">Currency</string>
     <string name="PASSWORD">Password</string>
     <string name="LOGIN">Login</string>
     <string name="facebook_app_id">442974186045880</string>
@@ -34,6 +35,8 @@
     <string name="CITY">City</string>
     <string name="SORT_BY">Sort by</string>
     <string name="PRICE">Price</string>
+    <string name="DURATION_TIME">Duration Time</string>
+
     <string name="DISTANCE">Distance</string>
     <string name="RATING">Rating</string>
     <string name="SHOW_ONLY">Show only</string>
@@ -46,6 +49,10 @@
     <string name="SIGN_UP_ERROR_MISSING_INPUT">Please fill all fields with correct data</string>
     <string name="YOUR_LOCATION">Your location</string>
     <string name="PRODUCTS">Products</string>
+    <string name="SERVICES">Services</string>
+    <string name="PRODUCT_NAME">Product Name</string>
+    <string name="SERVICE_TYPE">Service Type</string>
+
     <string name="LANGUAGE">Language</string>
     <string name="CHANGE_PASSWORD">Change Password</string>
     <string name="NOTIFICATION">Notifications</string>
@@ -98,13 +105,10 @@ soon as possible</string>
     <string name="ENABLE_LOCATION">Enable location service</string>
     <string name="ATTACH_MESSAGE_HERE">Attach image here</string>
     <string name="CALENDAR">Calendar</string>
-    <string name="TONIGHT">Tonight</string>
-    <string name="TOMMOROW">Tomorrow</string>
-    <string name="CHECK_IN">Check in</string>
-    <string name="CLICK_TO_SELECT_DATE">Click to select check in date</string>
     <string name="LOCATION_DISABLED_MESSAGE">Your Location service seems to be disabled, do you want to enable it?</string>
 
     <string name="ADD">Add</string>
+    <string name="SAVE">Save</string>
     <string-array name="DAYS_APPREVIATIONS">
         <item>S</item>
         <item>M</item>
@@ -114,4 +118,16 @@ soon as possible</string>
         <item>F</item>
         <item>S</item>
     </string-array>
+    <string name="SUN">SUN</string>
+    <string name="MON">MON</string>
+    <string name="TUE">TUE</string>
+    <string name="WED">WED</string>
+    <string name="THU">THU</string>
+    <string name="FRI">FRI</string>
+    <string name="SAT">SAT</string>
+
+
+
+
+
 </resources>

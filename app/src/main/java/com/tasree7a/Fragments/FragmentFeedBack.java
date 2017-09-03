@@ -27,7 +27,7 @@ public class FragmentFeedBack extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.add_staff, container, false);
+        rootView = inflater.inflate(R.layout.view_salon_info, container, false);
 //view_book_schedule
 /*        rootView.findViewById(R.id.select_checkin_date).setOnClickListener(new View.OnClickListener() {
 

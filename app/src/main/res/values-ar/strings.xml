@@ -8,6 +8,8 @@
     <string name="LOGIN_WITH_FB">تسجيل الدخول</string>
     <string name="OR">أو</string>
     <string name="EMAIL">البريد الإلكتروني</string>
+    <string name="CURRENCY">العمله</string>
+
     <string name="PASSWORD">كلمة السر</string>
     <string name="LOGIN">تسجيل الدخول</string>
     <string name="facebook_app_id">442974186045880</string>
@@ -40,6 +42,8 @@
     <string name="CITY">مدينة</string>
     <string name="SORT_BY">ترتيب حسب</string>
     <string name="PRICE">السعر</string>
+    <string name="DURATION_TIME">المده الزمنيه</string>
+
     <string name="DISTANCE">المسافة</string>
     <string name="RATING">التقييم</string>
     <string name="SHOW_ONLY">أظهر فقط</string>
@@ -53,6 +57,11 @@
     <string name="SIGN_UP_ERROR_MISSING_INPUT">يرجى ملء جميع الحقول مع البيانات الصحيحة</string>
     <string name="YOUR_LOCATION">موقعك</string>
     <string name="PRODUCTS">المنتجات</string>
+    <string name="SERVICES">الخدمات</string>
+
+    <string name="PRODUCT_NAME">اسم المنتج</string>
+    <string name="SERVICE_TYPE">نوع الخدمه</string>
+
     <string name="LANGUAGE">اللغة</string>
     <string name="CHANGE_PASSWORD">غيّر كلمة السر</string>
     <string name="NOTIFICATION">الإشعارات</string>
@@ -90,7 +99,7 @@
     <string name="CLOSE">إغلاق</string>
     <string name="ENABLE_LOCATION">تفعيل الموقع</string>
     <string name="LOCATION_DISABLED_MESSAGE">خدمة الموقع تبدو معطلة، هل تريد تفعيلها الآن؟</string>
-    <string name="SELECT_SERVICE">اختر الحلقة</string>
+    <string name="SELECT_SERVICE">اختر الخدمه</string>
     <string name="SCHEDULE">استكمال</string>
     <string name="CONFIRM">تأكيد</string>
 
@@ -105,6 +114,7 @@
     <string name="CLICK_TO_SELECT_DATE">اضغط لاختيار تاريخ الحجز</string>
     <string name="ADD">أضافه</string>
     <string name="NAME">الاسم</string>
+    <string name="SAVE">حفظ</string>
 
     <string-array name="DAYS_APPREVIATIONS">
 
@@ -116,5 +126,11 @@
         <item>اثنين</item>
         <item>أحد</item>
     </string-array>
-
+    <string name="SUN">احد</string>
+    <string name="MON">اثنين</string>
+    <string name="TUE">ثلاثاء</string>
+    <string name="WED">اربعاء</string>
+    <string name="THU">خميس</string>
+    <string name="FRI">جمعه</string>
+    <string name="SAT">سبت</string>
 </resources>

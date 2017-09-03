@@ -22,10 +22,13 @@
     <string name="EN">ENG</string>
     <string name="MAP_VIEW">الخارطة</string>
     <string name="BOOKINGS">الحجوزات</string>
+    <string name="ADD_STAFF">موظف جديد</string>
+
     <string name="FAVORITES">المفضلة</string>
     <string name="FEEDBACK">أراء ومقترحات</string>
     <string name="APP_FEEDBACK">أراء ومقترحات</string>
-    <string name="SELECT_TIME_AND_BARBER">حدد الوقت و الكوفير</string>
+    <string name="SELECT_TIME">حدد الوقت </string>
+    <string name="SELECT_BARBER">اختر الكوفير</string>
 
 
     <string name="FAQs">الأسئلة الشائعة</string>
@@ -45,7 +48,7 @@
     <string name="FILTER">تصفية</string>
     <string name="APP_ِFEEDBACK"> أراء وإقتراحات</string>
     <string name="TELL_US">أخبرنا ما لديك <font color='#FF0000'>*</font></string>
-    <string name="GALLERY">Gallery</string>
+    <string name="GALLERY">المعرض</string>
     <string name="ERROR_FIRST_NAME_LAST_NAME">يجب أن يحتوي الاسم الكامل على الاسم الأول والاسم الأخير</string>
     <string name="SIGN_UP_ERROR_MISSING_INPUT">يرجى ملء جميع الحقول مع البيانات الصحيحة</string>
     <string name="YOUR_LOCATION">موقعك</string>
@@ -100,6 +103,9 @@
     <string name="TOMMOROW">غداً</string>
     <string name="CHECK_IN">Check in</string>
     <string name="CLICK_TO_SELECT_DATE">اضغط لاختيار تاريخ الحجز</string>
+    <string name="ADD">أضافه</string>
+    <string name="NAME">الاسم</string>
+
     <string-array name="DAYS_APPREVIATIONS">
 
         <item>سبت</item>

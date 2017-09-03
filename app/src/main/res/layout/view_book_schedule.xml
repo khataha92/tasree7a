@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="28dp"
-                android:text="@string/SELECT_TIME_AND_BARBER"
+                android:text="@string/SELECT_BARBER"
                 android:textColor="@color/APP_TEXT_COLOR"
                 android:textSize="19.3sp" />
 
@@ -129,7 +129,7 @@
                 android:layout_below="@+id/select_barbar"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/SELECT_TIME_AND_BARBER"
+                android:text="@string/SELECT_TIME"
                 android:textColor="@color/APP_TEXT_COLOR"
                 android:textSize="19.3sp" />
 

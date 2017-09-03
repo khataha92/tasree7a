@@ -20,6 +20,7 @@
     <string name="EN">ENG</string>
     <string name="MAP_VIEW">Map view</string>
     <string name="BOOKINGS">Bookings</string>
+    <string name="ADD_STAFF">NEW STAFF MEMBER</string>
     <string name="FAVORITES">Favorites</string>
     <string name="FAQs">FAQs</string>
     <string name="FEEDBACK">Feedback</string>
@@ -65,6 +66,8 @@
     <string name="NEW_PASSWORD">New Password</string>
     <string name="CONFIRM_PASSWORD">Confirm New Password</string>
 
+    <string name="NAME">Name</string>
+
     <string name="CANCEL">Cancel</string>
 
     <string name="CHANGE">Change</string>
@@ -77,7 +80,8 @@
     <string name="OPENING_HOURS">Opening hours</string>
     <string name="STAFF">Staff</string>
     <string name="SELECT_SERVICE">Select service</string>
-    <string name="SELECT_TIME_AND_BARBER">Select time and barber</string>
+    <string name="SELECT_TIME">Select Time </string>
+    <string name="SELECT_BARBER">Select Barber</string>
 
     <string name="TELL_US">Tell us what happened <font color='#FF0000'>*</font></string>
     <string name="REPLAY_MESSAGE">A member of our support staff will respond as
@@ -100,6 +104,7 @@ soon as possible</string>
     <string name="CLICK_TO_SELECT_DATE">Click to select check in date</string>
     <string name="LOCATION_DISABLED_MESSAGE">Your Location service seems to be disabled, do you want to enable it?</string>
 
+    <string name="ADD">Add</string>
     <string-array name="DAYS_APPREVIATIONS">
         <item>S</item>
         <item>M</item>

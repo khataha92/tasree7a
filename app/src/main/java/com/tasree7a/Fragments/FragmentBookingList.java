@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tasree7a.Adapters.BaseCardAdapter;
@@ -37,13 +38,24 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_bookings, container, false);
-
+        rootView = inflater.inflate(R.layout.fragment_salon_bookings, container, false);
+//fragment_bookings
         bookingList = (RecyclerView) rootView.findViewById(R.id.bookings_list);
 
         bookingList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         BaseCardAdapter adapter = new BaseCardAdapter(getCardModels());
+        ImageView back = (ImageView) rootView.findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.popCurrentVisibleFragment();
+
+            }
+        });
 
         bookingList.setAdapter(adapter);
 

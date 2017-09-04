@@ -59,6 +59,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tasree7a.Managers.FragmentManager.showCalendarFragment;
 
 public class HomeFragment extends BaseFragment implements Observer {
 
@@ -163,6 +164,12 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                         switch (itemId){
 
+                            case R.id.bookings:
+
+                                FragmentManager.showFragmentBookingList();
+
+                                break;
+
                             case R.id.map_view:
 
                                 FragmentManager.showMapViewFragment(SessionManager.getInstance().getSalons());
@@ -205,7 +212,9 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                             case R.id.feedback:
 
-                                FragmentManager.showFeedBackFragment();
+                                //FragmentManager.showFeedBackFragment();
+
+                                FragmentManager.showFragmentSalonServices();
 
                                 break;
 

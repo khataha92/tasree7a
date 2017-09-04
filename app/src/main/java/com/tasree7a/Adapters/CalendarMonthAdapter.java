@@ -1,0 +1,234 @@
+package com.tasree7a.Adapters;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.GradientDrawable;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.tasree7a.Enums.CalendarDayViewType;
+import com.tasree7a.Enums.Language;
+import com.tasree7a.Models.Calendar.CalendarViewsModel;
+import com.tasree7a.R;
+import com.tasree7a.ThisApplication;
+import com.tasree7a.ViewHolders.CalendarDayViewHolder;
+import com.tasree7a.interfaces.CalenderCellClickListener;
+import com.tasree7a.utils.UIUtils;
+import com.tasree7a.utils.UserDefaultUtil;
+
+import org.joda.time.LocalDate;
+import org.joda.time.YearMonth;
+
+import java.util.List;
+import java.util.Map;
+
+import static com.tasree7a.Enums.CalendarDayViewType.EMPTY_DAY;
+import static com.tasree7a.Enums.CalendarDayViewType.IN_MARKERS_INTERVAL_DAY;
+import static com.tasree7a.Enums.CalendarDayViewType.IN_SELECTION_DAY;
+import static com.tasree7a.Enums.CalendarDayViewType.NORMAL_DAY;
+
+
+/**
+ * Created by Khalid Taha on 2/2/16.
+ * Display days viewholders in month (days)
+ */
+public class CalendarMonthAdapter extends RecyclerView.Adapter<CalendarDayViewHolder> {
+
+    private Context context;
+
+    private LocalDate checkInDate, markerCheckInDate;
+
+    private int indexOfMonth;
+
+    private Object[] days;
+
+    private LocalDate today, startDay;
+
+    private CalenderCellClickListener dayClickListener;
+
+
+    public void setOnItemClickListener(CalenderCellClickListener listener) {
+        this.dayClickListener = listener;
+    }
+
+    public CalendarMonthAdapter(CalendarViewsModel calendarViewsModel) {
+
+        this.context = ThisApplication.getCurrentActivity();
+
+        this.indexOfMonth = calendarViewsModel.getMonthBeginningCell();
+
+        this.checkInDate = calendarViewsModel.getCheckInDate();
+
+        this.markerCheckInDate = calendarViewsModel.getMarkerCheckInDate();
+
+        this.days = calendarViewsModel.getDays();
+
+        this.startDay = calendarViewsModel.getStartDay();
+
+        this.today = calendarViewsModel.getToday();
+
+    }
+
+
+    @Override
+    public CalendarDayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(context).inflate(R.layout.calendar_normal_day_layout, parent, false);
+
+        return new CalendarDayViewHolder(view);
+
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+
+        if (position < indexOfMonth || position > (startDay.dayOfMonth().getMaximumValue() + indexOfMonth)) {
+
+            return EMPTY_DAY.getValue();
+        }
+
+        LocalDate dateInPosition = startDay.plusDays(position - indexOfMonth);
+
+        if (checkInDate != null && dateInPosition.isEqual(checkInDate)) {
+
+            return IN_SELECTION_DAY.getValue();
+
+        }
+
+        return NORMAL_DAY.getValue();
+    }
+
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return days.length;
+    }
+
+    @Override
+    public void onBindViewHolder(final CalendarDayViewHolder holder, int position) {
+
+        if (position < indexOfMonth || (position > days.length + indexOfMonth)) {
+            return;
+        }
+
+        // date of cell
+        LocalDate date = startDay.plusDays(position - indexOfMonth);
+
+        holder.setDate(date);
+
+        holder.setDayClickListener(dayClickListener);
+
+        String dayText = String.valueOf(date.getDayOfMonth());
+
+        holder.getTextView().setText(dayText);
+
+        CalendarDayViewType thisCellType = CalendarDayViewType.valueOf(getItemViewType(position));
+
+        switch (thisCellType) {
+
+            case NORMAL_DAY:
+
+                if (date.isBefore(today)) {
+
+                    holder.getTextView().setTextColor(ThisApplication.getCurrentActivity().getResources().getColor(R.color.GRAY));
+
+                } else if (date.isAfter(today)) {
+
+                    holder.getTextView().setTextColor(ThisApplication.getCurrentActivity().getResources().getColor(R.color.APP_TEXT_COLOR));
+
+                } else if (date.isEqual(today)) {
+
+                    holder.getFullMarkerBG().setBackground(
+                            UIUtils.generateShapeBackground(
+                                    ThisApplication.getCurrentActivity().getResources().getColor(R.color.TRANSPARENT_BLACK_COLOR),
+                                    ThisApplication.getCurrentActivity().getResources().getColor(R.color.APP_TEXT_COLOR), GradientDrawable.OVAL, 4));
+
+                    holder.getFullSelectionBG().setBackground(
+                            UIUtils.generateShapeBackground(
+                                    ThisApplication.getCurrentActivity().getResources().getColor(R.color.TRANSPARENT_BLACK_COLOR),
+                                    ThisApplication.getCurrentActivity().getResources().getColor(R.color.APP_TEXT_COLOR), GradientDrawable.OVAL, 4));
+
+                    holder.getTextView().setTextColor(ThisApplication.getCurrentActivity().getResources().getColor(R.color.APP_TEXT_COLOR));
+                }
+
+                return;
+
+            case IN_MARKERS_INTERVAL_DAY:
+
+                bindViewHolderOnSpecialDay(holder, date, thisCellType);
+
+                break;
+
+            case IN_SELECTION_DAY:
+
+                bindViewHolderOnSpecialDay(holder, date, IN_SELECTION_DAY);
+
+                break;
+
+        }
+
+    }
+
+    private void bindViewHolderOnSpecialDay(CalendarDayViewHolder holder, LocalDate date, CalendarDayViewType cellType) {
+
+        if (cellType == IN_SELECTION_DAY) {
+
+            holder.getTextView().setTextColor(Color.WHITE);
+
+        } else {
+
+            holder.getTextView().setTextColor(ThisApplication.getCurrentActivity().getResources().getColor(R.color.APP_TEXT_COLOR));
+
+        }
+
+        LocalDate checinDate = cellType == IN_MARKERS_INTERVAL_DAY? markerCheckInDate : checkInDate;
+
+        int cellBg = cellType == IN_MARKERS_INTERVAL_DAY? R.color.BLACK : R.color.APP_GREEN;
+
+        View fullBgToShow = cellType == IN_MARKERS_INTERVAL_DAY? holder.getFullMarkerBG() : holder.getFullSelectionBG();
+
+        View fullBgToHide = cellType != IN_MARKERS_INTERVAL_DAY? holder.getFullMarkerBG() : holder.getFullSelectionBG();
+
+        if (date.isEqual(checinDate)) {//if it's in start interval
+
+            fullBgToHide.setVisibility(View.GONE);
+
+            fullBgToShow.setVisibility(View.VISIBLE);
+
+            fullBgToShow.setBackground(
+                    UIUtils.generateShapeBackground(ThisApplication.getCurrentActivity().getResources().getColor(cellBg), ThisApplication.getCurrentActivity().getResources().getColor(cellBg), GradientDrawable.OVAL, 4));
+
+        }
+
+    }
+
+    public LocalDate getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(LocalDate checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public int getIndexOfMonth() {
+        return indexOfMonth;
+    }
+
+    public LocalDate getStartDay() {
+        return startDay;
+    }
+
+}

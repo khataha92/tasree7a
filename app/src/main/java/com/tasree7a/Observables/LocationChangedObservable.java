@@ -9,7 +9,7 @@ import java.util.Observable;
 
 /**
  * Created by mohammad on 5/3/15.
- * This class will handle the change to the check in and check out dates and notify observers for this action
+ * This class will handle the change to the check in date and notify observers for this action
  */
 public class LocationChangedObservable extends Observable {
 

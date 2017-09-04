@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.tasree7a.Fragments.BaseFragment;
+import com.tasree7a.Fragments.CalenderFragment;
 import com.tasree7a.Fragments.ChangePasswordFragment;
-import com.tasree7a.Fragments.FeedBackFragment;
+import com.tasree7a.Fragments.FragmentBookingList;
+import com.tasree7a.Fragments.FragmentFeedBack;
 import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
+import com.tasree7a.Fragments.FragmentSalonServices;
 import com.tasree7a.Fragments.FullScreenGalleryFragment;
 import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.ProfileFragment;
@@ -25,6 +28,7 @@ import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
+import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 
@@ -54,12 +58,29 @@ public class FragmentManager  {
         return currentFragments.get(index);
     }
 
+    public static void showFragmentSalonServices(){
+
+        FragmentSalonServices services = new FragmentSalonServices();
+
+        replaceFragment(services, true);
+
+    }
+
     public static void showHomeFragment() {
 
         HomeFragment homeFragment = new HomeFragment();
 
         replaceFragment(homeFragment, true);
 
+    }
+
+    public static void showCalendarFragment(AbstractCallback callback){
+
+        CalenderFragment calenderFragment = new CalenderFragment();
+
+        calenderFragment.setCallback(callback);
+
+        replaceFragment(calenderFragment,true);
     }
 
     public static void showGalleryFullScreenFragment(List<ImageModel> images, int position) {
@@ -101,10 +122,17 @@ public class FragmentManager  {
     }
     public static void showFeedBackFragment(){
 
-        FeedBackFragment fragment = new FeedBackFragment();
+        FragmentFeedBack fragment = new FragmentFeedBack();
 
         replaceFragment(fragment, true);
 
+    }
+
+    public static void showFragmentBookingList(){
+
+        FragmentBookingList bookingList = new FragmentBookingList();
+
+        replaceFragment(bookingList, true);
     }
 
     public static void showFragmentGallery(ArrayList<ImageModel> imageModels, ArrayList<SalonProduct> salonProducts){

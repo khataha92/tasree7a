@@ -95,5 +95,20 @@
     <string name="ATTACH_IMAGE">أرفق صور (اقصى حد :3)</string>
     <string name="ATTACH_MESSAGE_HERE">أضف الصور هنا</string>
     <string name="SUBMIT">إقترح</string>
+    <string name="CALENDAR">التقويم</string>
+    <string name="TONIGHT">الليلة</string>
+    <string name="TOMMOROW">غداً</string>
+    <string name="CHECK_IN">Check in</string>
+    <string name="CLICK_TO_SELECT_DATE">اضغط لاختيار تاريخ الحجز</string>
+    <string-array name="DAYS_APPREVIATIONS">
+
+        <item>سبت</item>
+        <item>جمعة</item>
+        <item>خميس</item>
+        <item>أربعاء</item>
+        <item>ثلاثاء</item>
+        <item>اثنين</item>
+        <item>أحد</item>
+    </string-array>
 
 </resources>

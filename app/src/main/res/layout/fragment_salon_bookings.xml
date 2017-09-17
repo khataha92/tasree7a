@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BG_GRAY"
+    >
+
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@color/WHITE">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="31dp"
+            android:layout_height="41dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_back" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/GRAY" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/BOOKINGS"
+            android:textAllCaps="true"
+            android:textColor="@color/APP_TEXT_COLOR"
+            android:textSize="19.3sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="2dp"
+            android:layout_height="21.7dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="35.8dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/APP_GREEN" />
+        <View
+            android:layout_width="21.7dp"
+            android:layout_height="2dp"
+            android:layout_marginRight="26dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/APP_GREEN" />
+    </RelativeLayout>
+<RelativeLayout
+    android:id="@+id/barber_list"
+    android:layout_width="match_parent"
+    android:layout_height="37.7dp"
+    android:layout_below="@+id/top_bar"
+    android:background="@color/BLACK">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_centerInParent="true"
+        android:text="Barber Name"
+        android:textSize="19.3sp"
+        android:textColor="@color/WHITE"
+        />
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_centerVertical="true"
+       android:layout_alignParentRight="true"
+       android:layout_marginRight="26dp"
+       android:src="@drawable/ic_dropdown_arrow"/>
+</RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bookings_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/barber_list"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

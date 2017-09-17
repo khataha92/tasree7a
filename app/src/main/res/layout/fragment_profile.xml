@@ -129,6 +129,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
+                    android:id="@+id/password_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/input_layout_email">
@@ -169,6 +170,46 @@
                         app:customButtonText="@string/CHANGE"
                         app:customButtonTextColor="@color/WHITE"
                         app:customButtonTextSize="11sp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_below="@+id/password_layout"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="53dp"
+                    android:layout_marginRight="26dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.tasree7a.CustomComponent.CustomButton
+                        android:id="@+id/cancel"
+                        android:layout_width="145dp"
+                        android:layout_height="56dp"
+                        android:layout_marginRight="26dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="32dp"
+                        android:background="@drawable/shadow"
+                        android:paddingBottom="10dp"
+                        app:customButtonRadius="20"
+                        app:customButtonText="@string/CANCEL"
+                        app:customButtonTextColor="@color/WHITE"
+                        app:customButtonTextSize="19sp"/>
+
+
+                    <com.tasree7a.CustomComponent.CustomButton
+                        android:id="@+id/apply"
+                        android:layout_width="145dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="32dp"
+                        android:background="@drawable/shadow2"
+                        android:paddingBottom="10dp"
+                        app:customButtonRadius="20"
+                        app:customButtonText="@string/APPLY"
+                        app:customButtonTextColor="@color/WHITE"
+                        app:customButtonTextSize="19sp"/>
+
                 </LinearLayout>
             </RelativeLayout>
         </ScrollView>

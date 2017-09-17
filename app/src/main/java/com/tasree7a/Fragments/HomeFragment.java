@@ -212,9 +212,9 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                             case R.id.feedback:
 
-                                //FragmentManager.showFeedBackFragment();
+                                FragmentManager.showFeedBackFragment();
 
-                                FragmentManager.showFragmentSalonServices();
+                                //FragmentManager.showFragmentSalonServices();
 
                                 break;
 

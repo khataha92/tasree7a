@@ -2,7 +2,6 @@ package com.tasree7a.Enums;
 
 /**
  * Created by Khalid Taha on 3/19/16.
- * Enum for Hotel Details cards types
  */
 public enum CardType {
 

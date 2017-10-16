@@ -13,11 +13,13 @@ import android.widget.Toast;
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Signup.SignupModel;
+import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UIUtils;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -115,6 +117,10 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
                         UIUtils.hideSweetLoadingDialog();
 
                         if (isSuccess) {
+
+                            SignupResponseModel signupResponseModel = (SignupResponseModel) result;
+
+                            UserDefaultUtil.saveUser(signupResponseModel.getUser());
 
                             startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
                             

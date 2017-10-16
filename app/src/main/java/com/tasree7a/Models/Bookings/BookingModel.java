@@ -1,5 +1,11 @@
 package com.tasree7a.Models.Bookings;
 
+import com.google.gson.annotations.SerializedName;
+import com.tasree7a.Models.PopularSalons.CityModel;
+import com.tasree7a.Models.PopularSalons.CountryModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,15 +14,24 @@ import java.util.List;
 
 public class BookingModel {
 
+    @SerializedName("book_id")
     String bookingId;
 
-    String salonName;
-
-    String salonAddress;
+    @SerializedName("salon")
+    SalonModel salon;
 
     String bookingTime;
 
-    List<BookingServiceModel> bookingServiceList;
+    @SerializedName("book_status")
+    int bookStatus;
+
+    @SerializedName("city")
+    CityModel city;
+
+    @SerializedName("country")
+    CountryModel country;
+
+    List<BookingServiceModel> bookingServiceList = new ArrayList<>();
 
     public String getBookingId() {
         return bookingId;
@@ -27,19 +42,40 @@ public class BookingModel {
     }
 
     public String getSalonName() {
-        return salonName;
-    }
 
-    public void setSalonName(String salonName) {
-        this.salonName = salonName;
+        if (salon != null) {
+
+            return salon.getName();
+        }
+
+        return "";
     }
 
     public String getSalonAddress() {
-        return salonAddress;
-    }
 
-    public void setSalonAddress(String salonAddress) {
-        this.salonAddress = salonAddress;
+        String countryName = "";
+
+        String cityName = "";
+
+        String address = "";
+
+        if (city != null) {
+
+            cityName = city.getName();
+
+
+            address = cityName;
+        }
+
+        if (country != null) {
+
+            countryName = country.getName();
+
+            address += ", " + countryName;
+
+        }
+
+        return address;
     }
 
     public String getBookingTime() {
@@ -57,4 +93,5 @@ public class BookingModel {
     public void setBookingServiceList(List<BookingServiceModel> bookingServiceList) {
         this.bookingServiceList = bookingServiceList;
     }
+
 }

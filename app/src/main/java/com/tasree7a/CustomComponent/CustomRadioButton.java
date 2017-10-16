@@ -32,6 +32,8 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
 
     FilterType filterType;
 
+    String itemId;
+
     public CustomRadioButton(Context context) {
         super(context);
 
@@ -48,6 +50,12 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
         super(context, attrs, defStyleAttr);
 
         init(attrs);
+    }
+
+    @Override
+    public void setGravity(int gravity){
+
+        ((LinearLayout)getChildAt(0)).setGravity(gravity);
     }
 
     private void init(AttributeSet attrs){
@@ -106,29 +114,7 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
 
                         CustomOrientation orientation = CustomOrientation.valueOf(a.getInteger(attr,2));
 
-                        LinearLayout layout = (LinearLayout) getChildAt(0);
-
-                        switch (orientation){
-
-                            case VERTICAL:
-
-                                layout.setOrientation(VERTICAL);
-
-                                break;
-
-                            case HORIZONTAL:
-
-                                layout.setOrientation(HORIZONTAL);
-
-                                View v1 = layout.getChildAt(0);
-
-                                layout.removeView(v1);
-
-                                layout.addView(v1);
-
-                                break;
-
-                        }
+                        setCustomOrientation(orientation);
 
                         break;
 
@@ -137,6 +123,34 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
             }
 
             a.recycle();
+
+        }
+
+    }
+
+    public void setCustomOrientation(CustomOrientation orientation){
+
+        LinearLayout layout = (LinearLayout) getChildAt(0);
+
+        switch (orientation){
+
+            case VERTICAL:
+
+                layout.setOrientation(VERTICAL);
+
+                break;
+
+            case HORIZONTAL:
+
+                layout.setOrientation(HORIZONTAL);
+
+                View v1 = layout.getChildAt(0);
+
+                layout.removeView(v1);
+
+                layout.addView(v1);
+
+                break;
 
         }
 
@@ -169,11 +183,25 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
 
     }
 
+    public void setLabel(String label){
+
+        text.setText(label);
+
+    }
+
     public void setFilterType(FilterType filterType) {
         this.filterType = filterType;
     }
 
     public FilterType getFilterType() {
         return filterType;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getItemId() {
+        return itemId;
     }
 }

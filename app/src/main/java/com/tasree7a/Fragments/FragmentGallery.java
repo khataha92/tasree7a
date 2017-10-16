@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tasree7a.Adapters.GalleryAdapter;
 import com.tasree7a.CustomComponent.SpacesItemDecoration;
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
@@ -27,6 +29,10 @@ public class FragmentGallery extends BaseFragment {
 
     RecyclerView gallery ;
 
+    TextView title;
+
+    TextView salonName;
+
     List<ImageModel> imageModelList;
 
     List<SalonProduct> productsList;
@@ -42,6 +48,12 @@ public class FragmentGallery extends BaseFragment {
 
         gallery.setLayoutManager(new GridLayoutManager(getContext(),2));
 
+        title = (TextView) rootView.findViewById(R.id.title);
+
+        salonName = (TextView) rootView.findViewById(R.id.salon_name);
+
+        salonName.setText(ReservationSessionManager.getInstance().getSalonModel().getName());
+
         Bundle args = getArguments();
 
         if(args != null){
@@ -50,10 +62,14 @@ public class FragmentGallery extends BaseFragment {
 
                 imageModelList = (List<ImageModel>)getArguments().getSerializable(FragmentArg.IMAGE_LIST);
 
+                title.setText(getString(R.string.GALLERY));
+
             }
             if(args.getSerializable(FragmentArg.PRODUCTS_LIST) != null){
 
                 productsList = (List<SalonProduct>)getArguments().getSerializable(FragmentArg.PRODUCTS_LIST);
+
+                title.setText(getString(R.string.PRODUCTS));
 
                 isProduct = true;
 

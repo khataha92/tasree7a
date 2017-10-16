@@ -45,8 +45,6 @@ public class BookingItemViewHolder extends BaseCardViewHolder {
 
         salonAddress.setText(model.getSalonAddress());
 
-        //ListView bookingService = (ListView) itemView.findViewById(R.id.booking_services);
-
         LinearLayout services = (LinearLayout) itemView.findViewById(R.id.booking_services);
 
         for(int i = 0 ; i < model.getBookingServiceList().size() ; i++){
@@ -62,7 +60,5 @@ public class BookingItemViewHolder extends BaseCardViewHolder {
             cost.setText("$" + model.getBookingServiceList().get(i).getCost());
 
         }
-
-        //bookingService.setAdapter(new BookingServicesAdapter(model.getBookingServiceList()));
     }
 }

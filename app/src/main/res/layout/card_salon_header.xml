@@ -46,11 +46,13 @@
         android:layout_marginBottom="11.3dp">
 
         <ImageView
+            android:id="@+id/book_now"
             android:layout_width="122.3dp"
             android:layout_height="41dp"
             android:src="@drawable/ic_book" />
 
         <TextView
+            android:id="@+id/book_now_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

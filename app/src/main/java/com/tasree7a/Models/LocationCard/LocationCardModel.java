@@ -1,7 +1,7 @@
 package com.tasree7a.Models.LocationCard;
 
 
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 
 /**
  * Created by mac on 5/10/16.

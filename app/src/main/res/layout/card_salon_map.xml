@@ -2,9 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="146dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/BG_GRAY"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@color/BG_GRAY">
     
     <!--<com.google.android.gms.maps.MapView android:id="@+id/mapview"-->
         <!--android:layout_width="match_parent"-->

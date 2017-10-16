@@ -11,11 +11,17 @@ import android.net.Uri;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
@@ -32,6 +38,7 @@ import com.tasree7a.Fragments.BaseFragment;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.Bookings.BookingModel;
 import com.tasree7a.Models.Bookings.BookingServiceModel;
+import com.tasree7a.Models.LoadingViewModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 
@@ -155,75 +162,17 @@ public class UIUtils {
             "http://hairstyleonpoint.com/wp-content/uploads/2015/08/11811288_937523026308702_756256385143542710_n.jpg"
     };
 
+    public static void hideLoadingView(View viewToAttach, BaseFragment fragment) {
 
-    public static List<BookingModel> bookingModels = new ArrayList<BookingModel>(){{
+        showHideLoadingView(viewToAttach, fragment, false, null);
 
-        add(new BookingModel(){{
+    }
 
-            setBookingId("111111");
-            setBookingTime("Wed, Apr 22, 2017, 12:15 PM - 12:45 PM");
-            setSalonName("Samer Salon");
-            setSalonAddress("Ramallah, Al Masyoun, Mahmoud Darwish St.");
-            setBookingServiceList(new ArrayList<BookingServiceModel>(){{
+    public static void showLoadingView(View viewToAttach, BaseFragment fragment) {
 
-                add(new BookingServiceModel(){{
+        showHideLoadingView(viewToAttach, fragment, true, null);
 
-                    setCost(2);
-                    setServiceName("Hair only");
-
-                }});
-
-            }});
-
-        }});
-
-        add(new BookingModel(){{
-
-            setBookingId("222222");
-            setBookingTime("Thu, Apr 23, 2017, 1:00 PM - 2:00 PM");
-            setSalonName("Adel Salon");
-            setSalonAddress("Nablus, Rafidia");
-            setBookingServiceList(new ArrayList<BookingServiceModel>(){{
-
-                add(new BookingServiceModel(){{
-
-                    setCost(2);
-                    setServiceName("Hair");
-
-                }});
-
-                add(new BookingServiceModel(){{
-
-                    setCost(1);
-                    setServiceName("Beard");
-
-                }});
-
-            }});
-
-        }});
-
-        add(new BookingModel(){{
-
-            setBookingId("333333");
-            setBookingTime("Fri, Apr 24, 2017, 1:15 PM - 1:45 PM");
-            setSalonName("Samer Salon");
-            setSalonAddress("Jenin, Al-Basatin, Ayash Circle");
-            setBookingServiceList(new ArrayList<BookingServiceModel>(){{
-
-                add(new BookingServiceModel(){{
-
-                    setCost(2);
-                    setServiceName("Hair only");
-
-                }});
-
-            }});
-
-        }});
-
-    }};
-
+    }
 
     public static void showSweetLoadingDialog() {
 
@@ -242,6 +191,133 @@ public class UIUtils {
         loadingDialog.show();
     }
 
+    private static void showHideLoadingView(View viewToAttach,
+                                            BaseFragment fragment,
+                                            boolean show,
+                                            LoadingViewModel loadingViewModel) {
+
+        if (viewToAttach == null
+                || fragment == null
+                || fragment.getActivity() == null
+                || fragment.getActivity().isFinishing()
+                || fragment.isDestroyed()) {
+
+            return;
+
+        }
+
+        View loadingView = viewToAttach.findViewById(R.id.layout_loading_view);
+
+        if (loadingView == null) {
+
+            loadingView = LayoutInflater.from(ThisApplication.getCurrentActivity()).inflate(R.layout.layout_loading_view, (ViewGroup) viewToAttach, false);
+
+            loadingView.setBackgroundColor(Color.WHITE);
+
+            loadingView.setClickable(true);
+
+            ((ViewGroup) viewToAttach).addView(loadingView);
+
+        }
+
+        if (show) {
+
+            customizeLoadingView(viewToAttach, loadingView, loadingViewModel);
+
+        }
+
+        showHideLoadingViewInternal(loadingView, show);
+
+    }
+
+    private static void showHideLoadingViewInternal(View loadingView, boolean show) {
+
+        //animate
+        if (show) {
+
+            loadingView.setVisibility(View.VISIBLE);
+
+//
+//                ObjectAnimator anim = ObjectAnimator.ofFloat(loadingView, "alpha", 0f, 1f);
+//
+//                anim.setDuration(YamsaferApplication.getmShortAnimationDuration());
+//
+//                anim.start();
+
+        } else {
+
+            loadingView.setVisibility(View.GONE);
+
+//                if (true) return;
+//
+//                loadingView.setClickable(false);
+//
+//                ObjectAnimator anim = ObjectAnimator.ofFloat(loadingView, "alpha", 1f, 0f);
+//
+//                anim.setDuration(YamsaferApplication.getmShortAnimationDuration());
+//
+//                anim.addListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        super.onAnimationEnd(animation);
+//
+//                        loadingView.setVisibility(View.GONE);
+//
+//                    }
+//                });
+//
+//                anim.start();
+
+        }
+
+    }
+
+    private static void customizeLoadingView(View viewToAttach, View loadingView, LoadingViewModel loadingViewModel) {
+
+        // Upper text
+        TextView upperTextView = (TextView)loadingView.findViewById(R.id.upper_loading_layout_label);
+
+        if (upperTextView != null) {
+
+            upperTextView.setText(loadingViewModel == null || loadingViewModel.getUpperText() == null ? "" : loadingViewModel.getUpperText());
+
+        }
+
+        // Lower text
+        TextView lowerTextView = (TextView) loadingView.findViewById(R.id.lower_loading_layout_label);
+
+        if (lowerTextView != null) {
+
+            lowerTextView.setText(loadingViewModel == null || loadingViewModel.getLowerText() == null ? "" : loadingViewModel.getLowerText());
+
+        }
+
+        // Layout params
+        if (loadingViewModel != null && loadingViewModel.getLayoutParams() != null) {
+
+            loadingView.setLayoutParams(loadingViewModel.getLayoutParams());
+
+        } else if (viewToAttach instanceof RelativeLayout) {
+
+            loadingView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        } else if (viewToAttach instanceof LinearLayout) {
+
+            loadingView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        } else if (viewToAttach instanceof FrameLayout) {
+
+            loadingView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        } else {
+
+            loadingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
+
+        // Alpha
+        loadingView.setAlpha(loadingViewModel != null ? loadingViewModel.getAlpha() : 1.0f);
+
+    }
 
     public static void showConfirmLanguageChangeDialog(final CustomSwitch langSwitch) {
 

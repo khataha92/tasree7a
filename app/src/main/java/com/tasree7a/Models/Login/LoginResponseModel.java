@@ -14,6 +14,20 @@ public class LoginResponseModel {
     @SerializedName("response_message")
     String responseMessage;
 
+    @SerializedName("details")
+    User user;
+
+    @SerializedName("salon_id")
+    String salonId;
+
+    public String getSalonId() {
+        return salonId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     public String getResponseCode() {
         return responseCode;
     }

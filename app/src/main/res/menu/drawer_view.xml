@@ -29,11 +29,11 @@
                 android:title="@string/SETTINGS"
                 android:id="@+id/settings"
                 />
-            <item
-                android:icon="@drawable/ic_feedback"
-                android:title="@string/FEEDBACK"
-                android:id="@+id/feedback"
-                />
+            <!--<item-->
+                <!--android:icon="@drawable/ic_feedback"-->
+                <!--android:title="@string/FEEDBACK"-->
+                <!--android:id="@+id/feedback"-->
+                <!--/>-->
 
             <!--<item-->
                 <!--android:icon="@drawable/ic_faqs"-->

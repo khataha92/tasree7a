@@ -1,4 +1,4 @@
-package com.tasree7a.Models.PopularSalons;
+package com.tasree7a.Models.SalonDetails;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
@@ -8,6 +8,9 @@ import com.tasree7a.Enums.FilterType;
 import com.tasree7a.Enums.Gender;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.MapView.GeoLocationModel;
+import com.tasree7a.Models.PopularSalons.CityModel;
+import com.tasree7a.Models.PopularSalons.RankModel;
+import com.tasree7a.Models.SalonBooking.SalonService;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.interfaces.Filterable;
 import com.tasree7a.utils.UIUtils;
@@ -20,7 +23,8 @@ import java.util.List;
  * Created by mac on 7/4/17.
  */
 
-public class SalonModel implements Filterable, ClusterItem {
+public class
+SalonModel implements Filterable, ClusterItem {
 
     @SerializedName("rank")
     RankModel rank;
@@ -52,6 +56,9 @@ public class SalonModel implements Filterable, ClusterItem {
     @SerializedName("salon_img")
     String image;
 
+    @SerializedName("salon_barbers")
+    List<SalonBarber> salonBarbers;
+
     @SerializedName("salon_images")
     List<ImageModel> gallery;
 
@@ -62,6 +69,20 @@ public class SalonModel implements Filterable, ClusterItem {
     Gender salonType;
 
     GeoLocationModel locationModel;
+
+    @SerializedName("salon_services")
+    List<SalonService> salonServices;
+
+    boolean isBusiness = false;
+
+    public List<SalonService> getSalonServices() {
+
+        return salonServices;
+    }
+
+    public List<SalonBarber> getSalonBarbers() {
+        return salonBarbers;
+    }
 
     public String getImage() {
         return Constants.IMAGE_PREFIX+image;
@@ -127,6 +148,11 @@ public class SalonModel implements Filterable, ClusterItem {
         return salonCity.getName();
     }
 
+    public CityModel getCity(){
+
+        return salonCity;
+    }
+
     public CityModel getCityModel(){
 
         return salonCity;
@@ -154,6 +180,34 @@ public class SalonModel implements Filterable, ClusterItem {
 
         return products;
 
+    }
+
+    public void setProducts(List<SalonProduct> products) {
+        this.products = products;
+    }
+
+    public void setGallery(List<ImageModel> gallery) {
+        this.gallery = gallery;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setRank(RankModel rank) {
+        this.rank = rank;
+    }
+
+    public RankModel getRank() {
+        return rank;
+    }
+
+    public void setSalonCity(CityModel salonCity) {
+        this.salonCity = salonCity;
+    }
+
+    public void setSalonServices(List<SalonService> salonServices) {
+        this.salonServices = salonServices;
     }
 
     public List<ImageModel> getGallery() {
@@ -255,5 +309,17 @@ public class SalonModel implements Filterable, ClusterItem {
 
     public void setSalonType(Gender salonType) {
         this.salonType = salonType;
+    }
+
+    public void setSalonBarbers(List<SalonBarber> salonBarbers) {
+        this.salonBarbers = salonBarbers;
+    }
+
+    public boolean isBusiness() {
+        return isBusiness;
+    }
+
+    public void setBusiness(boolean business) {
+        isBusiness = business;
     }
 }

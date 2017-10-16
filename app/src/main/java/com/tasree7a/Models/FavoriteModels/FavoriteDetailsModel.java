@@ -1,7 +1,7 @@
 package com.tasree7a.Models.FavoriteModels;
 
 import com.google.gson.annotations.SerializedName;
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 
 /**
  * Created by SamiKhleaf on 8/6/17.

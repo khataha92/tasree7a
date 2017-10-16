@@ -6,9 +6,17 @@ package com.tasree7a.Models.Signup;
 
 public class SignupModel {
 
-    String firstName,lastName,email,username,password;
+    String firstName,lastName,email,username,password, fbId;
 
     boolean isFbLogin, isBuisness;
+
+    public void setFbId(String fbId) {
+        this.fbId = fbId;
+    }
+
+    public String getFbId() {
+        return fbId;
+    }
 
     public String getFirstName() {
         return firstName;

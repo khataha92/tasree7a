@@ -1,7 +1,6 @@
 package com.tasree7a.Models.FavoriteModels;
 
 import com.google.gson.annotations.SerializedName;
-import com.tasree7a.Models.PopularSalons.SalonModel;
 
 import java.util.List;
 

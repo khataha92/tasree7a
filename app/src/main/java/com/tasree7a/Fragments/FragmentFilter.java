@@ -21,7 +21,7 @@ import com.tasree7a.Managers.FilterAndSortManager;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.SessionManager;
 import com.tasree7a.Models.PopularSalons.CityModel;
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Observables.FilterAndSortObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;

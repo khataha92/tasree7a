@@ -1,19 +1,35 @@
 package com.tasree7a.Models.SalonBooking;
 
+import com.google.gson.annotations.SerializedName;
+import com.tasree7a.Constants;
+
 /**
  * Created by mac on 8/27/17.
  */
 
 public class SalonService {
 
+    String id;
+
+    @SerializedName("picture")
     String imageUrl;
 
     String name;
 
     double price;
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
     public String getImageUrl() {
-        return imageUrl;
+
+        return Constants.IMAGE_PREFIX + imageUrl;
+
     }
 
     public void setImageUrl(String imageUrl) {

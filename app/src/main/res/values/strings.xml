@@ -106,9 +106,13 @@ soon as possible</string>
     <string name="ATTACH_MESSAGE_HERE">Attach image here</string>
     <string name="CALENDAR">Calendar</string>
     <string name="LOCATION_DISABLED_MESSAGE">Your Location service seems to be disabled, do you want to enable it?</string>
-
+    <string name="CLICK_TO_SELECT_DATE">Click to select date</string>
     <string name="ADD">Add</string>
+    <string name="PLUS">+</string>
     <string name="SAVE">Save</string>
+    <string name="TOTAL">Total</string>
+    <string name="MY_BOOKINGS">My bookings</string>
+    <string name="INVALID_EMAIL">The email address you entered is invalid</string>
     <string-array name="DAYS_APPREVIATIONS">
         <item>S</item>
         <item>M</item>
@@ -125,9 +129,10 @@ soon as possible</string>
     <string name="THU">THU</string>
     <string name="FRI">FRI</string>
     <string name="SAT">SAT</string>
-
-
-
+    <string name="RESET_PASSWORD">Reset password</string>
+    <string name="MY_SALON">My salon</string>
+    <string name="NOT_AVAILABLE_TIME">No availability in this time</string>
+    <string name="ERROR_EMPTY_SERVICE">You must select at least one service</string>
 
 
 </resources>

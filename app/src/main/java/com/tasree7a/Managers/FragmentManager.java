@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.tasree7a.Fragments.BaseFragment;
+import com.tasree7a.Fragments.BookNowFragment;
+import com.tasree7a.Fragments.BookScheduleFragment;
 import com.tasree7a.Fragments.CalenderFragment;
 import com.tasree7a.Fragments.ChangePasswordFragment;
 import com.tasree7a.Fragments.FragmentBookingList;
@@ -16,14 +18,13 @@ import com.tasree7a.Fragments.FragmentFeedBack;
 import com.tasree7a.Fragments.FragmentFilter;
 import com.tasree7a.Fragments.FragmentGallery;
 import com.tasree7a.Fragments.FragmentMapView;
-import com.tasree7a.Fragments.FragmentSalonServices;
 import com.tasree7a.Fragments.FullScreenGalleryFragment;
 import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.ProfileFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
 import com.tasree7a.Fragments.SettingsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
@@ -58,13 +59,21 @@ public class FragmentManager  {
         return currentFragments.get(index);
     }
 
-    public static void showFragmentSalonServices(){
+    public static void showBookScheduleFragment(){
 
-        FragmentSalonServices services = new FragmentSalonServices();
+        BookScheduleFragment fragment = new BookScheduleFragment();
 
-        replaceFragment(services, true);
+        replaceFragment(fragment, true);
 
     }
+
+    public static void showBookNowFragment(){
+
+        BookNowFragment fragment = new BookNowFragment();
+
+        replaceFragment(fragment, true);
+    }
+
 
     public static void showHomeFragment() {
 
@@ -154,13 +163,21 @@ public class FragmentManager  {
         replaceFragment(fragmentGallery,true);
     }
 
-    public static void showSalonDetailsFragment(SalonModel salonModel) {
+    public static void showSalonDetailsFragment(SalonModel salonModel, boolean isFullSalon) {
 
         SalonDetailsFragment salonDetailsFragment = new SalonDetailsFragment();
+
+        salonDetailsFragment.setDidLoadFullSalon(isFullSalon);
 
         salonDetailsFragment.setSalonModel(salonModel);
 
         replaceFragment(salonDetailsFragment, true);
+
+    }
+
+    public static void showSalonDetailsFragment(SalonModel salonModel) {
+
+        showSalonDetailsFragment(salonModel, false);
 
     }
 

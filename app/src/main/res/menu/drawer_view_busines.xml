@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/grp1">
+
+        <item
+            android:id="@+id/my_salon"
+            android:icon="@drawable/ic_sallons"
+            android:title="@string/MY_SALON" />
+
+
+        <item
+            android:id="@+id/bookings"
+            android:icon="@drawable/ic_bookings"
+            android:title="@string/MY_BOOKINGS" />
+
+    </group>
+
+    <group android:id="@+id/grp2">
+
+        <item android:title="">
+            <item
+                android:icon="@drawable/ic_settings"
+                android:title="@string/SETTINGS"
+                android:id="@+id/settings"
+                />
+            <!--<item-->
+                <!--android:icon="@drawable/ic_feedback"-->
+                <!--android:title="@string/FEEDBACK"-->
+                <!--android:id="@+id/feedback"-->
+                <!--/>-->
+
+            <!--<item-->
+                <!--android:icon="@drawable/ic_faqs"-->
+                <!--android:title="@string/FAQs"-->
+                <!--android:id="@+id/faqs"-->
+                <!--/>-->
+
+            <item
+                android:icon="@drawable/ic_logout"
+                android:id="@+id/logout"
+                android:title="@string/LOGOUT" />
+        </item>
+    </group>
+</menu>

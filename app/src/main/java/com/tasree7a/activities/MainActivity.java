@@ -74,8 +74,6 @@ public class MainActivity extends FragmentActivity {
 
         initTabsView();
 
-
-
     }
 
     private void startHomeActivity() {

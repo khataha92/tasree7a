@@ -2,6 +2,7 @@ package com.tasree7a.Models.PopularSalons;
 
 import com.google.gson.annotations.SerializedName;
 import com.tasree7a.Enums.ResponseCode;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 
 import java.util.List;
 

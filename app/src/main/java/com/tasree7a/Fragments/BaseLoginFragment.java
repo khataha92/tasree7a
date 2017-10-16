@@ -25,11 +25,16 @@ import com.tasree7a.Enums.LoginType;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
+import com.tasree7a.Models.Login.User;
+import com.tasree7a.Models.Signup.SignupModel;
+import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
+import com.tasree7a.activities.ResetPasswordActivity;
 import com.tasree7a.activities.SignupActivity;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -80,6 +85,17 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
         signup = (TextView) rootView.findViewById(R.id.sign_up);
 
+        rootView.findViewById(R.id.forgot_password).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(ThisApplication.getCurrentActivity(), ResetPasswordActivity.class);
+
+                startActivity(intent);
+
+            }
+        });
+
         signup.setOnClickListener(this);
 
         rootView.findViewById(R.id.new_user).setOnClickListener(this);
@@ -108,35 +124,79 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onSuccess(LoginResult loginResult) {
 
+                isBusiness = false;
+
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
 
                             @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
+                            public void onCompleted(JSONObject object, final GraphResponse response) {
 
                                 Log.v("LoginActivity", response.toString());
 
                                 // Application code
                                 try {
 
-                                    model = new LoginModel();
+                                    SignupModel signupModel = new SignupModel();
 
-                                    model.setUsername(object.getString("email"));
+                                    String name = object.getString("name");
 
-//                                    String birthday = object.getString("birthday");
+                                    String email = object.getString("email");
 
-                                    model.setFacebookLogin(true);
+                                    String fbId = object.getString("id");
 
-                                    model.setBusiness(isBusiness);
+                                    String[] names = name.split(" ");
 
-                                    UserDefaultUtil.saveLogedUser(model);
+                                    String firstName = names[0];
 
-                                    startHomeActivity();
+                                    String lastName = "";
+
+                                    if(names.length > 1) {
+
+                                        lastName = names[names.length - 1];
+
+                                    }
+
+                                    signupModel.setFirstName(firstName);
+
+                                    signupModel.setLastName(lastName);
+
+                                    signupModel.setFbLogin(true);
+
+                                    signupModel.setFbId(fbId);
+
+                                    signupModel.setEmail(email);
+
+                                    signupModel.setUsername("");
+
+                                    RetrofitManager.getInstance().register(signupModel, new AbstractCallback() {
+                                        @Override
+                                        public void onResult(boolean isSuccess, Object result) {
+
+                                            if(isSuccess) {
+
+                                                SignupResponseModel model = (SignupResponseModel) result;
+
+                                                User user = model.getUser();
+
+                                                UserDefaultUtil.saveUser(user);
+
+                                                startHomeActivity();
+                                            } else {
+
+                                                Toast.makeText(getContext(), "Error in login, please try again later", Toast.LENGTH_LONG).show();
+
+                                            }
+
+                                        }
+                                    });
 
                                 } catch (Exception e) {
 
                                     e.printStackTrace();
+
+                                    Toast.makeText(getContext(), "Error in login, please try again later", Toast.LENGTH_LONG).show();
 
                                 }
                             }
@@ -214,8 +274,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                     model.setBusiness(isBusiness);
 
-                    UserDefaultUtil.saveLogedUser(model);
-
                     UIUtils.showSweetLoadingDialog();
 
                     RetrofitManager.getInstance().login(model, new AbstractCallback() {
@@ -230,6 +288,14 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
                                 LoginResponseModel responseModel = (LoginResponseModel) result;
 
                                 if (responseModel.getResponseCode().equalsIgnoreCase("200")) {
+
+                                    User user = responseModel.getUser();
+
+                                    user.setBusiness(isBusiness);
+
+                                    user.setSalongId(responseModel.getSalonId());
+
+                                    UserDefaultUtil.saveUser(user);
 
                                     startHomeActivity();
 
@@ -264,7 +330,12 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
         } else {
 
             //TODO: Start Salon Details later
-            startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
+
+            Intent intent = new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class);
+
+            intent.putExtra(FragmentArg.IS_BUSINESS, isBusiness);
+
+            startActivity(intent);
 
         }
 

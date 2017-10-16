@@ -24,7 +24,7 @@ import com.google.maps.android.ui.IconGenerator;
 import com.tasree7a.CustomComponent.CustomMapSalonRenderer;
 import com.tasree7a.CustomComponent.SalonMapDetails;
 import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;

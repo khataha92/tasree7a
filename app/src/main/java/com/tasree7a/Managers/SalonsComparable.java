@@ -1,7 +1,7 @@
 package com.tasree7a.Managers;
 
 import com.tasree7a.Enums.SortType;
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 
 import java.util.Comparator;
 

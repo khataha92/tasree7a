@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="45dp"
-              xmlns:CustomSquareRelativeLayout="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical">
+    xmlns:CustomSquareRelativeLayout="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="45dp"
+    android:background="@color/WHITE"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/container"
@@ -16,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -25,13 +26,13 @@
 
             <View
                 android:id="@+id/left_checkline_marker"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <View
                 android:id="@+id/left_checkline_selection"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </FrameLayout>
 
@@ -43,13 +44,13 @@
 
             <View
                 android:id="@+id/right_checkline_marker"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <View
                 android:id="@+id/right_checkline_selection"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </FrameLayout>
 
@@ -64,12 +65,12 @@
             <View
                 android:id="@+id/marker_full_bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <View
                 android:id="@+id/selection_full_bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
 
             <TextView
@@ -78,10 +79,10 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textAlignment="center"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
 
-       </com.tasree7a.CustomComponent.CustomSquareRelativeLayout>
+        </com.tasree7a.CustomComponent.CustomSquareRelativeLayout>
 
         <LinearLayout
             android:id="@+id/holidays_container"
@@ -92,7 +93,7 @@
             android:layout_gravity="top|center_horizontal"
             android:gravity="top|center_horizontal"
             android:orientation="horizontal"
-            android:paddingBottom="3dp"/>
+            android:paddingBottom="3dp" />
     </RelativeLayout>
 
 </LinearLayout>

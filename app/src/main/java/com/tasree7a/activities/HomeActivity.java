@@ -5,13 +5,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
+import com.squareup.picasso.Picasso;
+import com.tasree7a.Enums.UserDefaultKeys;
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.Managers.RetrofitManager;
+import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.PermissionCode;
 import com.tasree7a.utils.UIUtils;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import static com.tasree7a.utils.UIUtils.hideSweetLoadingDialog;
 
@@ -29,9 +38,47 @@ public class HomeActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_home);
 
-        FragmentManager.showHomeFragment();
+        boolean isBusiness = UserDefaultUtil.getCurrentUser().isBusiness();
 
-        UIUtils.hideSweetLoadingDialog();
+        if(getIntent().getExtras() != null) {
+
+            isBusiness = getIntent().getExtras().getBoolean(FragmentArg.IS_BUSINESS);
+
+        }
+
+        if(!isBusiness) {
+
+            FragmentManager.showHomeFragment();
+
+            findViewById(R.id.loading).setVisibility(View.GONE);
+
+            UIUtils.hideSweetLoadingDialog();
+
+        } else {
+
+            findViewById(R.id.loading).setVisibility(View.VISIBLE);
+
+            RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+                @Override
+                public void onResult(boolean isSuccess, Object result) {
+
+                    findViewById(R.id.loading).setVisibility(View.GONE);
+
+                    if(isSuccess) {
+
+                        SalonModel salonModel = (SalonModel) result;
+
+                        salonModel.setBusiness(true);
+
+                        FragmentManager.showSalonDetailsFragment(salonModel, true);
+
+                    }
+
+                }
+            });
+        }
+
+
     }
 
     @Override

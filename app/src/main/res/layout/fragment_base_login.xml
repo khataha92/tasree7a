@@ -3,6 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+    android:background="@color/WHITE"
               android:orientation="vertical">
 
 
@@ -129,6 +130,7 @@
         android:layout_marginBottom="13.8dp"
         android:layout_marginLeft="20dp"
         android:text="@string/FORGOT_PASSWORD"
+        android:layout_alignParentLeft="true"
         android:textColor="@color/APP_TEXT_COLOR"
         android:textSize="14.8sp"
         />

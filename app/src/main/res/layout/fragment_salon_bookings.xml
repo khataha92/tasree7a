@@ -52,6 +52,7 @@
             android:background="@color/APP_GREEN" />
     </RelativeLayout>
 <RelativeLayout
+    android:visibility="invisible"
     android:id="@+id/barber_list"
     android:layout_width="match_parent"
     android:layout_height="37.7dp"
@@ -79,5 +80,13 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/barber_list"
         android:layout_alignParentBottom="true"
+        />
+
+    <include layout="@layout/loading_view"
+        android:id="@+id/loading"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_bar_container"
         />
 </RelativeLayout>

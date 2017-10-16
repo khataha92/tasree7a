@@ -10,4 +10,12 @@
         android:id="@+id/fragment_container"
         />
 
+    <include layout="@layout/loading_view"
+        android:id="@+id/loading"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_bar_container"
+        />
+
 </RelativeLayout>

@@ -2,8 +2,6 @@ package com.tasree7a.Observables;
 
 import android.location.Location;
 
-import com.tasree7a.Models.PopularSalons.SalonModel;
-
 import java.util.Observable;
 
 

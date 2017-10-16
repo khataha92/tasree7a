@@ -12,7 +12,8 @@ import com.tasree7a.Enums.UserDefaultKeys;
 import com.tasree7a.Enums.UserFavoriteAction;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.LoginModel;
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.Login.User;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SearchHistory.SearchHistoryItem;
 import com.tasree7a.interfaces.AbstractCallback;
 
@@ -62,16 +63,16 @@ public class UserDefaultUtil {
 
     }
 
-    public static LoginModel getLogedUser(){
-
-        return new Gson().fromJson(getStringValue(UserDefaultKeys.LOGIN_USER_MODEL.toString()), LoginModel.class);
-
-    }
-
     public static boolean isBusinessUser(){
 
-        return new Gson().fromJson(getStringValue(UserDefaultKeys.LOGIN_USER_MODEL.toString()) , LoginModel.class).isBusiness();
+        try {
 
+            return new Gson().fromJson(getStringValue(UserDefaultKeys.CURRENT_USER.toString()), User.class).isBusiness();
+
+        } catch (Exception e){
+
+            return false;
+        }
     }
 
     private static void setIsFBUser(boolean isFBUser){
@@ -118,7 +119,7 @@ public class UserDefaultUtil {
             }
         }
 
-        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getLogedUser().getUsername(), UserFavoriteAction.DELETE.value, new AbstractCallback() {
+        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getCurrentUser().getUserId(), UserFavoriteAction.DELETE.value, new AbstractCallback() {
 
             @Override
             public void onResult(boolean isSuccess, Object result) {
@@ -148,7 +149,7 @@ public class UserDefaultUtil {
 
         favoriteSalons.add(salonModel);
 
-        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getLogedUser().getUsername(), UserFavoriteAction.ADD.value, new AbstractCallback() {
+        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getCurrentUser().getUserId(), UserFavoriteAction.ADD.value, new AbstractCallback() {
 
             @Override
             public void onResult(boolean isSuccess, Object result) {
@@ -218,6 +219,12 @@ public class UserDefaultUtil {
 
         String deviceLanguage = getStringValue(UserDefaultKeys.DEVICE_LANGUAGE.toString());
 
+        if(deviceLanguage != null && deviceLanguage.trim().length() == 0) {
+
+            deviceLanguage = "en";
+            
+        }
+
         if (deviceLanguage != null) {
 
             cachedUserLanguage = deviceLanguage;
@@ -260,7 +267,7 @@ public class UserDefaultUtil {
 
         String lang = getStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString());
 
-        return lang == null ? Language.EN : Language.valueOf(lang);
+        return Strings.isNullOrEmpty(lang) ? Language.EN : Language.valueOf(lang);
 
     }
 
@@ -294,7 +301,19 @@ public class UserDefaultUtil {
 
         }
 
-        return preferences.getString(key, null);
+        return preferences.getString(key, "");
+
+    }
+
+    public static User getCurrentUser(){
+
+        return new Gson().fromJson(getStringValue(UserDefaultKeys.CURRENT_USER.getValue()), User.class);
+
+    }
+
+    public static void saveUser(User user) {
+
+        setStringValue(UserDefaultKeys.CURRENT_USER.getValue(), new Gson().toJson(user));
 
     }
 }

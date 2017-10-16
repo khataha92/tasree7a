@@ -1,15 +1,21 @@
 package com.tasree7a.Managers;
 
 import com.tasree7a.Constants;
+import com.tasree7a.Models.Bookings.BookingModel;
 import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
+import com.tasree7a.Models.SalonBooking.AvailableTimesResponse;
+import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
+import com.tasree7a.Models.UserBookingsResponse;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.ServiceRequest;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -18,6 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
 
 /**
  * Created by mac on 5/17/17.
@@ -33,9 +40,9 @@ public class RetrofitManager {
 
     Retrofit retrofit;
 
-    public static RetrofitManager getInstance(){
+    public static RetrofitManager getInstance() {
 
-        if(instance == null){
+        if (instance == null) {
 
             instance = new RetrofitManager();
 
@@ -45,7 +52,7 @@ public class RetrofitManager {
 
     }
 
-    private RetrofitManager(){
+    private RetrofitManager() {
 
         instance = this;
 
@@ -65,7 +72,62 @@ public class RetrofitManager {
 
     }
 
-    public void getSalonDetails(String salonId, final AbstractCallback callback){
+    public void addBooking(String barberId, String salonId, int[] services, String userId, String date, String time, final AbstractCallback callback) {
+
+        Call<Object> addBooking = request.addUserBooking(barberId, salonId, services, userId, date, time);
+
+        addBooking.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                if(callback != null) {
+
+                    callback.onResult(response.isSuccessful() && response.body().toString().indexOf("Booking_Added_Successfully") != -1, response.body());
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+                if(callback != null) {
+
+                    callback.onResult(false, t);
+
+                }
+
+            }
+        });
+
+    }
+
+    public void resetPassword(String emailAddress, final AbstractCallback callback) {
+
+        Call<Object> reset = request.resetPassword(emailAddress);
+
+        reset.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    callback.onResult(true, response.body());
+
+                } else {
+
+                    callback.onResult(false, null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getSalonDetails(String salonId, final AbstractCallback callback) {
 
         Call<SalonDetailsResponseModel> call = request.getSalonDetails(salonId);
 
@@ -74,13 +136,13 @@ public class RetrofitManager {
             @Override
             public void onResponse(Call<SalonDetailsResponseModel> call, Response<SalonDetailsResponseModel> response) {
 
-                if(response.isSuccessful() && response.body() != null){
+                if (response.isSuccessful() && response.body() != null) {
 
-                    callback.onResult(true,response.body().getSalon());
+                    callback.onResult(true, response.body().getSalon());
 
-                } else{
+                } else {
 
-                    callback.onResult(false,null);
+                    callback.onResult(false, null);
                 }
 
             }
@@ -88,14 +150,14 @@ public class RetrofitManager {
             @Override
             public void onFailure(Call<SalonDetailsResponseModel> call, Throwable t) {
 
-                callback.onResult(false,null);
+                callback.onResult(false, null);
 
             }
         });
 
     }
 
-    public void getUserFavoriteSalons(String userName, final AbstractCallback callback){
+    public void getUserFavoriteSalons(String userName, final AbstractCallback callback) {
 
         Call<FavoriteResponseModel> call = request.getUserFavorites(userName);
 
@@ -104,7 +166,7 @@ public class RetrofitManager {
             @Override
             public void onResponse(Call<FavoriteResponseModel> call, Response<FavoriteResponseModel> response) {
 
-                if (response.isSuccessful() && response.body() != null){
+                if (response.isSuccessful() && response.body() != null) {
 
                     callback.onResult(true, response.body());
 
@@ -118,22 +180,50 @@ public class RetrofitManager {
             @Override
             public void onFailure(Call<FavoriteResponseModel> call, Throwable t) {
 
-                callback.onResult(false,null);
+                callback.onResult(false, null);
 
             }
         });
     }
 
-    public void changeSalonToUserFavorite(String salonId, String userId, String action, final AbstractCallback callback){
+    public void getUserBookings(String userId, final AbstractCallback callback) {
 
-        Call <SignupResponseModel> call = request.changeUserFavorite(userId, salonId, action);
+        Call<UserBookingsResponse> getBookings = request.getUserBookings(userId);
+
+        getBookings.enqueue(new Callback<UserBookingsResponse>() {
+            @Override
+            public void onResponse(Call<UserBookingsResponse> call, Response<UserBookingsResponse> response) {
+
+                if (callback != null) {
+
+                    callback.onResult(response.body() != null, response.body());
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserBookingsResponse> call, Throwable t) {
+
+                if (callback != null) {
+
+                    callback.onResult(false, null);
+
+                }
+            }
+        });
+    }
+
+    public void changeSalonToUserFavorite(String salonId, String userId, String action, final AbstractCallback callback) {
+
+        Call<SignupResponseModel> call = request.changeUserFavorite(userId, salonId, action);
 
         call.enqueue(new Callback<SignupResponseModel>() {
 
             @Override
             public void onResponse(Call<SignupResponseModel> call, Response<SignupResponseModel> response) {
 
-                if (response.isSuccessful() && response.body() != null){
+                if (response.isSuccessful() && response.body() != null) {
 
                     callback.onResult(true, null);
 
@@ -155,22 +245,22 @@ public class RetrofitManager {
         });
     }
 
-    public void getNearestSalons(double lat, double lng, final AbstractCallback callback){
+    public void getNearestSalons(double lat, double lng, final AbstractCallback callback) {
 
-        Call<PopularSalonsResponseModel> call = request.getNearestSalons(lat,lng);
+        Call<PopularSalonsResponseModel> call = request.getNearestSalons(lat, lng);
 
         call.enqueue(new Callback<PopularSalonsResponseModel>() {
 
             @Override
             public void onResponse(Call<PopularSalonsResponseModel> call, Response<PopularSalonsResponseModel> response) {
 
-                if(response.isSuccessful() && response.body() != null){
+                if (response.isSuccessful() && response.body() != null) {
 
-                    callback.onResult(true,response.body());
+                    callback.onResult(true, response.body());
 
-                } else{
+                } else {
 
-                    callback.onResult(false,null);
+                    callback.onResult(false, null);
                 }
 
             }
@@ -178,29 +268,29 @@ public class RetrofitManager {
             @Override
             public void onFailure(Call<PopularSalonsResponseModel> call, Throwable t) {
 
-                callback.onResult(false,null);
+                callback.onResult(false, null);
 
             }
         });
 
     }
 
-    public void register(SignupModel model, final AbstractCallback callback){
+    public void register(SignupModel model, final AbstractCallback callback) {
 
-        Call<SignupResponseModel> call = request.register(model.getFirstName(),model.getLastName(),model.getEmail(),model.getPassword(),model.getUsername(),model.isFbLogin()?1:0, model.isBuisness());
+        Call<SignupResponseModel> call = request.register(model.getFirstName(), model.getLastName(), model.getEmail(), model.getPassword(), model.getUsername(), model.isFbLogin() ? 1 : 0, model.isBuisness() ? 1 : 0, model.getFbId());
 
         call.enqueue(new Callback<SignupResponseModel>() {
 
             @Override
             public void onResponse(Call<SignupResponseModel> call, Response<SignupResponseModel> response) {
 
-                if(response.body() != null && response.code() == 200 && response.body().getResponseCode().equalsIgnoreCase("200")){
+                if (response.body() != null && response.code() == 200 && response.body().getResponseCode().equalsIgnoreCase("200")) {
 
-                    callback.onResult(true,response.body());
+                    callback.onResult(true, response.body());
 
-                } else{
+                } else {
 
-                    callback.onResult(false,null);
+                    callback.onResult(false, null);
 
                 }
 
@@ -209,15 +299,15 @@ public class RetrofitManager {
             @Override
             public void onFailure(Call<SignupResponseModel> call, Throwable t) {
 
-                callback.onResult(false,null);
+                callback.onResult(false, null);
 
             }
         });
     }
 
-    public void login(LoginModel loginModel, final AbstractCallback callback){
+    public void login(LoginModel loginModel, final AbstractCallback callback) {
 
-        Call<LoginResponseModel> call = request.login(loginModel.getUsername(),loginModel.getPassword(),loginModel.isFacebookLogin(), loginModel.isBusiness());
+        Call<LoginResponseModel> call = request.login(loginModel.getUsername(), loginModel.getPassword(), loginModel.isFacebookLogin() ? 1 : 0, loginModel.isBusiness() ? 1 : 0);
 
         call.enqueue(new Callback<LoginResponseModel>() {
 
@@ -228,22 +318,22 @@ public class RetrofitManager {
 
                     LoginResponseModel result = response.body();
 
-                    if(result != null){
+                    if (result != null) {
 
-                        callback.onResult(true,result);
+                        callback.onResult(true, result);
 
-                    } else{
+                    } else {
 
-                        callback.onResult(false,null);
+                        callback.onResult(false, null);
 
                     }
 
 
-                } catch (Exception e){
+                } catch (Exception e) {
 
                     e.printStackTrace();
 
-                    callback.onResult(false,null);
+                    callback.onResult(false, null);
                 }
 
             }
@@ -251,7 +341,64 @@ public class RetrofitManager {
             @Override
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
 
-                callback.onResult(false,null);
+                callback.onResult(false, null);
+
+            }
+        });
+    }
+
+    public void getSalonServices(String salonId, final AbstractCallback callback) {
+
+        Call<SalonServicesResponse> getServices = request.getSalonServices(salonId);
+
+        getServices.enqueue(new Callback<SalonServicesResponse>() {
+            @Override
+            public void onResponse(Call<SalonServicesResponse> call, Response<SalonServicesResponse> response) {
+
+                if(callback != null) {
+
+                    callback.onResult(response.isSuccessful(), response.body());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SalonServicesResponse> call, Throwable t) {
+
+                if(callback != null) {
+
+                    callback.onResult(false, null);
+
+                }
+
+            }
+        });
+    }
+
+    public void getAvailableTimes(String salonId, String date, final AbstractCallback callback) {
+
+        Call<AvailableTimesResponse> get = request.getAvailableTime(date, salonId);
+
+        get.enqueue(new Callback<AvailableTimesResponse>() {
+            @Override
+            public void onResponse(Call<AvailableTimesResponse> call, Response<AvailableTimesResponse> response) {
+
+                if(callback != null) {
+
+                    callback.onResult(response.isSuccessful(), response.body());
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AvailableTimesResponse> call, Throwable t) {
+
+                if(callback != null) {
+
+                    callback.onResult(false, null);
+
+                }
 
             }
         });

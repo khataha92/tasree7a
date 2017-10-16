@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.os.MessageQueue;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -36,7 +34,7 @@ import com.tasree7a.Managers.SessionManager;
 import com.tasree7a.Models.FavoriteModels.FavoriteDetailsModel;
 import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Observables.FavoriteChangeObservable;
 import com.tasree7a.Observables.FilterAndSortObservable;
 import com.tasree7a.Observables.LocationChangedObservable;
@@ -57,9 +55,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
-import static android.app.Activity.RESULT_OK;
-import static com.tasree7a.Managers.FragmentManager.showCalendarFragment;
 
 public class HomeFragment extends BaseFragment implements Observer {
 
@@ -131,7 +126,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         if (!UserDefaultUtil.isBusinessUser()){
 
-         RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getLogedUser().getUsername(), new AbstractCallback() {
+         RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
 
              @Override
              public void onResult(boolean isSuccess, Object result) {
@@ -210,13 +205,13 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                                 break;
 
-                            case R.id.feedback:
+//                            case R.id.feedback:
 
-                                FragmentManager.showFeedBackFragment();
+//                                FragmentManager.showFeedBackFragment();
 
                                 //FragmentManager.showFragmentSalonServices();
 
-                                break;
+//                                break;
 
                         }
 
@@ -273,6 +268,11 @@ public class HomeFragment extends BaseFragment implements Observer {
                 String searchText = s.toString().toLowerCase();
 
                 List<SalonModel> salonModels = new ArrayList<>();
+
+                if(filteredSalons == null) {
+
+                    return;
+                }
 
                 for(int i = 0 ; i < filteredSalons.size() ; i++){
 
@@ -420,7 +420,6 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                     } else{
 
-                        // TODO: 7/4/17 to show message
                     }
 
 

@@ -7,10 +7,13 @@ import android.widget.TextView;
 import com.tasree7a.CustomComponent.CustomRatingBar;
 import com.tasree7a.Enums.Sizes;
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Models.BaseCardModel;
-import com.tasree7a.Models.PopularSalons.SalonModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Observables.FavoriteChangeObservable;
+import com.tasree7a.Observables.MenuIconClickedObservable;
 import com.tasree7a.R;
+import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -38,6 +41,21 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
             }
 
         });
+
+        View bookNowLbl = itemView.findViewById(R.id.book_now_lbl);
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ReservationSessionManager.getInstance().setSalonModel(salonModel);
+
+                FragmentManager.showBookNowFragment();
+
+            }
+        };
+
+
 
         View addToFavorite = itemView.findViewById(R.id.add_to_favorite);
 
@@ -89,16 +107,36 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
         View bookNow = itemView.findViewById(R.id.bookNow);
 
-        bookNow.setOnClickListener(new View.OnClickListener() {
+        if(salonModel.isBusiness()) {
 
-            @Override
-            public void onClick(View v) {
+            addToFavorite.setVisibility(View.GONE);
 
-                // TODO: navigate to book now view
+            bookNowLbl.setVisibility(View.GONE);
 
-            }
+            bookNow.setVisibility(View.GONE);
 
-        });
+            ImageView menu = (ImageView) back;
+
+            menu.setImageResource(R.drawable.ic_side_menu);
+
+            menu.setColorFilter(ThisApplication.getCurrentActivity().getBaseContext().getResources().getColor(R.color.WHITE));
+
+            menu.setPadding(0,0,0,0);
+
+            menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    MenuIconClickedObservable.sharedInstance().menuIconClicked();
+
+                }
+            });
+
+        }
+
+        bookNow.setOnClickListener(listener);
+
+        bookNowLbl.setOnClickListener(listener);
 
     }
 }

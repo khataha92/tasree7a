@@ -18,25 +18,32 @@ public class ReservationSessionManager {
 
     List<SalonService> selectedServices = new ArrayList<>();
 
+    List<Integer> selectedItems = new ArrayList<>();
+
     double total;
 
-    private ReservationSessionManager(){
+
+    private ReservationSessionManager() {
 
 
     }
 
 
     public void setTotal(double total) {
+
         this.total = total;
     }
 
+
     public double getTotal() {
+
         return total;
     }
 
+
     public static ReservationSessionManager getInstance() {
 
-        if(instance == null){
+        if (instance == null) {
 
             instance = new ReservationSessionManager();
 
@@ -45,19 +52,46 @@ public class ReservationSessionManager {
         return instance;
     }
 
+
+    public void addSelectedItem(Integer pos) {
+
+        selectedItems.add(pos);
+
+    }
+
+
+    public void removeSelectedItem(Integer pos) {
+
+        selectedItems.remove(pos);
+    }
+
+
+    public List<Integer> getSelectedItems() {
+
+        return selectedItems;
+    }
+
+
     public void setSelectedServices(List<SalonService> selectedServices) {
+
         this.selectedServices = selectedServices;
     }
 
+
     public void setSalonModel(SalonModel salonModel) {
+
         this.salonModel = salonModel;
     }
 
+
     public SalonModel getSalonModel() {
+
         return salonModel;
     }
 
+
     public List<SalonService> getSelectedServices() {
+
         return selectedServices;
     }
 }

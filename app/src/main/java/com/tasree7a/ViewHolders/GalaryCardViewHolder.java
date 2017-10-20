@@ -10,6 +10,7 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.Models.Gallery.GalleryModel;
 import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
@@ -28,6 +29,7 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
     List<SalonProduct> salonProducts = null;
 
+
     public GalaryCardViewHolder(View view, final BaseCardModel cardModel) {
 
         super(view, cardModel);
@@ -42,23 +44,25 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
         GalleryModel galleryModel = (GalleryModel) cardModel.getCardValue();
 
+        final SalonModel salon = galleryModel.getSalonModel();
+
         galleryTitle.setText(galleryModel.getTitle());
 
-        final List<ImageModel> imageModels =galleryModel.getImageModelList();
+        final List<ImageModel> imageModels = galleryModel.getImageModelList();
 
-        for(int i = 0 ; i < imageModels.size() && i < 10; i++){
+        for (int i = 0; i < imageModels.size() && i < 10; i++) {
 
             ImageView imageView = new ImageView(ThisApplication.getCurrentActivity());
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,width);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
 
             imageView.setLayoutParams(params);
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            UIUtils.loadUrlIntoImageView(imageModels.get(i).getImagePath(),imageView, Sizes.MEDIUM);
+            UIUtils.loadUrlIntoImageView(imageModels.get(i).getImagePath(), imageView, Sizes.MEDIUM);
 
-            params.setMargins(i == 0 ? 0 : UIUtils.dpToPx(10),0,0,0);
+            params.setMargins(i == 0 ? 0 : UIUtils.dpToPx(10), 0, 0, 0);
 
             imagesContainer.addView(imageView);
 
@@ -66,12 +70,26 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
         final List<SalonProduct> salonProducts = galleryModel.getProducts();
 
+        if (salon.isBusiness()) {
+
+            seeAll.setImageResource(R.drawable.ic_edit);
+
+        }
+
         seeAll.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
-                FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+                if (!salon.isBusiness()) {
 
+                    FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+
+                } else {
+
+                    //show add/delete fragment
+
+                }
             }
         });
 

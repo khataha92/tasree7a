@@ -23,8 +23,7 @@ import java.util.List;
  * Created by mac on 7/4/17.
  */
 
-public class
-SalonModel implements Filterable, ClusterItem {
+public class SalonModel implements Filterable, ClusterItem {
 
     @SerializedName("rank")
     RankModel rank;

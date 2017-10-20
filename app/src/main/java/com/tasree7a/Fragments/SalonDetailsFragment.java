@@ -249,6 +249,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
                 galleryModel.setImageModelList(salonModel.getGallery());
 
+                galleryModel.setSalonModel(salonModel);
+
                 cardModel.setCardValue(galleryModel);
             }
                 break;

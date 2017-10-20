@@ -1,6 +1,5 @@
 package com.tasree7a.interfaces;
 
-import com.tasree7a.Models.Bookings.BookingModel;
 import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
@@ -10,7 +9,6 @@ import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.Models.UserBookingsResponse;
 
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

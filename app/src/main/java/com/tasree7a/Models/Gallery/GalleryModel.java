@@ -1,5 +1,6 @@
 package com.tasree7a.Models.Gallery;
 
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 
 import java.util.List;
@@ -15,6 +16,21 @@ public class GalleryModel {
     List<ImageModel> imageModelList;
 
     List<SalonProduct> products;
+
+    SalonModel salonModel;
+
+
+    public SalonModel getSalonModel() {
+
+        return salonModel;
+    }
+
+
+    public void setSalonModel(SalonModel salonModel) {
+
+        this.salonModel = salonModel;
+    }
+
 
     public String getTitle() {
 

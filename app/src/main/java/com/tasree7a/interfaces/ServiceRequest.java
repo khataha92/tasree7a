@@ -44,6 +44,7 @@ public interface ServiceRequest {
     @POST("getUserFavoriteSalons")
     Call<FavoriteResponseModel> getUserFavorites(@Field("userId") String userName);
 
+
     @FormUrlEncoded
     @POST("resetPassword")
     Call<Object> resetPassword(@Field("email") String email);
@@ -56,18 +57,17 @@ public interface ServiceRequest {
                                 @Field("userId") String userId, @Field("book_date") String date,
                                 @Field("book_time") String time);
 
+
     @FormUrlEncoded
     @POST("getUserBookings")
     Call<UserBookingsResponse> getUserBookings(@Field("userId") String userId);
 
 
-
-
     @FormUrlEncoded
     @POST("changeFavorites")
     Call<SignupResponseModel> changeUserFavorite(@Field("userId") String userName,
-                                                @Field("salonId") String salonId,
-                                                @Field("action") String action);
+                                                 @Field("salonId") String salonId,
+                                                 @Field("action") String action);
 
 
     @FormUrlEncoded
@@ -79,11 +79,26 @@ public interface ServiceRequest {
     @POST("getSalonDetails")
     Call<SalonDetailsResponseModel> getSalonDetails(@Field("salonID") String salonId);
 
+
     @FormUrlEncoded
     @POST("getSalonServices")
     Call<SalonServicesResponse> getSalonServices(@Field("salonId") String salonId);
 
+
     @FormUrlEncoded
     @POST("getAvailableBookingTime")
     Call<AvailableTimesResponse> getAvailableTime(@Field("date") String date, @Field("salonId") String salonId);
+
+
+    @FormUrlEncoded
+    @POST("addNewSalon")
+    Call<Object> addNewSalonInformation(@Field("userId") String userID,
+                                        @Field("cityId") String cityId,
+                                        @Field("salonType") String salonType,
+                                        @Field("salonImageId") String imageId,
+                                        @Field("ownerName") String ownerName,
+                                        @Field("ownerMobile") String ownerMobile,
+                                        @Field("salonLat") String salonLat,
+                                        @Field("salonLong") String salonLong,
+                                        @Field("salonNmae") String salonName);
 }

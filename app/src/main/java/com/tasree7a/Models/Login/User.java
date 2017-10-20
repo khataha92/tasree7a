@@ -3,13 +3,14 @@ package com.tasree7a.Models.Login;
 import com.google.gson.annotations.SerializedName;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by mac on 9/24/17.
  */
 
-public class User {
+public class User implements Serializable{
 
     @SerializedName("id")
     String id;

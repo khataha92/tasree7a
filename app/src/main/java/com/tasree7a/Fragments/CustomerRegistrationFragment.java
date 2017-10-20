@@ -2,7 +2,6 @@ package com.tasree7a.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +119,7 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
                             SignupResponseModel signupResponseModel = (SignupResponseModel) result;
 
-                            UserDefaultUtil.saveUser(signupResponseModel.getUser());
+                            UserDefaultUtil.saveUser(signupResponseModel.getUserDetails().getUser());
 
                             startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
                             

@@ -13,6 +13,7 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
+import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
@@ -32,6 +33,7 @@ public class HomeActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         ThisApplication.setCurrentActivity(this);
@@ -40,13 +42,25 @@ public class HomeActivity extends FragmentActivity {
 
         boolean isBusiness = UserDefaultUtil.getCurrentUser().isBusiness();
 
-        if(getIntent().getExtras() != null) {
+        SignupResponseModel signupResponseModel = null;
+
+        if (getIntent().getExtras() != null) {
 
             isBusiness = getIntent().getExtras().getBoolean(FragmentArg.IS_BUSINESS);
 
+            signupResponseModel = (SignupResponseModel) getIntent().getExtras().getSerializable(FragmentArg.SALON_INFO);
+
         }
 
-        if(!isBusiness) {
+        if (UserDefaultUtil.isRegestering()) {
+
+            FragmentManager.showSalonInfoFragment(signupResponseModel);
+
+            findViewById(R.id.loading).setVisibility(View.GONE);
+
+            UIUtils.hideSweetLoadingDialog();
+
+        } else if (!isBusiness) {
 
             FragmentManager.showHomeFragment();
 
@@ -59,12 +73,13 @@ public class HomeActivity extends FragmentActivity {
             findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
             RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+
                 @Override
                 public void onResult(boolean isSuccess, Object result) {
 
                     findViewById(R.id.loading).setVisibility(View.GONE);
 
-                    if(isSuccess) {
+                    if (isSuccess) {
 
                         SalonModel salonModel = (SalonModel) result;
 
@@ -73,13 +88,11 @@ public class HomeActivity extends FragmentActivity {
                         FragmentManager.showSalonDetailsFragment(salonModel, true);
 
                     }
-
                 }
             });
         }
-
-
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -90,7 +103,7 @@ public class HomeActivity extends FragmentActivity {
 
             case PermissionCode.MY_PERMISSIONS_REQUEST_LOCATION:
 
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     PermissionGrantedObservable.getInstance().notifyPermissionGranted(permissions[0]);
 
@@ -101,17 +114,20 @@ public class HomeActivity extends FragmentActivity {
         }
     }
 
+
     @Override
     protected void onResume() {
+
         super.onResume();
 
         ThisApplication.setCurrentActivity(this);
     }
 
+
     @Override
     public void onBackPressed() {
 
-        if(FragmentManager.getCurrentVisibleFragment() != null){
+        if (FragmentManager.getCurrentVisibleFragment() != null) {
 
             FragmentManager.getCurrentVisibleFragment().onBackPressed();
 

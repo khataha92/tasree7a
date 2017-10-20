@@ -17,7 +17,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.tasree7a.CustomComponent.CustomButton;
@@ -39,8 +38,6 @@ import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import org.json.JSONObject;
-
-import java.util.Arrays;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tasree7a.ThisApplication.callbackManager;
@@ -178,7 +175,7 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                                                 SignupResponseModel model = (SignupResponseModel) result;
 
-                                                User user = model.getUser();
+                                                User user = model.getUserDetails().getUser();
 
                                                 UserDefaultUtil.saveUser(user);
 

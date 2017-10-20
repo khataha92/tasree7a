@@ -22,10 +22,12 @@ import com.tasree7a.Fragments.FullScreenGalleryFragment;
 import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.ProfileFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
+import com.tasree7a.Fragments.SalonInformationFragment;
 import com.tasree7a.Fragments.SettingsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
+import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
@@ -463,4 +465,23 @@ public class FragmentManager  {
     }
 
 
+    public static void showSalonInfoFragment(SignupResponseModel signupResponseModel) {
+
+        SalonInformationFragment fragment = new SalonInformationFragment();
+
+        Bundle bundle = new Bundle();
+
+        if (signupResponseModel != null) {
+
+            bundle.putSerializable(FragmentArg.SALON_INFO, signupResponseModel);
+
+        }
+
+        fragment.setArguments(bundle);
+
+
+        replaceFragment(fragment, true);
+
+
+    }
 }

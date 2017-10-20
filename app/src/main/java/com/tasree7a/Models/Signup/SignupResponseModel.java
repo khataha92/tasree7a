@@ -3,11 +3,13 @@ package com.tasree7a.Models.Signup;
 import com.google.gson.annotations.SerializedName;
 import com.tasree7a.Models.Login.User;
 
+import java.io.Serializable;
+
 /**
  * Created by mac on 5/17/17.
  */
 
-public class SignupResponseModel {
+public class SignupResponseModel implements Serializable{
 
     @SerializedName("response_code")
     String responseCode;
@@ -16,18 +18,18 @@ public class SignupResponseModel {
     String responseMessage;
 
     @SerializedName("details")
-    User user;
+    SignUpDetailsModel userSignUpDetailsModel;
 
     public void setResponseCode(String responseCode) {
         this.responseCode = responseCode;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserDetails(SignUpDetailsModel detailsModel) {
+        this.userSignUpDetailsModel = detailsModel;
     }
 
-    public User getUser() {
-        return user;
+    public SignUpDetailsModel getUserDetails() {
+        return userSignUpDetailsModel;
     }
 
     public String getResponseCode() {

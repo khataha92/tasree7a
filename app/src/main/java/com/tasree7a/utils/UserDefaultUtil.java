@@ -33,6 +33,7 @@ public class UserDefaultUtil {
 
     private static SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getCurrentActivity());
 
+
     public static boolean isAppLanguageArabic() {
 
         return Language.AR == getAppLanguage();
@@ -51,9 +52,10 @@ public class UserDefaultUtil {
         preferences.edit().clear().commit();
     }
 
-    public static void saveLogedUser(LoginModel user){
 
-        if (user != null){
+    public static void saveLogedUser(LoginModel user) {
+
+        if (user != null) {
 
             setIsFBUser(user.isFacebookLogin());
 
@@ -63,25 +65,42 @@ public class UserDefaultUtil {
 
     }
 
-    public static boolean isBusinessUser(){
+
+    public static boolean isBusinessUser() {
 
         try {
 
             return new Gson().fromJson(getStringValue(UserDefaultKeys.CURRENT_USER.toString()), User.class).isBusiness();
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
             return false;
         }
     }
 
-    private static void setIsFBUser(boolean isFBUser){
+
+    public static void setIsRegestering(boolean val) {
+
+        setStringValue(UserDefaultKeys.IS_REGESTERING.toString(), val + "");
+
+    }
+
+
+    public static boolean isRegestering() {
+
+        return getStringValue(UserDefaultKeys.IS_REGESTERING.toString()).equalsIgnoreCase("true");
+
+    }
+
+
+    private static void setIsFBUser(boolean isFBUser) {
 
         setStringValue(UserDefaultKeys.IS_FB.toString(), isFBUser + "");
 
     }
 
-    public static boolean isFBUser(){
+
+    public static boolean isFBUser() {
 
         return getStringValue(UserDefaultKeys.IS_FB.toString()).equalsIgnoreCase("true");
 
@@ -131,7 +150,9 @@ public class UserDefaultUtil {
 
     }
 
+
     static List<SalonModel> favoriteSalons;
+
 
     public static void addSalonToFavorite(SalonModel salonModel) {
 
@@ -160,6 +181,7 @@ public class UserDefaultUtil {
         });
     }
 
+
     public static void saveFavoriteSalons(List<SalonModel> salonModels) {
 
         List<SalonModel> favoriteSalons = new ArrayList<>();
@@ -171,7 +193,6 @@ public class UserDefaultUtil {
         setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(), new Gson().toJson(favoriteSalons));
 
     }
-
 
 
     public static List<SalonModel> getFavoriteSalons() {
@@ -219,10 +240,10 @@ public class UserDefaultUtil {
 
         String deviceLanguage = getStringValue(UserDefaultKeys.DEVICE_LANGUAGE.toString());
 
-        if(deviceLanguage != null && deviceLanguage.trim().length() == 0) {
+        if (deviceLanguage != null && deviceLanguage.trim().length() == 0) {
 
             deviceLanguage = "en";
-            
+
         }
 
         if (deviceLanguage != null) {
@@ -305,11 +326,13 @@ public class UserDefaultUtil {
 
     }
 
-    public static User getCurrentUser(){
+
+    public static User getCurrentUser() {
 
         return new Gson().fromJson(getStringValue(UserDefaultKeys.CURRENT_USER.getValue()), User.class);
 
     }
+
 
     public static void saveUser(User user) {
 

@@ -172,6 +172,7 @@ public class BookScheduleFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
+                //TODO: Causes a crash
                 String barberId = ((CustomRadioButton) radioGroup.getCheckedItem()).getItemId();
 
                 String salonId = ReservationSessionManager.getInstance().getSalonModel().getId();

@@ -40,6 +40,7 @@ public class RetrofitManager {
 
     Retrofit retrofit;
 
+
     public static RetrofitManager getInstance() {
 
         if (instance == null) {
@@ -51,6 +52,7 @@ public class RetrofitManager {
         return instance;
 
     }
+
 
     private RetrofitManager() {
 
@@ -72,15 +74,17 @@ public class RetrofitManager {
 
     }
 
+
     public void addBooking(String barberId, String salonId, int[] services, String userId, String date, String time, final AbstractCallback callback) {
 
         Call<Object> addBooking = request.addUserBooking(barberId, salonId, services, userId, date, time);
 
         addBooking.enqueue(new Callback<Object>() {
+
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
 
-                if(callback != null) {
+                if (callback != null) {
 
                     callback.onResult(response.isSuccessful() && response.body().toString().indexOf("Booking_Added_Successfully") != -1, response.body());
 
@@ -88,10 +92,11 @@ public class RetrofitManager {
 
             }
 
+
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
 
-                if(callback != null) {
+                if (callback != null) {
 
                     callback.onResult(false, t);
 
@@ -102,11 +107,13 @@ public class RetrofitManager {
 
     }
 
+
     public void resetPassword(String emailAddress, final AbstractCallback callback) {
 
         Call<Object> reset = request.resetPassword(emailAddress);
 
         reset.enqueue(new Callback<Object>() {
+
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
 
@@ -120,12 +127,14 @@ public class RetrofitManager {
                 }
             }
 
+
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
 
             }
         });
     }
+
 
     public void getSalonDetails(String salonId, final AbstractCallback callback) {
 
@@ -147,6 +156,7 @@ public class RetrofitManager {
 
             }
 
+
             @Override
             public void onFailure(Call<SalonDetailsResponseModel> call, Throwable t) {
 
@@ -156,6 +166,7 @@ public class RetrofitManager {
         });
 
     }
+
 
     public void getUserFavoriteSalons(String userName, final AbstractCallback callback) {
 
@@ -177,6 +188,7 @@ public class RetrofitManager {
                 }
             }
 
+
             @Override
             public void onFailure(Call<FavoriteResponseModel> call, Throwable t) {
 
@@ -186,11 +198,13 @@ public class RetrofitManager {
         });
     }
 
+
     public void getUserBookings(String userId, final AbstractCallback callback) {
 
         Call<UserBookingsResponse> getBookings = request.getUserBookings(userId);
 
         getBookings.enqueue(new Callback<UserBookingsResponse>() {
+
             @Override
             public void onResponse(Call<UserBookingsResponse> call, Response<UserBookingsResponse> response) {
 
@@ -201,6 +215,7 @@ public class RetrofitManager {
                 }
 
             }
+
 
             @Override
             public void onFailure(Call<UserBookingsResponse> call, Throwable t) {
@@ -213,6 +228,7 @@ public class RetrofitManager {
             }
         });
     }
+
 
     public void changeSalonToUserFavorite(String salonId, String userId, String action, final AbstractCallback callback) {
 
@@ -245,6 +261,7 @@ public class RetrofitManager {
         });
     }
 
+
     public void getNearestSalons(double lat, double lng, final AbstractCallback callback) {
 
         Call<PopularSalonsResponseModel> call = request.getNearestSalons(lat, lng);
@@ -265,6 +282,7 @@ public class RetrofitManager {
 
             }
 
+
             @Override
             public void onFailure(Call<PopularSalonsResponseModel> call, Throwable t) {
 
@@ -274,6 +292,7 @@ public class RetrofitManager {
         });
 
     }
+
 
     public void register(SignupModel model, final AbstractCallback callback) {
 
@@ -296,6 +315,7 @@ public class RetrofitManager {
 
             }
 
+
             @Override
             public void onFailure(Call<SignupResponseModel> call, Throwable t) {
 
@@ -304,6 +324,7 @@ public class RetrofitManager {
             }
         });
     }
+
 
     public void login(LoginModel loginModel, final AbstractCallback callback) {
 
@@ -338,6 +359,7 @@ public class RetrofitManager {
 
             }
 
+
             @Override
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
 
@@ -347,25 +369,28 @@ public class RetrofitManager {
         });
     }
 
+
     public void getSalonServices(String salonId, final AbstractCallback callback) {
 
         Call<SalonServicesResponse> getServices = request.getSalonServices(salonId);
 
         getServices.enqueue(new Callback<SalonServicesResponse>() {
+
             @Override
             public void onResponse(Call<SalonServicesResponse> call, Response<SalonServicesResponse> response) {
 
-                if(callback != null) {
+                if (callback != null) {
 
                     callback.onResult(response.isSuccessful(), response.body());
                 }
 
             }
 
+
             @Override
             public void onFailure(Call<SalonServicesResponse> call, Throwable t) {
 
-                if(callback != null) {
+                if (callback != null) {
 
                     callback.onResult(false, null);
 
@@ -374,16 +399,18 @@ public class RetrofitManager {
             }
         });
     }
+
 
     public void getAvailableTimes(String salonId, String date, final AbstractCallback callback) {
 
         Call<AvailableTimesResponse> get = request.getAvailableTime(date, salonId);
 
         get.enqueue(new Callback<AvailableTimesResponse>() {
+
             @Override
             public void onResponse(Call<AvailableTimesResponse> call, Response<AvailableTimesResponse> response) {
 
-                if(callback != null) {
+                if (callback != null) {
 
                     callback.onResult(response.isSuccessful(), response.body());
 
@@ -391,10 +418,11 @@ public class RetrofitManager {
 
             }
 
+
             @Override
             public void onFailure(Call<AvailableTimesResponse> call, Throwable t) {
 
-                if(callback != null) {
+                if (callback != null) {
 
                     callback.onResult(false, null);
 
@@ -404,4 +432,39 @@ public class RetrofitManager {
         });
     }
 
+
+    public void addNewSalon(String userID,
+                            String cityId,
+                            String salonType,
+                            String imageID,
+                            String ownerName,
+                            String ownerMobile,
+                            String salonLat,
+                            String salonLong,
+                            String salonName) {
+
+        Call<Object> get = request.addNewSalonInformation("",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "");
+
+        get.enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+            }
+
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+    }
 }

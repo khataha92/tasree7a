@@ -274,9 +274,9 @@ public class FragmentMapView extends BaseFragment {
      */
     private void setUpMap() {
 
-//        initializeClusterManagers();
+        initializeClusterManagers();
 
-//        dataSourceChanged(salonModelList);
+        dataSourceChanged(salonModelList);
 
         CameraUpdate cameraUpdate;
 

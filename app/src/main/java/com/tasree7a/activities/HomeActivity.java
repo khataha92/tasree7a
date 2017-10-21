@@ -18,6 +18,7 @@ import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.PermissionCode;
 import com.tasree7a.utils.UIUtils;
@@ -41,7 +42,9 @@ public class HomeActivity extends FragmentActivity {
         setContentView(R.layout.activity_home);
 
         boolean isBusiness = UserDefaultUtil.isBusinessUser();
-//
+
+        AppUtil.checkAppLanguage();
+
 //        if (getIntent().getExtras() != null) {
 //
 //            isBusiness = getIntent().getExtras().getBoolean(FragmentArg.IS_BUSINESS);

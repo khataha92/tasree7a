@@ -40,6 +40,7 @@ public class MainActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
 
+
         Fabric.with(this, new Crashlytics());
 
         try {
@@ -68,13 +69,14 @@ public class MainActivity extends FragmentActivity {
             startHomeActivity();
         }
 
-        AppUtil.checkAppLanguage();
-
         setContentView(R.layout.activity_main);
 
         initTabsView();
 
+        AppUtil.checkAppLanguage();
+
     }
+
 
     private void startHomeActivity() {
 
@@ -143,11 +145,13 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(callbackManager != null) {
+        if (callbackManager != null) {
 
             callbackManager.onActivityResult(requestCode,
                     resultCode, data);

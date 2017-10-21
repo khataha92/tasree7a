@@ -25,6 +25,7 @@ import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.CustomComponent.CustomTopBar;
 import com.tasree7a.Enums.FilterType;
 import com.tasree7a.Enums.Gender;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.ResponseCode;
 import com.tasree7a.Managers.FilterAndSortManager;
 import com.tasree7a.Managers.FragmentManager;
@@ -150,6 +151,9 @@ public class HomeFragment extends BaseFragment implements Observer {
             });
 
         }
+
+        if (UserDefaultUtil.getAppLanguage() == Language.AR)
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {

@@ -155,6 +155,9 @@ public class HomeFragment extends BaseFragment implements Observer {
         if (UserDefaultUtil.getAppLanguage() == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
+        else
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
 

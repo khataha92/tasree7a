@@ -40,27 +40,15 @@ public class HomeActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_home);
 
-        boolean isBusiness = UserDefaultUtil.getCurrentUser().isBusiness();
+        boolean isBusiness = UserDefaultUtil.isBusinessUser();
+//
+//        if (getIntent().getExtras() != null) {
+//
+//            isBusiness = getIntent().getExtras().getBoolean(FragmentArg.IS_BUSINESS);
+//
+//        }
 
-        SignupResponseModel signupResponseModel = null;
-
-        if (getIntent().getExtras() != null) {
-
-            isBusiness = getIntent().getExtras().getBoolean(FragmentArg.IS_BUSINESS);
-
-            signupResponseModel = (SignupResponseModel) getIntent().getExtras().getSerializable(FragmentArg.SALON_INFO);
-
-        }
-
-        if (UserDefaultUtil.isRegestering()) {
-
-            FragmentManager.showSalonInfoFragment(signupResponseModel);
-
-            findViewById(R.id.loading).setVisibility(View.GONE);
-
-            UIUtils.hideSweetLoadingDialog();
-
-        } else if (!isBusiness) {
+        if (!isBusiness) {
 
             FragmentManager.showHomeFragment();
 
@@ -72,24 +60,34 @@ public class HomeActivity extends FragmentActivity {
 
             findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
-            RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+            if (UserDefaultUtil.getCurrentUser().getSalongId() != null) {
 
-                @Override
-                public void onResult(boolean isSuccess, Object result) {
+                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
 
-                    findViewById(R.id.loading).setVisibility(View.GONE);
+                    @Override
+                    public void onResult(boolean isSuccess, Object result) {
 
-                    if (isSuccess) {
+                        findViewById(R.id.loading).setVisibility(View.GONE);
 
-                        SalonModel salonModel = (SalonModel) result;
+                        if (isSuccess) {
 
-                        salonModel.setBusiness(true);
+                            SalonModel salonModel = (SalonModel) result;
 
-                        FragmentManager.showSalonDetailsFragment(salonModel, true);
+                            salonModel.setBusiness(true);
 
+                            FragmentManager.showSalonDetailsFragment(salonModel, true);
+
+                        }
                     }
-                }
-            });
+                });
+
+            } else {
+
+                findViewById(R.id.loading).setVisibility(View.GONE);
+
+                FragmentManager.showSalonInfoFragment();
+
+            }
         }
     }
 

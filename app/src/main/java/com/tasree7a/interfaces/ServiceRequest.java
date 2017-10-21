@@ -93,7 +93,7 @@ public interface ServiceRequest {
     Call<Object> addNewSalonInformation(@Field("userId") String userID,
                                         @Field("cityId") String cityId,
                                         @Field("salonType") String salonType,
-                                        @Field("salonImageId") String imageId,
+                                        @Field("salonImageBase64") String salonImageBase64,
                                         @Field("ownerName") String ownerName,
                                         @Field("ownerMobile") String ownerMobile,
                                         @Field("salonLat") String salonLat,

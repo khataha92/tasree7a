@@ -288,7 +288,7 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                                     User user = responseModel.getUser();
 
-                                    user.setBusiness(isBusiness);
+                                    user.setBusiness(isBusiness ? 1 : 0);
 
                                     user.setSalongId(responseModel.getSalonId());
 

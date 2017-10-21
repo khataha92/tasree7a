@@ -9,6 +9,7 @@ import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
 import com.tasree7a.Models.SalonBooking.AvailableTimesResponse;
 import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
+import com.tasree7a.Models.SalonDetails.SalonInformationRequestModel;
 import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.Models.UserBookingsResponse;
@@ -433,25 +434,17 @@ public class RetrofitManager {
     }
 
 
-    public void addNewSalon(String userID,
-                            String cityId,
-                            String salonType,
-                            String imageID,
-                            String ownerName,
-                            String ownerMobile,
-                            String salonLat,
-                            String salonLong,
-                            String salonName) {
+    public void addNewSalon(SalonInformationRequestModel salonInformationRequestModel) {
 
-        Call<Object> get = request.addNewSalonInformation("",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "");
+        Call<Object> get = request.addNewSalonInformation(salonInformationRequestModel.getUserID(),
+                salonInformationRequestModel.getCityID(),
+                salonInformationRequestModel.getSalonType(),
+                salonInformationRequestModel.getSalonBase64Image(),
+                salonInformationRequestModel.getOwnerName(),
+                salonInformationRequestModel.getOwnerMobile(),
+                salonInformationRequestModel.getSalonLat(),
+                salonInformationRequestModel.getSalonLong(),
+                salonInformationRequestModel.getSalonName());
 
         get.enqueue(new Callback<Object>() {
 

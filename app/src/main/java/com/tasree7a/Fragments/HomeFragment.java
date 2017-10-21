@@ -64,7 +64,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     DrawerLayout nvDrawer;
 
-    NavigationView nvView ;
+    NavigationView nvView;
 
     ImageView closeDrawer;
 
@@ -81,6 +81,7 @@ public class HomeFragment extends BaseFragment implements Observer {
     static Location currentLocation;
 
     public static MyLocationListener listener = new MyLocationListener();
+
 
     @Nullable
     @Override
@@ -102,13 +103,13 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         nvView = (NavigationView) rootView.findViewById(R.id.nvView);
 
-        navHeader =  nvView.getHeaderView(0);
+        navHeader = nvView.getHeaderView(0);
 
         closeDrawer = (ImageView) nvView.getHeaderView(0).findViewById(R.id.close_menu);
 
         transparentView = rootView.findViewById(R.id.transparent_view);
 
-        int width = (int)(getResources().getDisplayMetrics().widthPixels/1.5);
+        int width = (int) (getResources().getDisplayMetrics().widthPixels / 1.5);
 
         loadingView = rootView.findViewById(R.id.loading);
 
@@ -124,40 +125,41 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         initLangButton();
 
-        if (!UserDefaultUtil.isBusinessUser()){
+        if (!UserDefaultUtil.isBusinessUser()) {
 
-         RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
+            RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
 
-             @Override
-             public void onResult(boolean isSuccess, Object result) {
+                @Override
+                public void onResult(boolean isSuccess, Object result) {
 
-                 if (isSuccess && result != null){
+                    if (isSuccess && result != null) {
 
-                     List<SalonModel>salonModels = new ArrayList<>();
+                        List<SalonModel> salonModels = new ArrayList<>();
 
-                     for (FavoriteDetailsModel details : ((FavoriteResponseModel)result).getDetails()){
+                        for (FavoriteDetailsModel details : ((FavoriteResponseModel) result).getDetails()) {
 
-                         salonModels.add(details.getSalonModel());
+                            salonModels.add(details.getSalonModel());
 
-                     }
+                        }
 
-                    UserDefaultUtil.saveFavoriteSalons(salonModels);
+                        UserDefaultUtil.saveFavoriteSalons(salonModels);
 
-                 }
+                    }
 
-             }
-         });
+                }
+            });
 
         }
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
+
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                         int itemId = menuItem.getItemId();
 
-                        switch (itemId){
+                        switch (itemId) {
 
                             case R.id.bookings:
 
@@ -209,7 +211,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
 //                                FragmentManager.showFeedBackFragment();
 
-                                //FragmentManager.showFragmentSalonServices();
+                            //FragmentManager.showFragmentSalonServices();
 
 //                                break;
 
@@ -230,6 +232,7 @@ public class HomeFragment extends BaseFragment implements Observer {
         nvView.setLayoutParams(params);
 
         topBar.setOnFirstIconClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -245,6 +248,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                 transparentView.setVisibility(View.VISIBLE);
             }
+
 
             @Override
             public void onSearchClose() {
@@ -262,6 +266,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             }
 
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -269,25 +274,26 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                 List<SalonModel> salonModels = new ArrayList<>();
 
-                if(filteredSalons == null) {
+                if (filteredSalons == null) {
 
                     return;
                 }
 
-                for(int i = 0 ; i < filteredSalons.size() ; i++){
+                for (int i = 0; i < filteredSalons.size(); i++) {
 
-                    if(filteredSalons.get(i).getName().toLowerCase().contains(searchText)){
+                    if (filteredSalons.get(i).getName().toLowerCase().contains(searchText)) {
 
                         salonModels.add(filteredSalons.get(i));
 
                     }
                 }
 
-                ((PopularSallonsAdapter)popularSallons.getAdapter()).setSalonModels(salonModels);
+                ((PopularSallonsAdapter) popularSallons.getAdapter()).setSalonModels(salonModels);
 
                 popularSallons.getAdapter().notifyDataSetChanged();
 
             }
+
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -332,6 +338,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     }
 
+
     private void buildAlertMessageNoGps() {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(ThisApplication.getCurrentActivity());
@@ -340,7 +347,9 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.ENABLE_LOCATION), new DialogInterface.OnClickListener() {
+
                     public void onClick(final DialogInterface dialog, final int id) {
+
                         startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 })
@@ -356,29 +365,32 @@ public class HomeFragment extends BaseFragment implements Observer {
         alert.show();
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
 
         boolean isLocationServiceEnabled = AppUtil.isLocationServiceEnabled();
 
-        if(!isLocationServiceEnabled) {
+        if (!isLocationServiceEnabled) {
 
             buildAlertMessageNoGps();
 
-        } else{
+        } else {
 
             getSallons();
 
         }
 
-        Intent intent = new Intent(ThisApplication.getCurrentActivity(),LocationService.class);
+        Intent intent = new Intent(ThisApplication.getCurrentActivity(), LocationService.class);
 
         getContext().startService(intent);
 
     }
 
-    private void getSallons(){
+
+    private void getSallons() {
 
         Location location = AppUtil.getCurrentLocation();
 
@@ -386,9 +398,10 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     }
 
-    private void getSalons(Location location){
 
-        if(location == null){
+    private void getSalons(Location location) {
+
+        if (location == null) {
 
             return;
         }
@@ -398,13 +411,13 @@ public class HomeFragment extends BaseFragment implements Observer {
             @Override
             public void onResult(boolean isSuccess, Object result) {
 
-                if(isSuccess){
+                if (isSuccess) {
 
                     hideLoadingView();
 
                     PopularSalonsResponseModel model = (PopularSalonsResponseModel) result;
 
-                    if(model.getResponseCode() == ResponseCode.SUCCESS){
+                    if (model.getResponseCode() == ResponseCode.SUCCESS) {
 
                         List<SalonModel> salons = model.getSalons();
 
@@ -418,7 +431,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                         popularSallons.setAdapter(adapter);
 
-                    } else{
+                    } else {
 
                     }
 
@@ -430,24 +443,25 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     }
 
+
     @Override
     public void update(Observable o, Object arg) {
 
-        if(o instanceof LocationChangedObservable){
+        if (o instanceof LocationChangedObservable) {
 
             getSallons();
 
-        } else if(o instanceof FavoriteChangeObservable) {
+        } else if (o instanceof FavoriteChangeObservable) {
 
             popularSallons.getAdapter().notifyDataSetChanged();
 
-        } else if(o instanceof PermissionGrantedObservable){
+        } else if (o instanceof PermissionGrantedObservable) {
 
             Location location = AppUtil.getCurrentLocation();
 
             getSalons(location);
 
-        } else if(o instanceof FilterAndSortObservable){
+        } else if (o instanceof FilterAndSortObservable) {
 
             filteredSalons = new ArrayList<>();
 
@@ -457,13 +471,13 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             List<SalonModel> allSalons = SessionManager.getInstance().getSalons();
 
-            for(int i = 0; i < allSalons.size() ; i++){
+            for (int i = 0; i < allSalons.size(); i++) {
 
                 boolean shouldContain = true;
 
-                for(int j = 0 ; j < filterTypes.size() ;j ++){
+                for (int j = 0; j < filterTypes.size(); j++) {
 
-                    if(!allSalons.get(i).filterValue(filterTypes.get(j))){
+                    if (!allSalons.get(i).filterValue(filterTypes.get(j))) {
 
                         shouldContain = false;
 
@@ -472,7 +486,7 @@ public class HomeFragment extends BaseFragment implements Observer {
                     }
                 }
 
-                if(shouldContain && (isMale && allSalons.get(i).getSalonType() == Gender.MALE) || (!isMale && allSalons.get(i).getSalonType() == Gender.FEMALE)){
+                if (shouldContain && (isMale && allSalons.get(i).getSalonType() == Gender.MALE) || (!isMale && allSalons.get(i).getSalonType() == Gender.FEMALE)) {
 
                     shouldContain = true;
 
@@ -484,40 +498,44 @@ public class HomeFragment extends BaseFragment implements Observer {
 
                 }
 
-                if(shouldContain){
+                if (shouldContain) {
 
                     filteredSalons.add(allSalons.get(i));
 
                 }
             }
 
-            Collections.sort(filteredSalons,new SalonsComparable(FilterAndSortManager.getInstance().getSortType()));
+            Collections.sort(filteredSalons, new SalonsComparable(FilterAndSortManager.getInstance().getSortType()));
 
-            ((PopularSallonsAdapter)popularSallons.getAdapter()).setSalonModels(filteredSalons);
+            ((PopularSallonsAdapter) popularSallons.getAdapter()).setSalonModels(filteredSalons);
 
             popularSallons.getAdapter().notifyDataSetChanged();
         }
     }
 
-    private void showLoadingView(){
 
-        if(loadingView != null){
+    private void showLoadingView() {
+
+        if (loadingView != null) {
 
             loadingView.setVisibility(View.VISIBLE);
 
         }
     }
 
-    private void hideLoadingView(){
 
-        if(loadingView != null){
+    private void hideLoadingView() {
+
+        if (loadingView != null) {
 
             loadingView.setVisibility(View.GONE);
         }
     }
 
+
     @Override
     public void onDestroy() {
+
         super.onDestroy();
 
         FilterAndSortObservable.getInstance().deleteObserver(this);
@@ -529,19 +547,22 @@ public class HomeFragment extends BaseFragment implements Observer {
         LocationChangedObservable.sharedInstance().deleteObserver(this);
     }
 
+
     @Override
     public void onDetach() {
+
         super.onDetach();
 
         currentLocation = null;
     }
 
-    private static class MyLocationListener implements LocationListener , Serializable{
+
+    private static class MyLocationListener implements LocationListener, Serializable {
 
         @Override
         public void onLocationChanged(Location location) {
 
-            if(currentLocation == null){
+            if (currentLocation == null) {
 
                 currentLocation = location;
 
@@ -550,15 +571,18 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         }
 
+
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
         }
 
+
         @Override
         public void onProviderEnabled(String provider) {
 
         }
+
 
         @Override
         public void onProviderDisabled(String provider) {

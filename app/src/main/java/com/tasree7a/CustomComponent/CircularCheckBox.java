@@ -107,6 +107,13 @@ public class CircularCheckBox extends LinearLayout implements Checkable {
 
     }
 
+
+    public boolean isChecked() {
+
+        return isChecked;
+    }
+
+
     @Override
     public void check() {
 

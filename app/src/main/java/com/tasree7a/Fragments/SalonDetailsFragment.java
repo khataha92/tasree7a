@@ -49,7 +49,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
     DrawerLayout nvDrawer;
 
-    NavigationView nvView ;
+    NavigationView nvView;
 
     boolean didLoadFullSalon = false;
 
@@ -58,6 +58,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     View navHeader;
 
     ImageView closeDrawer;
+
 
     @Nullable
     @Override
@@ -69,11 +70,11 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         nvView = (NavigationView) rootView.findViewById(R.id.nvView);
 
-        navHeader =  nvView.getHeaderView(0);
+        navHeader = nvView.getHeaderView(0);
 
         closeDrawer = (ImageView) nvView.getHeaderView(0).findViewById(R.id.close_menu);
 
-        int width = (int)(getResources().getDisplayMetrics().widthPixels/1.5);
+        int width = (int) (getResources().getDisplayMetrics().widthPixels / 1.5);
 
         DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) nvView.getLayoutParams();
 
@@ -91,7 +92,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         MenuIconClickedObservable.sharedInstance().addObserver(this);
 
-        if(!didLoadFullSalon) {
+        if (!didLoadFullSalon) {
 
             showLoadingView();
 
@@ -101,17 +102,18 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         if (!salonModel.isBusiness()) {
 
-           nvDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            nvDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
+
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                         int itemId = menuItem.getItemId();
 
-                        switch (itemId){
+                        switch (itemId) {
 
                             case R.id.my_salon:
 
@@ -147,7 +149,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
 //                                FragmentManager.showFeedBackFragment();
 
-                                //FragmentManager.showFragmentSalonServices();
+                            //FragmentManager.showFragmentSalonServices();
 
 //                                break;
 
@@ -159,29 +161,38 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
                     }
                 });
 
+        if (UserDefaultUtil.getCurrentUser().isBusiness() && (Integer.parseInt(UserDefaultUtil.getCurrentUser().getId()) == -1)) {
 
-        return rootView;
+            FragmentManager.showSalonInfoFragment();
+
+        }
+
+            return rootView;
 
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
 
     }
 
+
     @Override
     public void fragmentIsVisible() {
+
         super.fragmentIsVisible();
 
-        RetrofitManager.getInstance().getSalonDetails(salonModel.getId(),new AbstractCallback(){
+        RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), new AbstractCallback() {
 
             @Override
             public void onResult(boolean isSuccess, Object result) {
 
-                if(!isAdded()) return;
+                if (!isAdded()) return;
 
-                if(isSuccess){
+                if (isSuccess) {
 
                     SalonModel temp = (SalonModel) result;
 
@@ -209,7 +220,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
                     didLoadFullSalon = true;
 
-                    ((BaseCardAdapter)salonDetails.getAdapter()).setCardModels(getCardModels());
+                    ((BaseCardAdapter) salonDetails.getAdapter()).setCardModels(getCardModels());
 
                     salonDetails.getAdapter().notifyDataSetChanged();
 
@@ -222,18 +233,21 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         });
     }
 
+
     @Override
     public int getFactoryId() {
+
         return 0;
     }
 
-    private BaseCardModel getCardModel(CardType type){
+
+    private BaseCardModel getCardModel(CardType type) {
 
         BaseCardModel cardModel = new BaseCardModel();
 
         cardModel.setCardType(type);
 
-        switch (type){
+        switch (type) {
 
             case IMAGE_CARD:
 
@@ -253,7 +267,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
                 cardModel.setCardValue(galleryModel);
             }
-                break;
+            break;
 
             case PRODUCTS_CARD: {
 
@@ -268,7 +282,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
                 cardModel.setCardValue(galleryModel);
 
             }
-                break;
+            break;
 
             case MAP_CARD:
 
@@ -298,6 +312,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         return cardModel;
     }
 
+
     @Override
     public ArrayList<BaseCardModel> getCardModels() {
 
@@ -305,19 +320,19 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         cardModels.add(getCardModel(CardType.IMAGE_CARD));
 
-        if(!didLoadFullSalon){
+        if (!didLoadFullSalon) {
 
             return cardModels;
 
         }
 
-        if(salonModel.getGallery().size() > 0){
+        if (salonModel.getGallery().size() > 0) {
 
             cardModels.add(getCardModel(CardType.GALARY_CARD));
 
         }
 
-        if(salonModel.getProducts().size() > 0){
+        if (salonModel.getProducts().size() > 0) {
 
             cardModels.add(getCardModel(CardType.PRODUCTS_CARD));
 
@@ -332,12 +347,14 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         return cardModels;
     }
 
+
     @Override
     public RecyclerView getRecyclerView() {
 
         return salonDetails;
 
     }
+
 
     @Override
     public CardsRecyclerAdapter getCardsAdapter() {
@@ -346,6 +363,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
     }
 
+
     @Override
     public View getRootView() {
 
@@ -353,39 +371,50 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
     }
 
+
     public void setSalonModel(SalonModel salonModel) {
+
         this.salonModel = salonModel;
     }
 
-    private void showLoadingView(){
+
+    private void showLoadingView() {
 
         rootView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
     }
 
-    private void hideLoadingView(){
+
+    private void hideLoadingView() {
 
         rootView.findViewById(R.id.loading).setVisibility(View.GONE);
     }
 
+
     public void setDidLoadFullSalon(boolean didLoadFullSalon) {
+
         this.didLoadFullSalon = didLoadFullSalon;
     }
 
+
     public void setBusiness(boolean business) {
+
         isBusiness = business;
     }
 
+
     @Override
     public void onDetach() {
+
         super.onDetach();
 
         MenuIconClickedObservable.sharedInstance().deleteObserver(this);
     }
 
+
     @Override
     public void update(Observable o, Object arg) {
 
-        if(o instanceof MenuIconClickedObservable) {
+        if (o instanceof MenuIconClickedObservable) {
 
             nvDrawer.openDrawer(nvView);
 

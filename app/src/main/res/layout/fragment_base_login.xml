@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-    android:background="@color/WHITE"
-              android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/WHITE"
+                android:orientation="vertical">
 
 
     <com.facebook.login.widget.LoginButton
@@ -16,8 +16,7 @@
         android:layout_marginLeft="25.3dp"
         android:layout_marginRight="25.3dp"
         android:layout_marginTop="24dp"
-        android:visibility="gone"
-        />
+        android:visibility="gone"/>
 
     <com.tasree7a.CustomComponent.CustomButton
         android:id="@+id/login_with_fb"
@@ -31,8 +30,7 @@
         app:customButtonBackgroundDrawable="@drawable/rounded_corders_bg"
         app:customButtonImageSrc="@drawable/ic_fb"
         app:customButtonText="@string/LOGIN_WITH_FB"
-        app:customButtonTextColor="@color/WHITE"
-        />
+        app:customButtonTextColor="@color/WHITE"/>
 
     <RelativeLayout
         android:id="@+id/or_container"
@@ -47,8 +45,7 @@
             android:layout_height="0.5dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@color/APP_TEXT_COLOR"
-            />
+            android:background="@color/APP_TEXT_COLOR"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,53 +56,67 @@
             android:paddingRight="5dp"
             android:text="@string/OR"
             android:textColor="@color/APP_TEXT_COLOR"
-            android:textSize="13.3sp"
-            />
+            android:textSize="13.3sp"/>
+
     </RelativeLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_layout_email"
+    <ScrollView
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/or_container"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="15dp"
-        android:textColorHint="@color/APP_TEXT_COLOR"
-        >
+        android:layout_above="@+id/normal_login_button"
+        android:layout_below="@+id/or_container">
 
-        <EditText
-            android:id="@+id/input_email"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/USERNAME"
-            android:inputType="textEmailAddress"
-            android:singleLine="true"
-            android:textColor="@color/APP_TEXT_COLOR"
-            />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_layout_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/input_layout_email"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="20dp"
-        android:textColorHint="@color/APP_TEXT_COLOR"
-        >
 
-        <EditText
-            android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/PASSWORD"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textColor="@color/APP_TEXT_COLOR"
-            />
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="15dp"
+                android:textColorHint="@color/APP_TEXT_COLOR"
+                >
+
+                <EditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/USERNAME"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:textColor="@color/APP_TEXT_COLOR"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input_layout_email"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="20dp"
+                android:textColorHint="@color/APP_TEXT_COLOR">
+
+                <EditText
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/PASSWORD"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/APP_TEXT_COLOR"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
 
     <com.tasree7a.CustomComponent.CustomButton
         android:id="@+id/normal_login_button"
@@ -119,35 +130,32 @@
         app:customButtonBackgroundDrawable="@drawable/rounded_corders_bg"
         app:customButtonText="@string/LOGIN"
         app:customButtonTextColor="@color/WHITE"
-        app:customButtonTextSize="19sp"
-        />
+        app:customButtonTextSize="19sp"/>
 
     <TextView
         android:id="@+id/forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginBottom="13.8dp"
         android:layout_marginLeft="20dp"
         android:text="@string/FORGOT_PASSWORD"
-        android:layout_alignParentLeft="true"
         android:textColor="@color/APP_TEXT_COLOR"
-        android:textSize="14.8sp"
-        />
+        android:textSize="14.8sp"/>
 
     <TextView
         android:id="@+id/sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10.3dp"
         android:layout_marginRight="25dp"
+        android:padding="5dp"
         android:text="@string/SIGN_UP"
         android:textColor="@color/APP_GREEN"
-        android:textSize="14.8sp"
-        />
+        android:textSize="14.8sp"/>
 
     <TextView
         android:id="@+id/new_user"
@@ -159,7 +167,6 @@
         android:padding="5dp"
         android:text="@string/NEW_USER"
         android:textColor="@color/APP_TEXT_COLOR"
-        android:textSize="14.8sp"
-        />
+        android:textSize="14.8sp"/>
 
 </RelativeLayout>

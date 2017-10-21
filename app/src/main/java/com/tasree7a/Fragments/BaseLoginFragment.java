@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +85,7 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
         signup = (TextView) rootView.findViewById(R.id.sign_up);
 
         rootView.findViewById(R.id.forgot_password).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -109,11 +112,14 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
         callbackManager = CallbackManager.Factory.create();
 
-        if(isBusiness){
+        if (isBusiness) {
 
             login.setVisibility(View.GONE);
 
             rootView.findViewById(R.id.or_container).setVisibility(View.GONE);
+
+            rootView.findViewById(R.id.container).setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
         }
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -149,7 +155,7 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                                     String lastName = "";
 
-                                    if(names.length > 1) {
+                                    if (names.length > 1) {
 
                                         lastName = names[names.length - 1];
 
@@ -168,10 +174,11 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
                                     signupModel.setUsername("");
 
                                     RetrofitManager.getInstance().register(signupModel, new AbstractCallback() {
+
                                         @Override
                                         public void onResult(boolean isSuccess, Object result) {
 
-                                            if(isSuccess) {
+                                            if (isSuccess) {
 
                                                 SignupResponseModel model = (SignupResponseModel) result;
 
@@ -339,8 +346,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
         ThisApplication.getCurrentActivity().finishAffinity();
 
     }
-
-
 
 
 }

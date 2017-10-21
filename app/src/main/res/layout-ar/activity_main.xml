@@ -10,18 +10,20 @@
                 tools:context="com.tasree7a.activities.MainActivity">
 
     <ImageView
+        android:id="@+id/logo"
+        android:layout_marginTop="40dp"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/login_container"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo"
-        />
+        android:src="@drawable/logo"/>
 
     <RelativeLayout
         android:id="@+id/login_container"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="28dp"

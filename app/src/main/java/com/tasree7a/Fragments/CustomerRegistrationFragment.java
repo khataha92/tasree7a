@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.tasree7a.CustomComponent.CustomButton;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
@@ -66,6 +67,12 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
         RelativeLayout login = (RelativeLayout) rootView.findViewById(R.id.login_container);
 
         login.setOnClickListener(this);
+
+        if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        else
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
         // Inflate the layout for this fragment
         return rootView;

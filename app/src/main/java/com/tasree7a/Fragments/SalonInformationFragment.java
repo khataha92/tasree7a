@@ -1,5 +1,6 @@
 package com.tasree7a.Fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Service;
@@ -109,6 +110,11 @@ public class SalonInformationFragment extends BaseFragment {
     private TextView fromTime, toTime;
 
     String finalTime = null;
+
+
+    private final int CAMERA_REQUEST = 1888;
+
+    private final int GALLERY_REQUEST = 1889;
 
 
     @Nullable
@@ -273,7 +279,7 @@ public class SalonInformationFragment extends BaseFragment {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(takePicture, 0);//zero can be replaced with any action code
+                                startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
 
                             }
                         });
@@ -285,7 +291,7 @@ public class SalonInformationFragment extends BaseFragment {
 
                                 Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto, 1);//one can be replaced with any action code
+                                startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
 
                             }
                         });
@@ -400,31 +406,41 @@ public class SalonInformationFragment extends BaseFragment {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        final Uri imageUri = data.getData();
+        Bitmap selectedImage = null;
 
-        final InputStream imageStream;
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
 
-        try {
+            selectedImage = (Bitmap) data.getExtras().get("data");
 
-            imageStream = ThisApplication.getCurrentActivity().getApplicationContext().getContentResolver().openInputStream(imageUri);
+        } else {
 
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+            final Uri imageUri = data.getData();
 
-            ((ImageView) rootView.findViewById(R.id.image)).setImageBitmap(selectedImage);
+            final InputStream imageStream;
 
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            try {
 
-            selectedImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                imageStream = ThisApplication.getCurrentActivity().getApplicationContext().getContentResolver().openInputStream(imageUri);
 
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
+                selectedImage = BitmapFactory.decodeStream(imageStream);
 
-            String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                Log.d("imagebase64", base64Image);
 
-            Log.d("imagebase64", base64Image);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        selectedImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+        String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        ((ImageView) rootView.findViewById(R.id.image)).setImageBitmap(selectedImage);
 
     }
 

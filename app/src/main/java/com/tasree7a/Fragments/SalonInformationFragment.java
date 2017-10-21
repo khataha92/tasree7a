@@ -1,12 +1,14 @@
 package com.tasree7a.Fragments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,9 +29,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.tasree7a.CustomComponent.CircularCheckBox;
 import com.tasree7a.CustomComponent.CustomButton;
+import com.tasree7a.CustomComponent.CustomTimePicker;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.User;
@@ -38,18 +43,28 @@ import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.activities.MainActivity;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UserDefaultUtil;
+import com.tsongkha.spinnerdatepicker.DatePicker;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Currency;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by SamiKhleaf on 10/20/17.
@@ -91,12 +106,155 @@ public class SalonInformationFragment extends BaseFragment {
 
     };
 
+    private TextView fromTime, toTime;
+
+    String finalTime = null;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.view_salon_info, container, false);
+
+        fromTime = (TextView) rootView.findViewById(R.id.from_hours);
+
+        fromTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Dialog dialog = new Dialog(ThisApplication.getCurrentActivity());
+                dialog.setContentView(R.layout.date_dialog);
+
+                dialog.findViewById(R.id.done).setOnClickListener(null);
+
+                dialog.findViewById(R.id.done).setAlpha(0.5f);
+
+                dialog.findViewById(R.id.done).setEnabled(false);
+
+
+                ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+
+                        if (finalTime == null) {
+
+                            dialog.findViewById(R.id.done).setOnClickListener(null);
+
+                            dialog.findViewById(R.id.done).setAlpha(0.5f);
+
+                            dialog.findViewById(R.id.done).setEnabled(false);
+
+                        } else {
+
+                            dialog.findViewById(R.id.done).setAlpha(1f);
+
+                            dialog.findViewById(R.id.done).setEnabled(true);
+
+                            dialog.findViewById(R.id.done).setOnClickListener(new View.OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+
+                                    SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
+
+                                    SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
+
+                                    try {
+                                        Date date = parseFormat.parse(finalTime);
+
+                                        fromTime.setText(displayFormat.format(date));
+
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+
+
+                        finalTime = hourOfDay + ":" + minute;
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
+        toTime = (TextView) rootView.findViewById(R.id.to_hours);
+
+        toTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Dialog dialog = new Dialog(ThisApplication.getCurrentActivity());
+                dialog.setContentView(R.layout.date_dialog);
+
+                dialog.findViewById(R.id.done).setOnClickListener(null);
+
+                dialog.findViewById(R.id.done).setAlpha(0.5f);
+
+                dialog.findViewById(R.id.done).setEnabled(false);
+
+
+                ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+
+                        if (finalTime == null) {
+
+                            dialog.findViewById(R.id.done).setOnClickListener(null);
+
+                            dialog.findViewById(R.id.done).setAlpha(0.5f);
+
+                            dialog.findViewById(R.id.done).setEnabled(false);
+
+                        } else {
+
+                            dialog.findViewById(R.id.done).setAlpha(1f);
+
+                            dialog.findViewById(R.id.done).setEnabled(true);
+
+                            dialog.findViewById(R.id.done).setOnClickListener(new View.OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+
+                                    SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
+
+                                    SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
+
+                                    try {
+                                        Date date = parseFormat.parse(finalTime);
+
+                                        toTime.setText(displayFormat.format(date));
+
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+
+
+                        finalTime = hourOfDay + ":" + minute;
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
 
         changeImageView = (RelativeLayout) rootView.findViewById(R.id.change_image);
 

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -17,7 +17,7 @@
         <item name="colorAccent">@color/APP_BLACK</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-       <item name="android:headerBackground">@color/APP_GREEN</item>
+        <item name="android:headerBackground">@color/APP_GREEN</item>
     </style>
 
     <style name="CustomButtonBookBestDeals">
@@ -41,6 +41,11 @@
     </style>
 
 
+    <style name="NumbePickerStyle">
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColorPrimary">@color/APP_GREEN</item>
+        <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/APP_GREEN</item>
+    </style>
 
     <style name="NoActionBar" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowActionBar">false</item>

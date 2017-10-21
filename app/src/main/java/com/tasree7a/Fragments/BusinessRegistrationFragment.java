@@ -126,7 +126,7 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
                             startActivity(intent);
 
-//                            ThisApplication.getCurrentActivity().finish();
+                            ThisApplication.getCurrentActivity().finish();
 
                         } else {
 

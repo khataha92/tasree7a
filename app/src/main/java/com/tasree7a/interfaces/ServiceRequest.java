@@ -5,6 +5,7 @@ import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
 import com.tasree7a.Models.SalonBooking.AvailableTimesResponse;
 import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
+import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.Models.UserBookingsResponse;
@@ -90,13 +91,13 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("addNewSalon")
-    Call<Object> addNewSalonInformation(@Field("userId") String userID,
-                                        @Field("cityId") String cityId,
-                                        @Field("salonType") String salonType,
-                                        @Field("salonImageBase64") String salonImageBase64,
-                                        @Field("ownerName") String ownerName,
-                                        @Field("ownerMobile") String ownerMobile,
-                                        @Field("salonLat") String salonLat,
-                                        @Field("salonLong") String salonLong,
-                                        @Field("salonNmae") String salonName);
+    Call<AddNewSalonResponseModel> addNewSalonInformation(@Field("userId") String userID,
+                                                          @Field("cityId") String cityId,
+                                                          @Field("salonType") String salonType,
+                                                          @Field("salonImageBase64") String salonImageBase64,
+                                                          @Field("ownerName") String ownerName,
+                                                          @Field("ownerMobile") String ownerMobile,
+                                                          @Field("salonLat") String salonLat,
+                                                          @Field("salonLong") String salonLong,
+                                                          @Field("salonName") String salonName);
 }

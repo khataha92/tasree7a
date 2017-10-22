@@ -2,6 +2,7 @@ package com.tasree7a.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -103,8 +105,6 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
                 model.setEmail(email);
 
-                model.setFbLogin(false);
-
                 model.setFirstName(firstName);
 
                 model.setLastName(lastName);
@@ -129,7 +129,7 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
                             UserDefaultUtil.saveUser(signupResponseModel.getUserDetails().getUser());
 
                             startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
-                            
+
                             ThisApplication.getCurrentActivity().finish();
 
                         } else {
@@ -151,6 +151,13 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
             Toast.makeText(getApplicationContext(), getString(R.string.ERROR_FIRST_NAME_LAST_NAME), Toast.LENGTH_LONG).show();
         }
 
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
     }
 
 

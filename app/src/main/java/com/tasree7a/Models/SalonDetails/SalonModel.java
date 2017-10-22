@@ -55,7 +55,7 @@ public class SalonModel implements Filterable, ClusterItem {
     @SerializedName("salon_img")
     String image;
 
-    @SerializedName("salon_barbers")
+//    @SerializedName("salon_barbers")
     List<SalonBarber> salonBarbers;
 
     @SerializedName("salon_images")

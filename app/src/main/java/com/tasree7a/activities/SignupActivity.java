@@ -11,6 +11,7 @@ import com.tasree7a.Fragments.BusinessRegistrationFragment;
 import com.tasree7a.Fragments.CustomerRegistrationFragment;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.utils.AppUtil;
 
 /**
  * Created by mac on 5/3/17.
@@ -29,6 +30,8 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_signup);
+
+        AppUtil.checkAppLanguage();
 
         initTabsView();
     }

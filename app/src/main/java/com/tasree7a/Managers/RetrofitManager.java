@@ -1,5 +1,7 @@
 package com.tasree7a.Managers;
 
+import android.util.Log;
+
 import com.tasree7a.Constants;
 import com.tasree7a.Models.Bookings.BookingModel;
 import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
@@ -8,6 +10,7 @@ import com.tasree7a.Models.Login.LoginResponseModel;
 import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
 import com.tasree7a.Models.SalonBooking.AvailableTimesResponse;
 import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
+import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonInformationRequestModel;
 import com.tasree7a.Models.Signup.SignupModel;
@@ -160,6 +163,8 @@ public class RetrofitManager {
 
             @Override
             public void onFailure(Call<SalonDetailsResponseModel> call, Throwable t) {
+
+                Log.d("RETTT", "Error: ", t);
 
                 callback.onResult(false, null);
 
@@ -434,9 +439,9 @@ public class RetrofitManager {
     }
 
 
-    public void addNewSalon(SalonInformationRequestModel salonInformationRequestModel) {
+    public void addNewSalon(SalonInformationRequestModel salonInformationRequestModel, final AbstractCallback abstractCallback) {
 
-        Call<Object> get = request.addNewSalonInformation(salonInformationRequestModel.getUserID(),
+        Call<AddNewSalonResponseModel> get = request.addNewSalonInformation(salonInformationRequestModel.getUserID(),
                 salonInformationRequestModel.getCityID(),
                 salonInformationRequestModel.getSalonType(),
                 salonInformationRequestModel.getSalonBase64Image(),
@@ -446,16 +451,18 @@ public class RetrofitManager {
                 salonInformationRequestModel.getSalonLong(),
                 salonInformationRequestModel.getSalonName());
 
-        get.enqueue(new Callback<Object>() {
+        get.enqueue(new Callback<AddNewSalonResponseModel>() {
 
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(Call<AddNewSalonResponseModel> call, Response<AddNewSalonResponseModel> response) {
 
+                abstractCallback.onResult(true, response);
             }
 
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<AddNewSalonResponseModel> call, Throwable t) {
+
 
             }
         });

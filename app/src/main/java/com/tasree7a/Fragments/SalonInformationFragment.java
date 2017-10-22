@@ -39,14 +39,18 @@ import com.tasree7a.CustomComponent.CustomTimePicker;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.User;
+import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
+import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonInformationRequestModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
+import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.FragmentArg;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 import com.tsongkha.spinnerdatepicker.DatePicker;
 import com.tsongkha.spinnerdatepicker.DatePickerDialog;
@@ -66,6 +70,8 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Response;
 
 /**
  * Created by SamiKhleaf on 10/20/17.
@@ -372,31 +378,49 @@ public class SalonInformationFragment extends BaseFragment {
 
                 salonInformationRequestModel = new SalonInformationRequestModel();
 
-                salonInformationRequestModel.setCityID("");
+                salonInformationRequestModel.setCityID("23");
                 salonInformationRequestModel.setOwnerMobile(mobile.getText().toString());
                 salonInformationRequestModel.setOwnerName(ownerNamer.getText().toString());
-                salonInformationRequestModel.setSalonBase64Image(base64Image);
-                salonInformationRequestModel.setSalonLat("");
-                salonInformationRequestModel.setSalonLong("");
-                salonInformationRequestModel.setUserID("");
-                salonInformationRequestModel.setSalonName(salonName.getText().toString());
-                salonInformationRequestModel.setSalonType("");
+                salonInformationRequestModel.setSalonBase64Image("lknkjbhj");
+                salonInformationRequestModel.setSalonLat(AppUtil.getCurrentLocation().getLatitude() + "");
+                salonInformationRequestModel.setSalonLong(AppUtil.getCurrentLocation().getLongitude() + "");
+                salonInformationRequestModel.setUserID(UserDefaultUtil.getCurrentUser().getId());
+                salonInformationRequestModel.setSalonName("Testing salon");
+                salonInformationRequestModel.setSalonType("1");
 
-                RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel);
+                RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, new AbstractCallback() {
+
+                    @Override
+                    public void onResult(boolean isSuccess, Object result) {
+
+                        AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response)result).body();
+
+                        RetrofitManager.getInstance().getSalonDetails(responseModel.getDetails().getSalonId(), new AbstractCallback() {
+
+                            @Override
+                            public void onResult(boolean isSuccess, Object result) {
+
+//
+//                                UIUtils.hideSweetLoadingDialog();
+//
+//                                UIUtils.showSweetLoadingDialog();
+
+                                SalonModel model = (SalonModel) result;
+
+                                model.setBusiness(true);
+
+                                FragmentManager.showSalonDetailsFragment(model);
+
+                            }
+                        });
+
+                    }
+                });
 
             }
 
         });
 
-//        address.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//                FragmentManager.showMapViewFragment(new ArrayList<SalonModel>());
-//
-//            }
-//        });
         return rootView;
     }
 
@@ -424,8 +448,6 @@ public class SalonInformationFragment extends BaseFragment {
 
                 selectedImage = BitmapFactory.decodeStream(imageStream);
 
-                Log.d("imagebase64", base64Image);
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -438,7 +460,7 @@ public class SalonInformationFragment extends BaseFragment {
 
         byte[] byteArray = byteArrayOutputStream.toByteArray();
 
-        String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
         ((ImageView) rootView.findViewById(R.id.image)).setImageBitmap(selectedImage);
 

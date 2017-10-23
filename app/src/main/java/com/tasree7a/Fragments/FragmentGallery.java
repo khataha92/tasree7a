@@ -14,12 +14,18 @@ import com.tasree7a.Adapters.GalleryAdapter;
 import com.tasree7a.CustomComponent.SpacesItemDecoration;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.ReservationSessionManager;
+import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
+import com.tasree7a.Models.UpdateProductRequestModel;
+import com.tasree7a.Models.UpdateSalonImagesRequestModel;
+import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.Observables.ItemSelectedObservable;
 import com.tasree7a.R;
+import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.List;
 import java.util.Observable;
@@ -44,6 +50,8 @@ public class FragmentGallery extends BaseFragment implements Observer {
     List<SalonProduct> productsList;
 
     boolean isProduct = false;
+
+    boolean isSelecting = false;
 
 
     @Nullable
@@ -87,6 +95,102 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
         }
 
+
+        changeItems.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (isSelecting) {
+
+                    List<String> items = ReservationSessionManager.getInstance().getSelectedItems();
+
+                    if (!isProduct) {
+                        //TODO: Delete Gallary Item
+
+
+                        UpdateSalonImagesRequestModel model;
+
+                        for (final String item : items) {
+
+                            model = new UpdateSalonImagesRequestModel();
+                            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+                            model.setOperation("DELETE");
+                            model.setImageId(item);
+
+                            //TODO: check el image id and put it here
+                            RetrofitManager.getInstance().updateSalonImages(model, new AbstractCallback() {
+
+                                @Override
+                                public void onResult(boolean isSuccess, Object result) {
+
+                                    if (isSuccess) {
+
+                                        for (ImageModel imageModel : imageModelList) {
+
+                                            if (imageModel.getImageId().equalsIgnoreCase(item)) {
+
+                                                imageModelList.remove(imageModel);
+
+                                                break;
+
+                                            }
+
+                                        }
+                                    }
+                                }
+                            });
+
+                            model = null;
+                        }
+
+                    } else {
+
+                        //TODO: Delete Product
+
+                        UpdateProductRequestModel model = new UpdateProductRequestModel();
+
+                        for (final String item : items) {
+
+                            model = new UpdateProductRequestModel();
+
+                            model.setOperation("DELETE");
+                            model.setProductId(item);
+                            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+
+                            RetrofitManager.getInstance().updateSalonProducts(model, new AbstractCallback() {
+
+                                @Override
+                                public void onResult(boolean isSuccess, Object result) {
+
+                                    if (isSuccess) {
+
+                                        for (SalonProduct prod : productsList) {
+
+                                            if (prod.getId().equalsIgnoreCase(item)) {
+
+                                                imageModelList.remove(prod);
+
+                                                break;
+
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+
+                } else {
+
+                    //TODO: ADD
+                    FragmentManager.showAddGalleryItemFragment();
+
+                }
+
+            }
+        });
         GalleryAdapter adapter = new GalleryAdapter();
 
         adapter.setImageModels(imageModelList);
@@ -115,6 +219,8 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
         ItemSelectedObservable.sharedInstance().addObserver(this);
 
+        GallaryItemsChangedObservable.sharedInstance().addObserver(this);
+
         return rootView;
     }
 
@@ -125,6 +231,8 @@ public class FragmentGallery extends BaseFragment implements Observer {
         super.onDetach();
 
         ItemSelectedObservable.sharedInstance().deleteObserver(this);
+
+        GallaryItemsChangedObservable.sharedInstance().deleteObserver(this);
 
     }
 
@@ -140,13 +248,21 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
                 changeItems.setImageResource(R.drawable.ic_remove);
 
+                isSelecting = true;
 
             } else {
 
+                isSelecting = false;
                 //TODO: show add icon in header
                 changeItems.setImageResource(R.drawable.ic_call);
 
             }
+        } else if (o instanceof GallaryItemsChangedObservable) {
+
+            gallery.getAdapter().notifyDataSetChanged();
+
+            gallery.requestLayout();
+
         }
 
     }

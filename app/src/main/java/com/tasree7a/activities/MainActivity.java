@@ -89,9 +89,13 @@ public class MainActivity extends FragmentActivity {
 
     private void startHomeActivity() {
 
-        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
 
-        finishAffinity();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        startActivity(intent);
+
+        finish();
 
     }
 

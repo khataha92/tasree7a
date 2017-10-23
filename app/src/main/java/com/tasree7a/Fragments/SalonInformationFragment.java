@@ -36,8 +36,11 @@ import android.widget.TimePicker;
 import com.tasree7a.CustomComponent.CircularCheckBox;
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.CustomComponent.CustomTimePicker;
+import com.tasree7a.CustomComponent.SalonStaffContainer;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
+import com.tasree7a.Models.AddNewBarberRequestModel;
+import com.tasree7a.Models.AddNewStaffMemberDataModel;
 import com.tasree7a.Models.Login.User;
 import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
@@ -99,6 +102,8 @@ public class SalonInformationFragment extends BaseFragment {
 
     private SalonInformationRequestModel salonInformationRequestModel = null;
 
+    private SalonStaffContainer staffContainer;
+
     private CircularCheckBox[] workingDays = new CircularCheckBox[7];
 
     private int[] workingDaysIDs = new int[]{
@@ -130,6 +135,8 @@ public class SalonInformationFragment extends BaseFragment {
         rootView = inflater.inflate(R.layout.view_salon_info, container, false);
 
         fromTime = (TextView) rootView.findViewById(R.id.from_hours);
+
+        staffContainer = (SalonStaffContainer) rootView.findViewById(R.id.salon_staff_container);
 
         fromTime.setOnClickListener(new View.OnClickListener() {
 
@@ -381,11 +388,11 @@ public class SalonInformationFragment extends BaseFragment {
                 salonInformationRequestModel.setCityID("23");
                 salonInformationRequestModel.setOwnerMobile(mobile.getText().toString());
                 salonInformationRequestModel.setOwnerName(ownerNamer.getText().toString());
-                salonInformationRequestModel.setSalonBase64Image("lknkjbhj");
+                salonInformationRequestModel.setSalonBase64Image(base64Image);
                 salonInformationRequestModel.setSalonLat(AppUtil.getCurrentLocation().getLatitude() + "");
                 salonInformationRequestModel.setSalonLong(AppUtil.getCurrentLocation().getLongitude() + "");
                 salonInformationRequestModel.setUserID(UserDefaultUtil.getCurrentUser().getId());
-                salonInformationRequestModel.setSalonName("Testing salon");
+                salonInformationRequestModel.setSalonName(salonName.getText().toString());
                 salonInformationRequestModel.setSalonType("1");
 
                 RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, new AbstractCallback() {
@@ -393,23 +400,65 @@ public class SalonInformationFragment extends BaseFragment {
                     @Override
                     public void onResult(boolean isSuccess, Object result) {
 
-                        AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response)result).body();
+                        final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
 
                         RetrofitManager.getInstance().getSalonDetails(responseModel.getDetails().getSalonId(), new AbstractCallback() {
 
                             @Override
                             public void onResult(boolean isSuccess, Object result) {
 
-//
-//                                UIUtils.hideSweetLoadingDialog();
-//
-//                                UIUtils.showSweetLoadingDialog();
-
                                 SalonModel model = (SalonModel) result;
 
                                 model.setBusiness(true);
 
+                                AddNewBarberRequestModel barberModel;
+
+                                User user = UserDefaultUtil.getCurrentUser();
+
+                                user.setSalongId(model.getId());
+
+                                UserDefaultUtil.saveUser(user);
+
+                                for (AddNewStaffMemberDataModel staffMemberDataModel : staffContainer.getBarbers()) {
+
+                                    barberModel = new AddNewBarberRequestModel();
+
+                                    barberModel.setSalonId(responseModel.getDetails().getSalonId());
+
+                                    barberModel.setLastName("lastName");
+
+                                    barberModel.setFirstName("firstName");
+
+                                    barberModel.setEmail(staffMemberDataModel.getStaffEmail());
+
+                                    barberModel.setPass(staffMemberDataModel.getStaffPass());
+
+                                    barberModel.setCreatedAt("1");
+
+                                    barberModel.setStartTime("12");
+
+                                    barberModel.setEndTime("15");
+
+                                    barberModel.setUpdatedAt("16");
+
+                                    barberModel.setUserName("username");
+
+                                    RetrofitManager.getInstance().addNewBarber(barberModel, new AbstractCallback() {
+
+                                        @Override
+                                        public void onResult(boolean isSuccess, Object result) {
+
+                                        }
+                                    });
+
+                                    barberModel = null;
+                                }
+
                                 FragmentManager.showSalonDetailsFragment(model);
+
+                                FragmentManager.popBeforeCurrentVisibleFragment();
+
+
 
                             }
                         });

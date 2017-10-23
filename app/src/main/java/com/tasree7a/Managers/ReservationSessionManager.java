@@ -18,9 +18,11 @@ public class ReservationSessionManager {
 
     List<SalonService> selectedServices = new ArrayList<>();
 
-    List<Integer> selectedItems = new ArrayList<>();
+    List<String> selectedItems = new ArrayList<>();
 
     double total;
+
+    String fbImage;
 
 
     private ReservationSessionManager() {
@@ -53,20 +55,20 @@ public class ReservationSessionManager {
     }
 
 
-    public void addSelectedItem(Integer pos) {
+    public void addSelectedItem(String id) {
 
-        selectedItems.add(pos);
+        selectedItems.add(id);
 
     }
 
 
-    public void removeSelectedItem(Integer pos) {
+    public void removeSelectedItem(String id) {
 
-        selectedItems.remove(pos);
+        selectedItems.remove(id);
     }
 
 
-    public List<Integer> getSelectedItems() {
+    public List<String> getSelectedItems() {
 
         return selectedItems;
     }
@@ -93,6 +95,18 @@ public class ReservationSessionManager {
     public List<SalonService> getSelectedServices() {
 
         return selectedServices;
+    }
+
+
+    public void setFbImage(String fbImage) {
+
+        this.fbImage = fbImage;
+    }
+
+
+    public String getFbImage() {
+
+        return fbImage;
     }
 }
 

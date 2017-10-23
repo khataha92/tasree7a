@@ -42,7 +42,7 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
         });
 
-        View bookNowLbl = itemView.findViewById(R.id.book_now_lbl);
+        TextView bookNowLbl = (TextView) itemView.findViewById(R.id.book_now_lbl);
 
         View.OnClickListener listener = new View.OnClickListener() {
 
@@ -110,9 +110,11 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
             addToFavorite.setVisibility(View.GONE);
 
-            bookNowLbl.setVisibility(View.GONE);
+//            bookNowLbl.setVisibility(View.GONE);
 
-            bookNow.setVisibility(View.GONE);
+//            bookNow.setVisibility(View.GONE);
+
+            bookNowLbl.setText(R.string.SERVICES);
 
             ImageView menu = (ImageView) back;
 
@@ -132,11 +134,26 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
                 }
             });
 
+            View.OnClickListener servicesListener = new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    FragmentManager.showSalonServicesFragment();
+                }
+            };
+
+            bookNow.setOnClickListener(servicesListener);
+
+            bookNowLbl.setOnClickListener(servicesListener);
+
+        } else {
+
+            bookNow.setOnClickListener(listener);
+
+            bookNowLbl.setOnClickListener(listener);
+
         }
-
-        bookNow.setOnClickListener(listener);
-
-        bookNowLbl.setOnClickListener(listener);
 
     }
 }

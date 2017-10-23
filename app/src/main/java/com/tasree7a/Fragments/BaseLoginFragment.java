@@ -23,6 +23,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.Enums.LoginType;
+import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
@@ -148,6 +149,10 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
                                     String email = object.getString("email");
 
                                     String fbId = object.getString("id");
+
+                                    String fbImage = "https://graph.facebook.com/" + fbId + "/picture?type=large";
+
+                                    ReservationSessionManager.getInstance().setFbImage(fbImage);
 
                                     String[] names = name.split(" ");
 

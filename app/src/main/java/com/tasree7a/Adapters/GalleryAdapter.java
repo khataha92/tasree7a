@@ -67,7 +67,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
 
                     holder.itemView.findViewById(R.id.image_container).setAlpha(0.5f);
 
-                    ReservationSessionManager.getInstance().addSelectedItem(position);
+                    ReservationSessionManager.getInstance().addSelectedItem(isProduct ? productsList.get(position).getId() : imageModels.get(position).getImageId());
 
                 } else {
 
@@ -75,7 +75,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
 
                     holder.itemView.findViewById(R.id.image_container).setAlpha(1.0f);
 
-                    ReservationSessionManager.getInstance().removeSelectedItem(position);
+                    ReservationSessionManager.getInstance().removeSelectedItem(isProduct ? productsList.get(position).getId() : imageModels.get(position).getImageId());
 
                 }
 

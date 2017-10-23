@@ -12,12 +12,15 @@ import com.tasree7a.Models.Gallery.GalleryModel;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
+import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by mac on 6/5/17.
@@ -29,6 +32,7 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
     List<SalonProduct> salonProducts = null;
 
+    GalleryModel galleryModel;
 
     public GalaryCardViewHolder(View view, final BaseCardModel cardModel) {
 
@@ -42,11 +46,11 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
         int width = UIUtils.dpToPx(100);
 
-        GalleryModel galleryModel = (GalleryModel) cardModel.getCardValue();
-
-        final SalonModel salon = galleryModel.getSalonModel();
+        galleryModel = (GalleryModel) cardModel.getCardValue();
 
         galleryTitle.setText(galleryModel.getTitle());
+
+        final SalonModel salon = galleryModel.getSalonModel();
 
         final List<ImageModel> imageModels = galleryModel.getImageModelList();
 
@@ -88,6 +92,20 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
                 } else {
 
                     //show add/delete fragment
+
+                    if (galleryModel.getType() == 1)
+
+                        if (salonProducts == null || salonProducts.size() == 0)
+                            FragmentManager.showAddProductFragment();
+                        else
+                            FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+
+                    else if (galleryModel.getType() == 0)
+
+                        if (galleryModel.getImageModelList() == null || galleryModel.getImageModelList().size() == 0)
+                            FragmentManager.showAddGalleryItemFragment();
+                        else
+                            FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
 
                 }
             }

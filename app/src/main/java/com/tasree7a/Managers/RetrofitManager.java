@@ -3,6 +3,8 @@ package com.tasree7a.Managers;
 import android.util.Log;
 
 import com.tasree7a.Constants;
+import com.tasree7a.Models.AddNewBarberRequestModel;
+import com.tasree7a.Models.AddNewServiceRequestModel;
 import com.tasree7a.Models.Bookings.BookingModel;
 import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
 import com.tasree7a.Models.Login.LoginModel;
@@ -15,7 +17,10 @@ import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonInformationRequestModel;
 import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
+import com.tasree7a.Models.UpdateProductRequestModel;
+import com.tasree7a.Models.UpdateSalonImagesRequestModel;
 import com.tasree7a.Models.UserBookingsResponse;
+import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.ServiceRequest;
 
@@ -170,6 +175,73 @@ public class RetrofitManager {
 
             }
         });
+
+    }
+
+
+    public void updateSalonProducts(UpdateProductRequestModel model, final AbstractCallback callback) {
+
+        Call<Object> call = request.updateSalonProduct(model.getOperation(),
+                model.getProductName(),
+                model.getProductDescription(),
+                model.getProductPrice(),
+                model.getBase64Image(),
+                model.getSalonId(),
+                model.getProductId());
+
+        call.enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                callback.onResult(true, response.body());
+
+                GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(true);
+            }
+
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+                callback.onResult(false, null);
+
+            }
+        });
+
+
+    }
+
+
+    public void addNewBarber(AddNewBarberRequestModel model, final AbstractCallback callback) {
+
+        Call<Object> call = request.addNewBarber(model.getSalonId(),
+                model.getFirstName(),
+                model.getEmail(),
+                model.getUserName(),
+                model.getLastName(),
+                model.getCreatedAt(),
+                model.getPass(),
+                model.getUpdatedAt(),
+                model.getStartTime(),
+                model.getEndTime());
+
+        call.enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                callback.onResult(true, response.body());
+            }
+
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+                callback.onResult(false, null);
+
+            }
+        });
+
 
     }
 
@@ -427,6 +499,77 @@ public class RetrofitManager {
 
             @Override
             public void onFailure(Call<AvailableTimesResponse> call, Throwable t) {
+
+                if (callback != null) {
+
+                    callback.onResult(false, null);
+
+                }
+
+            }
+        });
+    }
+
+
+    public void updateSalonImages(UpdateSalonImagesRequestModel model, final AbstractCallback callback) {
+
+        Call<Object> get = request.updateSalonImages(model.getOperation(),
+                model.getSalonId(),
+                model.getBase64Image(),
+                model.getImageId());
+
+        get.enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                if (callback != null) {
+
+                    callback.onResult(response.isSuccessful(), response.body());
+
+                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(true);
+                }
+
+            }
+
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+                if (callback != null) {
+
+                    callback.onResult(false, null);
+
+                }
+
+            }
+        });
+    }
+
+
+    public void addSalonService(AddNewServiceRequestModel model, final AbstractCallback callback) {
+
+        Call<Object> get = request.addSalonService(model.getServiceName(),
+                model.getServicePrice(),
+                model.getSalonId(),
+                model.getServiceImage());
+
+        get.enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                if (callback != null) {
+
+                    callback.onResult(response.isSuccessful(), response.body());
+
+                }
+
+            }
+
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
 
                 if (callback != null) {
 

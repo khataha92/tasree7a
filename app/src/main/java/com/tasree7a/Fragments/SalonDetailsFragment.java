@@ -25,6 +25,7 @@ import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.Models.Gallery.GalleryModel;
 import com.tasree7a.Models.LocationCard.LocationCardModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
+import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.Observables.MenuIconClickedObservable;
 import com.tasree7a.R;
 import com.tasree7a.activities.MainActivity;
@@ -91,6 +92,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         salonDetails.setAdapter(adapter);
 
         MenuIconClickedObservable.sharedInstance().addObserver(this);
+
+        GallaryItemsChangedObservable.sharedInstance().addObserver(this);
 
         if (!didLoadFullSalon) {
 
@@ -167,7 +170,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         }
 
-            return rootView;
+        return rootView;
 
     }
 
@@ -265,8 +268,11 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
                 galleryModel.setSalonModel(salonModel);
 
+                galleryModel.setType(0);
+
                 cardModel.setCardValue(galleryModel);
             }
+
             break;
 
             case PRODUCTS_CARD: {
@@ -279,9 +285,14 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
                 galleryModel.setProducts(salonModel.getProducts());
 
+                galleryModel.setSalonModel(salonModel);
+
+                galleryModel.setType(1);
+
                 cardModel.setCardValue(galleryModel);
 
             }
+
             break;
 
             case MAP_CARD:
@@ -326,17 +337,9 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         }
 
-        if (salonModel.getGallery().size() > 0) {
+        cardModels.add(getCardModel(CardType.GALARY_CARD));
 
-            cardModels.add(getCardModel(CardType.GALARY_CARD));
-
-        }
-
-        if (salonModel.getProducts().size() > 0) {
-
-            cardModels.add(getCardModel(CardType.PRODUCTS_CARD));
-
-        }
+        cardModels.add(getCardModel(CardType.PRODUCTS_CARD));
 
         cardModels.add(getCardModel(CardType.CONTACT_DETAILS));
 
@@ -408,6 +411,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         super.onDetach();
 
         MenuIconClickedObservable.sharedInstance().deleteObserver(this);
+
+        GallaryItemsChangedObservable.sharedInstance().deleteObserver(this);
     }
 
 
@@ -418,7 +423,10 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
             nvDrawer.openDrawer(nvView);
 
-        }
+        } else if (o instanceof GallaryItemsChangedObservable) {
 
+            fragmentIsVisible();
+
+        }
     }
 }

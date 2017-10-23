@@ -19,6 +19,19 @@ public class GalleryModel {
 
     SalonModel salonModel;
 
+    int type = 0;// 0-> gallery , 1-> product
+
+    public int getType() {
+
+        return type;
+    }
+
+
+    public void setType(int type) {
+
+        this.type = type;
+    }
+
 
     public SalonModel getSalonModel() {
 

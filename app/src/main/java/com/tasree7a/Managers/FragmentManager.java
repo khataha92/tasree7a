@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.tasree7a.Fragments.AddGalleryFragment;
+import com.tasree7a.Fragments.AddNewSalonServiceFragment;
+import com.tasree7a.Fragments.AddProductFragment;
 import com.tasree7a.Fragments.AddStaffMemberFragment;
 import com.tasree7a.Fragments.BaseFragment;
 import com.tasree7a.Fragments.BookNowFragment;
@@ -24,11 +27,11 @@ import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.ProfileFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
 import com.tasree7a.Fragments.SalonInformationFragment;
+import com.tasree7a.Fragments.SalonServicesFragment;
 import com.tasree7a.Fragments.SettingsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
-import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
@@ -49,6 +52,11 @@ public class FragmentManager {
 
     private static ArrayList<BaseFragment> currentFragments = new ArrayList<>();
 
+    public static boolean isLastFragment(){
+
+        return currentFragments.size() == 1;
+
+    }
 
     public static BaseFragment getCurrentVisibleFragment() {
 
@@ -406,6 +414,37 @@ public class FragmentManager {
 
     }
 
+    public static void popBeforeCurrentVisibleFragment() {
+
+        int index = currentFragments.size() - 2;
+
+        if (index < 0) {
+
+            return;
+
+        }
+
+        // TODO It works fine, but the reference to the fragment still exists in the activity's backstack
+        try {
+
+            BaseFragment toPopFragment = currentFragments.remove(index);
+
+            destroyFragmentProcess(toPopFragment);
+
+            android.support.v4.app.FragmentManager manager = ThisApplication.getCurrentActivity().getSupportFragmentManager();
+
+            FragmentTransaction trans = manager.beginTransaction();
+
+            trans.remove(toPopFragment);
+
+            trans.commitNowAllowingStateLoss();
+
+        } catch (Throwable t) {
+
+            Log.e("FragmentManager", "Illegal sate exception in popBeforeCurrentVisibleFragment ", t);
+
+        }
+    }
 
     // Gets the first fragment in current fragments list that's matches the same class provided
     public static <BF extends BaseFragment> BF getFragmentFromTheStack(Class<BF> fragmentClass) {
@@ -515,6 +554,41 @@ public class FragmentManager {
         AddStaffMemberFragment fragment = new AddStaffMemberFragment();
 
         fragment.setAddStaffCallback(abstractCallback);
+
+        replaceFragment(fragment, true);
+
+    }
+
+
+    public static void showAddGalleryItemFragment() {
+
+        AddGalleryFragment fragment = new AddGalleryFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+
+
+    public static void showAddProductFragment() {
+
+        AddProductFragment fragment = new AddProductFragment();
+
+        replaceFragment(fragment, true);
+    }
+
+
+    public static void showAddNewSalonServiceFragment() {
+
+        AddNewSalonServiceFragment fragment = new AddNewSalonServiceFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+
+
+    public static void showSalonServicesFragment() {
+
+        SalonServicesFragment fragment = new SalonServicesFragment();
 
         replaceFragment(fragment, true);
 

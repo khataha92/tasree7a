@@ -27,7 +27,7 @@ import java.util.List;
 
 public class SalonStaffContainer extends LinearLayout {
 
-    List<Barber> barbers = new ArrayList<>();
+    List<AddNewStaffMemberDataModel> barbers = new ArrayList<>();
 
     LinearLayout itemsContainer;
 
@@ -134,7 +134,13 @@ public class SalonStaffContainer extends LinearLayout {
         barberItem.setLayoutParams(lp);
 
         itemsContainer.addView(barberItem, 0);
+
+        barbers.add(staffMemberDataModel);
     }
 
 
+    public List<AddNewStaffMemberDataModel> getBarbers() {
+
+        return barbers;
+    }
 }

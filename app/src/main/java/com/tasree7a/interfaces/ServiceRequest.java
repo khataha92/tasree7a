@@ -14,6 +14,7 @@ import com.tasree7a.Models.UserBookingsResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 
 /**
@@ -42,6 +43,22 @@ public interface ServiceRequest {
     @FormUrlEncoded
     @POST("getUserFavoriteSalons")
     Call<FavoriteResponseModel> getUserFavorites(@Field("userId") String userName);
+
+
+    @FormUrlEncoded
+    @POST("updateSalonImage")
+    Call<Object> updateSalonImages(@Field("operation") String operation,
+                                   @Field("salonId") String salonId,
+                                   @Field("salonImage") String base64Image,
+                                   @Field("imageId") String imageId);
+
+
+    @FormUrlEncoded
+    @POST("addSalonService")
+    Call<Object> addSalonService(@Field("serviceName") String serviceName,
+                                 @Field("servicePrice") String servicePrice,
+                                 @Field("salonId") String salonId,
+                                 @Field("serviceImage") String serviceImage);
 
 
     @FormUrlEncoded
@@ -87,6 +104,31 @@ public interface ServiceRequest {
     @FormUrlEncoded
     @POST("getAvailableBookingTime")
     Call<AvailableTimesResponse> getAvailableTime(@Field("date") String date, @Field("salonId") String salonId);
+
+
+    @FormUrlEncoded
+    @POST("addNewBarber")
+    Call<Object> addNewBarber(@Field("salonId") String salonId,
+                              @Field("lastName") String lastName,
+                              @Field("email") String email,
+                              @Field("username") String userName,
+                              @Field("firstName") String firstName,
+                              @Field("created_at") String createdAt,
+                              @Field("password") String pass,
+                              @Field("updated_at") String updatedAt,
+                              @Field("startTime") String startTime,
+                              @Field("endTime") String endTime);
+
+
+    @FormUrlEncoded
+    @POST("updateSalonProduct")
+    Call<Object> updateSalonProduct(@Field("operation") String op,
+                                    @Field("productName") String productName,
+                                    @Field("productDescription") String prodDesc,
+                                    @Field("productPrice") String price,
+                                    @Field("productImage") String image,
+                                    @Field("salonId") String id,
+                                    @Field("productId") String prodId) ;
 
 
     @FormUrlEncoded

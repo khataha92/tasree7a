@@ -37,6 +37,8 @@ public class HomeActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
 
+        ThisApplication.getCurrentActivity().finishAffinity();
+
         ThisApplication.setCurrentActivity(this);
 
         setContentView(R.layout.activity_home);

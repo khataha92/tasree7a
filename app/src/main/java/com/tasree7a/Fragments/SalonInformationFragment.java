@@ -3,24 +3,16 @@ package com.tasree7a.Fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,36 +35,20 @@ import com.tasree7a.Models.AddNewBarberRequestModel;
 import com.tasree7a.Models.AddNewStaffMemberDataModel;
 import com.tasree7a.Models.Login.User;
 import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
-import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonInformationRequestModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.activities.MainActivity;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.AppUtil;
-import com.tasree7a.utils.FragmentArg;
-import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
-import com.tsongkha.spinnerdatepicker.DatePicker;
-import com.tsongkha.spinnerdatepicker.DatePickerDialog;
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Response;
 
@@ -425,9 +401,9 @@ public class SalonInformationFragment extends BaseFragment {
 
                                     barberModel.setSalonId(responseModel.getDetails().getSalonId());
 
-                                    barberModel.setLastName("lastName");
+                                    barberModel.setLastName("kkk");
 
-                                    barberModel.setFirstName("firstName");
+                                    barberModel.setFirstName("kaka");
 
                                     barberModel.setEmail(staffMemberDataModel.getStaffEmail());
 
@@ -441,7 +417,7 @@ public class SalonInformationFragment extends BaseFragment {
 
                                     barberModel.setUpdatedAt("16");
 
-                                    barberModel.setUserName("username");
+                                    barberModel.setUserName("sjan" + barberModel.getSalonId());
 
                                     RetrofitManager.getInstance().addNewBarber(barberModel, new AbstractCallback() {
 

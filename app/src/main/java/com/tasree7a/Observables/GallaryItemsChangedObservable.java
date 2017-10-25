@@ -1,5 +1,8 @@
 package com.tasree7a.Observables;
 
+import com.tasree7a.Models.Gallery.ImageModel;
+
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -31,8 +34,9 @@ public class GallaryItemsChangedObservable extends Observable {
 
     /**
      * Set has changed to true to be able to notify observers
+     * @param changed
      */
-    public void setGallaryChanged(boolean changed) {
+    public void setGallaryChanged(List<ImageModel> changed) {
 
         setChanged();
 

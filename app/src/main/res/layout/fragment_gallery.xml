@@ -63,7 +63,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_call"/>
+            android:backgroundTint="@color/APP_GREEN"
+            android:src="@drawable/ic_add_white_24dp"/>
 
     </RelativeLayout>
 

@@ -9,9 +9,16 @@ import android.widget.EditText;
 
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.Managers.RetrofitManager;
+import com.tasree7a.Models.AddNewBarberRequestModel;
 import com.tasree7a.Models.AddNewStaffMemberDataModel;
+import com.tasree7a.Models.Login.User;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.UserDefaultUtil;
+
+import static android.view.View.GONE;
 
 /**
  * Created by SamiKhleaf on 10/20/17.
@@ -27,6 +34,8 @@ public class AddStaffMemberFragment extends BaseFragment {
     private EditText staffPass;
 
     private EditText staffPassConfirm;
+
+    private SalonModel salonModel;
 
     //Buttons
     private CustomButton save;
@@ -70,6 +79,44 @@ public class AddStaffMemberFragment extends BaseFragment {
 
                     staffMemberDataModel.setStaffPass(staffPass.getText().toString());
 
+                    if (salonModel != null) {
+
+                        AddNewBarberRequestModel barberModel;
+
+                        barberModel = new AddNewBarberRequestModel();
+
+                        barberModel.setSalonId(salonModel.getId());
+
+                        barberModel.setLastName(staffName.getText().toString().split(" ")[0]);
+
+                        barberModel.setFirstName(staffName.getText().toString().split(" ")[1]);
+
+                        barberModel.setEmail(staffMemberDataModel.getStaffEmail());
+
+                        barberModel.setPass(staffMemberDataModel.getStaffPass());
+
+                        barberModel.setCreatedAt("1");
+
+                        barberModel.setStartTime("12");
+
+                        barberModel.setEndTime("15");
+
+                        barberModel.setUpdatedAt("16");
+
+                        barberModel.setUserName(staffName.getText().toString().split(" ")[0]);
+
+                        RetrofitManager.getInstance().addNewBarber(barberModel, new AbstractCallback() {
+
+                            @Override
+                            public void onResult(boolean isSuccess, Object result) {
+
+                            }
+                        });
+
+                        barberModel = null;
+                    }
+
+
                     if (addStaffCallback != null) {
 
                         addStaffCallback.onResult(true, staffMemberDataModel);
@@ -82,14 +129,21 @@ public class AddStaffMemberFragment extends BaseFragment {
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        if (salonModel != null) {
 
-            @Override
-            public void onClick(View v) {
+            cancel.setVisibility(GONE);
 
-                FragmentManager.popCurrentVisibleFragment();
-            }
-        });
+        } else {
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    FragmentManager.popCurrentVisibleFragment();
+                }
+            });
+        }
 
         return rootView;
     }
@@ -99,4 +153,24 @@ public class AddStaffMemberFragment extends BaseFragment {
 
         this.addStaffCallback = addStaffCallback;
     }
+
+
+    @Override
+    public boolean onBackPressed() {
+
+        if (salonModel != null) {
+
+            return false;
+
+        }
+
+        return super.onBackPressed();
+    }
+
+
+    public void setSalonModel(SalonModel salonModel) {
+
+        this.salonModel = salonModel;
+    }
+
 }

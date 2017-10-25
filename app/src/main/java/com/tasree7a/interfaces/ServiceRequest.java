@@ -8,6 +8,7 @@ import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
 import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
+import com.tasree7a.Models.UpdateGalleryResponseModel;
 import com.tasree7a.Models.UserBookingsResponse;
 
 
@@ -47,10 +48,10 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("updateSalonImage")
-    Call<Object> updateSalonImages(@Field("operation") String operation,
-                                   @Field("salonId") String salonId,
-                                   @Field("salonImage") String base64Image,
-                                   @Field("imageId") String imageId);
+    Call<UpdateGalleryResponseModel> updateSalonImages(@Field("operation") String operation,
+                                                       @Field("salonId") String salonId,
+                                                       @Field("salonImage") String base64Image,
+                                                       @Field("imageId") String imageId);
 
 
     @FormUrlEncoded
@@ -68,9 +69,11 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("addUserBooking")
-    Call<Object> addUserBooking(@Field("barberId") String barberId, @Field("salonId") String salonId,
+    Call<Object> addUserBooking(@Field("barberId") String barberId,
+                                @Field("salonId") String salonId,
                                 @Field("services") int[] services,
-                                @Field("userId") String userId, @Field("book_date") String date,
+                                @Field("userId") String userId,
+                                @Field("book_date") String date,
                                 @Field("book_time") String time);
 
 
@@ -128,7 +131,7 @@ public interface ServiceRequest {
                                     @Field("productPrice") String price,
                                     @Field("productImage") String image,
                                     @Field("salonId") String id,
-                                    @Field("productId") String prodId) ;
+                                    @Field("productId") String prodId);
 
 
     @FormUrlEncoded

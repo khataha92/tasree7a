@@ -551,27 +551,40 @@ public class FragmentManager {
 
     public static void showAddNewStaffFragment(AbstractCallback abstractCallback) {
 
+        showAddNewStaffFragment(null, abstractCallback);
+
+    }
+
+    public static void showAddNewStaffFragment(SalonModel salonModel, AbstractCallback abstractCallback) {
+
         AddStaffMemberFragment fragment = new AddStaffMemberFragment();
 
         fragment.setAddStaffCallback(abstractCallback);
 
+        fragment.setSalonModel(salonModel);
+
+        //salonModel != null
         replaceFragment(fragment, true);
 
     }
 
 
-    public static void showAddGalleryItemFragment() {
+    public static void showAddGalleryItemFragment(AbstractCallback callback) {
 
         AddGalleryFragment fragment = new AddGalleryFragment();
 
+        fragment.setCallback(callback);
+
         replaceFragment(fragment, true);
 
     }
 
 
-    public static void showAddProductFragment() {
+    public static void showAddProductFragment(AbstractCallback callback) {
 
         AddProductFragment fragment = new AddProductFragment();
+
+        fragment.setCallback(callback);
 
         replaceFragment(fragment, true);
     }

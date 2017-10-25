@@ -18,16 +18,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.tasree7a.CustomComponent.CustomButton;
+import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
+import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.UpdateProductRequestModel;
+import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * Created by SamiKhleaf on 10/23/17.
@@ -38,6 +43,8 @@ public class AddProductFragment extends BaseFragment {
     ImageView selectedImage;
 
     CustomButton saveBtn;
+
+    AbstractCallback callback;
 
     private final int CAMERA_REQUEST = 1888;
 
@@ -69,12 +76,22 @@ public class AddProductFragment extends BaseFragment {
                 model.setProductDescription("perfecto");
                 model.setProductPrice("12.5");
 
+                UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+
                 RetrofitManager.getInstance().updateSalonProducts(model, new AbstractCallback() {
 
                     @Override
                     public void onResult(boolean isSuccess, Object result) {
 
                         if (isSuccess) {
+
+                            if (callback != null)
+                                callback.onResult(true, result);
+
+                            GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>());
+
+                            UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+
                             com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
 
                         }
@@ -165,5 +182,11 @@ public class AddProductFragment extends BaseFragment {
 
         Log.e("LOOK", imageEncoded);
         return imageEncoded;
+    }
+
+
+    public void setCallback(AbstractCallback callback) {
+
+        this.callback = callback;
     }
 }

@@ -91,8 +91,6 @@ public class MainActivity extends FragmentActivity {
 
         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
         startActivity(intent);
 
         finish();

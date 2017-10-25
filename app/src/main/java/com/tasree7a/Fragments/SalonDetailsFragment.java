@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.facebook.AccessToken;
+import com.google.gson.Gson;
 import com.tasree7a.Adapters.BaseCardAdapter;
 import com.tasree7a.Adapters.CardsRecyclerAdapter;
 import com.tasree7a.Enums.CardFactory;
@@ -23,6 +25,7 @@ import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.Models.Gallery.GalleryModel;
+import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.LocationCard.LocationCardModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Observables.GallaryItemsChangedObservable;
@@ -33,6 +36,7 @@ import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -169,6 +173,20 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
             FragmentManager.showSalonInfoFragment();
 
         }
+//
+//        if (salonModel.getSalonBarbers() == null || salonModel.getSalonBarbers().size() == 0) {
+//
+//            FragmentManager.showAddNewStaffFragment(salonModel, new AbstractCallback() {
+//
+//                @Override
+//                public void onResult(boolean isSuccess, Object result) {
+//
+//                    Log.d("LEFFF", "issuccess: " + isSuccess + " result: " + new Gson().toJson(result));
+//
+//                }
+//            });
+//
+//        }
 
         return rootView;
 
@@ -424,6 +442,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
             nvDrawer.openDrawer(nvView);
 
         } else if (o instanceof GallaryItemsChangedObservable) {
+
+            salonModel.setGallery((List<ImageModel>) arg);
 
             fragmentIsVisible();
 

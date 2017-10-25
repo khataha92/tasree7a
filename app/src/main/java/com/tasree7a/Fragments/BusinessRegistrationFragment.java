@@ -93,9 +93,9 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
                 model.setFbLogin(false);
 
-                model.setFirstName(salonName);
+                model.setFirstName(salonName.split(" ")[0]);
 
-                model.setLastName("null");
+                model.setLastName(salonName.split(" ")[1]);
 
                 model.setFbLogin(false);
 

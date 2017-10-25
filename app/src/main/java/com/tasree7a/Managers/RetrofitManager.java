@@ -17,6 +17,7 @@ import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonInformationRequestModel;
 import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
+import com.tasree7a.Models.UpdateGalleryResponseModel;
 import com.tasree7a.Models.UpdateProductRequestModel;
 import com.tasree7a.Models.UpdateSalonImagesRequestModel;
 import com.tasree7a.Models.UserBookingsResponse;
@@ -195,8 +196,6 @@ public class RetrofitManager {
             public void onResponse(Call<Object> call, Response<Object> response) {
 
                 callback.onResult(true, response.body());
-
-                GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(true);
             }
 
 
@@ -513,28 +512,26 @@ public class RetrofitManager {
 
     public void updateSalonImages(UpdateSalonImagesRequestModel model, final AbstractCallback callback) {
 
-        Call<Object> get = request.updateSalonImages(model.getOperation(),
+        Call<UpdateGalleryResponseModel> get = request.updateSalonImages(model.getOperation(),
                 model.getSalonId(),
                 model.getBase64Image(),
                 model.getImageId());
 
-        get.enqueue(new Callback<Object>() {
+        get.enqueue(new Callback<UpdateGalleryResponseModel>() {
 
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(Call<UpdateGalleryResponseModel> call, Response<UpdateGalleryResponseModel> response) {
 
                 if (callback != null) {
 
                     callback.onResult(response.isSuccessful(), response.body());
-
-                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(true);
                 }
 
             }
 
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<UpdateGalleryResponseModel> call, Throwable t) {
 
                 if (callback != null) {
 

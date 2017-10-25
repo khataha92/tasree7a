@@ -21,15 +21,19 @@ import android.widget.ImageView;
 
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.Managers.RetrofitManager;
+import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.UpdateSalonImagesRequestModel;
+import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * Created by SamiKhleaf on 10/23/17.
@@ -69,13 +73,23 @@ public class AddGalleryFragment extends BaseFragment {
 
                 model.setOperation("ADD");
 
+                UIUtils.showSweetLoadingDialog();
+
                 RetrofitManager.getInstance().updateSalonImages(model, new AbstractCallback() {
 
                     @Override
                     public void onResult(boolean isSuccess, Object result) {
 
-                        if (isSuccess)
+                        if (isSuccess) {
                             com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
+
+                            if (callback != null) callback.onResult(true, result);
+
+                            GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>() {
+
+                            });
+
+                        }
                     }
                 });
 
@@ -162,5 +176,14 @@ public class AddGalleryFragment extends BaseFragment {
 
         Log.e("LOOK", imageEncoded);
         return imageEncoded;
+    }
+
+
+    AbstractCallback callback;
+
+
+    public void setCallback(AbstractCallback callback) {
+
+        this.callback = callback;
     }
 }

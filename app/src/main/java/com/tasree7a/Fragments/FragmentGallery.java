@@ -1,9 +1,11 @@
 package com.tasree7a.Fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.Models.UpdateProductRequestModel;
 import com.tasree7a.Models.UpdateSalonImagesRequestModel;
@@ -27,6 +31,7 @@ import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,6 +43,8 @@ import java.util.Observer;
 public class FragmentGallery extends BaseFragment implements Observer {
 
     RecyclerView gallery;
+
+    GalleryAdapter adapter;
 
     TextView title;
 
@@ -108,7 +115,6 @@ public class FragmentGallery extends BaseFragment implements Observer {
                     if (!isProduct) {
                         //TODO: Delete Gallary Item
 
-
                         UpdateSalonImagesRequestModel model;
 
                         for (final String item : items) {
@@ -132,12 +138,17 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
                                                 imageModelList.remove(imageModel);
 
+                                                adapter.setImageModels(imageModelList);
+
                                                 break;
 
                                             }
 
                                         }
                                     }
+
+                                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModelList);
+
                                 }
                             });
 
@@ -176,6 +187,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
                                             }
                                         }
                                     }
+
                                 }
                             });
 
@@ -184,14 +196,63 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
                 } else {
 
-                    //TODO: ADD
-                    FragmentManager.showAddGalleryItemFragment();
+                    if (!isProduct) {
+                        //TODO: ADD
+                        FragmentManager.showAddGalleryItemFragment(new AbstractCallback() {
+
+                            @Override
+                            public void onResult(boolean isSuccess, Object result) {
+
+                                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+
+                                    @Override
+                                    public void onResult(boolean isSuccess, Object result) {
+
+                                        List<ImageModel> imageModels = ((SalonModel) result).getGallery();
+
+                                        adapter.setImageModels(imageModels);
+
+                                        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModels);
+
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                    } else {
+
+                        FragmentManager.showAddProductFragment(new AbstractCallback() {
+
+                            @Override
+                            public void onResult(boolean isSuccess, Object result) {
+
+                                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+
+                                    @Override
+                                    public void onResult(boolean isSuccess, Object result) {
+
+                                        List<SalonProduct> products = ((SalonModel) result).getProducts();
+
+                                        adapter.setProductsList(products);
+
+                                        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>());
+
+                                    }
+                                });
+
+                            }
+                        });
+
+                    }
 
                 }
 
             }
         });
-        GalleryAdapter adapter = new GalleryAdapter();
+
+        adapter = new GalleryAdapter();
 
         adapter.setImageModels(imageModelList);
 
@@ -254,14 +315,14 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
                 isSelecting = false;
                 //TODO: show add icon in header
-                changeItems.setImageResource(R.drawable.ic_call);
+                changeItems.setImageResource(R.drawable.ic_add_white_24dp);
 
             }
         } else if (o instanceof GallaryItemsChangedObservable) {
 
-            gallery.getAdapter().notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
 
-            gallery.requestLayout();
+            UIUtils.hideSweetLoadingDialog();
 
         }
 

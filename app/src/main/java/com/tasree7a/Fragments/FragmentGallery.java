@@ -60,6 +60,20 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
     boolean isSelecting = false;
 
+    SalonModel salon;
+
+
+    public SalonModel getSalon() {
+
+        return salon;
+    }
+
+
+    public void setSalon(SalonModel salon) {
+
+        this.salon = salon;
+    }
+
 
     @Nullable
     @Override
@@ -198,7 +212,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
                     if (!isProduct) {
                         //TODO: ADD
-                        FragmentManager.showAddGalleryItemFragment(new AbstractCallback() {
+                        FragmentManager.showAddGalleryItemFragment(salon, new AbstractCallback() {
 
                             @Override
                             public void onResult(boolean isSuccess, Object result) {

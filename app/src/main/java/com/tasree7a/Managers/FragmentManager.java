@@ -165,10 +165,11 @@ public class FragmentManager {
     }
 
 
-    public static void showFragmentGallery(ArrayList<ImageModel> imageModels, ArrayList<SalonProduct> salonProducts) {
+    public static void showFragmentGallery(SalonModel salon, ArrayList<ImageModel> imageModels, ArrayList<SalonProduct> salonProducts) {
 
         FragmentGallery fragmentGallery = new FragmentGallery();
 
+        fragmentGallery.setSalon(salon);
         Bundle bundle = new Bundle();
 
         bundle.putSerializable(FragmentArg.IMAGE_LIST, imageModels);
@@ -569,9 +570,13 @@ public class FragmentManager {
     }
 
 
-    public static void showAddGalleryItemFragment(AbstractCallback callback) {
+    public static void showAddGalleryItemFragment(SalonModel salon ,AbstractCallback callback) {
 
         AddGalleryFragment fragment = new AddGalleryFragment();
+
+        fragment.showGallaryFragment(true);
+
+        fragment.setSalonModel(salon);
 
         fragment.setCallback(callback);
 

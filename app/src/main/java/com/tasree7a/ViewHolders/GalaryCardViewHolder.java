@@ -95,7 +95,7 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
                 if (!salon.isBusiness()) {
 
-                    FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+                    FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
 
                 } else {
 
@@ -112,12 +112,12 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
                                 }
                             });
                         else
-                            FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+                            FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
 
                     else if (galleryModel.getType() == 0)
 
                         if (galleryModel.getImageModelList() == null || galleryModel.getImageModelList().size() == 0)
-                            FragmentManager.showAddGalleryItemFragment(new AbstractCallback() {
+                            FragmentManager.showAddGalleryItemFragment(salon, new AbstractCallback() {
 
                                 @Override
                                 public void onResult(boolean isSuccess, Object result) {
@@ -125,7 +125,7 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
                                 }
                             });
                         else
-                            FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+                            FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
 
                 }
             }

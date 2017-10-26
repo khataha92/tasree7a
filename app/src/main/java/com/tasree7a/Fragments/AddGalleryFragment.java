@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.UpdateSalonImagesRequestModel;
 import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.R;
@@ -49,6 +50,20 @@ public class AddGalleryFragment extends BaseFragment {
 
     private final int GALLERY_REQUEST = 1889;
 
+    private SalonModel salonModel = null;
+
+
+    public SalonModel getSalonModel() {
+
+        return salonModel;
+    }
+
+
+    public void setSalonModel(SalonModel salonModel) {
+
+        this.salonModel = salonModel;
+    }
+
 
     @Nullable
     @Override
@@ -65,6 +80,7 @@ public class AddGalleryFragment extends BaseFragment {
 
             @Override
             public void onClick(View v) {
+
                 com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
             }
         });
@@ -90,7 +106,26 @@ public class AddGalleryFragment extends BaseFragment {
                     public void onResult(boolean isSuccess, Object result) {
 
                         if (isSuccess) {
-                            com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
+
+                            RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), new AbstractCallback() {
+
+                                @Override
+                                public void onResult(boolean isSuccess, Object result) {
+
+                                    salonModel = (SalonModel) result;
+                                }
+                            });
+
+                            if (!showG) {
+
+                                com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
+
+                            } else {
+
+                                com.tasree7a.Managers.FragmentManager.showFragmentGallery(salonModel, (ArrayList<ImageModel>) salonModel.getGallery(), null);
+                            }
+
+                            UIUtils.hideSweetLoadingDialog();
 
                             if (callback != null) callback.onResult(true, result);
 
@@ -210,5 +245,13 @@ public class AddGalleryFragment extends BaseFragment {
     public void setCallback(AbstractCallback callback) {
 
         this.callback = callback;
+    }
+
+
+    boolean showG = false;
+    public void showGallaryFragment(boolean b) {
+
+        showG = b;
+
     }
 }

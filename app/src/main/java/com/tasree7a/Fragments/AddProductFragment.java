@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.tasree7a.CustomComponent.CustomButton;
@@ -72,9 +73,9 @@ public class AddProductFragment extends BaseFragment {
                 model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
                 model.setOperation("ADD");
                 model.setBase64Image(base64Image);
-                model.setProductName("Hi");
-                model.setProductDescription("perfecto");
-                model.setProductPrice("12.5");
+                model.setProductName(((EditText) rootView.findViewById(R.id.product_name)).getText().toString());
+                model.setProductDescription("");
+                model.setProductPrice(((EditText) rootView.findViewById(R.id.price)).getText().toString());
 
                 UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
 
@@ -105,6 +106,7 @@ public class AddProductFragment extends BaseFragment {
 
             @Override
             public void onClick(View v) {
+
                 FragmentManager.popCurrentVisibleFragment();
             }
         });

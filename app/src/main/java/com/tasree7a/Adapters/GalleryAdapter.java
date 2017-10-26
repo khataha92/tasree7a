@@ -1,6 +1,8 @@
 package com.tasree7a.Adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.LoginFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +47,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
     @Override
     public void onBindViewHolder(final GalleryItemViewHolder holder, final int position) {
 
-        holder.init(imageModels.get(position), isProduct, isProduct ? productsList.get(position) : null);
+        try {
 
+            holder.init(imageModels.get(position), isProduct, isProduct ? productsList.get(position) : null);
+
+        } catch (IndexOutOfBoundsException e) {
+
+            Log.d("crash", "crash: ", e);
+
+        }
         if (!UserDefaultUtil.isBusinessUser()) {
-            
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -96,7 +105,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
     @Override
     public int getItemCount() {
 
-        return imageModels == null ? 0 : imageModels.size();
+        return !isProduct ? (imageModels == null ? 0 : imageModels.size()) : (productsList == null ? 0 : productsList.size());
     }
 
 

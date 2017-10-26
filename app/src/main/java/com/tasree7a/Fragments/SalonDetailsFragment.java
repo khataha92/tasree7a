@@ -1,5 +1,6 @@
 package com.tasree7a.Fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -197,6 +198,25 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+
+    }
+
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        fragmentIsVisible();
+    }
+
+
+    @Override
+    public void onStart() {
+
+        super.onStart();
+
+        fragmentIsVisible();
 
     }
 
@@ -442,8 +462,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
             nvDrawer.openDrawer(nvView);
 
         } else if (o instanceof GallaryItemsChangedObservable) {
-
-            salonModel.setGallery((List<ImageModel>) arg);
 
             fragmentIsVisible();
 

@@ -194,7 +194,9 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
                                             if (prod.getId().equalsIgnoreCase(item)) {
 
-                                                imageModelList.remove(prod);
+                                                productsList.remove(prod);
+
+                                                adapter.setProductsList(productsList);
 
                                                 break;
 
@@ -248,6 +250,8 @@ public class FragmentGallery extends BaseFragment implements Observer {
                                     public void onResult(boolean isSuccess, Object result) {
 
                                         List<SalonProduct> products = ((SalonModel) result).getProducts();
+
+                                        adapter.setImageModels(((SalonModel) result).getProductsImages());
 
                                         adapter.setProductsList(products);
 
@@ -309,6 +313,15 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
         GallaryItemsChangedObservable.sharedInstance().deleteObserver(this);
 
+    }
+
+
+    @Override
+    public boolean onBackPressed() {
+
+        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>());
+
+        return super.onBackPressed();
     }
 
 

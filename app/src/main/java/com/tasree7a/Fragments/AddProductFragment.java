@@ -74,7 +74,7 @@ public class AddProductFragment extends BaseFragment {
                 model.setOperation("ADD");
                 model.setBase64Image(base64Image);
                 model.setProductName(((EditText) rootView.findViewById(R.id.product_name)).getText().toString());
-                model.setProductDescription("");
+                model.setProductDescription("description");
                 model.setProductPrice(((EditText) rootView.findViewById(R.id.price)).getText().toString());
 
                 UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());

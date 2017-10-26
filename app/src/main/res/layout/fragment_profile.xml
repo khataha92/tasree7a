@@ -164,21 +164,22 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="-75dp"
                         android:background="@drawable/shadow"
-                        android:visibility="visible"
                         android:paddingBottom="5dp"
+                        android:visibility="visible"
                         app:customButtonRadius="20"
                         app:customButtonText="@string/CHANGE"
                         app:customButtonTextColor="@color/WHITE"
                         app:customButtonTextSize="11sp"/>
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_below="@+id/password_layout"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="26dp"
-                    android:layout_marginTop="53dp"
-                    android:layout_marginRight="26dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/password_layout"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginRight="26dp"
+                    android:layout_marginTop="53dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -186,8 +187,8 @@
                         android:id="@+id/cancel"
                         android:layout_width="145dp"
                         android:layout_height="56dp"
-                        android:layout_marginRight="26dp"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginRight="26dp"
                         android:layout_marginTop="32dp"
                         android:background="@drawable/shadow"
                         android:paddingBottom="10dp"
@@ -222,12 +223,13 @@
         android:layout_height="160dp"
         android:layout_below="@+id/top_bar"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="10dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:background="@color/WHITE">
+        android:background="@color/WHITE"
+        android:paddingBottom="10dp">
 
         <ImageView
+            android:id="@+id/profpic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

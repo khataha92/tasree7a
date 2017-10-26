@@ -13,10 +13,12 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
+import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.PermissionCode;
 import com.tasree7a.utils.UIUtils;
@@ -32,21 +34,26 @@ public class HomeActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        ThisApplication.getCurrentActivity().finishAffinity();
 
         ThisApplication.setCurrentActivity(this);
 
         setContentView(R.layout.activity_home);
 
-        boolean isBusiness = UserDefaultUtil.getCurrentUser().isBusiness();
+        boolean isBusiness = UserDefaultUtil.isBusinessUser();
 
-        if(getIntent().getExtras() != null) {
+        AppUtil.checkAppLanguage();
 
-            isBusiness = getIntent().getExtras().getBoolean(FragmentArg.IS_BUSINESS);
+//        if (getIntent().getExtras() != null) {
+//
+//            isBusiness = getIntent().getExtras().getBoolean(FragmentArg.IS_BUSINESS);
+//
+//        }
 
-        }
-
-        if(!isBusiness) {
+        if (!isBusiness) {
 
             FragmentManager.showHomeFragment();
 
@@ -58,28 +65,37 @@ public class HomeActivity extends FragmentActivity {
 
             findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
-            RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
-                @Override
-                public void onResult(boolean isSuccess, Object result) {
+            if (UserDefaultUtil.getCurrentUser().getSalongId() != null) {
 
-                    findViewById(R.id.loading).setVisibility(View.GONE);
+                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
 
-                    if(isSuccess) {
+                    @Override
+                    public void onResult(boolean isSuccess, Object result) {
 
-                        SalonModel salonModel = (SalonModel) result;
+                        findViewById(R.id.loading).setVisibility(View.GONE);
 
-                        salonModel.setBusiness(true);
+                        if (isSuccess) {
 
-                        FragmentManager.showSalonDetailsFragment(salonModel, true);
+                            SalonModel salonModel = (SalonModel) result;
 
+                            salonModel.setBusiness(true);
+
+                            FragmentManager.showSalonDetailsFragment(salonModel, true);
+
+                        }
                     }
+                });
 
-                }
-            });
+            } else {
+
+                findViewById(R.id.loading).setVisibility(View.GONE);
+
+                FragmentManager.showSalonInfoFragment();
+
+            }
         }
-
-
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -90,7 +106,7 @@ public class HomeActivity extends FragmentActivity {
 
             case PermissionCode.MY_PERMISSIONS_REQUEST_LOCATION:
 
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     PermissionGrantedObservable.getInstance().notifyPermissionGranted(permissions[0]);
 
@@ -101,17 +117,20 @@ public class HomeActivity extends FragmentActivity {
         }
     }
 
+
     @Override
     protected void onResume() {
+
         super.onResume();
 
         ThisApplication.setCurrentActivity(this);
     }
 
+
     @Override
     public void onBackPressed() {
 
-        if(FragmentManager.getCurrentVisibleFragment() != null){
+        if (FragmentManager.getCurrentVisibleFragment() != null) {
 
             FragmentManager.getCurrentVisibleFragment().onBackPressed();
 

@@ -14,28 +14,31 @@ import java.util.List;
  * Created by KhalidTaha on 2/2/17.
  */
 
-public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder>{
+public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder> {
 
     List<BaseCardModel> cardModels;
 
     List<BaseCardViewHolder> viewHolders = new ArrayList<>();
 
-    public BaseCardAdapter(List<BaseCardModel> cardModelList){
+
+    public BaseCardAdapter(List<BaseCardModel> cardModelList) {
 
         cardModels = cardModelList;
 
     }
 
+
     @Override
     public BaseCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        BaseCardViewHolder viewHolder = BaseCardViewHolder.createViewHolder(parent,cardModels.get(viewType));
+        BaseCardViewHolder viewHolder = BaseCardViewHolder.createViewHolder(parent, cardModels.get(viewType));
 
         viewHolders.add(viewHolder);
 
         return viewHolder;
 
     }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -44,6 +47,7 @@ public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder>{
 
     }
 
+
     @Override
     public void onBindViewHolder(BaseCardViewHolder holder, int position) {
 
@@ -51,14 +55,23 @@ public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder>{
 
     }
 
+
     public void setCardModels(List<BaseCardModel> cardModels) {
-        this.cardModels = cardModels;
+
+        this.cardModels.clear();
+
+        this.cardModels.addAll(cardModels);
+
+        this.notifyDataSetChanged();
     }
+
 
     @Override
     public int getItemCount() {
+
         return cardModels.size();
     }
+
 
     public List<BaseCardViewHolder> getViewHolders() {
 
@@ -66,15 +79,19 @@ public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder>{
 
     }
 
+
     @Override
     public void onViewAttachedToWindow(BaseCardViewHolder holder) {
+
         super.onViewAttachedToWindow(holder);
 
         holder.onViewAttachedToWindow();
     }
 
+
     @Override
     public void onViewDetachedFromWindow(BaseCardViewHolder holder) {
+
         super.onViewDetachedFromWindow(holder);
 
         holder.onViewDetachedFromWindow();

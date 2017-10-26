@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.tasree7a.Fragments.AddGalleryFragment;
+import com.tasree7a.Fragments.AddNewSalonServiceFragment;
+import com.tasree7a.Fragments.AddProductFragment;
+import com.tasree7a.Fragments.AddStaffMemberFragment;
 import com.tasree7a.Fragments.BaseFragment;
 import com.tasree7a.Fragments.BookNowFragment;
 import com.tasree7a.Fragments.BookScheduleFragment;
@@ -22,6 +26,8 @@ import com.tasree7a.Fragments.FullScreenGalleryFragment;
 import com.tasree7a.Fragments.HomeFragment;
 import com.tasree7a.Fragments.ProfileFragment;
 import com.tasree7a.Fragments.SalonDetailsFragment;
+import com.tasree7a.Fragments.SalonInformationFragment;
+import com.tasree7a.Fragments.SalonServicesFragment;
 import com.tasree7a.Fragments.SettingsFragment;
 import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
@@ -42,9 +48,15 @@ import java.util.List;
  * replace fragments
  */
 
-public class FragmentManager  {
+public class FragmentManager {
 
     private static ArrayList<BaseFragment> currentFragments = new ArrayList<>();
+
+    public static boolean isLastFragment(){
+
+        return currentFragments.size() == 1;
+
+    }
 
     public static BaseFragment getCurrentVisibleFragment() {
 
@@ -59,7 +71,8 @@ public class FragmentManager  {
         return currentFragments.get(index);
     }
 
-    public static void showBookScheduleFragment(){
+
+    public static void showBookScheduleFragment() {
 
         BookScheduleFragment fragment = new BookScheduleFragment();
 
@@ -67,7 +80,8 @@ public class FragmentManager  {
 
     }
 
-    public static void showBookNowFragment(){
+
+    public static void showBookNowFragment() {
 
         BookNowFragment fragment = new BookNowFragment();
 
@@ -83,14 +97,16 @@ public class FragmentManager  {
 
     }
 
-    public static void showCalendarFragment(AbstractCallback callback){
+
+    public static void showCalendarFragment(AbstractCallback callback) {
 
         CalenderFragment calenderFragment = new CalenderFragment();
 
         calenderFragment.setCallback(callback);
 
-        replaceFragment(calenderFragment,true);
+        replaceFragment(calenderFragment, true);
     }
+
 
     public static void showGalleryFullScreenFragment(List<ImageModel> images, int position) {
 
@@ -105,8 +121,7 @@ public class FragmentManager  {
     }
 
 
-
-    public static void showSettingsFragment(){
+    public static void showSettingsFragment() {
 
         SettingsFragment settingsFragment = new SettingsFragment();
 
@@ -114,7 +129,8 @@ public class FragmentManager  {
 
     }
 
-    public static void showChangePasswordFragment(){
+
+    public static void showChangePasswordFragment() {
 
         ChangePasswordFragment fragment = new ChangePasswordFragment();
 
@@ -122,14 +138,17 @@ public class FragmentManager  {
 
     }
 
-    public static void showProfileFragment(){
+
+    public static void showProfileFragment() {
 
         ProfileFragment fragment = new ProfileFragment();
 
         replaceFragment(fragment, true);
 
     }
-    public static void showFeedBackFragment(){
+
+
+    public static void showFeedBackFragment() {
 
         FragmentFeedBack fragment = new FragmentFeedBack();
 
@@ -137,20 +156,23 @@ public class FragmentManager  {
 
     }
 
-    public static void showFragmentBookingList(){
+
+    public static void showFragmentBookingList() {
 
         FragmentBookingList bookingList = new FragmentBookingList();
 
         replaceFragment(bookingList, true);
     }
 
-    public static void showFragmentGallery(ArrayList<ImageModel> imageModels, ArrayList<SalonProduct> salonProducts){
 
-        FragmentGallery fragmentGallery = new FragmentGallery() ;
+    public static void showFragmentGallery(SalonModel salon, ArrayList<ImageModel> imageModels, ArrayList<SalonProduct> salonProducts) {
 
+        FragmentGallery fragmentGallery = new FragmentGallery();
+
+        fragmentGallery.setSalon(salon);
         Bundle bundle = new Bundle();
 
-        bundle.putSerializable(FragmentArg.IMAGE_LIST,imageModels);
+        bundle.putSerializable(FragmentArg.IMAGE_LIST, imageModels);
 
         if (salonProducts != null) {
 
@@ -160,10 +182,18 @@ public class FragmentManager  {
 
         fragmentGallery.setArguments(bundle);
 
-        replaceFragment(fragmentGallery,true);
+        replaceFragment(fragmentGallery, true);
     }
 
+
     public static void showSalonDetailsFragment(SalonModel salonModel, boolean isFullSalon) {
+
+        showSalonDetailsFragment(salonModel, isFullSalon, false);
+
+    }
+
+
+    public static void showSalonDetailsFragment(SalonModel salonModel, boolean isFullSalon, boolean showInfo) {
 
         SalonDetailsFragment salonDetailsFragment = new SalonDetailsFragment();
 
@@ -171,15 +201,23 @@ public class FragmentManager  {
 
         salonDetailsFragment.setSalonModel(salonModel);
 
+        Bundle args = new Bundle();
+
+        args.putBoolean(FragmentArg.IS_REGESTERING, showInfo);
+
+        salonDetailsFragment.setArguments(args);
+
         replaceFragment(salonDetailsFragment, true);
 
     }
+
 
     public static void showSalonDetailsFragment(SalonModel salonModel) {
 
         showSalonDetailsFragment(salonModel, false);
 
     }
+
 
     private static void destroyFragmentProcess(BaseFragment fromFragment) {
 
@@ -192,6 +230,7 @@ public class FragmentManager  {
         fromFragment.onDetach();
 
     }
+
 
     public static void popCurrentVisibleFragment() {
 
@@ -259,6 +298,7 @@ public class FragmentManager  {
 
     }
 
+
     private static void replaceFragment(final BaseFragment newFragment, boolean enableBack) {
 
         if (ThisApplication.getCurrentActivity() instanceof HomeActivity && !ThisApplication.getCurrentActivity().isFinishing()) {
@@ -323,6 +363,7 @@ public class FragmentManager  {
 
     }
 
+
     public static void popToRoot() {
 
         UIUtils.hideSoftKeyboard();
@@ -355,6 +396,7 @@ public class FragmentManager  {
 
     }
 
+
     public static boolean fragmentExistsInStack(Class<?> clazz) {
 
         for (BaseFragment baseFragment : currentFragments) {
@@ -373,6 +415,37 @@ public class FragmentManager  {
 
     }
 
+    public static void popBeforeCurrentVisibleFragment() {
+
+        int index = currentFragments.size() - 2;
+
+        if (index < 0) {
+
+            return;
+
+        }
+
+        // TODO It works fine, but the reference to the fragment still exists in the activity's backstack
+        try {
+
+            BaseFragment toPopFragment = currentFragments.remove(index);
+
+            destroyFragmentProcess(toPopFragment);
+
+            android.support.v4.app.FragmentManager manager = ThisApplication.getCurrentActivity().getSupportFragmentManager();
+
+            FragmentTransaction trans = manager.beginTransaction();
+
+            trans.remove(toPopFragment);
+
+            trans.commitNowAllowingStateLoss();
+
+        } catch (Throwable t) {
+
+            Log.e("FragmentManager", "Illegal sate exception in popBeforeCurrentVisibleFragment ", t);
+
+        }
+    }
 
     // Gets the first fragment in current fragments list that's matches the same class provided
     public static <BF extends BaseFragment> BF getFragmentFromTheStack(Class<BF> fragmentClass) {
@@ -390,6 +463,7 @@ public class FragmentManager  {
         return null;
 
     }
+
 
     // Gets the last fragment in current fragments list that's matches the same class provided
     public static <BF extends BaseFragment> BF getLastFragmentFromTheStack(Class<BF> fragmentClass) {
@@ -410,6 +484,7 @@ public class FragmentManager  {
 
     }
 
+
     /**
      * Clean all fragments from android.support.v4.app.FragmentManager and current fragments list
      */
@@ -429,6 +504,7 @@ public class FragmentManager  {
 
     }
 
+
     public static <T extends BaseFragment> List<T> getFragmentsOfType(@NonNull Class<T> fragmentClass) {
 
         List<T> list = new ArrayList<>();
@@ -446,14 +522,16 @@ public class FragmentManager  {
         return list;
     }
 
-    public static void showMapViewFragment(List<SalonModel> salonModels){
+
+    public static void showMapViewFragment(List<SalonModel> salonModels) {
 
         FragmentMapView fragment = new FragmentMapView();
 
         fragment.setSalonModelList(salonModels);
 
-        replaceFragment(fragment,true);
+        replaceFragment(fragment, true);
     }
+
 
     public static void showFilterFragment() {
 
@@ -463,4 +541,74 @@ public class FragmentManager  {
     }
 
 
+    public static void showSalonInfoFragment() {
+
+        SalonInformationFragment fragment = new SalonInformationFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+
+
+    public static void showAddNewStaffFragment(AbstractCallback abstractCallback) {
+
+        showAddNewStaffFragment(null, abstractCallback);
+
+    }
+
+    public static void showAddNewStaffFragment(SalonModel salonModel, AbstractCallback abstractCallback) {
+
+        AddStaffMemberFragment fragment = new AddStaffMemberFragment();
+
+        fragment.setAddStaffCallback(abstractCallback);
+
+        fragment.setSalonModel(salonModel);
+
+        //salonModel != null
+        replaceFragment(fragment, true);
+
+    }
+
+
+    public static void showAddGalleryItemFragment(SalonModel salon ,AbstractCallback callback) {
+
+        AddGalleryFragment fragment = new AddGalleryFragment();
+
+        fragment.showGallaryFragment(true);
+
+        fragment.setSalonModel(salon);
+
+        fragment.setCallback(callback);
+
+        replaceFragment(fragment, true);
+
+    }
+
+
+    public static void showAddProductFragment(AbstractCallback callback) {
+
+        AddProductFragment fragment = new AddProductFragment();
+
+        fragment.setCallback(callback);
+
+        replaceFragment(fragment, true);
+    }
+
+
+    public static void showAddNewSalonServiceFragment() {
+
+        AddNewSalonServiceFragment fragment = new AddNewSalonServiceFragment();
+
+        replaceFragment(fragment, true);
+
+    }
+
+
+    public static void showSalonServicesFragment() {
+
+        SalonServicesFragment fragment = new SalonServicesFragment();
+
+        replaceFragment(fragment, true);
+
+    }
 }

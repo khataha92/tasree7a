@@ -14,19 +14,18 @@
         <ImageView
             android:id="@+id/back"
             android:layout_width="31dp"
-            android:rotation="180"
-            android:layout_alignParentRight="true"
             android:layout_height="41dp"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="17dp"
             android:padding="10dp"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/GRAY" />
+            android:background="@color/GRAY"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -35,16 +34,17 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/GALLERY"
                 android:textAllCaps="true"
                 android:textColor="@color/APP_TEXT_COLOR"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/sallon_name"
+                android:id="@+id/salon_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -52,10 +52,19 @@
                 android:lineSpacingExtra="-10.7sp"
                 android:text="Samer Salon"
                 android:textColor="@color/APP_TEXT_COLOR"
-                android:textSize="13.3sp" />
+                android:textSize="13.3sp"/>
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/change_items"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:backgroundTint="@color/APP_GREEN"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_add_white_24dp"/>
 
     </RelativeLayout>
 
@@ -66,6 +75,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"/>
 
 </LinearLayout>

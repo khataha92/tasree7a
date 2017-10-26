@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+    <com.tasree7a.CustomComponent.CustomTimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/timePicker"
+        android:layout_alignRight="@id/timePicker"
+        android:layout_below="@+id/timePicker"
+        android:layout_centerHorizontal="true"
+        android:background="@color/APP_GREEN"
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="DONE"
+        android:textColor="@color/WHITE"
+        android:textSize="25sp"/>
+</RelativeLayout>

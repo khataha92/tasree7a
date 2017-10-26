@@ -10,15 +10,18 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.appevents.AppEventsLogger;
 import com.tasree7a.Adapters.ViewPagerAdapter;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.LoginType;
 import com.tasree7a.Fragments.BaseLoginFragment;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.AppUtil;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,6 +42,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
 
         Fabric.with(this, new Crashlytics());
 
@@ -68,19 +72,28 @@ public class MainActivity extends FragmentActivity {
             startHomeActivity();
         }
 
-        AppUtil.checkAppLanguage();
-
         setContentView(R.layout.activity_main);
 
         initTabsView();
 
+        AppUtil.checkAppLanguage();
+
+        if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        else
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
     }
+
 
     private void startHomeActivity() {
 
-        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
 
-        finishAffinity();
+        startActivity(intent);
+
+        finish();
 
     }
 
@@ -143,11 +156,13 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(callbackManager != null) {
+        if (callbackManager != null) {
 
             callbackManager.onActivityResult(requestCode,
                     resultCode, data);

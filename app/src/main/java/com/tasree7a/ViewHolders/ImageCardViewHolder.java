@@ -42,9 +42,10 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
         });
 
-        View bookNowLbl = itemView.findViewById(R.id.book_now_lbl);
+        TextView bookNowLbl = (TextView) itemView.findViewById(R.id.book_now_lbl);
 
         View.OnClickListener listener = new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -56,21 +57,20 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
         };
 
 
-
-        View addToFavorite = itemView.findViewById(R.id.add_to_favorite);
+        final View addToFavorite = itemView.findViewById(R.id.add_to_favorite);
 
         addToFavorite.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                if(UserDefaultUtil.isSalonFavorite(salonModel)){
+                if (UserDefaultUtil.isSalonFavorite(salonModel)) {
 
                     UserDefaultUtil.removeSalonFromFavorite(salonModel);
 
                     ((ImageView) v).setImageResource(R.drawable.ic_favorite_unchecked);
 
-                } else{
+                } else {
 
                     UserDefaultUtil.addSalonToFavorite(salonModel);
 
@@ -79,15 +79,14 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
                 }
 
                 FavoriteChangeObservable.sharedInstance().setFavoriteChanged(salonModel);
-
             }
         });
 
-        if(UserDefaultUtil.isSalonFavorite(salonModel)){
+        if (UserDefaultUtil.isSalonFavorite(salonModel)) {
 
             ((ImageView) addToFavorite).setImageResource(R.drawable.ic_favorite_checked);
 
-        } else{
+        } else {
 
             ((ImageView) addToFavorite).setImageResource(R.drawable.ic_favorite_unchecked);
 
@@ -103,17 +102,19 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
         ImageView salonCover = (ImageView) itemView.findViewById(R.id.salon_image);
 
-        UIUtils.loadUrlIntoImageView(salonModel.getImage(),salonCover, Sizes.MEDIUM);
+        UIUtils.loadUrlIntoImageView(salonModel.getImage(), salonCover, Sizes.MEDIUM);
 
         View bookNow = itemView.findViewById(R.id.bookNow);
 
-        if(salonModel.isBusiness()) {
+        if (salonModel.isBusiness()) {
 
             addToFavorite.setVisibility(View.GONE);
 
-            bookNowLbl.setVisibility(View.GONE);
+//            bookNowLbl.setVisibility(View.GONE);
 
-            bookNow.setVisibility(View.GONE);
+//            bookNow.setVisibility(View.GONE);
+
+            bookNowLbl.setText(R.string.SERVICES);
 
             ImageView menu = (ImageView) back;
 
@@ -121,9 +122,10 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
             menu.setColorFilter(ThisApplication.getCurrentActivity().getBaseContext().getResources().getColor(R.color.WHITE));
 
-            menu.setPadding(0,0,0,0);
+            menu.setPadding(0, 0, 0, 0);
 
             menu.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
 
@@ -132,11 +134,26 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
                 }
             });
 
+            View.OnClickListener servicesListener = new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    FragmentManager.showSalonServicesFragment();
+                }
+            };
+
+            bookNow.setOnClickListener(servicesListener);
+
+            bookNowLbl.setOnClickListener(servicesListener);
+
+        } else {
+
+            bookNow.setOnClickListener(listener);
+
+            bookNowLbl.setOnClickListener(listener);
+
         }
-
-        bookNow.setOnClickListener(listener);
-
-        bookNowLbl.setOnClickListener(listener);
 
     }
 }

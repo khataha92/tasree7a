@@ -48,88 +48,6 @@ import rx.schedulers.Schedulers;
 
 public class FragmentMapView extends BaseFragment {
 
-//    MapView mMapView;
-//    private GoogleMap googleMap;
-//
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(R.layout.fragment_map_view, container, false);
-//
-//        mMapView = (MapView) rootView.findViewById(R.id.mapView);
-//
-//        mMapView.onCreate(savedInstanceState);
-//
-//        mMapView.onResume(); // needed to get the map to display immediately
-//
-//        try {
-//
-//            MapsInitializer.initialize(getActivity().getApplicationContext());
-//
-//        } catch (Exception e) {
-//
-//            e.printStackTrace();
-//
-//        }
-//
-//        mMapView.getMapAsync(new OnMapReadyCallback() {
-//            @Override
-//            public void onMapReady(GoogleMap mMap) {
-//                googleMap = mMap;
-//
-//                // For showing a move to my location button
-//                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                        && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//
-//                    return;
-//                }
-//
-//                googleMap.setMyLocationEnabled(true);
-//
-//                // For dropping a marker at a point on the Map
-//
-//                Location location = AppUtil.getCurrentLocation();
-//
-//                LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-//
-//                googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location").snippet("Your current location"));
-//
-//                // For zooming automatically to the location of the marker
-//                CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
-//
-//                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//
-//            }
-//
-//        });
-//
-//        return rootView;
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mMapView.onResume();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mMapView.onPause();
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        mMapView.onDestroy();
-//    }
-//
-//    @Override
-//    public void onLowMemory() {
-//        super.onLowMemory();
-//        mMapView.onLowMemory();
-//    }
-
     private static final String TAG = FragmentMapView.class.getName();
 
     private boolean isNearBy = false;
@@ -149,15 +67,19 @@ public class FragmentMapView extends BaseFragment {
 
     private LatLng mapCenter;
 
+
     public void setListener(AbstractCallback callback) {
 
         this.callback = callback;
     }
 
+
     private boolean googlePlayAvailable = false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         Location location = AppUtil.getCurrentLocation();
@@ -199,6 +121,7 @@ public class FragmentMapView extends BaseFragment {
         return rootView;
     }
 
+
     public void showSalonDetails(boolean showDetails, final SalonModel salonModel) {
 
         SalonMapDetails hotelDetailsLayout = (SalonMapDetails) rootView.findViewById(R.id.salon_map_details);
@@ -206,8 +129,10 @@ public class FragmentMapView extends BaseFragment {
         if (showDetails && salonModel != null) {
 
             hotelDetailsLayout.setSalonDetails(salonModel, true, null, new Runnable() {
+
                 @Override
                 public void run() {
+
                     mCustomMapSalonRenderer.onClusterItemClick(salonModel);
                 }
             });
@@ -217,6 +142,7 @@ public class FragmentMapView extends BaseFragment {
         hotelDetailsLayout.setClickable(true);
 
         hotelDetailsLayout.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -229,11 +155,13 @@ public class FragmentMapView extends BaseFragment {
 
     }
 
+
     /**
      * THis will be called whenever the fragment is in the front, is visible
      */
     @Override
     public void fragmentIsVisible() {
+
         super.fragmentIsVisible();
 
         if (dateChanged) {
@@ -247,26 +175,32 @@ public class FragmentMapView extends BaseFragment {
         }
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
 
 
     }
+
 
     /**
      * THis will be called whenever another fragment become in front if this, is hidden by another fragment
      */
     @Override
     public void fragmentIsHidden() {
+
         super.fragmentIsHidden();
     }
+
 
     private void onBackIconPressed() {
 
         FragmentManager.popCurrentVisibleFragment();
 
     }
+
 
     /**
      * * The mapfragment's id must be removed from the FragmentManager
@@ -281,6 +215,7 @@ public class FragmentMapView extends BaseFragment {
         MapsUtils.removeFragmentIfAlreadyLoaded(R.id.map);
 
     }
+
 
     /**
      * ** Sets up the mMap if it is possible to do so ****
@@ -299,6 +234,7 @@ public class FragmentMapView extends BaseFragment {
 
                 // Try to obtain the mMap from the SupportMapFragment.
                 fragment.getMapAsync(new OnMapReadyCallback() {
+
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
 
@@ -327,6 +263,7 @@ public class FragmentMapView extends BaseFragment {
 
         }
     }
+
 
     /**
      * This is where we can add markers or lines, add listeners or move the
@@ -382,6 +319,7 @@ public class FragmentMapView extends BaseFragment {
 
     }
 
+
     /**
      * Initialize cluster manager
      */
@@ -393,31 +331,6 @@ public class FragmentMapView extends BaseFragment {
 
         }
 
-
-//        if (mAttractionClusterManager == null) {
-//
-//            mAttractionClusterManager = new ClusterManager<>(rootView.getContext(), mMap);
-//
-//            mCustomMapAttractionRenderer = new CustomMapAttractionRenderer(mMap, mAttractionClusterManager);
-//
-//            mCustomMapAttractionRenderer.setAlwaysOpenedAttraction(attractionModel);
-//
-//            mAttractionClusterManager.setRenderer(mCustomMapAttractionRenderer);
-//
-//            mAttractionClusterManager.setOnClusterClickListener(cluster -> {
-//
-//                mCustomMapAttractionRenderer.onClusterClick(cluster);
-//                return false;
-//            });
-//
-//            mAttractionClusterManager.setOnClusterItemClickListener(attractionModel1 -> {
-//
-//                mCustomMapAttractionRenderer.onClusterItemClick(attractionModel1);
-//                return false;
-//            });
-//
-//        }
-
         if (mHotelClusterManager == null) {
 
             mHotelClusterManager = new ClusterManager<>(rootView.getContext(), mMap);
@@ -427,6 +340,7 @@ public class FragmentMapView extends BaseFragment {
             mHotelClusterManager.setRenderer(mCustomMapSalonRenderer);
 
             mHotelClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<SalonModel>() {
+
                 @Override
                 public boolean onClusterClick(Cluster<SalonModel> cluster) {
 
@@ -436,8 +350,10 @@ public class FragmentMapView extends BaseFragment {
             });
 
             mHotelClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<SalonModel>() {
+
                 @Override
                 public boolean onClusterItemClick(SalonModel salonModel) {
+
                     mCustomMapSalonRenderer.onClusterItemClick(salonModel);
                     return false;
                 }
@@ -446,6 +362,7 @@ public class FragmentMapView extends BaseFragment {
         }
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
             @Override
             public boolean onMarkerClick(Marker marker) {
 
@@ -457,13 +374,27 @@ public class FragmentMapView extends BaseFragment {
         });
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
             @Override
             public void onMapClick(LatLng latLng) {
+
                 mCustomMapSalonRenderer.collapseSelectedHotelMarker();
             }
         });
 
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+
+            @Override
+            public void onMapLongClick(LatLng point) {
+                //TODO Handle your code.
+
+                //Add marker to map for clarity
+                mMap.addMarker(new MarkerOptions().position(point).title("My Marker"));
+            }
+        });
+
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+
             @Override
             public void onCameraIdle() {
 
@@ -473,6 +404,7 @@ public class FragmentMapView extends BaseFragment {
         });
 
     }
+
 
     /**
      * Initialize loading view
@@ -501,6 +433,7 @@ public class FragmentMapView extends BaseFragment {
         if (hotel == null || mMap == null) return;
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(hotel.getPosition(), mMap.getMaxZoomLevel() - 2f), new GoogleMap.CancelableCallback() {
+
             @Override
             public void onFinish() {
 
@@ -515,12 +448,15 @@ public class FragmentMapView extends BaseFragment {
                 }, 500);
             }
 
+
             @Override
             public void onCancel() {
 
                 rootView.postDelayed(new Runnable() {
+
                     @Override
                     public void run() {
+
                         mCustomMapSalonRenderer.onClusterItemClick(hotel);
                     }
                 }, 500);
@@ -533,6 +469,7 @@ public class FragmentMapView extends BaseFragment {
 
     @Override
     public void onLowMemory() {
+
         super.onLowMemory();
 
         MapFragment fragment = ((MapFragment) ThisApplication.getCurrentActivity().getFragmentManager()
@@ -545,20 +482,24 @@ public class FragmentMapView extends BaseFragment {
         }
     }
 
+
     public void dataSourceChanged(final List<SalonModel> list) {
 
         if (!googlePlayAvailable || list.isEmpty()) return;
 
         // filter
         filterMarkersBasedOnViewPort(mCustomMapSalonRenderer != null ? new Runnable() {
+
             @Override
             public void run() {
+
                 mCustomMapSalonRenderer.reSelectSelectedHotel();
             }
         } : null);
 
 
     }
+
 
     @Override
     public boolean onBackPressed() {
@@ -570,8 +511,10 @@ public class FragmentMapView extends BaseFragment {
 
     }
 
+
     @Override
     public void onDetach() {
+
         super.onDetach();
 
         if (mMap != null) {
@@ -634,6 +577,7 @@ public class FragmentMapView extends BaseFragment {
 
     private Subscription filterHotelsSubscription;
 
+
     // Filter and put the hotels based in the markers
     // Display only the hotels that is currently within the map window
     public void filterMarkersBasedOnViewPort(final Runnable onFinishClustering) {
@@ -656,6 +600,7 @@ public class FragmentMapView extends BaseFragment {
         filterHotelsSubscription = Observable.from(tempList)
                 .observeOn(Schedulers.computation())
                 .filter(new Func1<SalonModel, Boolean>() {
+
                     @Override
                     public Boolean call(SalonModel filterable) {
 
@@ -666,8 +611,10 @@ public class FragmentMapView extends BaseFragment {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SalonModel>() {
+
                     @Override
                     public void onCompleted() {
+
                         mHotelClusterManager.cluster();
 
                         if (onFinishClustering != null) {
@@ -676,27 +623,37 @@ public class FragmentMapView extends BaseFragment {
                         }
                     }
 
+
                     @Override
                     public void onError(Throwable e) {
+
                         Log.e(TAG, "error at filtering hotels ", e);
                     }
 
+
                     @Override
                     public void onNext(SalonModel filterable) {
+
                         mHotelClusterManager.addItem(filterable);
                     }
                 });
     }
 
+
     boolean dateChanged = false;
 
+
     public LatLng getMapCenter() {
+
         return mapCenter;
     }
 
+
     public void setMapCenter(LatLng mapCenter) {
+
         this.mapCenter = mapCenter;
     }
+
 
     public void setSalonModelList(List<SalonModel> salonModelList) {
 

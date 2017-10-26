@@ -64,6 +64,7 @@ public class BookScheduleFragment extends BaseFragment {
 
     int finalTime;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,18 +80,19 @@ public class BookScheduleFragment extends BaseFragment {
         availabilityText = (TextView) rootView.findViewById(R.id.availability_text);
 
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
 
                 finalTime = convertTimeToInt(hourOfDay, minute);
 
-                if(availableTimes.indexOf(finalTime) == -1) {
+                if (availableTimes.indexOf(finalTime) == -1) {
 
                     availabilityText.setVisibility(View.VISIBLE);
 
                     confirm.setClickable(false);
 
-                    ((TextView)confirm).setTextColor(Color.GRAY);
+                    ((TextView) confirm).setTextColor(Color.GRAY);
 
                 } else {
 
@@ -98,12 +100,11 @@ public class BookScheduleFragment extends BaseFragment {
 
                     confirm.setClickable(true);
 
-                    ((TextView)confirm).setTextColor(Color.WHITE);
+                    ((TextView) confirm).setTextColor(Color.WHITE);
                 }
 
             }
         });
-
 
 
         Calendar c = Calendar.getInstance();
@@ -114,13 +115,14 @@ public class BookScheduleFragment extends BaseFragment {
 
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        String date = "" + year + "-" + (month < 10 ? "0" + month : month) +"-"+ (day < 10 ? "0" + day : day);
+        String date = "" + year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
 
         getAvailableTimeOnDate(date);
 
         localDate = new LocalDate(date);
 
         rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -130,6 +132,7 @@ public class BookScheduleFragment extends BaseFragment {
         });
 
         rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -141,18 +144,20 @@ public class BookScheduleFragment extends BaseFragment {
         initSalonBarbers();
 
         rootView.findViewById(R.id.select_checkin_date).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(final View v) {
 
                 FragmentManager.showCalendarFragment(new AbstractCallback() {
+
                     @Override
                     public void onResult(boolean isSuccess, Object result) {
 
-                        if(isSuccess){
+                        if (isSuccess) {
 
                             localDate = (LocalDate) result;
 
-                            ((TextView)v).setText(localDate.toString());
+                            ((TextView) v).setText(localDate.toString());
 
                             getAvailableTimeOnDate(localDate.toString());
 
@@ -166,19 +171,21 @@ public class BookScheduleFragment extends BaseFragment {
 
         String total = getString(R.string.TOTAL);
 
-        ((TextView) rootView.findViewById(R.id.total)).setText(total + ": $" +ReservationSessionManager.getInstance().getTotal());
+        ((TextView) rootView.findViewById(R.id.total)).setText(total + ": $" + ReservationSessionManager.getInstance().getTotal());
 
         confirm.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
+                //TODO: Causes a crash
                 String barberId = ((CustomRadioButton) radioGroup.getCheckedItem()).getItemId();
 
                 String salonId = ReservationSessionManager.getInstance().getSalonModel().getId();
 
                 String userId = UserDefaultUtil.getCurrentUser().getId();
 
-                if(finalTime == 0) {
+                if (finalTime == 0) {
 
                     Calendar c = Calendar.getInstance();
 
@@ -192,17 +199,18 @@ public class BookScheduleFragment extends BaseFragment {
 
                 int[] services = new int[ReservationSessionManager.getInstance().getSelectedServices().size()];
 
-                for(int i = 0 ; i < ReservationSessionManager.getInstance().getSelectedServices().size() ; i++) {
+                for (int i = 0; i < ReservationSessionManager.getInstance().getSelectedServices().size(); i++) {
 
                     services[i] = Integer.parseInt(ReservationSessionManager.getInstance().getSelectedServices().get(i).getId());
 
                 }
 
                 RetrofitManager.getInstance().addBooking(barberId, salonId, services, userId, localDate.toString(), "" + finalTime, new AbstractCallback() {
+
                     @Override
                     public void onResult(boolean isSuccess, Object result) {
 
-                        if(isSuccess) {
+                        if (isSuccess) {
 
                             FragmentManager.popCurrentVisibleFragment();
 
@@ -212,7 +220,7 @@ public class BookScheduleFragment extends BaseFragment {
 
                         } else {
 
-                            Toast.makeText(getContext(), "Error occurred while trying to add booking" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Error occurred while trying to add booking", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -226,52 +234,61 @@ public class BookScheduleFragment extends BaseFragment {
 
     }
 
-    private void initSalonBarbers(){
+
+    private void initSalonBarbers() {
 
         radioGroup = (CustomRadioGroup) rootView.findViewById(R.id.salon_barber);
 
         List<SalonBarber> salonBarberList = salonModel.getSalonBarbers();
 
-        for(int i = 0 ; i < salonBarberList.size() ; i++){
+        try {
 
-            CustomRadioButton salonBarber = new CustomRadioButton(ThisApplication.getCurrentActivity());
+            for (int i = 0; i < salonBarberList.size(); i++) {
 
-            salonBarber.setCustomOrientation(CustomOrientation.HORIZONTAL);
+                CustomRadioButton salonBarber = new CustomRadioButton(ThisApplication.getCurrentActivity());
 
-            salonBarber.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+                salonBarber.setCustomOrientation(CustomOrientation.HORIZONTAL);
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                salonBarber.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 
-            salonBarber.setLayoutParams(params);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            salonBarber.setLabel(salonBarberList.get(i).getBarberFirstName() + " " + salonBarberList.get(i).getBarberLastName());
+                salonBarber.setLayoutParams(params);
 
-            salonBarber.setItemId(salonBarberList.get(i).getBarberId());
+                salonBarber.setLabel(salonBarberList.get(i).getBarberFirstName() + " " + salonBarberList.get(i).getBarberLastName());
 
-            if(i == 0) {
+                salonBarber.setItemId(salonBarberList.get(i).getBarberId());
 
-                salonBarber.check();
+                if (i == 0) {
+
+                    salonBarber.check();
+                }
+
+                radioGroup.addView(salonBarber);
+
             }
 
-            radioGroup.addView(salonBarber);
+        } catch (Exception e) {
 
         }
 
     }
+
 
     private void getAvailableTimeOnDate(String date) {
 
         UIUtils.showLoadingView(rootView, this);
 
         RetrofitManager.getInstance().getAvailableTimes(ReservationSessionManager.getInstance().getSalonModel().getId(), date, new AbstractCallback() {
+
             @Override
             public void onResult(boolean isSuccess, Object result) {
 
                 UIUtils.hideLoadingView(rootView, BookScheduleFragment.this);
 
-                if(isSuccess) {
+                if (isSuccess) {
 
-                    availableTimes = ((AvailableTimesResponse) result) .getAvailableTimes();
+                    availableTimes = ((AvailableTimesResponse) result).getAvailableTimes();
 
                 }
 
@@ -279,11 +296,12 @@ public class BookScheduleFragment extends BaseFragment {
         });
     }
 
+
     private int convertTimeToInt(int hourOfDay, int minute) {
 
         int temp = 0;
 
-        if(minute >= 30) {
+        if (minute >= 30) {
 
             temp = 1;
         }

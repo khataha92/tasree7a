@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,11 +19,11 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.Enums.LoginType;
+import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Login.LoginModel;
 import com.tasree7a.Models.Login.LoginResponseModel;
@@ -39,8 +41,6 @@ import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import org.json.JSONObject;
-
-import java.util.Arrays;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tasree7a.ThisApplication.callbackManager;
@@ -86,6 +86,7 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
         signup = (TextView) rootView.findViewById(R.id.sign_up);
 
         rootView.findViewById(R.id.forgot_password).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -112,11 +113,14 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
         callbackManager = CallbackManager.Factory.create();
 
-        if(isBusiness){
+        if (isBusiness) {
 
             login.setVisibility(View.GONE);
 
             rootView.findViewById(R.id.or_container).setVisibility(View.GONE);
+
+            rootView.findViewById(R.id.container).setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
         }
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -146,13 +150,17 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                                     String fbId = object.getString("id");
 
+                                    String fbImage = "https://graph.facebook.com/" + fbId + "/picture?type=large";
+
+                                    ReservationSessionManager.getInstance().setFbImage(fbImage);
+
                                     String[] names = name.split(" ");
 
                                     String firstName = names[0];
 
                                     String lastName = "";
 
-                                    if(names.length > 1) {
+                                    if (names.length > 1) {
 
                                         lastName = names[names.length - 1];
 
@@ -171,14 +179,15 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
                                     signupModel.setUsername("");
 
                                     RetrofitManager.getInstance().register(signupModel, new AbstractCallback() {
+
                                         @Override
                                         public void onResult(boolean isSuccess, Object result) {
 
-                                            if(isSuccess) {
+                                            if (isSuccess) {
 
                                                 SignupResponseModel model = (SignupResponseModel) result;
 
-                                                User user = model.getUser();
+                                                User user = model.getUserDetails().getUser();
 
                                                 UserDefaultUtil.saveUser(user);
 
@@ -291,7 +300,7 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                                     User user = responseModel.getUser();
 
-                                    user.setBusiness(isBusiness);
+                                    user.setBusiness(isBusiness ? 1 : 0);
 
                                     user.setSalongId(responseModel.getSalonId());
 
@@ -342,8 +351,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
         ThisApplication.getCurrentActivity().finishAffinity();
 
     }
-
-
 
 
 }

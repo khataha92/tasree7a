@@ -6,16 +6,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.annotation.Size;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.tasree7a.Enums.Sizes;
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.utils.UIUtils;
+import com.tasree7a.utils.UserDefaultUtil;
 
 /**
  * Created by SamiKhleaf on 7/31/17.
@@ -48,6 +55,17 @@ public class ProfileFragment extends BaseFragment {
 
             }
         });
+
+        ImageView image = (ImageView) rootView.findViewById(R.id.profpic);
+//
+//        if (UserDefaultUtil.isFBUser()) {
+//
+//            image.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//
+//        }
+
+        UIUtils.loadUrlIntoImageView(ReservationSessionManager.getInstance().getFbImage(),image, Sizes.LARGE);
+
         rootView.findViewById(R.id.profile_image_cont).setOnClickListener(new View.OnClickListener() {
 
             @Override

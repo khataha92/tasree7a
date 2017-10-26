@@ -26,6 +26,8 @@
     <string name="BOOKINGS">الحجوزات</string>
     <string name="ADD_STAFF">موظف جديد</string>
 
+    <string name="AVAILABLE_SERVICE">الخدمات المتوفرة</string>
+
     <string name="FAVORITES">المفضلة</string>
     <string name="FEEDBACK">أراء ومقترحات</string>
     <string name="APP_FEEDBACK">أراء ومقترحات</string>

@@ -14,10 +14,10 @@ public class CityModel {
     @SerializedName("name")
     String name;
 
-    @SerializedName("cLat")
+//    @SerializedName("cLat")
     double lat;
 
-    @SerializedName("cLong")
+//    @SerializedName("cLong")
     double lng;
 
     @SerializedName("country_id")

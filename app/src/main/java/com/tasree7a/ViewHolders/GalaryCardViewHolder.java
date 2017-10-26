@@ -1,6 +1,7 @@
 package com.tasree7a.ViewHolders;
 
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,9 +11,11 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.Models.Gallery.GalleryModel;
 import com.tasree7a.Models.Gallery.ImageModel;
+import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -28,6 +31,9 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
     List<SalonProduct> salonProducts = null;
 
+    GalleryModel galleryModel;
+
+
     public GalaryCardViewHolder(View view, final BaseCardModel cardModel) {
 
         super(view, cardModel);
@@ -38,27 +44,31 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
         LinearLayout imagesContainer = (LinearLayout) itemView.findViewById(R.id.images_container);
 
+        HorizontalScrollView scroll = (HorizontalScrollView) itemView.findViewById(R.id.horizental_scroll);
+
         int width = UIUtils.dpToPx(100);
 
-        GalleryModel galleryModel = (GalleryModel) cardModel.getCardValue();
+        galleryModel = (GalleryModel) cardModel.getCardValue();
 
         galleryTitle.setText(galleryModel.getTitle());
 
-        final List<ImageModel> imageModels =galleryModel.getImageModelList();
+        final SalonModel salon = galleryModel.getSalonModel();
 
-        for(int i = 0 ; i < imageModels.size() && i < 10; i++){
+        final List<ImageModel> imageModels = galleryModel.getImageModelList();
+
+        for (int i = 0; i < imageModels.size() && i < 10; i++) {
 
             ImageView imageView = new ImageView(ThisApplication.getCurrentActivity());
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,width);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
 
             imageView.setLayoutParams(params);
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            UIUtils.loadUrlIntoImageView(imageModels.get(i).getImagePath(),imageView, Sizes.MEDIUM);
+            UIUtils.loadUrlIntoImageView(imageModels.get(i).getImagePath(), imageView, Sizes.MEDIUM);
 
-            params.setMargins(i == 0 ? 0 : UIUtils.dpToPx(10),0,0,0);
+            params.setMargins(i == 0 ? 0 : UIUtils.dpToPx(10), 0, 0, 0);
 
             imagesContainer.addView(imageView);
 
@@ -66,12 +76,58 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
         final List<SalonProduct> salonProducts = galleryModel.getProducts();
 
+        if (salon.isBusiness()) {
+
+            seeAll.setImageResource(R.drawable.ic_edit);
+
+        }
+
+        if ((galleryModel.getImageModelList() == null || galleryModel.getImageModelList().size() == 0) && (galleryModel.getProducts() == null || galleryModel.getProducts().size() == 0)) {
+
+            scroll.setVisibility(View.GONE);
+
+        }
+
         seeAll.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
-                FragmentManager.showFragmentGallery(new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+                if (!salon.isBusiness()) {
 
+                    FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+
+                } else {
+
+                    //show add/delete fragment
+
+                    if (galleryModel.getType() == 1)
+
+                        if (salonProducts == null || salonProducts.size() == 0)
+                            FragmentManager.showAddProductFragment(new AbstractCallback() {
+
+                                @Override
+                                public void onResult(boolean isSuccess, Object result) {
+
+                                }
+                            });
+                        else
+                            FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+
+                    else if (galleryModel.getType() == 0)
+
+                        if (galleryModel.getImageModelList() == null || galleryModel.getImageModelList().size() == 0)
+                            FragmentManager.showAddGalleryItemFragment(salon, new AbstractCallback() {
+
+                                @Override
+                                public void onResult(boolean isSuccess, Object result) {
+
+                                }
+                            });
+                        else
+                            FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+
+                }
             }
         });
 

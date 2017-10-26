@@ -2,7 +2,7 @@ package com.tasree7a.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.tasree7a.CustomComponent.CustomButton;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Signup.SignupModel;
 import com.tasree7a.Models.Signup.SignupResponseModel;
@@ -18,6 +19,7 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -68,6 +70,12 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
         login.setOnClickListener(this);
 
+        if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        else
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -97,8 +105,6 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
                 model.setEmail(email);
 
-                model.setFbLogin(false);
-
                 model.setFirstName(firstName);
 
                 model.setLastName(lastName);
@@ -120,10 +126,10 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
                             SignupResponseModel signupResponseModel = (SignupResponseModel) result;
 
-                            UserDefaultUtil.saveUser(signupResponseModel.getUser());
+                            UserDefaultUtil.saveUser(signupResponseModel.getUserDetails().getUser());
 
                             startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
-                            
+
                             ThisApplication.getCurrentActivity().finish();
 
                         } else {
@@ -145,6 +151,13 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
             Toast.makeText(getApplicationContext(), getString(R.string.ERROR_FIRST_NAME_LAST_NAME), Toast.LENGTH_LONG).show();
         }
 
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
     }
 
 

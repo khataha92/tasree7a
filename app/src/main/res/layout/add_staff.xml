@@ -133,7 +133,7 @@
 
 
         <com.tasree7a.CustomComponent.CustomButton
-            android:id="@+id/apply"
+            android:id="@+id/save"
             android:layout_width="145dp"
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"

@@ -87,6 +87,7 @@
     <string name="OPENING_HOURS">Opening hours</string>
     <string name="STAFF">Staff</string>
     <string name="SELECT_SERVICE">Select service</string>
+    <string name="AVAILABLE_SERVICE">Available services</string>
     <string name="SELECT_TIME">Select Time </string>
     <string name="SELECT_BARBER">Select Barber</string>
 

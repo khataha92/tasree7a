@@ -2,7 +2,6 @@ package com.tasree7a.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -28,7 +28,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by SamiKhleaf on 7/28/17.
  */
 
-public class BusinessRegistrationFragment extends BaseFragment implements View.OnClickListener{
+public class BusinessRegistrationFragment extends BaseFragment implements View.OnClickListener {
 
     EditText fullName;
 
@@ -40,11 +40,12 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
     CustomButton register;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView =  inflater.inflate(R.layout.fragment_business_registration, container, false);
+        rootView = inflater.inflate(R.layout.fragment_business_registration, container, false);
 
         fullName = (EditText) rootView.findViewById(R.id.input_full_name);
 
@@ -92,9 +93,9 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
                 model.setFbLogin(false);
 
-                model.setFirstName(salonName);
+                model.setFirstName(salonName.split(" ")[0]);
 
-                model.setLastName("null");
+                model.setLastName(salonName.split(" ")[1]);
 
                 model.setFbLogin(false);
 
@@ -113,11 +114,17 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
                             SignupResponseModel signupResponseModel = (SignupResponseModel) result;
 
-                            User user = signupResponseModel.getUser();
+                            User user = signupResponseModel.getUserDetails().getUser();
 
                             UserDefaultUtil.saveUser(user);
 
-                            startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
+                            UserDefaultUtil.setIsRegestering(true);
+
+                            Intent intent = new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class);
+
+                            intent.putExtra(FragmentArg.SALON_INFO, signupResponseModel);
+
+                            startActivity(intent);
 
                             ThisApplication.getCurrentActivity().finish();
 

@@ -59,6 +59,13 @@ public class AddNewSalonServiceFragment extends BaseFragment {
 
         rootView = inflater.inflate(R.layout.add_service, container, false);
 
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                FragmentManager.popCurrentVisibleFragment();
+            }
+        });
         selectedImage = (ImageView) rootView.findViewById(R.id.add_img);
 
         serviceType = (EditText) rootView.findViewById(R.id.service_type);
@@ -155,7 +162,9 @@ public class AddNewSalonServiceFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         Bitmap yourSelectedImage = null;
+
         if (!(requestCode == Activity.RESULT_CANCELED)) {
+
             if (data != null) {
 
                     if (requestCode == CAMERA_REQUEST) {
@@ -165,16 +174,21 @@ public class AddNewSalonServiceFragment extends BaseFragment {
                         selectedImage.setImageBitmap(yourSelectedImage);
 
                         base64Image = encodeTobase64(yourSelectedImage);
+
                     } else {
 
                     final Uri imageUri = data.getData();
 
                     InputStream imageStream = null;
+
                     try {
+
                         imageStream = ThisApplication.getCurrentActivity().getContentResolver().openInputStream(imageUri);
 
                     } catch (FileNotFoundException e) {
+
                         e.printStackTrace();
+
                     }
 
                      yourSelectedImage = BitmapFactory.decodeStream(imageStream);

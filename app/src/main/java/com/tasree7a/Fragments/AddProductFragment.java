@@ -101,6 +101,13 @@ public class AddProductFragment extends BaseFragment {
             }
         });
 
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                FragmentManager.popCurrentVisibleFragment();
+            }
+        });
 
         selectedImage.setOnClickListener(new View.OnClickListener() {
 

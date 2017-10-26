@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Base64;
@@ -41,9 +42,11 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.AppUtil;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -371,6 +374,8 @@ public class SalonInformationFragment extends BaseFragment {
                 salonInformationRequestModel.setSalonName(salonName.getText().toString());
                 salonInformationRequestModel.setSalonType("1");
 
+                UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+
                 RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, new AbstractCallback() {
 
                     @Override
@@ -401,9 +406,9 @@ public class SalonInformationFragment extends BaseFragment {
 
                                     barberModel.setSalonId(responseModel.getDetails().getSalonId());
 
-                                    barberModel.setLastName("kkk");
+                                    barberModel.setLastName(staffMemberDataModel.getStaffName().split(" ")[1]);
 
-                                    barberModel.setFirstName("kaka");
+                                    barberModel.setFirstName(staffMemberDataModel.getStaffName().split(" ")[0]);
 
                                     barberModel.setEmail(staffMemberDataModel.getStaffEmail());
 
@@ -417,7 +422,7 @@ public class SalonInformationFragment extends BaseFragment {
 
                                     barberModel.setUpdatedAt("16");
 
-                                    barberModel.setUserName("sjan" + barberModel.getSalonId());
+                                    barberModel.setUserName("username" + staffMemberDataModel.getStaffName() + barberModel.getSalonId());
 
                                     RetrofitManager.getInstance().addNewBarber(barberModel, new AbstractCallback() {
 
@@ -430,10 +435,11 @@ public class SalonInformationFragment extends BaseFragment {
                                     barberModel = null;
                                 }
 
+                                UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+
                                 FragmentManager.showSalonDetailsFragment(model);
 
                                 FragmentManager.popBeforeCurrentVisibleFragment();
-
 
 
                             }
@@ -449,46 +455,49 @@ public class SalonInformationFragment extends BaseFragment {
         return rootView;
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
 
-        Bitmap selectedImage = null;
+        if (requestCode != Activity.RESULT_CANCELED) {
 
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap selectedImage = null;
 
-            selectedImage = (Bitmap) data.getExtras().get("data");
+            if (data != null) {
+                if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
 
-        } else {
+                    selectedImage = (Bitmap) data.getExtras().get("data");
 
-            final Uri imageUri = data.getData();
+                } else {
 
-            final InputStream imageStream;
+                    final Uri imageUri = data.getData();
 
-            try {
+                    final InputStream imageStream;
 
-                imageStream = ThisApplication.getCurrentActivity().getApplicationContext().getContentResolver().openInputStream(imageUri);
+                    try {
 
-                selectedImage = BitmapFactory.decodeStream(imageStream);
+                        imageStream = ThisApplication.getCurrentActivity().getApplicationContext().getContentResolver().openInputStream(imageUri);
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                        selectedImage = BitmapFactory.decodeStream(imageStream);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+                selectedImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+                base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                ((ImageView) rootView.findViewById(R.id.image)).setImageBitmap(selectedImage);
             }
         }
-
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        selectedImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-
-        base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-        ((ImageView) rootView.findViewById(R.id.image)).setImageBitmap(selectedImage);
-
     }
 
 

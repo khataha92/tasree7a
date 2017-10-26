@@ -147,22 +147,38 @@ public class AddGalleryFragment extends BaseFragment {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        final Uri imageUri = data.getData();
+        Bitmap yourSelectedImage = null;
 
-        InputStream imageStream = null;
-        try {
-            imageStream = ThisApplication.getCurrentActivity().getContentResolver().openInputStream(imageUri);
+        if (!(requestCode == Activity.RESULT_CANCELED)) {
+            if (data != null) {
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+                if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+
+                    yourSelectedImage = (Bitmap) data.getExtras().get("data");
+
+                    selectedImage.setImageBitmap(yourSelectedImage);
+
+                    base64Image = encodeTobase64(yourSelectedImage);
+                } else {
+
+                    final Uri imageUri = data.getData();
+
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = ThisApplication.getCurrentActivity().getContentResolver().openInputStream(imageUri);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+
+                    selectedImage.setImageBitmap(yourSelectedImage);
+
+                    base64Image = encodeTobase64(yourSelectedImage);
+                }
+            }
         }
-
-        Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-
-        selectedImage.setImageBitmap(yourSelectedImage);
-
-        base64Image = encodeTobase64(yourSelectedImage);
-
     }
 
 

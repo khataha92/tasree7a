@@ -1,5 +1,6 @@
 package com.tasree7a.Fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -92,7 +94,7 @@ public class AddNewSalonServiceFragment extends BaseFragment {
 
                             FragmentManager.popCurrentVisibleFragment();
 
-                         }
+                        }
                     }
                 });
 
@@ -152,22 +154,37 @@ public class AddNewSalonServiceFragment extends BaseFragment {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        final Uri imageUri = data.getData();
+        Bitmap yourSelectedImage = null;
+        if (!(requestCode == Activity.RESULT_CANCELED)) {
+            if (data != null) {
 
-        InputStream imageStream = null;
-        try {
-            imageStream = ThisApplication.getCurrentActivity().getContentResolver().openInputStream(imageUri);
+                    if (requestCode == CAMERA_REQUEST) {
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+                        yourSelectedImage = (Bitmap) data.getExtras().get("data");
+
+                        selectedImage.setImageBitmap(yourSelectedImage);
+
+                        base64Image = encodeTobase64(yourSelectedImage);
+                    } else {
+
+                    final Uri imageUri = data.getData();
+
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = ThisApplication.getCurrentActivity().getContentResolver().openInputStream(imageUri);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                     yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+
+                    selectedImage.setImageBitmap(yourSelectedImage);
+
+                    base64Image = encodeTobase64(yourSelectedImage);
+                }
+            }
         }
-
-        Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-
-        selectedImage.setImageBitmap(yourSelectedImage);
-
-        base64Image = encodeTobase64(yourSelectedImage);
-
     }
 
 

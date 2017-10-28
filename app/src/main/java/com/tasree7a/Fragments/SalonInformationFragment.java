@@ -455,7 +455,7 @@ public class SalonInformationFragment extends BaseFragment {
 
                     Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
                             "You have to Add 1 Barber at least",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -509,6 +509,13 @@ public class SalonInformationFragment extends BaseFragment {
                 ((ImageView) rootView.findViewById(R.id.image)).setImageBitmap(selectedImage);
             }
         }
+    }
+
+
+    @Override
+    public boolean onBackPressed() {
+
+        return false;
     }
 
 

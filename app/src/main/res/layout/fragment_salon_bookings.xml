@@ -36,20 +36,20 @@
             android:textColor="@color/APP_TEXT_COLOR"
             android:textSize="19.3sp"
             android:textStyle="bold" />
-        <View
-            android:layout_width="2dp"
-            android:layout_height="21.7dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="35.8dp"
-            android:layout_alignParentRight="true"
-            android:background="@color/APP_GREEN" />
-        <View
-            android:layout_width="21.7dp"
-            android:layout_height="2dp"
-            android:layout_marginRight="26dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:background="@color/APP_GREEN" />
+        <!--<View-->
+        <!--android:layout_width="2dp"-->
+        <!--android:layout_height="21.7dp"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginRight="35.8dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:background="@color/APP_GREEN" />-->
+        <!--<View-->
+        <!--android:layout_width="21.7dp"-->
+        <!--android:layout_height="2dp"-->
+        <!--android:layout_marginRight="26dp"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:background="@color/APP_GREEN" />-->
     </RelativeLayout>
 <RelativeLayout
     android:visibility="invisible"

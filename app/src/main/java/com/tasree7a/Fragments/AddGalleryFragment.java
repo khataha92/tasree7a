@@ -92,6 +92,63 @@ public class AddGalleryFragment extends BaseFragment {
             }
         });
 
+        initSaveButton();
+
+        initSelectedImage();
+
+        return rootView;
+    }
+
+
+    private void initSelectedImage() {
+
+        selectedImage.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //TODO: TEMP -> create option menu
+                AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
+
+                alertDialog.setTitle("Choose");
+
+                alertDialog.setMessage("choose your picture");
+
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                                startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
+
+                            }
+                        });
+
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                                startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
+
+                            }
+                        });
+
+                alertDialog.show();
+
+            }
+        });
+
+    }
+
+
+    private void initSaveButton() {
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -107,86 +164,51 @@ public class AddGalleryFragment extends BaseFragment {
 
                 UIUtils.showSweetLoadingDialog();
 
-                RetrofitManager.getInstance().updateSalonImages(model, new AbstractCallback() {
-
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
-
-                        if (isSuccess) {
-
-                            RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), new AbstractCallback() {
-
-                                @Override
-                                public void onResult(boolean isSuccess, Object result) {
-
-                                    salonModel = (SalonModel) result;
-                                }
-                            });
-
-                            if (!showG) {
-
-                                com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
-
-                            } else {
-
-                                com.tasree7a.Managers.FragmentManager.showFragmentGallery(salonModel, (ArrayList<ImageModel>) salonModel.getGallery(), null);
-                            }
-
-                            UIUtils.hideSweetLoadingDialog();
-
-                            if (callback != null) callback.onResult(true, result);
-
-                            GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>() {
-
-                            });
-
-                        }
-                    }
-                });
+                updateSalonImages(model);
 
             }
         });
+    }
 
 
-        selectedImage.setOnClickListener(new View.OnClickListener() {
+    private void updateSalonImages(UpdateSalonImagesRequestModel model) {
+
+        RetrofitManager.getInstance().updateSalonImages(model, new AbstractCallback() {
 
             @Override
-            public void onClick(View v) {
+            public void onResult(boolean isSuccess, Object result) {
 
+                if (isSuccess) {
 
-                //TODO: TEMP -> create option menu
-                AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
-                alertDialog.setTitle("Choose");
-                alertDialog.setMessage("choose your picture");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
-                        new DialogInterface.OnClickListener() {
+                    RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), new AbstractCallback() {
 
-                            public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onResult(boolean isSuccess, Object result) {
 
-                                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
+                            salonModel = (SalonModel) result;
+                        }
+                    });
 
-                            }
-                        });
+                    if (!showG) {
 
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
-                        new DialogInterface.OnClickListener() {
+                        com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
 
-                            public void onClick(DialogInterface dialog, int which) {
+                    } else {
 
-                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
+                        com.tasree7a.Managers.FragmentManager.showFragmentGallery(salonModel, (ArrayList<ImageModel>) salonModel.getGallery(), null);
+                    }
 
-                            }
-                        });
+                    UIUtils.hideSweetLoadingDialog();
 
-                alertDialog.show();
+                    if (callback != null) callback.onResult(true, result);
 
+                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>() {
+
+                    });
+
+                }
             }
         });
-
-        return rootView;
     }
 
 
@@ -240,54 +262,10 @@ public class AddGalleryFragment extends BaseFragment {
         }
     }
 
-//
-//    private boolean requstPermission() {
-//
-//        // Here, thisActivity is the current activity
-//        if (ContextCompat.checkSelfPermission(ThisApplication.getCurrentActivity().getApplicationContext(),
-//                Manifest.permission.READ_EXTERNAL_STORAGE)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(ThisApplication.getCurrentActivity(),
-//                    Manifest.permission.READ_CONTACTS)) {
-//
-//                return true;
-//
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//
-//            } else {
-//
-//                // No explanation needed, we can request the permission.
-//
-//                ActivityCompat.requestPermissions(ThisApplication.getCurrentActivity(),
-//                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                        1212);
-//
-//                if (ContextCompat.checkSelfPermission(ThisApplication.getCurrentActivity().getApplicationContext(),
-//                        Manifest.permission.READ_EXTERNAL_STORAGE)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//
-//                    return true;
-//
-//                }
-//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-//                // app-defined int constant. The callback method gets the
-//                // result of the request.
-//            }
-//        }
-//
-//        return false;
-//
-//    }
-
-
-    //
     public File getBitmapFile(Intent data) {
 
         Uri selectedImage = data.getData();
+
         Cursor cursor = ThisApplication.getCurrentActivity().getApplicationContext()
                 .getContentResolver()
                 .query(selectedImage,
@@ -299,7 +277,9 @@ public class AddGalleryFragment extends BaseFragment {
         cursor.moveToFirst();
 
         int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+
         String selectedImagePath = cursor.getString(idx);
+
         cursor.close();
 
         return new File(selectedImagePath);
@@ -310,12 +290,15 @@ public class AddGalleryFragment extends BaseFragment {
     public String encodeTobase64(Bitmap image) {
 
         Bitmap immagex = image;
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
         immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
         byte[] b = baos.toByteArray();
+
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
-        Log.e("LOOK", imageEncoded);
         return imageEncoded;
     }
 

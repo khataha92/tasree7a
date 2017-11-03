@@ -90,13 +90,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        FilterAndSortObservable.getInstance().addObserver(this);
-
-        PermissionGrantedObservable.getInstance().addObserver(this);
-
-        FavoriteChangeObservable.sharedInstance().addObserver(this);
-
-        LocationChangedObservable.sharedInstance().addObserver(this);
+        addObservables();
 
         topBar = (CustomTopBar) rootView.findViewById(R.id.top_bar);
 
@@ -114,122 +108,11 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         loadingView = rootView.findViewById(R.id.loading);
 
-        navHeader.findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
+        getUserFavouriteSalons();
 
-            @Override
-            public void onClick(View v) {
+        initTopBar();
 
-                if (!UserDefaultUtil.isFBUser())
-                    FragmentManager.showProfileFragment();
-
-            }
-        });
-
-        initLangButton();
-
-        if (!UserDefaultUtil.isBusinessUser()) {
-
-            RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
-
-                @Override
-                public void onResult(boolean isSuccess, Object result) {
-
-                    if (isSuccess && result != null) {
-
-                        List<SalonModel> salonModels = new ArrayList<>();
-
-                        for (FavoriteDetailsModel details : ((FavoriteResponseModel) result).getDetails()) {
-
-                            salonModels.add(details.getSalonModel());
-
-                        }
-
-                        UserDefaultUtil.saveFavoriteSalons(salonModels);
-
-                    }
-
-                }
-            });
-
-        }
-
-        if (UserDefaultUtil.getAppLanguage() == Language.AR)
-            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-
-        else
-            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-
-        nvView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                        int itemId = menuItem.getItemId();
-
-                        switch (itemId) {
-
-                            case R.id.bookings:
-
-                                FragmentManager.showFragmentBookingList();
-
-                                break;
-
-                            case R.id.map_view:
-
-                                FragmentManager.showMapViewFragment(SessionManager.getInstance().getSalons());
-
-                                break;
-
-                            case R.id.favorites:
-
-                                FilterAndSortManager.getInstance().getFilters().add(FilterType.FAVORITE);
-
-                                FilterAndSortObservable.getInstance().notifyFilterChanged();
-
-                                break;
-
-                            case R.id.sallons:
-
-                                FilterAndSortManager.getInstance().reset();
-
-                                FilterAndSortObservable.getInstance().notifyFilterChanged();
-
-                                break;
-
-                            case R.id.logout:
-
-                                UserDefaultUtil.logout();
-
-                                AccessToken.setCurrentAccessToken(null);
-
-                                startActivity(new Intent(getContext(), MainActivity.class));
-
-                                getActivity().finish();
-
-                                break;
-
-                            case R.id.settings:
-
-                                FragmentManager.showSettingsFragment();
-
-                                break;
-
-//                            case R.id.feedback:
-
-//                                FragmentManager.showFeedBackFragment();
-
-                            //FragmentManager.showFragmentSalonServices();
-
-//                                break;
-
-                        }
-
-                        nvDrawer.closeDrawers();
-
-                        return true;
-                    }
-                });
+        initSideMenue();
 
         showLoadingView();
 
@@ -238,6 +121,30 @@ public class HomeFragment extends BaseFragment implements Observer {
         params.width = width;
 
         nvView.setLayoutParams(params);
+
+        popularSallons = (RecyclerView) rootView.findViewById(R.id.popular_sallons);
+
+        popularSallons.setLayoutManager(new LinearLayoutManager(ThisApplication.getCurrentActivity()));
+
+        return rootView;
+
+    }
+
+
+    private void addObservables() {
+
+        FilterAndSortObservable.getInstance().addObserver(this);
+
+        PermissionGrantedObservable.getInstance().addObserver(this);
+
+        FavoriteChangeObservable.sharedInstance().addObserver(this);
+
+        LocationChangedObservable.sharedInstance().addObserver(this);
+
+    }
+
+
+    private void initTopBar() {
 
         topBar.setOnFirstIconClickListener(new View.OnClickListener() {
 
@@ -309,6 +216,23 @@ public class HomeFragment extends BaseFragment implements Observer {
             }
         });
 
+    }
+
+
+    private void initSideMenue() {
+
+        initProfileImage();
+
+        initLangButton();
+
+        initMenueItems();
+
+        initCloseButton();
+    }
+
+
+    private void initCloseButton() {
+
         closeDrawer.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -318,13 +242,88 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             }
         });
+    }
 
-        popularSallons = (RecyclerView) rootView.findViewById(R.id.popular_sallons);
 
-        popularSallons.setLayoutManager(new LinearLayoutManager(ThisApplication.getCurrentActivity()));
+    private void initProfileImage() {
 
-        return rootView;
+        navHeader.findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+
+                if (!UserDefaultUtil.isFBUser())
+                    FragmentManager.showProfileFragment();
+
+            }
+        });
+    }
+
+
+    private void initMenueItems() {
+
+        nvView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                        int itemId = menuItem.getItemId();
+
+                        switch (itemId) {
+
+                            case R.id.bookings:
+
+                                FragmentManager.showFragmentBookingList();
+
+                                break;
+
+                            case R.id.map_view:
+
+                                FragmentManager.showMapViewFragment(SessionManager.getInstance().getSalons());
+
+                                break;
+
+                            case R.id.favorites:
+
+                                FilterAndSortManager.getInstance().getFilters().add(FilterType.FAVORITE);
+
+                                FilterAndSortObservable.getInstance().notifyFilterChanged();
+
+                                break;
+
+                            case R.id.sallons:
+
+                                FilterAndSortManager.getInstance().reset();
+
+                                FilterAndSortObservable.getInstance().notifyFilterChanged();
+
+                                break;
+
+                            case R.id.logout:
+
+                                UserDefaultUtil.logout();
+
+                                AccessToken.setCurrentAccessToken(null);
+
+                                startActivity(new Intent(getContext(), MainActivity.class));
+
+                                getActivity().finish();
+
+                                break;
+
+                            case R.id.settings:
+
+                                FragmentManager.showSettingsFragment();
+
+                                break;
+                        }
+
+                        nvDrawer.closeDrawers();
+
+                        return true;
+                    }
+                });
     }
 
 
@@ -343,6 +342,12 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             }
         });
+
+        if (UserDefaultUtil.getAppLanguage() == Language.AR)
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        else
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
     }
 
@@ -555,6 +560,12 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         super.onDestroy();
 
+        removeObservables();
+    }
+
+
+    private void removeObservables() {
+
         FilterAndSortObservable.getInstance().deleteObserver(this);
 
         PermissionGrantedObservable.getInstance().deleteObserver(this);
@@ -571,6 +582,33 @@ public class HomeFragment extends BaseFragment implements Observer {
         super.onDetach();
 
         currentLocation = null;
+    }
+
+
+    public void getUserFavouriteSalons() {
+
+        if (!UserDefaultUtil.isBusinessUser()) {
+
+            RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
+
+                @Override
+                public void onResult(boolean isSuccess, Object result) {
+
+                    if (isSuccess && result != null) {
+
+                        List<SalonModel> salonModels = new ArrayList<>();
+
+                        for (FavoriteDetailsModel details : ((FavoriteResponseModel) result).getDetails()) {
+
+                            salonModels.add(details.getSalonModel());
+
+                        }
+
+                        UserDefaultUtil.saveFavoriteSalons(salonModels);
+                    }
+                }
+            });
+        }
     }
 
 

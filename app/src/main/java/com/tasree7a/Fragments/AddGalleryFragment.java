@@ -83,7 +83,6 @@ public class AddGalleryFragment extends BaseFragment {
 
         saveBtn = (CustomButton) rootView.findViewById(R.id.apply);
 
-
         rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
 
             @Override

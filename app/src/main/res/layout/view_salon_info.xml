@@ -84,8 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="17dp"
                 android:background="@drawable/shadow_bg"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/salon_name"
@@ -96,8 +95,7 @@
                     android:layout_marginTop="20dp"
                     android:hint="@string/SALON_NAME"
                     android:textColor="@color/APP_TEXT_COLOR"
-                    android:textColorHint="@color/APP_TEXT_COLOR"
-                    />
+                    android:textColorHint="@color/APP_TEXT_COLOR"/>
 
                 <EditText
                     android:id="@+id/owner_name"
@@ -108,8 +106,7 @@
                     android:layout_marginTop="20dp"
                     android:hint="@string/OWNER_NAME_PLACEHOLDER"
                     android:textColor="@color/APP_TEXT_COLOR"
-                    android:textColorHint="@color/APP_TEXT_COLOR"
-                    />
+                    android:textColorHint="@color/APP_TEXT_COLOR"/>
 
                 <EditText
                     android:id="@+id/email"
@@ -120,33 +117,7 @@
                     android:layout_marginTop="20dp"
                     android:hint="@string/EMAIL"
                     android:textColor="@color/APP_TEXT_COLOR"
-                    android:textColorHint="@color/APP_TEXT_COLOR"
-                    />
-
-                <!--<EditText-->
-                <!--android:id="@+id/currency"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="45dp"-->
-                <!--android:layout_marginLeft="25dp"-->
-                <!--android:layout_marginRight="25dp"-->
-                <!--android:layout_marginTop="20dp"-->
-                <!--android:drawableRight="@drawable/ic_dropdown_arrow"-->
-                <!--android:hint="@string/CURRENCY"-->
-                <!--android:textColor="@color/APP_TEXT_COLOR"-->
-                <!--android:textColorHint="@color/APP_TEXT_COLOR"-->
-                <!--/>-->
-
-                <EditText
-                    android:id="@+id/address"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginTop="20dp"
-                    android:hint="@string/ADDRESS"
-                    android:textColor="@color/APP_TEXT_COLOR"
-                    android:textColorHint="@color/APP_TEXT_COLOR"
-                    />
+                    android:textColorHint="@color/APP_TEXT_COLOR"/>
 
                 <EditText
                     android:id="@+id/mobile"
@@ -158,8 +129,65 @@
                     android:layout_marginTop="20dp"
                     android:hint="@string/MOBILE"
                     android:textColor="@color/APP_TEXT_COLOR"
-                    android:textColorHint="@color/APP_TEXT_COLOR"
-                    />
+                    android:textColorHint="@color/APP_TEXT_COLOR"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:text="@string/GENDER"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="19.3sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/MALE"
+                        android:textColor="@color/APP_TEXT_COLOR"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/FEMALE"
+                        android:textColor="@color/APP_TEXT_COLOR"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -169,8 +197,7 @@
                 android:layout_marginLeft="17dp"
                 android:text="@string/WORKING_DAYS"
                 android:textColor="@color/APP_TEXT_COLOR"
-                android:textSize="19.3sp"
-                />
+                android:textSize="19.3sp"/>
 
             <com.tasree7a.CustomComponent.CustomCheckableGroup
                 android:layout_width="match_parent"
@@ -178,8 +205,7 @@
                 android:layout_margin="17dp"
                 android:background="@drawable/shadow_bg"
                 android:gravity="center"
-                android:padding="9dp"
-                >
+                android:padding="9dp">
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
                     android:id="@+id/sat"
@@ -187,8 +213,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:customCheckboxText="@string/SAT"
-                    app:setChecked="true"
-                    />
+                    app:setChecked="true"/>
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
                     android:id="@+id/sun"
@@ -196,8 +221,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:customCheckboxText="@string/SUN"
-                    app:setChecked="true"
-                    />
+                    app:setChecked="true"/>
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
                     android:id="@+id/mon"
@@ -205,8 +229,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:customCheckboxText="@string/MON"
-                    app:setChecked="false"
-                    />
+                    app:setChecked="false"/>
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
                     android:id="@+id/tue"
@@ -214,8 +237,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:customCheckboxText="@string/TUE"
-                    app:setChecked="true"
-                    />
+                    app:setChecked="true"/>
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
                     android:id="@+id/wed"
@@ -223,8 +245,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:customCheckboxText="@string/WED"
-                    app:setChecked="true"
-                    />
+                    app:setChecked="true"/>
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
                     android:id="@+id/thu"
@@ -232,8 +253,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:customCheckboxText="@string/THU"
-                    app:setChecked="true"
-                    />
+                    app:setChecked="true"/>
 
                 <com.tasree7a.CustomComponent.CircularCheckBox
                     android:id="@+id/fri"
@@ -241,8 +261,7 @@
                     android:layout_height="32dp"
                     android:layout_marginLeft="6dp"
                     app:customCheckboxText="@string/FRI"
-                    app:setChecked="true"
-                    />
+                    app:setChecked="true"/>
 
             </com.tasree7a.CustomComponent.CustomCheckableGroup>
 
@@ -252,8 +271,7 @@
                 android:layout_marginLeft="17dp"
                 android:text="@string/OPENING_HOURS"
                 android:textColor="@color/APP_TEXT_COLOR"
-                android:textSize="19.3sp"
-                />
+                android:textSize="19.3sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -262,8 +280,7 @@
                 android:background="@drawable/shadow_bg"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="9dp"
-                >
+                android:padding="9dp">
 
                 <TextView
                     android:id="@+id/from_hours"
@@ -274,16 +291,14 @@
                     android:gravity="center"
                     android:text="10:00 AM"
                     android:textColor="@color/WHITE"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-"
                     android:textColor="@color/APP_BLACK"
-                    android:textSize="20sp"
-                    />
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/to_hours"
@@ -294,8 +309,7 @@
                     android:gravity="center"
                     android:text="11:00 PM"
                     android:textColor="@color/WHITE"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp"/>
 
             </LinearLayout>
 
@@ -306,14 +320,12 @@
                 android:text="@string/STAFF"
                 android:textColor="@color/APP_TEXT_COLOR"
                 android:textSize="19.3sp"
-                android:visibility="gone"
-                />
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="17dp"
-                >
+                android:layout_margin="17dp">
 
                 <com.tasree7a.CustomComponent.SalonStaffContainer
                     android:id="@+id/salon_staff_container"

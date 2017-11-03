@@ -40,12 +40,21 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
 
     List<BookingModel> bookingModels = new ArrayList<>();
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_salon_bookings, container, false);
-//fragment_bookings
+
+        rootView.findViewById(R.id.add_booking).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.showBookNowFragment();
+            }
+        });
         bookingList = (RecyclerView) rootView.findViewById(R.id.bookings_list);
 
         bookingList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -65,14 +74,15 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
         showLoadingView();
 
         RetrofitManager.getInstance().getUserBookings(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
+
             @Override
             public void onResult(boolean isSuccess, Object result) {
 
                 hideLoadingView();
 
-                if(isSuccess){
+                if (isSuccess) {
 
-                    bookingModels = ((UserBookingsResponse)result).getUserBookings();
+                    bookingModels = ((UserBookingsResponse) result).getUserBookings();
 
                     initBookings();
 
@@ -85,17 +95,20 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
 
     }
 
-    private void showLoadingView(){
+
+    private void showLoadingView() {
 
         rootView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
     }
 
-    private void hideLoadingView(){
+
+    private void hideLoadingView() {
 
         rootView.findViewById(R.id.loading).setVisibility(View.GONE);
 
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,17 +123,20 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
         super.onViewCreated(view, savedInstanceState);
     }
 
+
     @Override
     public int getFactoryId() {
+
         return 0;
     }
+
 
     @Override
     public ArrayList<BaseCardModel> getCardModels() {
 
         ArrayList<BaseCardModel> baseCardModels = new ArrayList<>();
 
-        for (int i = 0; i < bookingModels.size(); i++){
+        for (int i = 0; i < bookingModels.size(); i++) {
 
             BaseCardModel cardModel = new BaseCardModel();
 
@@ -135,6 +151,7 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
         return baseCardModels;
     }
 
+
     private void initBookings() {
 
         BaseCardAdapter adapter = new BaseCardAdapter(getCardModels());
@@ -142,18 +159,24 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
         bookingList.setAdapter(adapter);
     }
 
+
     @Override
     public RecyclerView getRecyclerView() {
+
         return null;
     }
+
 
     @Override
     public CardsRecyclerAdapter getCardsAdapter() {
+
         return null;
     }
 
+
     @Override
     public View getRootView() {
+
         return null;
     }
 }

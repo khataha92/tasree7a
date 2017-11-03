@@ -52,11 +52,13 @@ public class FragmentManager {
 
     private static ArrayList<BaseFragment> currentFragments = new ArrayList<>();
 
-    public static boolean isLastFragment(){
+
+    public static boolean isLastFragment() {
 
         return currentFragments.size() == 1;
 
     }
+
 
     public static BaseFragment getCurrentVisibleFragment() {
 
@@ -415,6 +417,7 @@ public class FragmentManager {
 
     }
 
+
     public static void popBeforeCurrentVisibleFragment() {
 
         int index = currentFragments.size() - 2;
@@ -446,6 +449,7 @@ public class FragmentManager {
 
         }
     }
+
 
     // Gets the first fragment in current fragments list that's matches the same class provided
     public static <BF extends BaseFragment> BF getFragmentFromTheStack(Class<BF> fragmentClass) {
@@ -541,9 +545,11 @@ public class FragmentManager {
     }
 
 
-    public static void showSalonInfoFragment() {
+    public static void showSalonInfoFragment(boolean shouldPopFragment) {
 
         SalonInformationFragment fragment = new SalonInformationFragment();
+
+        fragment.setShouldPopFragment(shouldPopFragment);
 
         replaceFragment(fragment, true);
 
@@ -555,6 +561,7 @@ public class FragmentManager {
         showAddNewStaffFragment(null, abstractCallback);
 
     }
+
 
     public static void showAddNewStaffFragment(SalonModel salonModel, AbstractCallback abstractCallback) {
 
@@ -570,7 +577,7 @@ public class FragmentManager {
     }
 
 
-    public static void showAddGalleryItemFragment(SalonModel salon ,AbstractCallback callback) {
+    public static void showAddGalleryItemFragment(SalonModel salon, AbstractCallback callback) {
 
         AddGalleryFragment fragment = new AddGalleryFragment();
 

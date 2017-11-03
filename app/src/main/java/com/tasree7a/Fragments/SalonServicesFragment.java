@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by SamiKhleaf on 10/24/17.
+ *
  */
 
 public class SalonServicesFragment extends BaseFragment {
@@ -36,6 +37,16 @@ public class SalonServicesFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.salon_services_fragment, container, false);
+
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.popCurrentVisibleFragment();
+
+            }
+        });
 
         addServices = (TextView) rootView.findViewById(R.id.add_delete);
 

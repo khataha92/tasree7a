@@ -37,7 +37,8 @@ public class HomeActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-        ThisApplication.getCurrentActivity().finishAffinity();
+        if(ThisApplication.getCurrentActivity() != null)
+            ThisApplication.getCurrentActivity().finishAffinity();
 
         ThisApplication.setCurrentActivity(this);
 
@@ -90,7 +91,7 @@ public class HomeActivity extends FragmentActivity {
 
                 findViewById(R.id.loading).setVisibility(View.GONE);
 
-                FragmentManager.showSalonInfoFragment();
+                FragmentManager.showSalonInfoFragment(true);
 
             }
         }

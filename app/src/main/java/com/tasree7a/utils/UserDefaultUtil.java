@@ -3,6 +3,7 @@ package com.tasree7a.utils;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.common.base.Strings;
 import com.google.common.reflect.TypeToken;
@@ -62,6 +63,20 @@ public class UserDefaultUtil {
             setStringValue(UserDefaultKeys.LOGIN_USER_MODEL.toString(), new Gson().toJson(user));
 
         }
+
+    }
+
+
+    public static SalonModel getCurrentSalonUser() {
+
+        return new Gson().fromJson(getStringValue(UserDefaultKeys.SALON_USER_MODEL.toString()), SalonModel.class);
+
+    }
+
+
+    public static void setCurrentSalonUser(SalonModel salon) {
+
+        setStringValue(UserDefaultKeys.SALON_USER_MODEL.toString(), new Gson().toJson(salon));
 
     }
 
@@ -128,6 +143,9 @@ public class UserDefaultUtil {
 
     public static void removeSalonFromFavorite(SalonModel salonModel) {
 
+
+        favoriteSalons = getFavoriteSalons();
+
         for (int i = 0; i < favoriteSalons.size(); i++) {
 
             if (favoriteSalons.get(i).getId().equalsIgnoreCase(salonModel.getId())) {
@@ -138,7 +156,7 @@ public class UserDefaultUtil {
             }
         }
 
-        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getCurrentUser().getUserId(), UserFavoriteAction.DELETE.value, new AbstractCallback() {
+        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getCurrentUser().getId(), UserFavoriteAction.DELETE.value, new AbstractCallback() {
 
             @Override
             public void onResult(boolean isSuccess, Object result) {
@@ -151,7 +169,7 @@ public class UserDefaultUtil {
     }
 
 
-    static List<SalonModel> favoriteSalons;
+    static List<SalonModel> favoriteSalons = new ArrayList<>();
 
 
     public static void addSalonToFavorite(SalonModel salonModel) {
@@ -170,12 +188,12 @@ public class UserDefaultUtil {
 
         favoriteSalons.add(salonModel);
 
-        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getCurrentUser().getUserId(), UserFavoriteAction.ADD.value, new AbstractCallback() {
+        RetrofitManager.getInstance().changeSalonToUserFavorite(salonModel.getId(), getCurrentUser().getId(), UserFavoriteAction.ADD.value, new AbstractCallback() {
 
             @Override
             public void onResult(boolean isSuccess, Object result) {
 
-                setStringValue(UserDefaultKeys.FAVORITE_SALONS.getValue(), new Gson().toJson(favoriteSalons));
+                saveFavoriteSalons(favoriteSalons);
 
             }
         });
@@ -335,6 +353,8 @@ public class UserDefaultUtil {
 
 
     public static void saveUser(User user) {
+
+        setIsFBUser(user.isFacebook());
 
         setStringValue(UserDefaultKeys.CURRENT_USER.getValue(), new Gson().toJson(user));
 

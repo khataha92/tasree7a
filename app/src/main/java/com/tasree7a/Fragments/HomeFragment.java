@@ -119,7 +119,8 @@ public class HomeFragment extends BaseFragment implements Observer {
             @Override
             public void onClick(View v) {
 
-                FragmentManager.showProfileFragment();
+                if (!UserDefaultUtil.isFBUser())
+                    FragmentManager.showProfileFragment();
 
             }
         });
@@ -474,41 +475,50 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             List<FilterType> filterTypes = FilterAndSortManager.getInstance().getFilters();
 
-            boolean isMale = FilterAndSortManager.getInstance().getSalonType() == Gender.MALE ? true : false;
+            if (filterTypes.contains(FilterType.FAVORITE)) {
 
-            List<SalonModel> allSalons = SessionManager.getInstance().getSalons();
+                filteredSalons = UserDefaultUtil.getFavoriteSalons();
 
-            for (int i = 0; i < allSalons.size(); i++) {
+                popularSallons.getAdapter().notifyDataSetChanged();
 
-                boolean shouldContain = true;
+            } else {
 
-                for (int j = 0; j < filterTypes.size(); j++) {
+                boolean isMale = FilterAndSortManager.getInstance().getSalonType() == Gender.MALE ? true : false;
 
-                    if (!allSalons.get(i).filterValue(filterTypes.get(j))) {
+                List<SalonModel> allSalons = SessionManager.getInstance().getSalons();
+
+                for (int i = 0; i < allSalons.size(); i++) {
+
+                    boolean shouldContain = true;
+
+                    for (int j = 0; j < filterTypes.size(); j++) {
+
+                        if (!allSalons.get(i).filterValue(filterTypes.get(j))) {
+
+                            shouldContain = false;
+
+                            break;
+
+                        }
+                    }
+
+                    if (shouldContain && (isMale && allSalons.get(i).getSalonType() == Gender.MALE) || (!isMale && allSalons.get(i).getSalonType() == Gender.FEMALE)) {
+
+                        shouldContain = true;
+
+                    } else {
 
                         shouldContain = false;
 
                         break;
 
                     }
-                }
 
-                if (shouldContain && (isMale && allSalons.get(i).getSalonType() == Gender.MALE) || (!isMale && allSalons.get(i).getSalonType() == Gender.FEMALE)) {
+                    if (shouldContain) {
 
-                    shouldContain = true;
+                        filteredSalons.add(allSalons.get(i));
 
-                } else {
-
-                    shouldContain = false;
-
-                    break;
-
-                }
-
-                if (shouldContain) {
-
-                    filteredSalons.add(allSalons.get(i));
-
+                    }
                 }
             }
 

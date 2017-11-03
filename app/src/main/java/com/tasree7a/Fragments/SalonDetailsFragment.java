@@ -19,8 +19,10 @@ import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.tasree7a.Adapters.BaseCardAdapter;
 import com.tasree7a.Adapters.CardsRecyclerAdapter;
+import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.Enums.CardFactory;
 import com.tasree7a.Enums.CardType;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
@@ -32,8 +34,10 @@ import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.Observables.MenuIconClickedObservable;
 import com.tasree7a.R;
+import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
@@ -80,6 +84,14 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         closeDrawer = (ImageView) nvView.getHeaderView(0).findViewById(R.id.close_menu);
 
+        closeDrawer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                nvDrawer.closeDrawers();
+            }
+        });
         int width = (int) (getResources().getDisplayMetrics().widthPixels / 1.5);
 
         DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) nvView.getLayoutParams();
@@ -112,6 +124,26 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
             nvDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
+
+
+        navHeader.findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.showProfileFragment();
+
+            }
+        });
+
+        initLangButton();
+
+
+        if (UserDefaultUtil.getAppLanguage() == Language.AR)
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        else
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -171,25 +203,33 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         if (UserDefaultUtil.getCurrentUser().isBusiness() && (Integer.parseInt(UserDefaultUtil.getCurrentUser().getId()) == -1)) {
 
-            FragmentManager.showSalonInfoFragment();
+            FragmentManager.showSalonInfoFragment(true);
 
         }
-//
-//        if (salonModel.getSalonBarbers() == null || salonModel.getSalonBarbers().size() == 0) {
-//
-//            FragmentManager.showAddNewStaffFragment(salonModel, new AbstractCallback() {
-//
-//                @Override
-//                public void onResult(boolean isSuccess, Object result) {
-//
-//                    Log.d("LEFFF", "issuccess: " + isSuccess + " result: " + new Gson().toJson(result));
-//
-//                }
-//            });
-//
-//        }
 
         return rootView;
+
+    }
+
+
+    CustomSwitch langSwitch;
+
+
+    private void initLangButton() {
+
+        langSwitch = (CustomSwitch) navHeader.findViewById(R.id.switch_item);
+
+        langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
+
+        langSwitch.setAction(new Runnable() {
+
+            @Override
+            public void run() {
+
+                UIUtils.showConfirmLanguageChangeDialog(langSwitch);
+
+            }
+        });
 
     }
 
@@ -265,6 +305,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
                     salonDetails.getAdapter().notifyDataSetChanged();
 
+                    UserDefaultUtil.setCurrentSalonUser(salonModel);
+
                 }
 
                 hideLoadingView();
@@ -272,6 +314,10 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
             }
 
         });
+
+        if (UserDefaultUtil.isBusinessUser()) {
+
+        }
     }
 
 

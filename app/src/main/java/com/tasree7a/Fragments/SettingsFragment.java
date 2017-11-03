@@ -15,6 +15,7 @@ import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 import com.twitter.sdk.android.core.models.User;
 
+import static android.view.View.GONE;
 import static com.tasree7a.utils.UserDefaultUtil.getUserLanguage;
 import static com.tasree7a.utils.UserDefaultUtil.isAppLanguageArabic;
 
@@ -46,25 +47,44 @@ public class SettingsFragment extends BaseFragment {
 
         //TODO: When font are ready
 
-//        ((TextView)rootView.findViewById(R.id.language_tv)).setTypeface(FontUtil.heavy());
-//        ((TextView)rootView.findViewById(R.id.notifications_tv)).setTypeface(FontUtil.heavy());
-//        ((TextView)rootView.findViewById(R.id.password_tv)).setTypeface(FontUtil.heavy());
-//
-//        ((TextView)rootView.findViewById(R.id.notification_book_text)).setTypeface(FontUtil.book());
-//        ((TextView)rootView.findViewById(R.id.notification_fav_text)).setTypeface(FontUtil.book());
-
         initLanguageSwitch();
 
         initPassView();
 
+        initInfoView();
+
         return rootView;
     }
 
+
+    private void initInfoView() {
+
+        if (!UserDefaultUtil.isBusinessUser())
+            rootView.findViewById(R.id.info_cont).setVisibility(GONE);
+
+        else {
+
+            rootView.findViewById(R.id.change_info_btn).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    //TODO: Add Existing data
+                    FragmentManager.showSalonInfoFragment(false);
+
+                }
+            });
+
+        }
+
+    }
+
+
     private void initPassView() {
 
-        if (UserDefaultUtil.isFBUser()){
+        if (UserDefaultUtil.isFBUser()) {
 
-            rootView.findViewById(R.id.pass_container).setVisibility(View.GONE);
+            rootView.findViewById(R.id.pass_container).setVisibility(GONE);
 
             return;
         }
@@ -78,7 +98,6 @@ public class SettingsFragment extends BaseFragment {
 
             }
         });
-
 
 
     }

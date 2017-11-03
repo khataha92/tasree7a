@@ -57,6 +57,7 @@ public abstract class BaseFragment extends Fragment {
 
         if (FragmentManager.getCurrentVisibleFragment() instanceof HomeFragment){
 
+            if(ThisApplication.getCurrentActivity() != null)
             ThisApplication.getCurrentActivity().finishAffinity();
 
         } else {

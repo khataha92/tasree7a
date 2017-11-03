@@ -1,10 +1,12 @@
 package com.tasree7a.Fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,9 +36,13 @@ import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import id.zelory.compressor.Compressor;
 
 /**
  * Created by SamiKhleaf on 10/23/17.
@@ -194,6 +202,7 @@ public class AddGalleryFragment extends BaseFragment {
         Bitmap yourSelectedImage = null;
 
         if (!(requestCode == Activity.RESULT_CANCELED)) {
+
             if (data != null) {
 
                 if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -203,29 +212,102 @@ public class AddGalleryFragment extends BaseFragment {
                     selectedImage.setImageBitmap(yourSelectedImage);
 
                     base64Image = encodeTobase64(yourSelectedImage);
+
                 } else {
 
-                    final Uri imageUri = data.getData();
+                    File file = getBitmapFile(data);
 
-                    InputStream imageStream = null;
                     try {
-                        imageStream = ThisApplication.getCurrentActivity().getContentResolver().openInputStream(imageUri);
 
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                        Bitmap compressedImageFile = new Compressor(ThisApplication.getCurrentActivity().getApplicationContext())
+                                .setQuality(75)
+                                .setMaxWidth(640)
+                                .setMaxHeight(480)
+                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                                .compressToBitmap(file);
+
+
+                        selectedImage.setImageBitmap(compressedImageFile);
+
+                        base64Image = encodeTobase64(compressedImageFile);
+
+                    } catch (IOException e) {
+                        Log.e("EXCEPTION", "Error: ", e);
                     }
 
-                    yourSelectedImage = BitmapFactory.decodeStream(imageStream);
 
-                    selectedImage.setImageBitmap(yourSelectedImage);
-
-                    base64Image = encodeTobase64(yourSelectedImage);
                 }
             }
         }
     }
 
+//
+//    private boolean requstPermission() {
+//
+//        // Here, thisActivity is the current activity
+//        if (ContextCompat.checkSelfPermission(ThisApplication.getCurrentActivity().getApplicationContext(),
+//                Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(ThisApplication.getCurrentActivity(),
+//                    Manifest.permission.READ_CONTACTS)) {
+//
+//                return true;
+//
+//                // Show an explanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//
+//            } else {
+//
+//                // No explanation needed, we can request the permission.
+//
+//                ActivityCompat.requestPermissions(ThisApplication.getCurrentActivity(),
+//                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                        1212);
+//
+//                if (ContextCompat.checkSelfPermission(ThisApplication.getCurrentActivity().getApplicationContext(),
+//                        Manifest.permission.READ_EXTERNAL_STORAGE)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//
+//                    return true;
+//
+//                }
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//        }
+//
+//        return false;
+//
+//    }
 
+
+    //
+    public File getBitmapFile(Intent data) {
+
+        Uri selectedImage = data.getData();
+        Cursor cursor = ThisApplication.getCurrentActivity().getApplicationContext()
+                .getContentResolver()
+                .query(selectedImage,
+                        new String[]{android.provider.MediaStore.Images.ImageColumns.DATA},
+                        null,
+                        null,
+                        null);
+
+        cursor.moveToFirst();
+
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        String selectedImagePath = cursor.getString(idx);
+        cursor.close();
+
+        return new File(selectedImagePath);
+    }
+
+
+    //
     public String encodeTobase64(Bitmap image) {
 
         Bitmap immagex = image;
@@ -249,6 +331,8 @@ public class AddGalleryFragment extends BaseFragment {
 
 
     boolean showG = false;
+
+
     public void showGallaryFragment(boolean b) {
 
         showG = b;

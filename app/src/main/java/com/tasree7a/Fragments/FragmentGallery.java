@@ -93,7 +93,8 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
         changeItems = (ImageView) rootView.findViewById(R.id.change_items);
 
-        changeItems.setVisibility(View.GONE);
+        if (!UserDefaultUtil.isBusinessUser())
+            changeItems.setVisibility(View.GONE);
 
         Bundle args = getArguments();
 

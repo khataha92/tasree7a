@@ -348,7 +348,8 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
         }
 
-        ThisApplication.getCurrentActivity().finishAffinity();
+        if (ThisApplication.getCurrentActivity() != null)
+            ThisApplication.getCurrentActivity().finishAffinity();
 
     }
 

@@ -13,12 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.tasree7a.Enums.Sizes;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.ReservationSessionManager;
+import com.tasree7a.Models.Login.User;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.utils.UIUtils;
@@ -57,15 +59,27 @@ public class ProfileFragment extends BaseFragment {
         });
 
         ImageView image = (ImageView) rootView.findViewById(R.id.profpic);
-//
-//        if (UserDefaultUtil.isFBUser()) {
-//
-//            image.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//
-//        }
 
-        UIUtils.loadUrlIntoImageView(ReservationSessionManager.getInstance().getFbImage(),image, Sizes.LARGE);
+        if (UserDefaultUtil.isFBUser()) {
 
+            UIUtils.loadUrlIntoImageView(ReservationSessionManager.getInstance().getFbImage(), image, Sizes.LARGE);
+
+        } else {
+
+            UIUtils.loadUrlIntoImageView(UserDefaultUtil.getCurrentUser().getImageUrl(), image, Sizes.LARGE);
+
+        }
+
+
+        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.popCurrentVisibleFragment();
+            }
+
+        });
         rootView.findViewById(R.id.profile_image_cont).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -77,6 +91,7 @@ public class ProfileFragment extends BaseFragment {
                 alertDialog.setMessage("choose your picture");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
                         new DialogInterface.OnClickListener() {
+
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -86,11 +101,12 @@ public class ProfileFragment extends BaseFragment {
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
                         new DialogInterface.OnClickListener() {
+
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
+                                startActivityForResult(pickPhoto, 1);//one can be replaced with any action code
 
                             }
                         });
@@ -99,6 +115,15 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
+        String name = UserDefaultUtil.getCurrentUser().getFirstName()
+                + " "
+                + UserDefaultUtil.getCurrentUser().getLastName();
+
+        ((EditText) rootView.findViewById(R.id.input_full_name))
+                .setText(name);
+
+        ((EditText) rootView.findViewById(R.id.input_email))
+                .setText(UserDefaultUtil.getCurrentUser().getEmail());
 
         return rootView;
     }
@@ -111,6 +136,7 @@ public class ProfileFragment extends BaseFragment {
 
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -119,7 +145,7 @@ public class ProfileFragment extends BaseFragment {
 
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
+                startActivityForResult(pickPhoto, 1);//one can be replaced with any action code
 
                 return true;
 

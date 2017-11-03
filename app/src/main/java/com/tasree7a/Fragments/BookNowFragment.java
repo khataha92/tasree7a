@@ -21,6 +21,7 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UIUtils;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.Observer;
  * Created by mac on 9/17/17.
  */
 
-public class BookNowFragment extends BaseFragment implements Observer{
+public class BookNowFragment extends BaseFragment implements Observer {
 
     @Nullable
     @Override
@@ -39,19 +40,22 @@ public class BookNowFragment extends BaseFragment implements Observer{
 
         ServicesTotalChangeObservable.sharedInstance().addObserver(this);
 
-        rootView = LayoutInflater.from(getContext()).inflate(R.layout.view_book_now,null);
+        rootView = LayoutInflater.from(getContext()).inflate(R.layout.view_book_now, null);
 
         UIUtils.showLoadingView(rootView, this);
 
         final RecyclerView salonService = (RecyclerView) rootView.findViewById(R.id.services_list);
 
-        salonService.setLayoutManager(new GridLayoutManager(getContext(),2));
+        salonService.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        RetrofitManager.getInstance().getSalonServices(ReservationSessionManager.getInstance().getSalonModel().getId(), new AbstractCallback() {
+        RetrofitManager.getInstance().getSalonServices(UserDefaultUtil.isBusinessUser()
+                ? UserDefaultUtil.getCurrentSalonUser().getId()
+                : ReservationSessionManager.getInstance().getSalonModel().getId(), new AbstractCallback() {
+
             @Override
             public void onResult(boolean isSuccess, Object result) {
 
-                if(isSuccess) {
+                if (isSuccess) {
 
                     List<SalonService> salonServices = ((SalonServicesResponse) result).getServices();
 
@@ -65,16 +69,16 @@ public class BookNowFragment extends BaseFragment implements Observer{
         });
 
 
-
         //salonService.setAdapter(new SalonServicesAdapter(salonServices));
 
         View schedule = rootView.findViewById(R.id.schedule);
 
         schedule.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
-                if(ReservationSessionManager.getInstance().getSelectedServices().isEmpty()) {
+                if (ReservationSessionManager.getInstance().getSelectedServices().isEmpty()) {
 
                     String message = getString(R.string.ERROR_EMPTY_SERVICE);
 
@@ -90,6 +94,7 @@ public class BookNowFragment extends BaseFragment implements Observer{
         });
 
         rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -99,6 +104,7 @@ public class BookNowFragment extends BaseFragment implements Observer{
         });
 
         rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -110,24 +116,27 @@ public class BookNowFragment extends BaseFragment implements Observer{
         return rootView;
     }
 
+
     @Override
     public void onDetach() {
+
         super.onDetach();
 
         ServicesTotalChangeObservable.sharedInstance().deleteObserver(this);
 
     }
 
+
     @Override
     public void update(Observable o, Object arg) {
 
-        if(o instanceof ServicesTotalChangeObservable){
+        if (o instanceof ServicesTotalChangeObservable) {
 
             double total = (double) arg;
 
             String strTotal = getString(R.string.TOTAL);
 
-            ((TextView) rootView.findViewById(R.id.total)).setText(strTotal + ": $" +total);
+            ((TextView) rootView.findViewById(R.id.total)).setText(strTotal + ": $" + total);
 
             ReservationSessionManager.getInstance().setTotal(total);
 

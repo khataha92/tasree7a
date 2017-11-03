@@ -14,9 +14,11 @@ import com.tasree7a.Fragments.AddStaffMemberFragment;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.AddNewStaffMemberDataModel;
 import com.tasree7a.Models.Barber;
+import com.tasree7a.Models.SalonDetails.SalonBarber;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ import java.util.List;
 public class SalonStaffContainer extends LinearLayout {
 
     List<AddNewStaffMemberDataModel> barbers = new ArrayList<>();
+
+    List<SalonBarber> salonBarbers = new ArrayList<>();
 
     LinearLayout itemsContainer;
 
@@ -69,6 +73,24 @@ public class SalonStaffContainer extends LinearLayout {
         if (isInEditMode()) return;
 
         itemsContainer = (LinearLayout) rootView.findViewById(R.id.items_container);
+
+        salonBarbers = UserDefaultUtil.getCurrentSalonUser().getSalonBarbers();
+
+        if (salonBarbers.size() != 0) {
+
+            AddNewStaffMemberDataModel temp = new AddNewStaffMemberDataModel();
+
+            for (SalonBarber barber : salonBarbers) {
+
+                temp.setStaffName(barber.getBarberFirstName() + " " + barber.getBarberLastName());
+
+                temp.setStaffEmail(barber.getEmail());
+
+                addNewItem(temp);
+            }
+
+        }
+
 
         LinearLayout addStaffItem = (LinearLayout) rootView.findViewById(R.id.add_staff);
 

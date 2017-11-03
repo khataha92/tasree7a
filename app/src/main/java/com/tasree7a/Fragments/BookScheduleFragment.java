@@ -157,7 +157,7 @@ public class BookScheduleFragment extends BaseFragment {
 
                             localDate = (LocalDate) result;
 
-                            ((TextView) v).setText(localDate.toString());
+                            ((TextView) rootView.findViewById(R.id.select_checkin_date)).setText(localDate.toString());
 
                             getAvailableTimeOnDate(localDate.toString());
 

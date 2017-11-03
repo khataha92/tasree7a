@@ -44,13 +44,17 @@ android {
         abortOnError false
     }
 
-    signingConfigs{
-        release{
+    signingConfigs {
+        release {
             storeFile file("tasree7a.jks")
             storePassword "test123"
             keyAlias "TEST"
             keyPassword "test123"
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
     }
 
     buildTypes {
@@ -71,7 +75,7 @@ android {
 
     dexOptions {
 
-     preDexLibraries = preDexEnabled && !travisBuild
+        preDexLibraries = preDexEnabled && !travisBuild
     }
 
 }
@@ -81,6 +85,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     compile('com.twitter.sdk.android:tweet-composer:2.3.1@aar') {
         transitive = true;
     }
@@ -111,5 +116,6 @@ dependencies {
     compile 'net.danlew:android.joda:2.9.2'
     compile 'com.android.support:percent:25.2.0'
     compile 'com.github.drawers:SpinnerDatePicker:0.0.7'
+    compile 'id.zelory:compressor:2.1.0'
     testCompile 'junit:junit:4.12'
 }

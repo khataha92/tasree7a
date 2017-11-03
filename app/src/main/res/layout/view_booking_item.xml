@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/WHITE"
-        android:paddingBottom="30dp"
-        >
+        android:paddingBottom="30dp">
 
         <TextView
             android:id="@+id/booking_id_label"
@@ -42,8 +41,7 @@
             android:background="@color/APP_GREEN"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="-0dp"
-            >
+            android:layout_marginTop="-0dp">
 
             <ImageView
                 android:layout_width="16.3dp"
@@ -52,16 +50,15 @@
                 android:layout_marginRight="2.3dp"
                 android:layout_marginTop="8.7dp"
                 android:layout_marginBottom="11.7dp"
-                android:src="@drawable/accepted"
+                android:src="@drawable/accepted"/>
 
-                />
             <RelativeLayout
                 android:id="@+id/rlv2"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:layout_marginTop="-8dp"
-                android:background="@drawable/triangle"
-                />
+                android:background="@drawable/triangle"/>
+
         </LinearLayout>
 
         <TextView

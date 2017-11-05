@@ -6,6 +6,17 @@
                 android:layout_height="wrap_content"
                 android:background="@color/WHITE">
 
+
+    <ImageView
+        android:id="@+id/add_to_favorite"
+        android:layout_width="35.3dp"
+        android:layout_height="32.3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="17.3dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_favorite_unchecked"/>
+
     <ImageView
         android:id="@+id/salon_image"
         android:layout_width="match_parent"
@@ -21,22 +32,13 @@
         android:id="@+id/back"
         android:layout_width="21.3dp"
         android:layout_height="31.7dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="17.3dp"
-        android:padding="5dp"
-        android:src="@drawable/ic_back"
-        android:tint="@color/APP_GREEN"/>
-
-    <ImageView
-        android:id="@+id/add_to_favorite"
-        android:layout_width="35.3dp"
-        android:layout_height="32.3dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="13dp"
         android:layout_marginTop="17.3dp"
         android:padding="5dp"
-        android:src="@drawable/ic_favorite_unchecked"/>
+        android:rotation="180"
+        android:src="@drawable/ic_back"
+        android:tint="@color/APP_GREEN"/>
 
     <RelativeLayout
         android:id="@+id/bookNow"

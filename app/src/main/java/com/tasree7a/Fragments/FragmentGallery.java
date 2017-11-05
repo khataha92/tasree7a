@@ -93,6 +93,63 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
         changeItems = (ImageView) rootView.findViewById(R.id.change_items);
 
+        extractArgumentsData();
+
+        initChangeItemsVeiw();
+
+        addObservers();
+
+        initAdapter();
+
+        initGalleryRecycler();
+
+        initBackButton();
+
+        return rootView;
+    }
+
+
+    private void initBackButton() {
+
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.popCurrentVisibleFragment();
+
+            }
+        });
+    }
+
+
+    private void initGalleryRecycler() {
+
+        gallery.addItemDecoration(new SpacesItemDecoration(UIUtils.dpToPx(7)));
+
+        gallery.setAdapter(adapter);
+    }
+
+
+    private void initAdapter() {
+
+        adapter = new GalleryAdapter();
+
+        adapter.setImageModels(imageModelList);
+
+        if (isProduct) {
+
+            adapter.setProductsList(productsList);
+
+        }
+
+        adapter.setIsProduct(isProduct);
+
+    }
+
+
+    private void extractArgumentsData() {
+
         Bundle args = getArguments();
 
         if (args != null) {
@@ -115,192 +172,211 @@ public class FragmentGallery extends BaseFragment implements Observer {
             }
 
         }
+    }
 
 
-        changeItems.setOnClickListener(new View.OnClickListener() {
+    private void initChangeItemsVeiw() {
 
-            @Override
-            public void onClick(View v) {
+        if (!UserDefaultUtil.isBusinessUser()) {
 
-                if (isSelecting) {
+            changeItems.setVisibility(View.GONE);
 
-                    List<String> items = ReservationSessionManager.getInstance().getSelectedItems();
+        } else {
 
-                    if (!isProduct) {
-                        //TODO: Delete Gallary Item
+            changeItems.setOnClickListener(new View.OnClickListener() {
 
-                        UpdateSalonImagesRequestModel model;
+                @Override
+                public void onClick(View v) {
 
-                        for (final String item : items) {
+                    if (isSelecting) {
 
-                            model = new UpdateSalonImagesRequestModel();
-                            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
-                            model.setOperation("DELETE");
-                            model.setImageId(item);
+                        List<String> items = ReservationSessionManager.getInstance().getSelectedItems();
 
-                            //TODO: check el image id and put it here
-                            RetrofitManager.getInstance().updateSalonImages(model, new AbstractCallback() {
+                        if (!isProduct) {
+                            //TODO: Delete Gallary Item
+                            deleteGalleryItem(items);
 
-                                @Override
-                                public void onResult(boolean isSuccess, Object result) {
+                        } else {
 
-                                    if (isSuccess) {
-
-                                        for (ImageModel imageModel : imageModelList) {
-
-                                            if (imageModel.getImageId().equalsIgnoreCase(item)) {
-
-                                                imageModelList.remove(imageModel);
-
-                                                adapter.setImageModels(imageModelList);
-
-                                                break;
-
-                                            }
-
-                                        }
-                                    }
-
-                                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModelList);
-
-                                }
-                            });
-
-                            model = null;
+                            //TODO: Delete Product
+                            deleteProduct(items);
                         }
 
                     } else {
 
-                        //TODO: Delete Product
+                        if (!isProduct) {
+                            //TODO: ADD
+                            addGallaryItem();
 
-                        UpdateProductRequestModel model = new UpdateProductRequestModel();
+                        } else {
 
-                        for (final String item : items) {
-
-                            model = new UpdateProductRequestModel();
-
-                            model.setOperation("DELETE");
-                            model.setProductId(item);
-                            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
-
-                            RetrofitManager.getInstance().updateSalonProducts(model, new AbstractCallback() {
-
-                                @Override
-                                public void onResult(boolean isSuccess, Object result) {
-
-                                    if (isSuccess) {
-
-                                        for (SalonProduct prod : productsList) {
-
-                                            if (prod.getId().equalsIgnoreCase(item)) {
-
-                                                productsList.remove(prod);
-
-                                                adapter.setProductsList(productsList);
-
-                                                break;
-
-                                            }
-                                        }
-                                    }
-
-                                }
-                            });
-
+                            addProduct();
                         }
-                    }
-
-                } else {
-
-                    if (!isProduct) {
-                        //TODO: ADD
-                        FragmentManager.showAddGalleryItemFragment(salon, new AbstractCallback() {
-
-                            @Override
-                            public void onResult(boolean isSuccess, Object result) {
-
-                                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
-
-                                    @Override
-                                    public void onResult(boolean isSuccess, Object result) {
-
-                                        List<ImageModel> imageModels = ((SalonModel) result).getGallery();
-
-                                        adapter.setImageModels(imageModels);
-
-                                        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModels);
-
-                                    }
-                                });
-
-
-                            }
-                        });
-
-                    } else {
-
-                        FragmentManager.showAddProductFragment(new AbstractCallback() {
-
-                            @Override
-                            public void onResult(boolean isSuccess, Object result) {
-
-                                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
-
-                                    @Override
-                                    public void onResult(boolean isSuccess, Object result) {
-
-                                        List<SalonProduct> products = ((SalonModel) result).getProducts();
-
-                                        adapter.setImageModels(((SalonModel) result).getProductsImages());
-
-                                        adapter.setProductsList(products);
-
-                                        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>());
-
-                                    }
-                                });
-
-                            }
-                        });
 
                     }
 
                 }
+            });
+        }
+    }
 
-            }
-        });
 
-        adapter = new GalleryAdapter();
+    private void deleteGalleryItem(List<String> items) {
 
-        adapter.setImageModels(imageModelList);
+        UpdateSalonImagesRequestModel model;
 
-        if (isProduct) {
+        for (final String item : items) {
 
-            adapter.setProductsList(productsList);
+            model = new UpdateSalonImagesRequestModel();
+            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+            model.setOperation("DELETE");
+            model.setImageId(item);
+
+            //TODO: check el image id and put it here
+            RetrofitManager.getInstance().updateSalonImages(model, new AbstractCallback() {
+
+                @Override
+                public void onResult(boolean isSuccess, Object result) {
+
+                    if (isSuccess) {
+
+                        for (ImageModel imageModel : imageModelList) {
+
+                            if (imageModel.getImageId().equalsIgnoreCase(item)) {
+
+                                imageModelList.remove(imageModel);
+
+                                adapter.setImageModels(imageModelList);
+
+                                break;
+
+                            }
+
+                        }
+                    }
+
+                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModelList);
+
+                }
+            });
+
+            model = null;
+        }
+    }
+
+
+    private void deleteProduct(List<String> items) {
+
+        UpdateProductRequestModel model = new UpdateProductRequestModel();
+
+        for (final String item : items) {
+
+            model = new UpdateProductRequestModel();
+
+            model.setOperation("DELETE");
+            model.setProductId(item);
+            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+
+            RetrofitManager.getInstance().updateSalonProducts(model, new AbstractCallback() {
+
+                @Override
+                public void onResult(boolean isSuccess, Object result) {
+
+                    if (isSuccess) {
+
+                        for (SalonProduct prod : productsList) {
+
+                            if (prod.getId().equalsIgnoreCase(item)) {
+
+                                productsList.remove(prod);
+
+                                adapter.setProductsList(productsList);
+
+                                break;
+
+                            }
+                        }
+                    }
+
+                }
+            });
 
         }
 
-        adapter.setIsProduct(isProduct);
+    }
 
-        gallery.addItemDecoration(new SpacesItemDecoration(UIUtils.dpToPx(7)));
 
-        gallery.setAdapter(adapter);
+    private void addGallaryItem() {
 
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+        FragmentManager.showAddGalleryItemFragment(salon, new AbstractCallback() {
 
             @Override
-            public void onClick(View v) {
+            public void onResult(boolean isSuccess, Object result) {
 
-                FragmentManager.popCurrentVisibleFragment();
+                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+
+                    @Override
+                    public void onResult(boolean isSuccess, Object result) {
+
+                        List<ImageModel> imageModels = ((SalonModel) result).getGallery();
+
+                        adapter.setImageModels(imageModels);
+
+                        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModels);
+
+                    }
+                });
+
 
             }
         });
+    }
+
+
+    private void addProduct() {
+
+        FragmentManager.showAddProductFragment(new AbstractCallback() {
+
+            @Override
+            public void onResult(boolean isSuccess, Object result) {
+
+                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+
+                    @Override
+                    public void onResult(boolean isSuccess, Object result) {
+
+                        List<SalonProduct> products = ((SalonModel) result).getProducts();
+
+                        adapter.setImageModels(((SalonModel) result).getProductsImages());
+
+                        adapter.setProductsList(products);
+
+                        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>());
+
+                    }
+                });
+
+            }
+        });
+
+    }
+
+
+    private void addObservers() {
 
         ItemSelectedObservable.sharedInstance().addObserver(this);
 
         GallaryItemsChangedObservable.sharedInstance().addObserver(this);
 
-        return rootView;
+    }
+
+
+    private void removeObservables() {
+
+        ItemSelectedObservable.sharedInstance().deleteObserver(this);
+
+        GallaryItemsChangedObservable.sharedInstance().deleteObserver(this);
+
     }
 
 
@@ -309,10 +385,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
         super.onDetach();
 
-        ItemSelectedObservable.sharedInstance().deleteObserver(this);
-
-        GallaryItemsChangedObservable.sharedInstance().deleteObserver(this);
-
+        removeObservables();
     }
 
 

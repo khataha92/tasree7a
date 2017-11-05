@@ -12,11 +12,9 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.AddNewBarberRequestModel;
 import com.tasree7a.Models.AddNewStaffMemberDataModel;
-import com.tasree7a.Models.Login.User;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.interfaces.AbstractCallback;
-import com.tasree7a.utils.UserDefaultUtil;
 
 import static android.view.View.GONE;
 

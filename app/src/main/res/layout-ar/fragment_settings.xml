@@ -126,6 +126,40 @@
             app:customButtonTextColor="@color/WHITE"
             app:customButtonTextSize="19sp"/>
 
+        <LinearLayout
+            android:id="@+id/info_cont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:orientation="vertical"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/information_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="3"
+                android:text="@string/INFORMATION"
+                android:textColor="@color/APP_TEXT_COLOR"
+                android:textSize="19sp"/>
+
+            <com.tasree7a.CustomComponent.CustomButton
+                android:id="@+id/change_info_btn"
+                android:layout_width="230dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/shadow"
+                android:paddingBottom="10dp"
+                app:customButtonRadius="20"
+                app:customButtonText="@string/CHANGE_INFO"
+                app:customButtonTextColor="@color/WHITE"
+                app:customButtonTextSize="19sp"/>
+
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/notifications_tv"
             android:layout_width="wrap_content"

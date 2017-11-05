@@ -143,7 +143,7 @@ public class BookScheduleFragment extends BaseFragment {
 
         initSalonBarbers();
 
-        rootView.findViewById(R.id.select_checkin_date).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.date_container).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(final View v) {
@@ -157,7 +157,7 @@ public class BookScheduleFragment extends BaseFragment {
 
                             localDate = (LocalDate) result;
 
-                            ((TextView) v).setText(localDate.toString());
+                            ((TextView) rootView.findViewById(R.id.select_checkin_date)).setText(localDate.toString());
 
                             getAvailableTimeOnDate(localDate.toString());
 

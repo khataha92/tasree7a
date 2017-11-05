@@ -55,6 +55,7 @@
 
     <string name="LANGUAGE">Language</string>
     <string name="CHANGE_PASSWORD">Change Password</string>
+    <string name="CHANGE_INFO">Change Information</string>
     <string name="NOTIFICATION">Notifications</string>
     <string name="NOTIFY_FAV_TEXT">Notifie me when my favourites have new update</string>
     <string name="NOTIFY_BOOK_UPDATE_TEXT">Notifie me when my bookings have updates</string>
@@ -134,6 +135,8 @@ soon as possible</string>
     <string name="MY_SALON">My salon</string>
     <string name="NOT_AVAILABLE_TIME">No availability in this time</string>
     <string name="ERROR_EMPTY_SERVICE">You must select at least one service</string>
-
+    <string name="GENDER">Gender</string>
+    <string name="MALE">Male</string>
+    <string name="FEMALE">Female</string>
 
 </resources>

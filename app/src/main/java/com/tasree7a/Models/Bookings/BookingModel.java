@@ -78,6 +78,19 @@ public class BookingModel {
         return address;
     }
 
+
+    public SalonModel getSalon() {
+
+        return salon;
+    }
+
+
+    public void setSalon(SalonModel salon) {
+
+        this.salon = salon;
+    }
+
+
     public String getBookingTime() {
         return bookingTime;
     }

@@ -19,8 +19,10 @@ import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.tasree7a.Adapters.BaseCardAdapter;
 import com.tasree7a.Adapters.CardsRecyclerAdapter;
+import com.tasree7a.CustomComponent.CustomSwitch;
 import com.tasree7a.Enums.CardFactory;
 import com.tasree7a.Enums.CardType;
+import com.tasree7a.Enums.Language;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
@@ -32,8 +34,10 @@ import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.Observables.MenuIconClickedObservable;
 import com.tasree7a.R;
+import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
@@ -65,6 +69,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
     ImageView closeDrawer;
 
+    CustomSwitch langSwitch;
+
 
     @Nullable
     @Override
@@ -80,14 +86,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         closeDrawer = (ImageView) nvView.getHeaderView(0).findViewById(R.id.close_menu);
 
-        int width = (int) (getResources().getDisplayMetrics().widthPixels / 1.5);
-
-        DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) nvView.getLayoutParams();
-
-        params.width = width;
-
-        nvView.setLayoutParams(params);
-
         adapter = new BaseCardAdapter(getCardModels());
 
         salonDetails = (RecyclerView) rootView.findViewById(R.id.salon_cards);
@@ -95,10 +93,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         salonDetails.setLayoutManager(new LinearLayoutManager(getContext()));
 
         salonDetails.setAdapter(adapter);
-
-        MenuIconClickedObservable.sharedInstance().addObserver(this);
-
-        GallaryItemsChangedObservable.sharedInstance().addObserver(this);
 
         if (!didLoadFullSalon) {
 
@@ -108,10 +102,84 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         ReservationSessionManager.getInstance().setSalonModel(salonModel);
 
+        if (isSalonDataValid()) {
+
+            FragmentManager.showSalonInfoFragment(true);
+
+        }
+
+        addObservables();
+
+        initSideMenuViews();
+
+        return rootView;
+    }
+
+
+    private void addObservables() {
+
+        MenuIconClickedObservable.sharedInstance().addObserver(this);
+
+        GallaryItemsChangedObservable.sharedInstance().addObserver(this);
+
+    }
+
+
+    private void initSideMenuViews() {
+
         if (!salonModel.isBusiness()) {
 
             nvDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
+
+        initProfileImage();
+
+        initCloseButton();
+
+        initLangButton();
+
+        initNavigationView();
+    }
+
+
+    private void initProfileImage() {
+
+        navHeader.findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager.showProfileFragment();
+
+            }
+        });
+
+    }
+
+
+    private void initCloseButton() {
+
+        closeDrawer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                nvDrawer.closeDrawers();
+            }
+        });
+
+    }
+
+
+    private void initNavigationView() {
+
+        int width = (int) (getResources().getDisplayMetrics().widthPixels / 1.5);
+
+        DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) nvView.getLayoutParams();
+
+        params.width = width;
+
+        nvView.setLayoutParams(params);
 
         nvView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -152,15 +220,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
                                 FragmentManager.showSettingsFragment();
 
                                 break;
-
-//                            case R.id.feedback:
-
-//                                FragmentManager.showFeedBackFragment();
-
-                            //FragmentManager.showFragmentSalonServices();
-
-//                                break;
-
                         }
 
                         nvDrawer.closeDrawers();
@@ -169,27 +228,30 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
                     }
                 });
 
-        if (UserDefaultUtil.getCurrentUser().isBusiness() && (Integer.parseInt(UserDefaultUtil.getCurrentUser().getId()) == -1)) {
+    }
 
-            FragmentManager.showSalonInfoFragment();
 
-        }
-//
-//        if (salonModel.getSalonBarbers() == null || salonModel.getSalonBarbers().size() == 0) {
-//
-//            FragmentManager.showAddNewStaffFragment(salonModel, new AbstractCallback() {
-//
-//                @Override
-//                public void onResult(boolean isSuccess, Object result) {
-//
-//                    Log.d("LEFFF", "issuccess: " + isSuccess + " result: " + new Gson().toJson(result));
-//
-//                }
-//            });
-//
-//        }
+    private void initLangButton() {
 
-        return rootView;
+        langSwitch = (CustomSwitch) navHeader.findViewById(R.id.switch_item);
+
+        langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
+
+        langSwitch.setAction(new Runnable() {
+
+            @Override
+            public void run() {
+
+                UIUtils.showConfirmLanguageChangeDialog(langSwitch);
+
+            }
+        });
+
+        if (UserDefaultUtil.getAppLanguage() == Language.AR)
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        else
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
     }
 
@@ -226,52 +288,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         super.fragmentIsVisible();
 
-        RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), new AbstractCallback() {
+        getSalonDetails();
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
-
-                if (!isAdded()) return;
-
-                if (isSuccess) {
-
-                    SalonModel temp = (SalonModel) result;
-
-                    salonModel.setSalonBarbers(temp.getSalonBarbers());
-
-                    salonModel.setLocationModel(temp.getLocationModel());
-
-                    salonModel.setDistance(temp.getDistance());
-
-                    salonModel.setLat(temp.getLat());
-
-                    salonModel.setLng(temp.getLng());
-
-                    salonModel.setOwnerMobileNumber(temp.getOwnerMobileNumber());
-
-                    salonModel.setOwnerName(temp.getOwnerName());
-
-                    salonModel.setSalonType(temp.getSalonType());
-
-                    salonModel.setGallery(temp.getGallery());
-
-                    salonModel.setProducts(temp.getProducts());
-
-                    salonModel.setSalonCity(temp.getCity());
-
-                    didLoadFullSalon = true;
-
-                    ((BaseCardAdapter) salonDetails.getAdapter()).setCardModels(getCardModels());
-
-                    salonDetails.getAdapter().notifyDataSetChanged();
-
-                }
-
-                hideLoadingView();
-
-            }
-
-        });
     }
 
 
@@ -383,7 +401,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         cardModels.add(getCardModel(CardType.MAP_CARD));
 
-//        cardModels.add(getCardModel(CardType.SALON_RATE));
 
         return cardModels;
     }
@@ -448,9 +465,17 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         super.onDetach();
 
+        removeObservers();
+
+    }
+
+
+    private void removeObservers() {
+
         MenuIconClickedObservable.sharedInstance().deleteObserver(this);
 
         GallaryItemsChangedObservable.sharedInstance().deleteObserver(this);
+
     }
 
 
@@ -466,5 +491,66 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
             fragmentIsVisible();
 
         }
+    }
+
+
+    public boolean isSalonDataValid() {
+
+        return UserDefaultUtil.getCurrentUser().isBusiness()
+                && (Integer.parseInt(UserDefaultUtil.getCurrentUser().getId()) == -1);
+
+    }
+
+
+    public void getSalonDetails() {
+
+        RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), new AbstractCallback() {
+
+            @Override
+            public void onResult(boolean isSuccess, Object result) {
+
+                if (!isAdded()) return;
+
+                if (isSuccess) {
+
+                    SalonModel temp = (SalonModel) result;
+
+                    salonModel.setSalonBarbers(temp.getSalonBarbers());
+
+                    salonModel.setLocationModel(temp.getLocationModel());
+
+                    salonModel.setDistance(temp.getDistance());
+
+                    salonModel.setLat(temp.getLat());
+
+                    salonModel.setLng(temp.getLng());
+
+                    salonModel.setOwnerMobileNumber(temp.getOwnerMobileNumber());
+
+                    salonModel.setOwnerName(temp.getOwnerName());
+
+                    salonModel.setSalonType(temp.getSalonType());
+
+                    salonModel.setGallery(temp.getGallery());
+
+                    salonModel.setProducts(temp.getProducts());
+
+                    salonModel.setSalonCity(temp.getCity());
+
+                    didLoadFullSalon = true;
+
+                    ((BaseCardAdapter) salonDetails.getAdapter()).setCardModels(getCardModels());
+
+                    salonDetails.getAdapter().notifyDataSetChanged();
+
+                    UserDefaultUtil.setCurrentSalonUser(salonModel);
+
+                }
+
+                hideLoadingView();
+
+            }
+
+        });
     }
 }

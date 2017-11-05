@@ -45,6 +45,7 @@
     <string name="SORT_BY">ترتيب حسب</string>
     <string name="PRICE">السعر</string>
     <string name="DURATION_TIME">المده الزمنيه</string>
+    <string name="MY_BOOKINGS">حجوزاتي</string>
 
     <string name="DISTANCE">المسافة</string>
     <string name="RATING">التقييم</string>
@@ -66,6 +67,7 @@
 
     <string name="LANGUAGE">اللغة</string>
     <string name="CHANGE_PASSWORD">غيّر كلمة السر</string>
+    <string name="CHANGE_INFO">غير معلومات الصالون</string>
     <string name="NOTIFICATION">الإشعارات</string>
     <string name="NOTIFY_FAV_TEXT">نبهني عندما يكون هنالك تحديث على مفضلتي</string>
     <string name="NOTIFY_BOOK_UPDATE_TEXT">نبهني عندما يحصل تغيير على حجزي</string>
@@ -138,5 +140,7 @@
     <string name="RESET_PASSWORD">إعادة تعيين كلمة المرور</string>
     <string name="MY_SALON">صالوني</string>
     <string name="ERROR_EMPTY_SERVICE">يجب اختيار خيار واحد على الأقل</string>
-
+    <string name="GENDER">الجنس</string>
+    <string name="MALE">ذكور</string>
+    <string name="FEMALE">اناث</string>
 </resources>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "793006653186",
+    "firebase_url": "https://tasree7a-173118.firebaseio.com",
+    "project_id": "tasree7a-173118",
+    "storage_bucket": "tasree7a-173118.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793006653186:android:1e84ee0506df6f7b",
+        "android_client_info": {
+          "package_name": "com.tasree7a"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793006653186-e21mgucfdlsip4qdit7fgk0ulssu04k3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tasree7a",
+            "certificate_hash": "d728ffa8ff47393efd7cc64c89c97f2cd75b5bd0"
+          }
+        },
+        {
+          "client_id": "793006653186-gt19a3inah673rsqfhjmmuc1m27epn5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9C64-5O4Vz0qLGf_j7Ohb6R0aZwGgbQw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793006653186-gt19a3inah673rsqfhjmmuc1m27epn5b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

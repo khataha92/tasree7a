@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.tasree7a.Adapters.ViewPagerAdapter;
 import com.tasree7a.Enums.Language;
 import com.tasree7a.Enums.LoginType;
@@ -33,6 +34,7 @@ import static com.tasree7a.ThisApplication.callbackManager;
 
 public class MainActivity extends FragmentActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     TabLayout tabs;
 
     ViewPager tabsPager;
@@ -77,6 +79,10 @@ public class MainActivity extends FragmentActivity {
         initTabsView();
 
         AppUtil.checkAppLanguage();
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+
+        Log.d(TAG, token);
 
         if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);

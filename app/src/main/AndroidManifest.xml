@@ -95,6 +95,21 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".Services.PushService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".Services.InstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBsC-jNEKMbSWQgeuOyd28aYTsT61Cy17Q"/>

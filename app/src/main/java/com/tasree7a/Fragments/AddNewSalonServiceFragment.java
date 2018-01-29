@@ -29,7 +29,6 @@ import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -83,7 +82,7 @@ public class AddNewSalonServiceFragment extends BaseFragment {
 
                 AddNewServiceRequestModel model = new AddNewServiceRequestModel();
 
-                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
 
                 model.setServiceImage(base64Image);
 

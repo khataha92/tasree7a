@@ -70,7 +70,7 @@ public class AddProductFragment extends BaseFragment {
 
                 UpdateProductRequestModel model = new UpdateProductRequestModel();
 
-                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
                 model.setOperation("ADD");
                 model.setBase64Image(base64Image);
                 model.setProductName(((EditText) rootView.findViewById(R.id.product_name)).getText().toString());

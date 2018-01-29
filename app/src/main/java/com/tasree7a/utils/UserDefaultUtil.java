@@ -301,7 +301,6 @@ public class UserDefaultUtil {
 
     }
 
-
     public static Language getAppLanguage() {
 
         String lang = getStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString());
@@ -310,14 +309,12 @@ public class UserDefaultUtil {
 
     }
 
-
     public static void setAppLanguage(Language lang) {
 
         setStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString(), lang.toString());
 
         restartApp();
     }
-
 
     private static void setStringValue(String key, String val) {
 

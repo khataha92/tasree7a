@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity {
 
         String token = FirebaseInstanceId.getInstance().getToken();
 
-        Log.d(TAG, token);
+//        Log.d(TAG, token);
 
         if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);

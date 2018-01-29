@@ -1,21 +1,15 @@
 package com.tasree7a.Fragments;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,9 +31,7 @@ import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import id.zelory.compressor.Compressor;
@@ -158,7 +150,7 @@ public class AddGalleryFragment extends BaseFragment {
 
                 model.setBase64Image(base64Image);
 
-                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
 
                 model.setOperation("ADD");
 

@@ -144,7 +144,7 @@ public class SalonInformationFragment extends BaseFragment {
 
         fromTime = (TextView) rootView.findViewById(R.id.from_hours);
 
-        staffContainer = (SalonStaffContainer) rootView.findViewById(R.id.salon_staff_container);
+//        staffContainer = (SalonStaffContainer) rootView.findViewById(R.id.salon_staff_container);
 
         fromTime.setOnClickListener(new View.OnClickListener() {
 
@@ -334,13 +334,13 @@ public class SalonInformationFragment extends BaseFragment {
 
         saveBtn = (CustomButton) rootView.findViewById(R.id.save);
 
-        SalonModel user = UserDefaultUtil.getCurrentSalonUser();
+//        SalonModel user = UserDefaultUtil.getCurrentSalonUser();
 
-        salonName.setText(user.getName());
+//        salonName.setText(user.getName());
 
-        ownerNamer.setText(user.getOwnerName());
+//        ownerNamer.setText(user.getOwnerName());
 
-        email.setText(UserDefaultUtil.getCurrentUser().getEmail());
+//        email.setText(UserDefaultUtil.getCurrentUser().getEmail());
 
         for (int i = 0; i < workingDaysIDs.length; i++) {
 
@@ -370,7 +370,7 @@ public class SalonInformationFragment extends BaseFragment {
 
         //TODO: Remove those: written for testing purposes
 
-        mobile.setText(user.getOwnerMobileNumber());
+//        mobile.setText(user.getOwnerMobileNumber());
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -426,95 +426,95 @@ public class SalonInformationFragment extends BaseFragment {
                 salonInformationRequestModel.setSalonType(male.isChecked() ? "0" : "1");
 
                 UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
-
-                if (staffContainer.getBarbers() != null || staffContainer.getBarbers().size() == 0) {
-
-                    RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, new AbstractCallback() {
-
-                        @Override
-                        public void onResult(boolean isSuccess, Object result) {
-
-                            final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
-
-                            RetrofitManager.getInstance().getSalonDetails(responseModel.getDetails().getSalonId(), new AbstractCallback() {
-
-                                @Override
-                                public void onResult(boolean isSuccess, Object result) {
-
-                                    SalonModel model = (SalonModel) result;
-
-                                    model.setBusiness(true);
-
-                                    AddNewBarberRequestModel barberModel;
-
-                                    User user = UserDefaultUtil.getCurrentUser();
-
-                                    user.setSalongId(model.getId());
-
-                                    UserDefaultUtil.saveUser(user);
-
-                                    for (AddNewStaffMemberDataModel staffMemberDataModel : staffContainer.getBarbers()) {
-
-                                        barberModel = new AddNewBarberRequestModel();
-
-                                        barberModel.setSalonId(responseModel.getDetails().getSalonId());
-
-                                        barberModel.setLastName(staffMemberDataModel.getStaffName().split(" ")[1]);
-
-                                        barberModel.setFirstName(staffMemberDataModel.getStaffName().split(" ")[0]);
-
-                                        barberModel.setEmail(staffMemberDataModel.getStaffEmail());
-
-                                        barberModel.setPass(staffMemberDataModel.getStaffPass());
-
-                                        barberModel.setCreatedAt("1");
-
-                                        barberModel.setStartTime("12");
-
-                                        barberModel.setEndTime("15");
-
-                                        barberModel.setUpdatedAt("16");
-
-                                        barberModel.setUserName("username" + staffMemberDataModel.getStaffName() + barberModel.getSalonId());
-
-                                        RetrofitManager.getInstance().addNewBarber(barberModel, new AbstractCallback() {
-
-                                            @Override
-                                            public void onResult(boolean isSuccess, Object result) {
-
-                                            }
-                                        });
-
-                                        barberModel = null;
-                                    }
-
-                                    UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
-
-                                    if (shouldPopFragment) {
-
-                                        FragmentManager.showSalonDetailsFragment(model);
-
-                                        FragmentManager.popBeforeCurrentVisibleFragment();
-
-                                    } else {
-
-                                        FragmentManager.popCurrentVisibleFragment();
-
-                                    }
-
-                                }
-                            });
-
-                        }
-                    });
-
-                } else {
-
-                    Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
-                            "You have to Add 1 Barber at least",
-                            Toast.LENGTH_SHORT).show();
-
-                }
+//
+//                if (staffContainer.getBarbers() != null || staffContainer.getBarbers().size() == 0) {
+//
+//                    RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, new AbstractCallback() {
+//
+//                        @Override
+//                        public void onResult(boolean isSuccess, Object result) {
+//
+//                            final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
+//
+//                            RetrofitManager.getInstance().getSalonDetails(responseModel.getDetails().getSalonId(), new AbstractCallback() {
+//
+//                                @Override
+//                                public void onResult(boolean isSuccess, Object result) {
+//
+//                                    SalonModel model = (SalonModel) result;
+//
+//                                    model.setBusiness(true);
+//
+//                                    AddNewBarberRequestModel barberModel;
+//
+//                                    User user = UserDefaultUtil.getCurrentUser();
+//
+//                                    user.setSalonId(model.getId());
+//
+//                                    UserDefaultUtil.saveUser(user);
+//
+//                                    for (AddNewStaffMemberDataModel staffMemberDataModel : staffContainer.getBarbers()) {
+//
+//                                        barberModel = new AddNewBarberRequestModel();
+//
+//                                        barberModel.setSalonId(responseModel.getDetails().getSalonId());
+//
+//                                        barberModel.setLastName(staffMemberDataModel.getStaffName().split(" ")[1]);
+//
+//                                        barberModel.setFirstName(staffMemberDataModel.getStaffName().split(" ")[0]);
+//
+//                                        barberModel.setEmail(staffMemberDataModel.getStaffEmail());
+//
+//                                        barberModel.setPass(staffMemberDataModel.getStaffPass());
+//
+//                                        barberModel.setCreatedAt("1");
+//
+//                                        barberModel.setStartTime("12");
+//
+//                                        barberModel.setEndTime("15");
+//
+//                                        barberModel.setUpdatedAt("16");
+//
+//                                        barberModel.setUserName("username" + staffMemberDataModel.getStaffName() + barberModel.getSalonId());
+//
+//                                        RetrofitManager.getInstance().addNewBarber(barberModel, new AbstractCallback() {
+//
+//                                            @Override
+//                                            public void onResult(boolean isSuccess, Object result) {
+//
+//                                            }
+//                                        });
+//
+//                                        barberModel = null;
+//                                    }
+//
+//                                    UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+//
+//                                    if (shouldPopFragment) {
+//
+//                                        FragmentManager.showSalonDetailsFragment(model);
+//
+//                                        FragmentManager.popBeforeCurrentVisibleFragment();
+//
+//                                    } else {
+//
+//                                        FragmentManager.popCurrentVisibleFragment();
+//
+//                                    }
+//
+//                                }
+//                            });
+//
+//                        }
+//                    });
+//
+//                } else {
+//
+//                    Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
+//                            "You have to Add 1 Barber at least",
+//                            Toast.LENGTH_SHORT).show();
+//
+//                }
             }
 
         });

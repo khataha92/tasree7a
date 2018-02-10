@@ -45,34 +45,7 @@ public class MainActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-
-        Fabric.with(this, new Crashlytics());
-
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.tasree7a",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-
-        sdkInitialize(getApplicationContext());
-
-        AppEventsLogger.activateApp(this);
-
-        ThisApplication.setCurrentActivity(this);
-
-        if (AppUtil.isLoggedIn()) {
-
-            startHomeActivity();
-        }
+        initializations();
 
         setContentView(R.layout.activity_main);
 
@@ -90,6 +63,36 @@ public class MainActivity extends FragmentActivity {
         else
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
+    }
+
+    private void initializations() {
+        Fabric.with(this, new Crashlytics());
+//        Testing Code
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "com.tasree7a",
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//
+//        } catch (NoSuchAlgorithmException e) {
+//
+//        }
+
+        sdkInitialize(getApplicationContext());
+
+        AppEventsLogger.activateApp(this);
+
+        ThisApplication.setCurrentActivity(this);
+
+        if (AppUtil.isLoggedIn()) {
+
+            startHomeActivity();
+        }
     }
 
 
@@ -128,10 +131,9 @@ public class MainActivity extends FragmentActivity {
 
     private void initTabsView() {
 
+        tabs = findViewById(R.id.tabs);
 
-        tabs = (TabLayout) findViewById(R.id.tabs);
-
-        tabsPager = (ViewPager) findViewById(R.id.viewpager);
+        tabsPager = findViewById(R.id.viewpager);
 
         setUpViewPager(tabsPager);
 
@@ -143,9 +145,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 tabsPager.setCurrentItem(tab.getPosition());
-
             }
 
 
@@ -170,8 +170,7 @@ public class MainActivity extends FragmentActivity {
 
         if (callbackManager != null) {
 
-            callbackManager.onActivityResult(requestCode,
-                    resultCode, data);
+            callbackManager.onActivityResult(requestCode, resultCode, data);
 
         }
     }

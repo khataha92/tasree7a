@@ -70,7 +70,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
     @SuppressLint("ValidFragment")
     public BaseLoginFragment(LoginType type) {
-
         isBusiness = type == LoginType.BUSINESS;
 
     }

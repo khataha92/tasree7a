@@ -322,18 +322,18 @@
                 android:textSize="19.3sp"
                 android:visibility="gone"/>
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="17dp">-->
-
-                <!--<com.tasree7a.CustomComponent.SalonStaffContainer-->
-                    <!--android:id="@+id/salon_staff_container"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:visibility="gone"-->
-                    <!--android:layout_height="wrap_content"/>-->
-
-            <!--</LinearLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="17dp">
+<!---->
+                <com.tasree7a.CustomComponent.SalonStaffContainer
+                    android:id="@+id/salon_staff_container"
+                    android:layout_width="match_parent"
+                    android:visibility="visible"
+                    android:layout_height="wrap_content"/>
+<!---->
+            </LinearLayout>
 
 
             <LinearLayout

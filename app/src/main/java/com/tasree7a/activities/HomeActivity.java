@@ -29,111 +29,66 @@ public class HomeActivity extends FragmentActivity {
 
     @Override
     protected void onCreate (@Nullable Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-
-        if (ThisApplication.getCurrentActivity() != null)
-            ThisApplication.getCurrentActivity().finishAffinity();
-
         ThisApplication.setCurrentActivity(this);
-
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        boolean isBusiness = UserDefaultUtil.isBusinessUser();
-
         AppUtil.checkAppLanguage();
 
-//        if (getIntent().getExtras() != null) {
-//
-//            isBusiness = getIntent().getExtras().getBoolean(FragmentArg.IS_BUSINESS);
-//
-//        }
-
+        boolean isBusiness = UserDefaultUtil.isBusinessUser();
         if (!isBusiness) {
-
             FragmentManager.showHomeFragment();
-
             findViewById(R.id.loading).setVisibility(View.GONE);
-
             UIUtils.hideSweetLoadingDialog();
-
         } else {
-
             findViewById(R.id.loading).setVisibility(View.VISIBLE);
-
             String salonID = UserDefaultUtil.getCurrentUser().getSalonId();
-
             if (salonID != null
                 && salonID.equalsIgnoreCase("-1")) {
-
                 findViewById(R.id.loading).setVisibility(View.GONE);
-
                 FragmentManager.showSalonInfoFragment(true);
-
             } else {
-
-                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
-
-                    @Override
-                    public void onResult (boolean isSuccess, Object result) {
-
-                        findViewById(R.id.loading).setVisibility(View.GONE);
-
-                        if (isSuccess
-                            && result != null) {
-
-                            SalonModel salonModel = (SalonModel) result;
-
-                            salonModel.setBusiness(true);
-
-                            FragmentManager.showSalonDetailsFragment(salonModel, true);
-
-                        }
-                    }
-                });
-
+                requestSalonDetails();
             }
         }
     }
 
+    private void requestSalonDetails() {
+        RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
+            @Override
+            public void onResult (boolean isSuccess, Object result) {
+                findViewById(R.id.loading).setVisibility(View.GONE);
+                if (isSuccess
+                        && result != null) {
+                    SalonModel salonModel = (SalonModel) result;
+                    salonModel.setBusiness(true);
+                    FragmentManager.showSalonDetailsFragment(salonModel, true);
+                }
+            }
+        });
+    }
 
     @Override
     public void onRequestPermissionsResult (int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         switch (requestCode) {
-
         case PermissionCode.MY_PERMISSIONS_REQUEST_LOCATION:
-
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                 PermissionGrantedObservable.getInstance().notifyPermissionGranted(permissions[0]);
-
             }
-
             break;
-
         }
     }
 
-
     @Override
     protected void onResume () {
-
         super.onResume();
-
         ThisApplication.setCurrentActivity(this);
     }
 
-
     @Override
     public void onBackPressed () {
-
         if (FragmentManager.getCurrentVisibleFragment() != null) {
-
             FragmentManager.getCurrentVisibleFragment().onBackPressed();
-
         }
     }
 }

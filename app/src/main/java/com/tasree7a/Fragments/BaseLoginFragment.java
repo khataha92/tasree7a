@@ -44,10 +44,6 @@ import org.json.JSONObject;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tasree7a.ThisApplication.callbackManager;
 
-/**
- * Created by SamiKhleaf on 8/4/17.
- */
-
 public class BaseLoginFragment extends BaseFragment implements View.OnClickListener {
 
     CustomButton login;

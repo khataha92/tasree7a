@@ -67,21 +67,6 @@ public class MainActivity extends FragmentActivity {
 
     private void initializations() {
         Fabric.with(this, new Crashlytics());
-//        Testing Code
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "com.tasree7a",
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//
-//        } catch (NoSuchAlgorithmException e) {
-//
-//        }
 
         sdkInitialize(getApplicationContext());
 
@@ -95,23 +80,15 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-
     private void startHomeActivity() {
-
         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-
-        finish();
-
     }
-
 
     @Override
     protected void onResume() {
-
         super.onResume();
-
         ThisApplication.setCurrentActivity(this);
     }
 
@@ -148,12 +125,10 @@ public class MainActivity extends FragmentActivity {
                 tabsPager.setCurrentItem(tab.getPosition());
             }
 
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }
-
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {

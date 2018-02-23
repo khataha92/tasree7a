@@ -1,6 +1,7 @@
 package com.tasree7a.CustomComponent;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tasree7a.Fragments.AddStaffMemberFragment;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Models.AddNewStaffMemberDataModel;
-import com.tasree7a.Models.Barber;
 import com.tasree7a.Models.SalonDetails.SalonBarber;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
@@ -22,10 +21,6 @@ import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Khalid Taha on 10/16/16.
- */
 
 public class SalonStaffContainer extends LinearLayout {
 
@@ -37,25 +32,13 @@ public class SalonStaffContainer extends LinearLayout {
 
     private Context context;
 
-
     public SalonStaffContainer(Context context) {
-
         super(context);
-
         init(context);
     }
 
-
-    public SalonStaffContainer(Context context, AttributeSet attrs) {
-
+    public SalonStaffContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
-    }
-
-
-    public SalonStaffContainer(Context context, AttributeSet attrs, int defStyleAttr) {
-
-        super(context, attrs, defStyleAttr);
         init(context);
     }
 
@@ -74,21 +57,20 @@ public class SalonStaffContainer extends LinearLayout {
 
         itemsContainer = (LinearLayout) rootView.findViewById(R.id.items_container);
 
-        salonBarbers = UserDefaultUtil.getCurrentSalonUser().getSalonBarbers();
+        salonBarbers = UserDefaultUtil.getCurrentSalonUser() != null ? UserDefaultUtil.getCurrentSalonUser().getSalonBarbers() : salonBarbers;
 
         if (salonBarbers.size() != 0) {
-
-            AddNewStaffMemberDataModel temp = new AddNewStaffMemberDataModel();
-
-            for (SalonBarber barber : salonBarbers) {
-
-                temp.setStaffName(barber.getBarberFirstName() + " " + barber.getBarberLastName());
-
-                temp.setStaffEmail(barber.getEmail());
-
-                addNewItem(temp);
-            }
-
+//            AddNewStaffMemberDataModel temp = new AddNewStaffMemberDataModel();
+//
+//            for (SalonBarber barber : salonBarbers) {
+//
+//                temp.setStaffName(barber.getBarberFirstName() + " " + barber.getBarberLastName());
+//
+//                temp.setStaffEmail(barber.getEmail());
+//
+//                addNewItem(temp);
+//            }
+            prefillBarbers(salonBarbers);
         }
 
 
@@ -117,10 +99,20 @@ public class SalonStaffContainer extends LinearLayout {
 
             }
         });
-
-
     }
 
+    public void prefillBarbers(List<SalonBarber> barbersList) {
+        AddNewStaffMemberDataModel temp = new AddNewStaffMemberDataModel();
+
+        for (SalonBarber barber : barbersList) {
+
+            temp.setStaffName(barber.getBarberFirstName() + " " + barber.getBarberLastName());
+
+            temp.setStaffEmail(barber.getEmail());
+
+            addNewItem(temp);
+        }
+    }
 
     private void addNewItem(AddNewStaffMemberDataModel staffMemberDataModel) {
 

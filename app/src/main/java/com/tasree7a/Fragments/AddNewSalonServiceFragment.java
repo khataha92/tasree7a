@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.tasree7a.CustomComponent.CustomButton;
+import com.tasree7a.DummyConstants;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.AddNewServiceRequestModel;
@@ -82,7 +83,7 @@ public class AddNewSalonServiceFragment extends BaseFragment {
 
                 AddNewServiceRequestModel model = new AddNewServiceRequestModel();
 
-                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
+                model.setSalonId(UserDefaultUtil.getCurrentUser().getId());
 
                 model.setServiceImage(base64Image);
 
@@ -152,7 +153,7 @@ public class AddNewSalonServiceFragment extends BaseFragment {
     }
 
 
-    String base64Image;
+    String base64Image = DummyConstants.mDummyImageBase64;
 
 
     @Override

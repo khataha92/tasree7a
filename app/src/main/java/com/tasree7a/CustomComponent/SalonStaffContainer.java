@@ -61,16 +61,6 @@ public class SalonStaffContainer extends LinearLayout {
         salonBarbers = UserDefaultUtil.getCurrentSalonUser() != null ? UserDefaultUtil.getCurrentSalonUser().getSalonBarbers() : salonBarbers;
 
         if (salonBarbers.size() != 0) {
-//            AddNewStaffMemberDataModel temp = new AddNewStaffMemberDataModel();
-//
-//            for (SalonBarber barber : salonBarbers) {
-//
-//                temp.setStaffName(barber.getBarberFirstName() + " " + barber.getBarberLastName());
-//
-//                temp.setStaffEmail(barber.getEmail());
-//
-//                addNewItem(temp);
-//            }
             prefillBarbers(salonBarbers);
         }
 

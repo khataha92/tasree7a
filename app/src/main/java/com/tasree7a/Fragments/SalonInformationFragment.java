@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +37,7 @@ import com.tasree7a.CustomComponent.CircularCheckBox;
 import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.CustomComponent.CustomTimePicker;
 import com.tasree7a.CustomComponent.SalonStaffContainer;
+import com.tasree7a.Enums.Gender;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.AddNewBarberRequestModel;
@@ -60,6 +62,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import retrofit2.Response;
+
+import static android.util.Base64.NO_PADDING;
 
 /**
  * Created by SamiKhleaf on 10/20/17.
@@ -92,7 +96,6 @@ public class SalonInformationFragment extends BaseFragment {
     private CircularCheckBox[] workingDays = new CircularCheckBox[7];
 
     private int[] workingDaysIDs = new int[]{
-
             R.id.sat,
             R.id.sun,
             R.id.mon,
@@ -100,7 +103,6 @@ public class SalonInformationFragment extends BaseFragment {
             R.id.wed,
             R.id.thu,
             R.id.fri
-
     };
 
     private TextView fromTime, toTime;
@@ -119,32 +121,21 @@ public class SalonInformationFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.view_salon_info, container, false);
+        initViews();
 
         rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 FragmentManager.popCurrentVisibleFragment();
             }
         });
 
         rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 FragmentManager.popCurrentVisibleFragment();
             }
         });
-
-        male = (AppCompatCheckBox) rootView.findViewById(R.id.male);
-
-        female = (AppCompatCheckBox) rootView.findViewById(R.id.female);
-
-        fromTime = (TextView) rootView.findViewById(R.id.from_hours);
-
-        staffContainer = (SalonStaffContainer) rootView.findViewById(R.id.salon_staff_container);
 
         fromTime.setOnClickListener(new View.OnClickListener() {
 
@@ -160,7 +151,6 @@ public class SalonInformationFragment extends BaseFragment {
                 dialog.findViewById(R.id.done).setAlpha(0.5f);
 
                 dialog.findViewById(R.id.done).setEnabled(false);
-
 
                 ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
 
@@ -214,7 +204,7 @@ public class SalonInformationFragment extends BaseFragment {
             }
         });
 
-        toTime = (TextView) rootView.findViewById(R.id.to_hours);
+        toTime = rootView.findViewById(R.id.to_hours);
 
         toTime.setOnClickListener(new View.OnClickListener() {
 
@@ -285,7 +275,7 @@ public class SalonInformationFragment extends BaseFragment {
         });
 
 
-        changeImageView = (RelativeLayout) rootView.findViewById(R.id.change_image);
+        changeImageView = rootView.findViewById(R.id.change_image);
 
         changeImageView.setOnClickListener(new View.OnClickListener() {
 
@@ -324,27 +314,27 @@ public class SalonInformationFragment extends BaseFragment {
             }
         });
 
-        salonName = (EditText) rootView.findViewById(R.id.salon_name);
+        salonName = rootView.findViewById(R.id.salon_name);
 
-        ownerNamer = (EditText) rootView.findViewById(R.id.owner_name);
+        ownerNamer = rootView.findViewById(R.id.owner_name);
 
-        email = (EditText) rootView.findViewById(R.id.email);
+        email = rootView.findViewById(R.id.email);
 
-        mobile = (EditText) rootView.findViewById(R.id.mobile);
+        mobile = rootView.findViewById(R.id.mobile);
 
-        saveBtn = (CustomButton) rootView.findViewById(R.id.save);
+        saveBtn = rootView.findViewById(R.id.save);
 
-        SalonModel user = UserDefaultUtil.getCurrentSalonUser();
+//        SalonModel user = UserDefaultUtil.getCurrentSalonUser();
 
-        salonName.setText(user.getName());
+//        salonName.setText(user.getName());
 
-        ownerNamer.setText(user.getOwnerName());
+//        ownerNamer.setText(user.getOwnerName());
 
-        email.setText(UserDefaultUtil.getCurrentUser().getEmail());
+//        email.setText(UserDefaultUtil.getCurrentUser().getEmail());
 
         for (int i = 0; i < workingDaysIDs.length; i++) {
 
-            workingDays[i] = (CircularCheckBox) rootView.findViewById(workingDaysIDs[i]);
+            workingDays[i] = rootView.findViewById(workingDaysIDs[i]);
 
             final int finalI = i;
 
@@ -370,156 +360,166 @@ public class SalonInformationFragment extends BaseFragment {
 
         //TODO: Remove those: written for testing purposes
 
-        mobile.setText(user.getOwnerMobileNumber());
+//        mobile.setText(user.getOwnerMobileNumber());
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                //TODO: Add request permission,  https://stackoverflow.com/questions/44646668/streaming-upload-of-a-base64-image-using-retrofit
-
-                if (ContextCompat.checkSelfPermission(ThisApplication.getCurrentActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(ThisApplication.getCurrentActivity(),
-                            Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                        // Show an explanation to the user *asynchronously* -- don't block
-                        // this thread waiting for the user's response! After the user
-                        // sees the explanation, try again to request the permission.
-
-                    } else {
-
-                        // No explanation needed, we can request the permission.
-
-                        ActivityCompat.requestPermissions(ThisApplication.getCurrentActivity(),
-                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                1111);
-
-                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                        // app-defined int constant. The callback method gets the
-                        // result of the request.
-                    }
-                }
-
-                if (ContextCompat.checkSelfPermission(ThisApplication.getCurrentActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(), "Should Access Location", Toast.LENGTH_SHORT).show();
-
-                    return;
-                }
-
-                salonInformationRequestModel = new SalonInformationRequestModel();
-                salonInformationRequestModel.setCityID("23");
-                salonInformationRequestModel.setOwnerMobile(mobile.getText().toString());
-                salonInformationRequestModel.setOwnerName(ownerNamer.getText().toString());
-                salonInformationRequestModel.setSalonBase64Image(base64Image);
-                salonInformationRequestModel.setSalonLat(AppUtil.getCurrentLocation().getLatitude() + "");
-                salonInformationRequestModel.setSalonLong(AppUtil.getCurrentLocation().getLongitude() + "");
-                salonInformationRequestModel.setUserID(UserDefaultUtil.getCurrentUser().getId());
-                salonInformationRequestModel.setSalonName(salonName.getText().toString());
-                salonInformationRequestModel.setSalonType(male.isChecked() ? "0" : "1");
-
-                UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
-
-                if (staffContainer.getBarbers() != null || staffContainer.getBarbers().size() == 0) {
-
-                    RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, new AbstractCallback() {
-
-                        @Override
-                        public void onResult(boolean isSuccess, Object result) {
-
-                            final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
-
-                            RetrofitManager.getInstance().getSalonDetails(responseModel.getDetails().getSalonId(), new AbstractCallback() {
-
-                                @Override
-                                public void onResult(boolean isSuccess, Object result) {
-
-                                    SalonModel model = (SalonModel) result;
-
-                                    model.setBusiness(true);
-
-                                    AddNewBarberRequestModel barberModel;
-
-                                    User user = UserDefaultUtil.getCurrentUser();
-
-                                    user.setSalongId(model.getId());
-
-                                    UserDefaultUtil.saveUser(user);
-
-                                    for (AddNewStaffMemberDataModel staffMemberDataModel : staffContainer.getBarbers()) {
-
-                                        barberModel = new AddNewBarberRequestModel();
-
-                                        barberModel.setSalonId(responseModel.getDetails().getSalonId());
-
-                                        barberModel.setLastName(staffMemberDataModel.getStaffName().split(" ")[1]);
-
-                                        barberModel.setFirstName(staffMemberDataModel.getStaffName().split(" ")[0]);
-
-                                        barberModel.setEmail(staffMemberDataModel.getStaffEmail());
-
-                                        barberModel.setPass(staffMemberDataModel.getStaffPass());
-
-                                        barberModel.setCreatedAt("1");
-
-                                        barberModel.setStartTime("12");
-
-                                        barberModel.setEndTime("15");
-
-                                        barberModel.setUpdatedAt("16");
-
-                                        barberModel.setUserName("username" + staffMemberDataModel.getStaffName() + barberModel.getSalonId());
-
-                                        RetrofitManager.getInstance().addNewBarber(barberModel, new AbstractCallback() {
-
-                                            @Override
-                                            public void onResult(boolean isSuccess, Object result) {
-
-                                            }
-                                        });
-
-                                        barberModel = null;
-                                    }
-
-                                    UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
-
-                                    if (shouldPopFragment) {
-
-                                        FragmentManager.showSalonDetailsFragment(model);
-
-                                        FragmentManager.popBeforeCurrentVisibleFragment();
-
-                                    } else {
-
-                                        FragmentManager.popCurrentVisibleFragment();
-
-                                    }
-
-                                }
-                            });
-
-                        }
-                    });
-
-                } else {
-
-                    Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
-                            "You have to Add 1 Barber at least",
-                            Toast.LENGTH_SHORT).show();
-
-                }
+                executeRequests();
             }
 
         });
 
+        checkLocationPermission();
+
+        prefillData();
+
         return rootView;
+    }
+
+    private void prefillData() {
+        SalonModel salonModel = UserDefaultUtil.getCurrentSalonUser();
+        if (salonModel != null) {
+            salonName.setText(salonModel.getName());
+            ownerNamer.setText(salonModel.getOwnerName());
+//            email.setText(salonModel.getEmail());
+            mobile.setText(salonModel.getOwnerMobileNumber());
+            if (salonModel.getSalonType() == Gender.MALE) {
+                male.setChecked(true);
+                female.setChecked(false);
+            } else {
+                female.setChecked(true);
+                male.setChecked(false);
+            }
+            staffContainer.prefillBarbers(salonModel.getSalonBarbers());
+        }
+    }
+
+    private void executeRequests() {
+        prepareAddSalonRequestData();
+        if (staffContainer.getBarbers() != null && staffContainer.getBarbers().size() != 0) {
+            UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+            RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, new AbstractCallback() {
+
+                @Override
+                public void onResult(boolean isSuccess, Object result) {
+                    final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
+                    addSalonBarbers(responseModel);
+                }
+            });
+        } else {
+            Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
+                    "You have to Add 1 Barber at least",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkLocationPermission() {
+        //TODO: Add request permission,  https://stackoverflow.com/questions/44646668/streaming-upload-of-a-base64-image-using-retrofit
+        if (ContextCompat.checkSelfPermission(ThisApplication.getCurrentActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(ThisApplication.getCurrentActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(ThisApplication.getCurrentActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        1111);
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(ThisApplication.getCurrentActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(), "Should Access Location", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void prepareAddSalonRequestData() {
+        salonInformationRequestModel = new SalonInformationRequestModel();
+        salonInformationRequestModel.setCityID("23");
+        salonInformationRequestModel.setOwnerMobile(mobile.getText().toString());
+        salonInformationRequestModel.setOwnerName(ownerNamer.getText().toString());
+        salonInformationRequestModel.setSalonBase64Image(base64Image);
+
+        Location curLoc = AppUtil.getCurrentLocation();
+        if (curLoc != null) {
+            salonInformationRequestModel.setSalonLat(curLoc.getLatitude() + "");
+            salonInformationRequestModel.setSalonLong(curLoc.getLongitude() + "");
+        } else {
+            salonInformationRequestModel.setSalonLat("1122");
+            salonInformationRequestModel.setSalonLong("1122");
+        }
+        salonInformationRequestModel.setUserID(UserDefaultUtil.getCurrentUser().getId());
+        salonInformationRequestModel.setSalonName(salonName.getText().toString());
+        salonInformationRequestModel.setSalonType(male.isChecked() ? "1" : "2");
+    }
+
+    private void addSalonBarbers(final AddNewSalonResponseModel responseModel) {
+        RetrofitManager.getInstance().getSalonDetails(responseModel.getDetails().getSalonId(), new AbstractCallback() {
+
+            @Override
+            public void onResult(boolean isSuccess, Object result) {
+                SalonModel model = (SalonModel) result;
+                model.setBusiness(true);
+                User user = UserDefaultUtil.getCurrentUser();
+                user.setSalonId(model.getId());
+                UserDefaultUtil.saveUser(user);
+
+                for (AddNewStaffMemberDataModel staffMemberDataModel : staffContainer.getBarbers()) {
+                    RetrofitManager.getInstance().addNewBarber(getRequestDataModel(staffMemberDataModel, responseModel), new AbstractCallback() {
+
+                        @Override
+                        public void onResult(boolean isSuccess, Object result) {
+                        }
+                    });
+                }
+
+                UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+                if (shouldPopFragment) {
+                    FragmentManager.showSalonDetailsFragment(model);
+                    FragmentManager.popBeforeCurrentVisibleFragment();
+                } else {
+                    FragmentManager.popCurrentVisibleFragment();
+                }
+            }
+        });
+    }
+
+    private AddNewBarberRequestModel getRequestDataModel(AddNewStaffMemberDataModel staffMemberDataModel, AddNewSalonResponseModel responseModel) {
+        AddNewBarberRequestModel barberModel;
+        barberModel = new AddNewBarberRequestModel();
+        barberModel.setSalonId(UserDefaultUtil.getCurrentUser().getId());
+        try {
+            barberModel.setFirstName(staffMemberDataModel.getStaffName().split(" ")[0]);
+            barberModel.setLastName(staffMemberDataModel.getStaffName().split(" ")[1]);
+        } catch (Exception e) {
+            Log.e("Exception occuered", e.getMessage());
+        }
+        barberModel.setEmail(staffMemberDataModel.getStaffEmail());
+        barberModel.setPass(staffMemberDataModel.getStaffPass());
+        barberModel.setCreatedAt("1");
+        barberModel.setStartTime("12");
+        barberModel.setEndTime("15");
+        barberModel.setUpdatedAt("16");
+        barberModel.setUserName("username" + staffMemberDataModel.getStaffName() + barberModel.getSalonId());
+        return barberModel;
+    }
+
+    private void initViews() {
+        male = rootView.findViewById(R.id.male);
+        female = rootView.findViewById(R.id.female);
+        fromTime = rootView.findViewById(R.id.from_hours);
+        staffContainer = rootView.findViewById(R.id.salon_staff_container);
     }
 
 
@@ -578,11 +578,8 @@ public class SalonInformationFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         inflater.inflate(R.menu.image_options_menu, menu);
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

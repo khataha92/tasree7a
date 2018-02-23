@@ -15,6 +15,8 @@ import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 import com.twitter.sdk.android.core.models.User;
 
+import io.blackbox_vision.wheelview.view.WheelView;
+
 import static android.view.View.GONE;
 import static com.tasree7a.utils.UserDefaultUtil.getUserLanguage;
 import static com.tasree7a.utils.UserDefaultUtil.isAppLanguageArabic;
@@ -33,8 +35,6 @@ public class SettingsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-
-
         rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
 
             @Override

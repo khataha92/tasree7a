@@ -45,23 +45,28 @@ public class MainActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
 
+        initializations();
 
+        setContentView(R.layout.activity_main);
+
+        initTabsView();
+
+        AppUtil.checkAppLanguage();
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+
+//        Log.d(TAG, token);
+
+        if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        else
+            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
+    }
+
+    private void initializations() {
         Fabric.with(this, new Crashlytics());
-
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.tasree7a",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
 
         sdkInitialize(getApplicationContext());
 
@@ -73,42 +78,17 @@ public class MainActivity extends FragmentActivity {
 
             startHomeActivity();
         }
-
-        setContentView(R.layout.activity_main);
-
-        initTabsView();
-
-        AppUtil.checkAppLanguage();
-
-        String token = FirebaseInstanceId.getInstance().getToken();
-
-        Log.d(TAG, token);
-
-        if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
-            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-
-        else
-            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-
     }
-
 
     private void startHomeActivity() {
-
         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-
-        finish();
-
     }
-
 
     @Override
     protected void onResume() {
-
         super.onResume();
-
         ThisApplication.setCurrentActivity(this);
     }
 
@@ -128,10 +108,9 @@ public class MainActivity extends FragmentActivity {
 
     private void initTabsView() {
 
+        tabs = findViewById(R.id.tabs);
 
-        tabs = (TabLayout) findViewById(R.id.tabs);
-
-        tabsPager = (ViewPager) findViewById(R.id.viewpager);
+        tabsPager = findViewById(R.id.viewpager);
 
         setUpViewPager(tabsPager);
 
@@ -143,17 +122,13 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 tabsPager.setCurrentItem(tab.getPosition());
-
             }
-
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }
-
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -170,8 +145,7 @@ public class MainActivity extends FragmentActivity {
 
         if (callbackManager != null) {
 
-            callbackManager.onActivityResult(requestCode,
-                    resultCode, data);
+            callbackManager.onActivityResult(requestCode, resultCode, data);
 
         }
     }

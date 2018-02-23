@@ -61,6 +61,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/top_bar">
@@ -118,20 +119,20 @@
                 android:layout_below="@+id/select_date_label"
                 android:layout_marginBottom="12.3dp"
                 android:layout_marginLeft="17.3dp"
-                android:clickable="true"
                 android:layout_marginRight="17.3dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/WHITE">
+                android:background="@color/WHITE"
+                android:clickable="true">
 
                 <ImageView
                     android:id="@+id/icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:clickable="false"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="21dp"
                     android:layout_marginTop="8dp"
+                    android:clickable="false"
                     android:src="@drawable/ic_calendar" />
 
                 <TextView
@@ -140,10 +141,10 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:clickable="false"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/icon"
                     android:background="@null"
+                    android:clickable="false"
                     android:gravity="center_vertical"
                     android:text="@string/CLICK_TO_SELECT_DATE"
                     android:textColor="@color/APP_TEXT_COLOR" />
@@ -151,6 +152,8 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/wheel"
+                android:background="@color/WHITE"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/date_container"
@@ -158,17 +161,18 @@
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="17dp">
 
-                <com.tasree7a.CustomComponent.CustomTimePicker
-                    android:id="@+id/timePicker"
-                    style="@style/TimePickerTheme"
+                <com.tasree7a.CustomComponent.Tasree7aWheel
+                    android:id="@+id/time_wheel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <!--<com.tasree7a.CustomComponent.CustomTimePicker-->
+                <!--android:id="@+id/timePicker"-->
+                <!--style="@style/TimePickerTheme"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
 
             </RelativeLayout>
-
         </RelativeLayout>
-
-
     </ScrollView>
 
     <View
@@ -221,18 +225,18 @@
                 android:textSize="19sp" />
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/availability_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/LIGHT_RED"
-            android:gravity="center"
             android:background="@null"
+            android:gravity="center"
             android:padding="10dp"
             android:text="@string/NOT_AVAILABLE_TIME"
-            android:visibility="invisible"
-            />
+            android:textColor="@color/LIGHT_RED"
+            android:textSize="13sp"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.tasree7a.Fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,21 +17,31 @@ import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.SalonBooking.SalonService;
 import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
+import com.tasree7a.Observables.ServicesChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UIUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by SamiKhleaf on 10/24/17.
- *
  */
 
-public class SalonServicesFragment extends BaseFragment {
+public class SalonServicesFragment extends BaseFragment implements Observer {
 
     TextView addServices;
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ServicesChangedObservable.sharedInstance().addObserver(this);
+    }
+
+    RecyclerView salonService;
 
     @Nullable
     @Override
@@ -61,9 +72,18 @@ public class SalonServicesFragment extends BaseFragment {
 
         UIUtils.showLoadingView(rootView, this);
 
-        final RecyclerView salonService = (RecyclerView) rootView.findViewById(R.id.services_list);
+        salonService = (RecyclerView) rootView.findViewById(R.id.services_list);
 
         salonService.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
+        requestSalonServices();
+
+        return rootView;
+    }
+
+    List<SalonService> services = new ArrayList<>();
+
+    private void requestSalonServices() {
 
         RetrofitManager.getInstance().getSalonServices(ReservationSessionManager.getInstance().getSalonModel().getId(), new AbstractCallback() {
 
@@ -79,9 +99,9 @@ public class SalonServicesFragment extends BaseFragment {
                         FragmentManager.showAddNewSalonServiceFragment();
 
                     } else {
-
-                        salonService.setAdapter(new SalonServicesAdapter(salonServices));
-
+                        services.clear();
+                        services = salonServices;
+                        initList();
                     }
 
                     UIUtils.hideLoadingView(rootView, SalonServicesFragment.this);
@@ -90,7 +110,25 @@ public class SalonServicesFragment extends BaseFragment {
 
             }
         });
+    }
 
-        return rootView;
+    private void initList() {
+        SalonServicesAdapter adapter = new SalonServicesAdapter(services);
+        adapter.notifyDataSetChanged();
+        salonService.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ServicesChangedObservable.sharedInstance().deleteObserver(this);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ServicesChangedObservable) {
+            requestSalonServices();
+            salonService.getAdapter().notifyDataSetChanged();
+        }
     }
 }

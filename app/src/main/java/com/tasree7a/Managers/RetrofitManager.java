@@ -3,6 +3,7 @@ package com.tasree7a.Managers;
 import android.util.Log;
 
 import com.tasree7a.Constants;
+import com.tasree7a.Enums.BookingStatus;
 import com.tasree7a.Models.AddNewBarberRequestModel;
 import com.tasree7a.Models.AddNewServiceRequestModel;
 import com.tasree7a.Models.Bookings.BookingModel;
@@ -276,9 +277,9 @@ public class RetrofitManager {
     }
 
 
-    public void getUserBookings(String userId, final AbstractCallback callback) {
+    public void getUserBookings(String userId, String userType, final AbstractCallback callback) {
 
-        Call<UserBookingsResponse> getBookings = request.getUserBookings(userId);
+        Call<UserBookingsResponse> getBookings = request.getUserBookings(userId, userType);
 
         getBookings.enqueue(new Callback<UserBookingsResponse>() {
 
@@ -509,6 +510,24 @@ public class RetrofitManager {
         });
     }
 
+    public void updateBookingStatus(String BookingId, BookingStatus bookingStatus, final AbstractCallback callback) {
+
+        Call<Object> call = request.updateBookingStatus(BookingId, bookingStatus.value + "");
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onResult(true, response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("FAILED_RESPONSE", t.getMessage());
+            }
+        });
+
+    }
 
     public void updateSalonImages(UpdateSalonImagesRequestModel model, final AbstractCallback callback) {
 

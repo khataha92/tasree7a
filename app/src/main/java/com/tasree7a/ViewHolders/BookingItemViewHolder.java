@@ -5,25 +5,24 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tasree7a.Adapters.BookingServicesAdapter;
-import com.tasree7a.Enums.FontsType;
+import com.tasree7a.Enums.BookingStatus;
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.Models.Bookings.BookingModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
+import com.tasree7a.Observables.BookingStatusChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.interfaces.CalenderCellClickListener;
-import com.tasree7a.utils.FontUtil;
-
-import org.joda.time.LocalDate;
+import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class BookingItemViewHolder extends BaseCardViewHolder {
 
         ImageView callSalon = (ImageView) itemView.findViewById(R.id.salon_phone);
 
-        TextView bookingId = (TextView) itemView.findViewById(R.id.booking_id);
+        final TextView bookingId = (TextView) itemView.findViewById(R.id.booking_id);
 
         bookingId.setText(model.getBookingId());
 
@@ -80,6 +79,23 @@ public class BookingItemViewHolder extends BaseCardViewHolder {
 
         }
 
+        itemView.findViewById(R.id.cancel_booking).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RetrofitManager.getInstance().updateBookingStatus(model.getBookingId(), UserDefaultUtil.isBusinessUser() ? BookingStatus.CANCELED_BY_BARBER : BookingStatus.CANCELED_BY_USER, new AbstractCallback() {
+                    @Override
+                    public void onResult(boolean isSuccess, Object result) {
+                        Log.d("RESPONCE_SUCCESS", result.toString());
+                        BookingStatusChangedObservable.sharedInstance().setStatusChanged(model);
+                    }
+                });
+            }
+        });
+
+        if (model.getBookStatus() == BookingStatus.CANCELED_BY_BARBER.value
+                || model.getBookStatus() == BookingStatus.CANCELED_BY_USER.value) {
+            ((RelativeLayout)itemView.findViewById(R.id.badge)).setBackgroundColor(itemView.getContext().getResources().getColor(R.color.red_btn_bg_color));
+        }
 
         location.setOnClickListener(new View.OnClickListener() {
 

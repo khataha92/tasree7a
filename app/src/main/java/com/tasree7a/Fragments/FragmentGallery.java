@@ -1,11 +1,9 @@
 package com.tasree7a.Fragments;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.Models.UpdateProductRequestModel;
@@ -228,7 +225,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
         for (final String item : items) {
 
             model = new UpdateSalonImagesRequestModel();
-            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
             model.setOperation("DELETE");
             model.setImageId(item);
 
@@ -275,7 +272,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
             model.setOperation("DELETE");
             model.setProductId(item);
-            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalongId());
+            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
 
             RetrofitManager.getInstance().updateSalonProducts(model, new AbstractCallback() {
 
@@ -313,7 +310,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
             @Override
             public void onResult(boolean isSuccess, Object result) {
 
-                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), new AbstractCallback() {
 
                     @Override
                     public void onResult(boolean isSuccess, Object result) {
@@ -340,7 +337,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
             @Override
             public void onResult(boolean isSuccess, Object result) {
 
-                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalongId(), new AbstractCallback() {
+                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), new AbstractCallback() {
 
                     @Override
                     public void onResult(boolean isSuccess, Object result) {

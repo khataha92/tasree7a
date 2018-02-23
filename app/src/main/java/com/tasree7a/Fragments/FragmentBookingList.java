@@ -1,5 +1,6 @@
 package com.tasree7a.Fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.Models.Bookings.BookingModel;
 import com.tasree7a.Models.UserBookingsResponse;
+import com.tasree7a.Observables.BookingStatusChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.utils.UIUtils;
@@ -29,12 +31,14 @@ import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Khalid Taha on 8/19/2017.
  */
 
-public class FragmentBookingList extends BaseFragment implements CardFactory {
+public class FragmentBookingList extends BaseFragment implements CardFactory, Observer {
 
     RecyclerView bookingList;
 
@@ -73,7 +77,17 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
 
         showLoadingView();
 
-        RetrofitManager.getInstance().getUserBookings(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
+        userID = UserDefaultUtil.isBusinessUser() ? UserDefaultUtil.getCurrentSalonUser().getId() : UserDefaultUtil.getCurrentUser().getId();
+        requestBookings(userID);
+
+        return rootView;
+
+    }
+
+    String userID;
+
+    private void requestBookings(String userID) {
+        RetrofitManager.getInstance().getUserBookings(userID, UserDefaultUtil.isBusinessUser() ? "S" : "C", new AbstractCallback() {
 
             @Override
             public void onResult(boolean isSuccess, Object result) {
@@ -82,6 +96,7 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
 
                 if (isSuccess) {
 
+                    bookingModels.clear();
                     bookingModels = ((UserBookingsResponse) result).getUserBookings();
 
                     initBookings();
@@ -90,11 +105,19 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
 
             }
         });
-
-        return rootView;
-
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        BookingStatusChangedObservable.sharedInstance().addObserver(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        BookingStatusChangedObservable.sharedInstance().deleteObserver(this);
+    }
 
     private void showLoadingView() {
 
@@ -151,10 +174,12 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
         return baseCardModels;
     }
 
+    BaseCardAdapter adapter;
 
     private void initBookings() {
 
-        BaseCardAdapter adapter = new BaseCardAdapter(getCardModels());
+        adapter =
+                new BaseCardAdapter(getCardModels());
 
         bookingList.setAdapter(adapter);
     }
@@ -178,5 +203,14 @@ public class FragmentBookingList extends BaseFragment implements CardFactory {
     public View getRootView() {
 
         return null;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof BookingStatusChangedObservable) {
+            requestBookings(userID);
+            bookingList.getAdapter().notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
+        }
     }
 }

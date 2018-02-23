@@ -3,28 +3,22 @@ package com.tasree7a.Fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.tasree7a.Adapters.SalonServicesAdapter;
 import com.tasree7a.CustomComponent.CustomRadioButton;
 import com.tasree7a.CustomComponent.CustomRadioGroup;
-import com.tasree7a.CustomComponent.CustomTimePicker;
+import com.tasree7a.CustomComponent.Tasree7aWheel;
 import com.tasree7a.Enums.CustomOrientation;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Managers.SessionManager;
 import com.tasree7a.Models.SalonBooking.AvailableTimesResponse;
-import com.tasree7a.Models.SalonBooking.SalonService;
 import com.tasree7a.Models.SalonDetails.SalonBarber;
 import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
@@ -35,24 +29,15 @@ import com.tasree7a.utils.UserDefaultUtil;
 
 import org.joda.time.LocalDate;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-/**
- * Created by mac on 9/17/17.
- */
 
 public class BookScheduleFragment extends BaseFragment {
 
     SalonModel salonModel;
 
     List<Integer> availableTimes = new ArrayList<>();
-
-    CustomTimePicker timePicker;
 
     TextView availabilityText;
 
@@ -62,8 +47,7 @@ public class BookScheduleFragment extends BaseFragment {
 
     LocalDate localDate;
 
-    int finalTime;
-
+    Tasree7aWheel timeWheel;
 
     @Nullable
     @Override
@@ -75,38 +59,20 @@ public class BookScheduleFragment extends BaseFragment {
 
         confirm = rootView.findViewById(R.id.confirm);
 
-        timePicker = (CustomTimePicker) rootView.findViewById(R.id.timePicker);
+        availabilityText = rootView.findViewById(R.id.availability_text);
 
-        availabilityText = (TextView) rootView.findViewById(R.id.availability_text);
+        timeWheel = rootView.findViewById(R.id.time_wheel);
 
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
+        timeWheel.setAction(new Runnable() {
             @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+            public void run() {
 
-                finalTime = convertTimeToInt(hourOfDay, minute);
-
-                if (availableTimes.indexOf(finalTime) == -1) {
-
-                    availabilityText.setVisibility(View.VISIBLE);
-
-                    confirm.setClickable(false);
-
-                    ((TextView) confirm).setTextColor(Color.GRAY);
-
-                } else {
-
-                    availabilityText.setVisibility(View.INVISIBLE);
-
-                    confirm.setClickable(true);
-
-                    ((TextView) confirm).setTextColor(Color.WHITE);
-                }
+                boolean available = salonModel.getAvailableTimesFormatted().indexOf(timeWheel.getTime()+"") != -1;
+                confirm.setClickable(available);
+                timeWheel.setAvailable(available);
 
             }
         });
-
-
         Calendar c = Calendar.getInstance();
 
         int year = c.get(Calendar.YEAR);
@@ -185,18 +151,6 @@ public class BookScheduleFragment extends BaseFragment {
 
                 String userId = UserDefaultUtil.getCurrentUser().getId();
 
-                if (finalTime == 0) {
-
-                    Calendar c = Calendar.getInstance();
-
-                    int hours = c.get(Calendar.HOUR_OF_DAY);
-
-                    int minutes = c.get(Calendar.MINUTE);
-
-                    finalTime = convertTimeToInt(hours, minutes);
-
-                }
-
                 int[] services = new int[ReservationSessionManager.getInstance().getSelectedServices().size()];
 
                 for (int i = 0; i < ReservationSessionManager.getInstance().getSelectedServices().size(); i++) {
@@ -205,7 +159,7 @@ public class BookScheduleFragment extends BaseFragment {
 
                 }
 
-                RetrofitManager.getInstance().addBooking(barberId, salonId, services, userId, localDate.toString(), "" + finalTime, new AbstractCallback() {
+                RetrofitManager.getInstance().addBooking(barberId, salonId, services, userId, localDate.toString(), timeWheel.getTime() + "", new AbstractCallback() {
 
                     @Override
                     public void onResult(boolean isSuccess, Object result) {
@@ -237,7 +191,7 @@ public class BookScheduleFragment extends BaseFragment {
 
     private void initSalonBarbers() {
 
-        radioGroup = (CustomRadioGroup) rootView.findViewById(R.id.salon_barber);
+        radioGroup = rootView.findViewById(R.id.salon_barber);
 
         List<SalonBarber> salonBarberList = salonModel.getSalonBarbers();
 
@@ -296,19 +250,4 @@ public class BookScheduleFragment extends BaseFragment {
         });
     }
 
-
-    private int convertTimeToInt(int hourOfDay, int minute) {
-
-        int temp = 0;
-
-        if (minute >= 30) {
-
-            temp = 1;
-        }
-
-        finalTime = hourOfDay * 2 + temp;
-
-        return finalTime;
-
-    }
 }

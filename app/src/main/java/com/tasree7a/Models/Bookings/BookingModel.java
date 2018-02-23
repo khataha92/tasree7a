@@ -37,6 +37,30 @@ public class BookingModel {
         return bookingId;
     }
 
+    public int getBookStatus() {
+        return bookStatus;
+    }
+
+    public void setBookStatus(int bookStatus) {
+        this.bookStatus = bookStatus;
+    }
+
+    public CityModel getCity() {
+        return city;
+    }
+
+    public void setCity(CityModel city) {
+        this.city = city;
+    }
+
+    public CountryModel getCountry() {
+        return country;
+    }
+
+    public void setCountry(CountryModel country) {
+        this.country = country;
+    }
+
     public void setBookingId(String bookingId) {
         this.bookingId = bookingId;
     }

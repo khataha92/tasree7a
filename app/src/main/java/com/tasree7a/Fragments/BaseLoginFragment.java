@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,10 +44,6 @@ import org.json.JSONObject;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tasree7a.ThisApplication.callbackManager;
 
-/**
- * Created by SamiKhleaf on 8/4/17.
- */
-
 public class BaseLoginFragment extends BaseFragment implements View.OnClickListener {
 
     CustomButton login;
@@ -71,7 +66,6 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
     @SuppressLint("ValidFragment")
     public BaseLoginFragment(LoginType type) {
-
         isBusiness = type == LoginType.BUSINESS;
 
     }
@@ -302,7 +296,7 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                                     user.setBusiness(isBusiness ? 1 : 0);
 
-                                    user.setSalongId(responseModel.getSalonId());
+                                    user.setSalonId(responseModel.getSalonId());
 
                                     UserDefaultUtil.saveUser(user);
 

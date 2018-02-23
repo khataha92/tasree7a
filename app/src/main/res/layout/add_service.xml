@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/BG_GRAY">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BG_GRAY">
 
     <RelativeLayout
         android:id="@+id/top_bar"
@@ -18,13 +18,13 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="17dp"
             android:padding="10dp"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/GRAY"/>
+            android:background="@color/GRAY" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
             android:textAllCaps="true"
             android:textColor="@color/APP_TEXT_COLOR"
             android:textSize="19.3sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -45,8 +45,7 @@
         android:layout_below="@+id/top_bar"
         android:layout_centerHorizontal="true"
         android:layout_margin="19dp"
-        android:background="@drawable/shadow_bg"
-        >
+        android:background="@drawable/shadow_bg">
 
         <ImageView
             android:id="@+id/add_img"
@@ -54,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/profile_cam"/>
+            android:src="@drawable/profile_cam" />
 
     </RelativeLayout>
 
@@ -64,8 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/add_product_image"
         android:layout_marginTop="60dp"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/service_type"
@@ -93,8 +91,7 @@
             android:maxLines="1"
             android:textColor="@color/BLACK"
             android:textColorHint="@color/BLACK"
-            android:textSize="14.8sp"
-            />
+            android:textSize="14.8sp" />
 
         <EditText
             android:id="@+id/duration_time"
@@ -109,14 +106,14 @@
             android:maxLines="1"
             android:textColor="@color/BLACK"
             android:textColorHint="@color/BLACK"
-            android:textSize="14.8sp"
-            />
+            android:textSize="14.8sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_below="@+id/service_info"
         android:layout_marginLeft="26dp"
         android:layout_marginRight="26dp"
         android:gravity="center"
@@ -134,7 +131,7 @@
             app:customButtonRadius="20"
             app:customButtonText="@string/CANCEL"
             app:customButtonTextColor="@color/WHITE"
-            app:customButtonTextSize="19sp"/>
+            app:customButtonTextSize="19sp" />
 
 
         <com.tasree7a.CustomComponent.CustomButton
@@ -148,7 +145,7 @@
             app:customButtonRadius="20"
             app:customButtonText="@string/SAVE"
             app:customButtonTextColor="@color/WHITE"
-            app:customButtonTextSize="19sp"/>
+            app:customButtonTextSize="19sp" />
 
     </LinearLayout>
 </RelativeLayout>

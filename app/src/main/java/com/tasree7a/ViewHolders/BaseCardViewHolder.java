@@ -17,11 +17,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 /**
- * Created by mac on 6/4/17.
- */
-
-
-/**
  * Created by Khalid Taha on 3/19/16.
  * BaseCardViewHolder the base and generator for all ViewHolders in CardsRecyclerAdapter
  */

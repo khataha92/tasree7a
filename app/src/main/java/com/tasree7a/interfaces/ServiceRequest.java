@@ -76,10 +76,13 @@ public interface ServiceRequest {
                                 @Field("book_date") String date,
                                 @Field("book_time") String time);
 
+    @FormUrlEncoded
+    @POST("updateBookingStatus")
+    Call<Object>updateBookingStatus(@Field("bookId") String bookingID, @Field("bookStatus") String status);
 
     @FormUrlEncoded
     @POST("getUserBookings")
-    Call<UserBookingsResponse> getUserBookings(@Field("userId") String userId);
+    Call<UserBookingsResponse> getUserBookings(@Field("userId") String userId, @Field("userType") String userType);
 
 
     @FormUrlEncoded

@@ -4,11 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/select_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/SELECT_TIME"
+        android:textColor="@color/APP_GREEN"
+        android:textSize="30sp" />
+
     <RelativeLayout
+        android:id="@+id/selected_time"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/am_pm"
@@ -61,23 +73,27 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/WHITE"
         android:orientation="horizontal"
         android:weightSum="3">
 
         <NumberPicker
             android:id="@+id/hours"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+
+            android:layout_alignParentLeft="true"
             android:descendantFocusability="blocksDescendants"
             android:solidColor="@color/WHITE" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:id="@+id/available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
@@ -87,10 +103,11 @@
 
         <NumberPicker
             android:id="@+id/minutes"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
             android:descendantFocusability="blocksDescendants"
             android:solidColor="@color/WHITE" />
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -1,8 +1,10 @@
 package com.tasree7a.Models.SalonDetails;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
+import com.tasree7a.AvailableTimesHelper;
 import com.tasree7a.Constants;
 import com.tasree7a.Enums.FilterType;
 import com.tasree7a.Enums.Gender;
@@ -16,6 +18,7 @@ import com.tasree7a.interfaces.Filterable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +26,7 @@ import java.util.List;
  * Created by mac on 7/4/17.
  */
 
-public class SalonModel implements Filterable, ClusterItem {
+public class SalonModel implements Filterable, ClusterItem, Serializable {
 
     @SerializedName("rank")
     RankModel rank;
@@ -72,6 +75,31 @@ public class SalonModel implements Filterable, ClusterItem {
     @SerializedName("salon_services")
     List<SalonService> salonServices;
 
+    @SerializedName("available_time")
+    @Expose
+    List<Integer> availableTimes;
+
+//    @SerializedName("available_time")
+//    int[] availableTimess;
+
+
+    public void setAvailableTimes(List<Integer> availableTimes) {
+        this.availableTimes = availableTimes;
+    }
+
+    public List<Integer> getAvailableTimes() {
+        return availableTimes;
+    }
+
+    public List<String> getAvailableTimesFormatted() {
+        List<String> times = new ArrayList<>();
+        for (int i = 0; i < availableTimes.size(); i++) {
+            times.add(AvailableTimesHelper.prepareAvailableTimes(availableTimes.get(i)));
+        }
+
+        return times;
+    }
+
     boolean isBusiness = false;
 
     public List<SalonService> getSalonServices() {
@@ -84,7 +112,7 @@ public class SalonModel implements Filterable, ClusterItem {
     }
 
     public String getImage() {
-        return Constants.IMAGE_PREFIX+image;
+        return Constants.IMAGE_PREFIX + image;
     }
 
     public String getId() {
@@ -147,21 +175,21 @@ public class SalonModel implements Filterable, ClusterItem {
         return salonCity.getName();
     }
 
-    public CityModel getCity(){
+    public CityModel getCity() {
 
         return salonCity;
     }
 
-    public CityModel getCityModel(){
+    public CityModel getCityModel() {
 
         return salonCity;
     }
 
-    public List<ImageModel> getProductsImages(){
+    public List<ImageModel> getProductsImages() {
 
-        List<ImageModel> productList =  new ArrayList<>();
+        List<ImageModel> productList = new ArrayList<>();
 
-        for(int i = 0 ; i < products.size() ; i ++){
+        for (int i = 0; i < products.size(); i++) {
 
             ImageModel imageModel = new ImageModel();
 
@@ -211,13 +239,13 @@ public class SalonModel implements Filterable, ClusterItem {
 
     public List<ImageModel> getGallery() {
 
-        if(gallery == null || gallery.isEmpty()){
+        if (gallery == null || gallery.isEmpty()) {
 
             gallery = new ArrayList<>();
 
             int start = Integer.parseInt(id);
 
-            for(int i = (start-1) * 9 ; i < UIUtils.images.length && i < start * 9 ; i++){
+            for (int i = (start - 1) * 9; i < UIUtils.images.length && i < start * 9; i++) {
 
                 ImageModel imageModel = new ImageModel();
 
@@ -228,9 +256,9 @@ public class SalonModel implements Filterable, ClusterItem {
 
         } else {
 
-            for (int i = 0 ; i< gallery.size() ;i++){
+            for (int i = 0; i < gallery.size(); i++) {
 
-                if(!gallery.get(i).getImagePath().startsWith("http")) {
+                if (!gallery.get(i).getImagePath().startsWith("http")) {
 
                     gallery.get(i).setImagePath(Constants.IMAGE_PREFIX + gallery.get(i).getImagePath());
 
@@ -244,14 +272,14 @@ public class SalonModel implements Filterable, ClusterItem {
 
     public int getRating() {
 
-        return (int)rank.getRank();
+        return (int) rank.getRank();
 
     }
 
     @Override
     public boolean filterValue(FilterType filterType) {
 
-        switch (filterType){
+        switch (filterType) {
 
             case ALL:
 
@@ -276,7 +304,7 @@ public class SalonModel implements Filterable, ClusterItem {
     }
 
     public GeoLocationModel getLocationModel() {
-        if(locationModel == null){
+        if (locationModel == null) {
 
             locationModel = new GeoLocationModel();
 
@@ -291,12 +319,12 @@ public class SalonModel implements Filterable, ClusterItem {
     @Override
     public LatLng getPosition() {
 
-        LatLng latLng = new LatLng(lat,lng);
+        LatLng latLng = new LatLng(lat, lng);
 
         return latLng;
     }
 
-    public boolean isFavorite(){
+    public boolean isFavorite() {
 
         return UserDefaultUtil.isSalonFavorite(this);
 

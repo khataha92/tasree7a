@@ -20,6 +20,8 @@ import com.tasree7a.utils.PermissionCode;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import static com.tasree7a.AvailableTimesHelper.prepareAvailableTimes;
+
 
 /**
  * Created by mac on 5/4/17.
@@ -33,7 +35,7 @@ public class HomeActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         AppUtil.checkAppLanguage();
-
+        prepareAvailableTimes(0);
         boolean isBusiness = UserDefaultUtil.isBusinessUser();
         if (!isBusiness) {
             FragmentManager.showHomeFragment();
@@ -41,7 +43,7 @@ public class HomeActivity extends FragmentActivity {
             UIUtils.hideSweetLoadingDialog();
         } else {
             findViewById(R.id.loading).setVisibility(View.VISIBLE);
-            String salonID = UserDefaultUtil.getCurrentUser().getSalonId();
+            String salonID = UserDefaultUtil.getCurrentUser().getId();
             if (salonID != null
                 && salonID.equalsIgnoreCase("-1")) {
                 findViewById(R.id.loading).setVisibility(View.GONE);
@@ -53,7 +55,7 @@ public class HomeActivity extends FragmentActivity {
     }
 
     private void requestSalonDetails() {
-        RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
+        RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), new AbstractCallback() {
             @Override
             public void onResult (boolean isSuccess, Object result) {
                 findViewById(R.id.loading).setVisibility(View.GONE);

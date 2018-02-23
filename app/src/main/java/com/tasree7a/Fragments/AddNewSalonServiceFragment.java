@@ -23,6 +23,8 @@ import com.tasree7a.DummyConstants;
 import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.Managers.RetrofitManager;
 import com.tasree7a.Models.AddNewServiceRequestModel;
+import com.tasree7a.Observables.GallaryItemsChangedObservable;
+import com.tasree7a.Observables.ServicesChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
@@ -81,9 +83,9 @@ public class AddNewSalonServiceFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                AddNewServiceRequestModel model = new AddNewServiceRequestModel();
+                final AddNewServiceRequestModel model = new AddNewServiceRequestModel();
 
-                model.setSalonId(UserDefaultUtil.getCurrentUser().getId());
+                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
 
                 model.setServiceImage(base64Image);
 
@@ -100,7 +102,7 @@ public class AddNewSalonServiceFragment extends BaseFragment {
                             //TODO: Show Services fragment and don't go back to this
 
                             FragmentManager.popCurrentVisibleFragment();
-
+                            ServicesChangedObservable.sharedInstance().setServicesChanged();
                         }
                     }
                 });

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tasree7a.Managers.FragmentManager;
+import com.tasree7a.Managers.ReservationSessionManager;
 import com.tasree7a.Models.AddNewStaffMemberDataModel;
 import com.tasree7a.Models.SalonDetails.SalonBarber;
 import com.tasree7a.R;
@@ -81,7 +82,7 @@ public class SalonStaffContainer extends LinearLayout {
             @Override
             public void onClick(View v) {
 
-                FragmentManager.showAddNewStaffFragment(new AbstractCallback() {
+                FragmentManager.showAddNewStaffFragment(ReservationSessionManager.getInstance().getSalonModel(), new AbstractCallback() {
 
                     @Override
                     public void onResult(boolean isSuccess, Object result) {

@@ -114,7 +114,6 @@ public class AddStaffMemberFragment extends BaseFragment {
                         barberModel = null;
                     }
 
-
                     if (addStaffCallback != null) {
 
                         addStaffCallback.onResult(true, staffMemberDataModel);

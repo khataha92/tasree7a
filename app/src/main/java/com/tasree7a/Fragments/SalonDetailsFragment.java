@@ -100,8 +100,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         }
 
-        ReservationSessionManager.getInstance().setSalonModel(salonModel);
-
         if (isSalonDataValid()) {
 
             FragmentManager.showSalonInfoFragment(true);
@@ -393,9 +391,13 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
         }
 
-        cardModels.add(getCardModel(CardType.GALARY_CARD));
+        if (UserDefaultUtil.isBusinessUser()
+                || salonModel.getGallery() != null && !salonModel.getGallery().isEmpty())
+            cardModels.add(getCardModel(CardType.GALARY_CARD));
 
-        cardModels.add(getCardModel(CardType.PRODUCTS_CARD));
+        if (UserDefaultUtil.isBusinessUser()
+                || salonModel.getProducts() != null && !salonModel.getProducts().isEmpty())
+            cardModels.add(getCardModel(CardType.PRODUCTS_CARD));
 
         cardModels.add(getCardModel(CardType.CONTACT_DETAILS));
 
@@ -537,6 +539,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
                     salonModel.setSalonCity(temp.getCity());
 
+                    salonModel.setAvailableTimes(temp.getAvailableTimes());
+
                     didLoadFullSalon = true;
 
                     ((BaseCardAdapter) salonDetails.getAdapter()).setCardModels(getCardModels());
@@ -545,6 +549,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
                     UserDefaultUtil.setCurrentSalonUser(salonModel);
 
+                    ReservationSessionManager.getInstance().setSalonModel(salonModel);
                 }
 
                 hideLoadingView();

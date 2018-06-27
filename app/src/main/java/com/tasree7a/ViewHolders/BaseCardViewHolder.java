@@ -1,4 +1,4 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.crashlytics.android.Crashlytics;
-import com.tasree7a.Enums.CardType;
-import com.tasree7a.Models.BaseCardModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.enums.CardType;
+import com.tasree7a.models.BaseCardModel;
 import com.tasree7a.utils.FontUtil;
 
 import java.util.concurrent.Callable;
@@ -69,15 +69,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
         BaseCardViewHolder cardViewHolder = new BaseCardViewHolder(new View(ThisApplication.getCurrentActivity()), new BaseCardModel().setCardType(CardType.EMPTY));
 
         Future<BaseCardViewHolder> future = ThisApplication.getNonUIThread()
-                .submit(new Callable<BaseCardViewHolder>() {
-
-                    @Override
-                    public BaseCardViewHolder call() throws Exception {
-
-                        return BaseCardViewHolder.createViewHolderInternal(parent, cardModel);
-
-                    }
-                });
+                .submit(() -> BaseCardViewHolder.createViewHolderInternal(parent, cardModel));
 
         try {
 

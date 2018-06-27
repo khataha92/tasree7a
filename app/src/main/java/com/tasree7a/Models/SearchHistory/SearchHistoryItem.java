@@ -1,4 +1,4 @@
-package com.tasree7a.Models.SearchHistory;
+package com.tasree7a.models.searchhistory;
 
 import com.google.gson.annotations.SerializedName;
 

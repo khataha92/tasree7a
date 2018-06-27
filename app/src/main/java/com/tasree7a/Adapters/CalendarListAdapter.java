@@ -1,40 +1,31 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.tasree7a.CustomComponent.CustomGridCalendar;
-import com.tasree7a.Enums.CalenderType;
-import com.tasree7a.Enums.Language;
-import com.tasree7a.Models.Calendar.CalendarViewsModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.ViewHolders.CalendarMonthViewHolder;
+import com.tasree7a.enums.CalenderType;
+import com.tasree7a.enums.Language;
 import com.tasree7a.interfaces.CalenderCellClickListener;
 import com.tasree7a.interfaces.DateCalenderViewListener;
+import com.tasree7a.models.calendar.CalendarViewsModel;
 import com.tasree7a.utils.DateFormatsOptions;
 import com.tasree7a.utils.DateUtil;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
+import com.tasree7a.viewholders.CalendarMonthViewHolder;
 
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by Khalid Taha on 2/2/16.
@@ -186,7 +177,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarMonthViewH
         return listOfMonthCalenders.size();
     }
 
-    public List<CalendarMonthAdapter> getGridsAdapters() {
+    public List<com.tasree7a.adapters.CalendarMonthAdapter> getGridsAdapters() {
         return gridsAdapters;
     }
 

@@ -1,4 +1,4 @@
-package com.tasree7a.Enums;
+package com.tasree7a.enums;
 
 /**
  * Created by KhalidTaha on 4/20/17.

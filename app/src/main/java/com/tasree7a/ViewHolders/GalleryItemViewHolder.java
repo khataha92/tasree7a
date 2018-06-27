@@ -1,4 +1,4 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -6,10 +6,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tasree7a.Enums.Sizes;
-import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
+import com.tasree7a.enums.Sizes;
+import com.tasree7a.models.gallery.ImageModel;
+import com.tasree7a.models.salondetails.SalonProduct;
 import com.tasree7a.utils.UIUtils;
 
 /**
@@ -35,15 +35,15 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
 
         super(itemView);
 
-        image = (ImageView) itemView.findViewById(R.id.image);
+        image = itemView.findViewById(R.id.image);
 
-        name = (TextView) itemView.findViewById(R.id.product_name);
+        name = itemView.findViewById(R.id.product_name);
 
-        price = (TextView) itemView.findViewById(R.id.product_price);
+        price = itemView.findViewById(R.id.product_price);
 
-        selectenImage = (ImageView) itemView.findViewById(R.id.selected);
+        selectenImage = itemView.findViewById(R.id.selected);
 
-        imageContainer = (RelativeLayout) itemView.findViewById(R.id.image_container);
+        imageContainer = itemView.findViewById(R.id.image_container);
 
     }
 

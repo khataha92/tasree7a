@@ -1,4 +1,4 @@
-package com.tasree7a.Models;
+package com.tasree7a.models;
 
 import android.support.annotation.FloatRange;
 import android.view.ViewGroup;

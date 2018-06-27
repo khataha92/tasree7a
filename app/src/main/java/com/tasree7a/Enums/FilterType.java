@@ -1,4 +1,4 @@
-package com.tasree7a.Enums;
+package com.tasree7a.enums;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,10 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.common.base.Strings;
-import com.tasree7a.Enums.FontsType;
+;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.enums.FontsType;
 import com.tasree7a.utils.FontUtil;
 import com.tasree7a.utils.UIUtils;
 

@@ -1,18 +1,18 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tasree7a.Enums.Sizes;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Models.SalonBooking.SalonService;
-import com.tasree7a.Observables.ServicesTotalChangeObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.ViewHolders.SalonServiceViewHolder;
+import com.tasree7a.enums.Sizes;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.models.salonbooking.SalonService;
+import com.tasree7a.observables.ServicesTotalChangeObservable;
 import com.tasree7a.utils.UIUtils;
+import com.tasree7a.viewholders.SalonServiceViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.view.View;
 

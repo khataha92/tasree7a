@@ -1,7 +1,5 @@
 package com.tasree7a.interfaces;
 
-import com.tasree7a.CustomComponent.CustomGridCalendar;
-
 import org.joda.time.LocalDate;
 
 /**

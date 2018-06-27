@@ -1,7 +1,7 @@
-package com.tasree7a.Managers;
+package com.tasree7a.managers;
 
-import com.tasree7a.Enums.SortType;
-import com.tasree7a.Models.SalonDetails.SalonModel;
+import com.tasree7a.enums.SortType;
+import com.tasree7a.models.salondetails.SalonModel;
 
 import java.util.Comparator;
 
@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 public class SalonsComparable implements Comparator<SalonModel> {
 
-    SortType sortType;
+    private SortType sortType;
 
     public SalonsComparable(SortType sortType){
 

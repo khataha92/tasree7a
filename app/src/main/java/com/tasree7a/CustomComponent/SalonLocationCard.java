@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.tasree7a.Models.LocationCard.LocationCardModel;
 import com.tasree7a.R;
+import com.tasree7a.models.locationcard.LocationCardModel;
 import com.tasree7a.utils.MapsUtils;
 import com.tasree7a.utils.UIUtils;
 

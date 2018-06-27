@@ -1,18 +1,14 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
+
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.tasree7a.CustomComponent.CustomSwitch;
-import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
-import com.tasree7a.interfaces.AbstractCallback;
-
-import org.joda.time.LocalDate;
+import com.tasree7a.customcomponent.CustomSwitch;
 
 /**
  * Created by Mohammad Krm on 8/19/2017.

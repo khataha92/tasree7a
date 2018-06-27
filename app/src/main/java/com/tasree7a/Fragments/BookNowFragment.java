@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,20 +10,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tasree7a.Adapters.SalonServicesAdapter;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.SalonBooking.SalonService;
-import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
-import com.tasree7a.Observables.ServicesTotalChangeObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.adapters.SalonServicesAdapter;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.salonbooking.SalonService;
+import com.tasree7a.models.salonbooking.SalonServicesResponse;
+import com.tasree7a.observables.ServicesTotalChangeObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -44,74 +42,50 @@ public class BookNowFragment extends BaseFragment implements Observer {
 
         UIUtils.showLoadingView(rootView, this);
 
-        final RecyclerView salonService = (RecyclerView) rootView.findViewById(R.id.services_list);
+        final RecyclerView salonService = rootView.findViewById(R.id.services_list);
 
         salonService.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         RetrofitManager.getInstance().getSalonServices(UserDefaultUtil.isBusinessUser()
                 ? UserDefaultUtil.getCurrentSalonUser().getId()
-                : ReservationSessionManager.getInstance().getSalonModel().getId(), new AbstractCallback() {
+                : ReservationSessionManager.getInstance().getSalonModel().getId(), (isSuccess, result) -> {
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
+                    if (isSuccess) {
 
-                if (isSuccess) {
+                        List<SalonService> salonServices = ((SalonServicesResponse) result).getServices();
 
-                    List<SalonService> salonServices = ((SalonServicesResponse) result).getServices();
+                        salonService.setAdapter(new SalonServicesAdapter(salonServices));
 
-                    salonService.setAdapter(new SalonServicesAdapter(salonServices));
+                        UIUtils.hideLoadingView(rootView, BookNowFragment.this);
 
-                    UIUtils.hideLoadingView(rootView, BookNowFragment.this);
+                    }
 
-                }
-
-            }
-        });
+                });
 
 
         //salonService.setAdapter(new SalonServicesAdapter(salonServices));
 
         View schedule = rootView.findViewById(R.id.schedule);
 
-        schedule.setOnClickListener(new View.OnClickListener() {
+        schedule.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if (ReservationSessionManager.getInstance().getSelectedServices().isEmpty()) {
 
-                if (ReservationSessionManager.getInstance().getSelectedServices().isEmpty()) {
+                String message = getString(R.string.ERROR_EMPTY_SERVICE);
 
-                    String message = getString(R.string.ERROR_EMPTY_SERVICE);
+                Toast.makeText(ThisApplication.getCurrentActivity(), message, Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(ThisApplication.getCurrentActivity(), message, Toast.LENGTH_LONG).show();
-
-                    return;
-
-                }
-
-                FragmentManager.showBookScheduleFragment();
+                return;
 
             }
+
+            FragmentManager.showBookScheduleFragment();
+
         });
 
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.popCurrentVisibleFragment();
-
-            }
-        });
-
-        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.popCurrentVisibleFragment();
-
-            }
-        });
+        rootView.findViewById(R.id.cancel).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
         return rootView;
     }

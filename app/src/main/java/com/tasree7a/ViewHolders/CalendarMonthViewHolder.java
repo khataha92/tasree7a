@@ -1,4 +1,4 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -6,11 +6,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tasree7a.CustomComponent.RtlGridLayoutManager;
-import com.tasree7a.Enums.FontsType;
-import com.tasree7a.Enums.Language;
+
+;
+
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.customcomponent.RtlGridLayoutManager;
+import com.tasree7a.enums.FontsType;
+import com.tasree7a.enums.Language;
 import com.tasree7a.utils.FontUtil;
 import com.tasree7a.utils.UserDefaultUtil;
 

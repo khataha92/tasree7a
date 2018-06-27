@@ -1,4 +1,4 @@
-package com.tasree7a.Models.Gallery;
+package com.tasree7a.models.gallery;
 
 import com.google.gson.annotations.SerializedName;
 

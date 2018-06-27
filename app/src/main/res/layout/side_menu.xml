@@ -65,15 +65,14 @@
             android:text="@string/AR"
             />
 
-        <com.tasree7a.CustomComponent.CustomSwitch
+        <com.tasree7a.customcomponent.CustomSwitch
             android:id="@+id/switch_item"
             android:layout_width="30dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/ar"
-            app:checked="true"
-            />
+            app:checked="true" />
 
         <TextView
             android:id="@+id/EN"
@@ -84,8 +83,7 @@
             android:layout_toLeftOf="@+id/switch_item"
             android:text="@string/EN"
             android:textColor="@color/APP_GREEN"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

@@ -1,15 +1,16 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.tasree7a.Models.PopularSalons.CityModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.models.popularsalons.CityModel;
 import com.tasree7a.utils.UIUtils;
 
 import java.util.List;
@@ -36,8 +37,9 @@ public class CitiesSpinnerAdapter extends ArrayAdapter<CityModel> {
     }
 
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         ViewHolder viewHolder;
 

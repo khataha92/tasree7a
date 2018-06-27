@@ -1,11 +1,5 @@
-package com.tasree7a.Observables;
+package com.tasree7a.observables;
 
-import com.tasree7a.Models.AddNewServiceRequestModel;
-import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.SalonBooking.SalonService;
-import com.twitter.sdk.android.core.services.ListService;
-
-import java.util.List;
 import java.util.Observable;
 
 /**

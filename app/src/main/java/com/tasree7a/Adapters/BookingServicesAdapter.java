@@ -1,16 +1,16 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.tasree7a.Models.Bookings.BookingServiceModel;
 import com.tasree7a.R;
-import com.tasree7a.ThisApplication;
+import com.tasree7a.models.bookings.BookingServiceModel;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by mac on 8/31/17.
@@ -18,9 +18,9 @@ import java.util.List;
 
 public class BookingServicesAdapter extends BaseAdapter {
 
-    List<BookingServiceModel> bookingServiceList = new ArrayList<>();
+    private List<BookingServiceModel> bookingServiceList;
 
-    public BookingServicesAdapter(List<BookingServiceModel> serviceModels){
+    public BookingServicesAdapter(List<BookingServiceModel> serviceModels) {
 
         this.bookingServiceList = serviceModels;
     }
@@ -48,7 +48,7 @@ public class BookingServicesAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = ThisApplication.getCurrentActivity().getLayoutInflater().inflate(R.layout.booking_service_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.booking_service_item, parent, false);
 
         TextView serviceName = (TextView) view.findViewById(R.id.service_name);
 

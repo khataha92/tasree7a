@@ -1,32 +1,27 @@
-package com.tasree7a.Managers;
+package com.tasree7a.managers;
 
 import android.util.Log;
 
 import com.tasree7a.Constants;
-import com.tasree7a.Enums.BookingStatus;
-import com.tasree7a.Models.AddNewBarberRequestModel;
-import com.tasree7a.Models.AddNewServiceRequestModel;
-import com.tasree7a.Models.Bookings.BookingModel;
-import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
-import com.tasree7a.Models.Login.LoginModel;
-import com.tasree7a.Models.Login.LoginResponseModel;
-import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
-import com.tasree7a.Models.SalonBooking.AvailableTimesResponse;
-import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
-import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
-import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
-import com.tasree7a.Models.SalonDetails.SalonInformationRequestModel;
-import com.tasree7a.Models.Signup.SignupModel;
-import com.tasree7a.Models.Signup.SignupResponseModel;
-import com.tasree7a.Models.UpdateGalleryResponseModel;
-import com.tasree7a.Models.UpdateProductRequestModel;
-import com.tasree7a.Models.UpdateSalonImagesRequestModel;
-import com.tasree7a.Models.UserBookingsResponse;
-import com.tasree7a.Observables.GallaryItemsChangedObservable;
+import com.tasree7a.enums.BookingStatus;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.ServiceRequest;
-
-import java.util.List;
+import com.tasree7a.models.AddNewBarberRequestModel;
+import com.tasree7a.models.AddNewServiceRequestModel;
+import com.tasree7a.models.UpdateGalleryResponseModel;
+import com.tasree7a.models.UpdateProductRequestModel;
+import com.tasree7a.models.UpdateSalonImagesRequestModel;
+import com.tasree7a.models.UserBookingsResponse;
+import com.tasree7a.models.favoritemodels.FavoriteResponseModel;
+import com.tasree7a.models.login.LoginModel;
+import com.tasree7a.models.login.LoginResponseModel;
+import com.tasree7a.models.popularsalons.PopularSalonsResponseModel;
+import com.tasree7a.models.salonbooking.AvailableTimesResponse;
+import com.tasree7a.models.salonbooking.SalonServicesResponse;
+import com.tasree7a.models.salondetails.AddNewSalonResponseModel;
+import com.tasree7a.models.salondetails.SalonDetailsResponseModel;
+import com.tasree7a.models.salondetails.SalonInformationRequestModel;
+import com.tasree7a.models.signup.SignupResponseModel;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,7 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Field;
 
 /**
  * Created by mac on 5/17/17.
@@ -372,7 +366,7 @@ public class RetrofitManager {
     }
 
 
-    public void register(SignupModel model, final AbstractCallback callback) {
+    public void register(com.tasree7a.Models.Signup.SignupModel model, final AbstractCallback callback) {
 
         Call<SignupResponseModel> call = request.register(model.getFirstName(), model.getLastName(), model.getEmail(), model.getPassword(), model.getUsername(), model.isFbLogin() ? 1 : 0, model.isBuisness() ? 1 : 0, model.getFbId());
 

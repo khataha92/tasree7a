@@ -18,7 +18,7 @@
     <!--android:visibility="gone"-->
     <!--/>-->
 
-    <!--<com.tasree7a.CustomComponent.CustomButton-->
+    <!--<com.tasree7a.customcomponent.CustomButton-->
     <!--android:id="@+id/login_with_fb"-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="wrap_content"-->
@@ -156,7 +156,7 @@
         </RelativeLayout>
     </ScrollView>
 
-    <com.tasree7a.CustomComponent.CustomButton
+    <com.tasree7a.customcomponent.CustomButton
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

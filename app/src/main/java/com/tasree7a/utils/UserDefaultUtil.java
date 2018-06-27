@@ -3,20 +3,19 @@ package com.tasree7a.utils;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.google.common.base.Strings;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.tasree7a.Enums.Language;
-import com.tasree7a.Enums.UserDefaultKeys;
-import com.tasree7a.Enums.UserFavoriteAction;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Login.LoginModel;
-import com.tasree7a.Models.Login.User;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Models.SearchHistory.SearchHistoryItem;
+import com.tasree7a.enums.Language;
+import com.tasree7a.enums.UserDefaultKeys;
+import com.tasree7a.enums.UserFavoriteAction;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.login.LoginModel;
+import com.tasree7a.models.login.User;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.models.searchhistory.SearchHistoryItem;
 
 import java.util.ArrayList;
 import java.util.List;

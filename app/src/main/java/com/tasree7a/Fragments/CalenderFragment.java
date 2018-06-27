@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,15 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.CustomComponent.CustomGridCalendar;
-import com.tasree7a.Enums.CalenderType;
 import com.tasree7a.FragmentBundle;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Models.Calendar.CalendarViewsModel;
 import com.tasree7a.R;
+import com.tasree7a.customcomponent.CustomButton;
+import com.tasree7a.customcomponent.CustomGridCalendar;
+import com.tasree7a.enums.CalenderType;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.DateCalenderViewListener;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.models.calendar.CalendarViewsModel;
 
 import org.joda.time.LocalDate;
 

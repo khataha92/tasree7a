@@ -1,6 +1,4 @@
-package com.tasree7a.Observables;
-
-import com.tasree7a.Models.SalonDetails.SalonModel;
+package com.tasree7a.observables;
 
 import java.util.Observable;
 

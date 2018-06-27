@@ -65,7 +65,7 @@
                     android:layout_toLeftOf="@+id/male_female"
                     android:src="@drawable/ic_male" />
 
-                <com.tasree7a.CustomComponent.CustomSwitch
+                <com.tasree7a.customcomponent.CustomSwitch
                     android:id="@+id/male_female"
                     android:layout_width="24dp"
                     android:layout_height="wrap_content"
@@ -132,35 +132,35 @@
                 android:layout_marginTop="20dp"
                 >
 
-                <com.tasree7a.CustomComponent.CustomRadioGroup
+                <CustomRadioGroup
                     android:id="@+id/sort_by"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="3">
 
-                    <com.tasree7a.CustomComponent.CustomRadioButton
+                    <CustomRadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:SortType="Price"
                         app:text="@string/PRICE" />
 
-                    <com.tasree7a.CustomComponent.CustomRadioButton
+                    <CustomRadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:SortType="Distance"
                         app:text="@string/DISTANCE" />
 
-                    <com.tasree7a.CustomComponent.CustomRadioButton
+                    <CustomRadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:SortType="Rating"
                         app:text="@string/RATING" />
 
-                </com.tasree7a.CustomComponent.CustomRadioGroup>
+                </CustomRadioGroup>
 
             </LinearLayout>
 
@@ -183,40 +183,40 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                <com.tasree7a.CustomComponent.CustomCheckableGroup
+                <CustomCheckableGroup
                     android:id="@+id/filters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="3">
 
-                    <com.tasree7a.CustomComponent.CustomCheckbox
+                    <CustomCheckbox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:FilterType="Favorite"
                         app:text="@string/FAVORITES" />
 
-                    <com.tasree7a.CustomComponent.CustomCheckbox
+                    <CustomCheckbox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:FilterType="Available"
                         app:text="@string/AVAILABLE_NOW" />
 
-                    <com.tasree7a.CustomComponent.CustomCheckbox
+                    <CustomCheckbox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:FilterType="ALL"
                         app:text="@string/ALL" />
 
-                </com.tasree7a.CustomComponent.CustomCheckableGroup>
+                </CustomCheckableGroup>
             </LinearLayout>
 
         </RelativeLayout>
     </LinearLayout>
 
-    <com.tasree7a.CustomComponent.CustomButton
+    <com.tasree7a.customcomponent.CustomButton
         android:id="@+id/btn_apply"
         android:layout_width="140dp"
         android:layout_height="45dp"

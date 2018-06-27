@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,15 +9,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Login.User;
-import com.tasree7a.Models.Signup.SignupModel;
-import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
-import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.customcomponent.CustomButton;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.login.User;
+import com.tasree7a.models.signup.SignupResponseModel;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
@@ -47,20 +45,20 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
         rootView = inflater.inflate(R.layout.fragment_business_registration, container, false);
 
-        fullName = (EditText) rootView.findViewById(R.id.input_full_name);
+        fullName = rootView.findViewById(R.id.input_full_name);
 
-        username = (EditText) rootView.findViewById(R.id.input_username);
+        username = rootView.findViewById(R.id.input_username);
 
-        inputEmail = (EditText) rootView.findViewById(R.id.input_email);
+        inputEmail = rootView.findViewById(R.id.input_email);
 
-        inputPassword = (EditText) rootView.findViewById(R.id.input_password);
+        inputPassword = rootView.findViewById(R.id.input_password);
 
-        register = (CustomButton) rootView.findViewById(R.id.register);
+        register = rootView.findViewById(R.id.register);
 
         register.setOnClickListener(this);
 
 
-        RelativeLayout login = (RelativeLayout) rootView.findViewById(R.id.login_container);
+        RelativeLayout login = rootView.findViewById(R.id.login_container);
 
         login.setOnClickListener(this);
 
@@ -83,7 +81,7 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
             if (!salonName.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
 
-                SignupModel model = new SignupModel();
+                com.tasree7a.Models.Signup.SignupModel model = new com.tasree7a.Models.Signup.SignupModel();
 
                 model.setUsername(username);
 
@@ -103,37 +101,30 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
                 UIUtils.showSweetLoadingDialog();
 
-                RetrofitManager.getInstance().register(model, new AbstractCallback() {
+                RetrofitManager.getInstance().register(model, (isSuccess, result) -> {
 
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
+                    UIUtils.hideSweetLoadingDialog();
 
-                        UIUtils.hideSweetLoadingDialog();
+                    if (isSuccess) {
 
-                        if (isSuccess) {
+                        SignupResponseModel signupResponseModel = (SignupResponseModel) result;
 
-                            SignupResponseModel signupResponseModel = (SignupResponseModel) result;
+                        User user = signupResponseModel.getUserDetails().getUser();
 
-                            User user = signupResponseModel.getUserDetails().getUser();
+                        UserDefaultUtil.saveUser(user);
 
-                            UserDefaultUtil.saveUser(user);
+                        UserDefaultUtil.setIsRegestering(true);
 
-                            UserDefaultUtil.setIsRegestering(true);
+                        Intent intent = new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class);
 
-                            Intent intent = new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class);
+                        intent.putExtra(FragmentArg.SALON_INFO, signupResponseModel);
 
-                            intent.putExtra(FragmentArg.SALON_INFO, signupResponseModel);
+                        startActivity(intent);
 
-                            startActivity(intent);
-
-                            ThisApplication.getCurrentActivity().finish();
-
-                        } else {
-
-
-                        }
+                        ThisApplication.getCurrentActivity().finish();
 
                     }
+
                 });
 
 

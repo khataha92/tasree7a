@@ -1,14 +1,14 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
-import com.tasree7a.Models.BaseCardModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.models.BaseCardModel;
+import com.tasree7a.models.salondetails.SalonModel;
 
 /**
  * Created by mac on 6/5/17.
@@ -22,26 +22,22 @@ public class ContactDetailsViewHolder extends BaseCardViewHolder {
 
         final SalonModel salonModel = (SalonModel) cardModel.getCardValue();
 
-        TextView address = (TextView) itemView.findViewById(R.id.salon_address);
+        TextView address = itemView.findViewById(R.id.salon_address);
 
-        TextView phone = (TextView) itemView.findViewById(R.id.contact_phone);
+        TextView phone = itemView.findViewById(R.id.contact_phone);
 
         address.setText(salonModel.getSalonCity());
 
         phone.setText(salonModel.getOwnerMobileNumber());
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            Intent dialIntent = new Intent(Intent.ACTION_DIAL);
 
-                Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+            dialIntent.setData(Uri.parse("tel:"+salonModel.getOwnerMobileNumber()));
 
-                dialIntent.setData(Uri.parse("tel:"+salonModel.getOwnerMobileNumber()));
+            ThisApplication.getCurrentActivity().startActivity(dialIntent);
 
-                ThisApplication.getCurrentActivity().startActivity(dialIntent);
-
-            }
         });
 
     }

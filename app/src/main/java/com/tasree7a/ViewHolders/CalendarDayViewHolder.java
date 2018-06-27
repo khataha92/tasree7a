@@ -1,12 +1,12 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tasree7a.Enums.FontsType;
 import com.tasree7a.R;
+import com.tasree7a.enums.FontsType;
 import com.tasree7a.interfaces.CalenderCellClickListener;
 import com.tasree7a.utils.FontUtil;
 
@@ -49,11 +49,11 @@ public class CalendarDayViewHolder extends RecyclerView.ViewHolder implements Vi
 
         fullSelectionBG = itemView.findViewById(R.id.selection_full_bg);
 
-        textView = (TextView) itemView.findViewById(R.id.textView);
+        textView = itemView.findViewById(R.id.textView);
 
         textView.setTypeface(FontUtil.getFont(FontsType.BOOK));
 
-        holidaysContainer = (LinearLayout) itemView.findViewById(R.id.holidays_container);
+        holidaysContainer = itemView.findViewById(R.id.holidays_container);
 
         itemView.setOnClickListener(this);
     }

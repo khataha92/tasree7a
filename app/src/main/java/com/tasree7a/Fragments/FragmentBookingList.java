@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,25 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.tasree7a.Adapters.BaseCardAdapter;
-import com.tasree7a.Adapters.CardsRecyclerAdapter;
-import com.tasree7a.CustomComponent.CustomSwitch;
-import com.tasree7a.Enums.CardFactory;
-import com.tasree7a.Enums.CardType;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.BaseCardModel;
-import com.tasree7a.Models.Bookings.BookingModel;
-import com.tasree7a.Models.UserBookingsResponse;
-import com.tasree7a.Observables.BookingStatusChangedObservable;
 import com.tasree7a.R;
+import com.tasree7a.adapters.BaseCardAdapter;
+import com.tasree7a.adapters.CardsRecyclerAdapter;
+import com.tasree7a.enums.CardFactory;
+import com.tasree7a.enums.CardType;
 import com.tasree7a.interfaces.AbstractCallback;
-import com.tasree7a.utils.UIUtils;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.BaseCardModel;
+import com.tasree7a.models.UserBookingsResponse;
+import com.tasree7a.models.bookings.BookingModel;
+import com.tasree7a.observables.BookingStatusChangedObservable;
 import com.tasree7a.utils.UserDefaultUtil;
-
-import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,29 +46,14 @@ public class FragmentBookingList extends BaseFragment implements CardFactory, Ob
 
         rootView = inflater.inflate(R.layout.fragment_salon_bookings, container, false);
 
-        rootView.findViewById(R.id.add_booking).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.showBookNowFragment();
-            }
-        });
-        bookingList = (RecyclerView) rootView.findViewById(R.id.bookings_list);
+        rootView.findViewById(R.id.add_booking).setOnClickListener(v -> FragmentManager.showBookNowFragment());
+        bookingList = rootView.findViewById(R.id.bookings_list);
 
         bookingList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ImageView back = (ImageView) rootView.findViewById(R.id.back);
+        ImageView back = rootView.findViewById(R.id.back);
 
-        back.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.popCurrentVisibleFragment();
-
-            }
-        });
+        back.setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
         showLoadingView();
 
@@ -87,23 +67,19 @@ public class FragmentBookingList extends BaseFragment implements CardFactory, Ob
     String userID;
 
     private void requestBookings(String userID) {
-        RetrofitManager.getInstance().getUserBookings(userID, UserDefaultUtil.isBusinessUser() ? "S" : "C", new AbstractCallback() {
+        RetrofitManager.getInstance().getUserBookings(userID, UserDefaultUtil.isBusinessUser() ? "S" : "C", (isSuccess, result) -> {
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
+            hideLoadingView();
 
-                hideLoadingView();
+            if (isSuccess) {
 
-                if (isSuccess) {
+                bookingModels.clear();
+                bookingModels = ((UserBookingsResponse) result).getUserBookings();
 
-                    bookingModels.clear();
-                    bookingModels = ((UserBookingsResponse) result).getUserBookings();
-
-                    initBookings();
-
-                }
+                initBookings();
 
             }
+
         });
     }
 

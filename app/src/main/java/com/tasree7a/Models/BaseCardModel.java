@@ -1,7 +1,7 @@
-package com.tasree7a.Models;
+package com.tasree7a.models;
 
-import com.tasree7a.Enums.CardFactory;
-import com.tasree7a.Enums.CardType;
+import com.tasree7a.enums.CardFactory;
+import com.tasree7a.enums.CardType;
 
 import java.util.List;
 

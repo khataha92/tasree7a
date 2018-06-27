@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,11 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.tasree7a.Enums.CustomOrientation;
-import com.tasree7a.Enums.FilterType;
-import com.tasree7a.Enums.SortType;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.enums.CustomOrientation;
+import com.tasree7a.enums.FilterType;
+import com.tasree7a.enums.SortType;
 import com.tasree7a.interfaces.Checkable;
 import com.tasree7a.interfaces.SingleCheckableGroup;
 
@@ -61,23 +61,20 @@ public class CustomRadioButton extends LinearLayout implements Checkable {
     private void init(AttributeSet attrs){
 
         LayoutInflater.from(getContext()).inflate(R.layout.custom_radio_button,this);
-        text = (TextView) findViewById(R.id.text);
+        text = findViewById(R.id.text);
 
-        radio = (RadioButton) findViewById(R.id.radio);
+        radio = findViewById(R.id.radio);
 
         radio.setClickable(false);
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        setOnClickListener(v -> {
 
-                View view = (View) getParent();
+            View view = (View) getParent();
 
-                if(view instanceof SingleCheckableGroup){
+            if(view instanceof SingleCheckableGroup){
 
-                    ((SingleCheckableGroup) view).onItemChecked(CustomRadioButton.this);
-                }
-
+                ((SingleCheckableGroup) view).onItemChecked(CustomRadioButton.this);
             }
+
         });
 
         if (attrs != null) {

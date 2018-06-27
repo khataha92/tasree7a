@@ -1,6 +1,7 @@
-package com.tasree7a.Observables;
+package com.tasree7a.observables;
 
-import com.tasree7a.Models.Gallery.ImageModel;
+
+import com.tasree7a.models.gallery.ImageModel;
 
 import java.util.List;
 import java.util.Observable;

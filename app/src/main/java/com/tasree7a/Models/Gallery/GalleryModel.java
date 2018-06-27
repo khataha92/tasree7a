@@ -1,7 +1,7 @@
-package com.tasree7a.Models.Gallery;
+package com.tasree7a.models.gallery;
 
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Models.SalonDetails.SalonProduct;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.models.salondetails.SalonProduct;
 
 import java.util.List;
 

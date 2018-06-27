@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

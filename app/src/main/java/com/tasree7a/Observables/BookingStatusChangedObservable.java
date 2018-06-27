@@ -1,7 +1,7 @@
-package com.tasree7a.Observables;
+package com.tasree7a.observables;
 
-import com.tasree7a.Models.Bookings.BookingModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
+
+import com.tasree7a.models.bookings.BookingModel;
 
 import java.util.Observable;
 

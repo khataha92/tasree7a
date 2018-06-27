@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,19 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.tasree7a.CustomComponent.CustomSwitch;
-import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
+import com.tasree7a.customcomponent.CustomSwitch;
+import com.tasree7a.fragments.BaseFragment;
+import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
-import com.twitter.sdk.android.core.models.User;
-
-import io.blackbox_vision.wheelview.view.WheelView;
 
 import static android.view.View.GONE;
-import static com.tasree7a.utils.UserDefaultUtil.getUserLanguage;
 import static com.tasree7a.utils.UserDefaultUtil.isAppLanguageArabic;
 
 /**

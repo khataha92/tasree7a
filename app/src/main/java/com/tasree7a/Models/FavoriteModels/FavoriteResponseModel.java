@@ -1,4 +1,4 @@
-package com.tasree7a.Models.FavoriteModels;
+package com.tasree7a.models.favoritemodels;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,20 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tasree7a.Adapters.GalleryAdapter;
-import com.tasree7a.CustomComponent.SpacesItemDecoration;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Models.SalonDetails.SalonProduct;
-import com.tasree7a.Models.UpdateProductRequestModel;
-import com.tasree7a.Models.UpdateSalonImagesRequestModel;
-import com.tasree7a.Observables.GallaryItemsChangedObservable;
-import com.tasree7a.Observables.ItemSelectedObservable;
 import com.tasree7a.R;
+import com.tasree7a.adapters.GalleryAdapter;
+import com.tasree7a.customcomponent.SpacesItemDecoration;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.UpdateProductRequestModel;
+import com.tasree7a.models.UpdateSalonImagesRequestModel;
+import com.tasree7a.models.gallery.ImageModel;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.models.salondetails.SalonProduct;
+import com.tasree7a.observables.GallaryItemsChangedObservable;
+import com.tasree7a.observables.ItemSelectedObservable;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
 
 /**
  * Created by mac on 6/13/17.
@@ -78,17 +79,17 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
         rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_gallery, null);
 
-        gallery = (RecyclerView) rootView.findViewById(R.id.gallery);
+        gallery = rootView.findViewById(R.id.gallery);
 
         gallery.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        title = (TextView) rootView.findViewById(R.id.title);
+        title = rootView.findViewById(R.id.title);
 
-        salonName = (TextView) rootView.findViewById(R.id.salon_name);
+        salonName = rootView.findViewById(R.id.salon_name);
 
         salonName.setText(ReservationSessionManager.getInstance().getSalonModel().getName());
 
-        changeItems = (ImageView) rootView.findViewById(R.id.change_items);
+        changeItems = rootView.findViewById(R.id.change_items);
 
         extractArgumentsData();
 
@@ -108,15 +109,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
     private void initBackButton() {
 
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.popCurrentVisibleFragment();
-
-            }
-        });
+        rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
     }
 
 
@@ -180,39 +173,35 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
         } else {
 
-            changeItems.setOnClickListener(new View.OnClickListener() {
+            changeItems.setOnClickListener(v -> {
 
-                @Override
-                public void onClick(View v) {
+                if (isSelecting) {
 
-                    if (isSelecting) {
+                    List<String> items = ReservationSessionManager.getInstance().getSelectedItems();
 
-                        List<String> items = ReservationSessionManager.getInstance().getSelectedItems();
-
-                        if (!isProduct) {
-                            //TODO: Delete Gallary Item
-                            deleteGalleryItem(items);
-
-                        } else {
-
-                            //TODO: Delete Product
-                            deleteProduct(items);
-                        }
+                    if (!isProduct) {
+                        //TODO: Delete Gallary Item
+                        deleteGalleryItem(items);
 
                     } else {
 
-                        if (!isProduct) {
-                            //TODO: ADD
-                            addGallaryItem();
+                        //TODO: Delete Product
+                        deleteProduct(items);
+                    }
 
-                        } else {
+                } else {
 
-                            addProduct();
-                        }
+                    if (!isProduct) {
+                        //TODO: ADD
+                        addGallaryItem();
 
+                    } else {
+
+                        addProduct();
                     }
 
                 }
+
             });
         }
     }
@@ -230,31 +219,27 @@ public class FragmentGallery extends BaseFragment implements Observer {
             model.setImageId(item);
 
             //TODO: check el image id and put it here
-            RetrofitManager.getInstance().updateSalonImages(model, new AbstractCallback() {
+            RetrofitManager.getInstance().updateSalonImages(model, (isSuccess, result) -> {
 
-                @Override
-                public void onResult(boolean isSuccess, Object result) {
+                if (isSuccess) {
 
-                    if (isSuccess) {
+                    for (ImageModel imageModel : imageModelList) {
 
-                        for (ImageModel imageModel : imageModelList) {
+                        if (imageModel.getImageId().equalsIgnoreCase(item)) {
 
-                            if (imageModel.getImageId().equalsIgnoreCase(item)) {
+                            imageModelList.remove(imageModel);
 
-                                imageModelList.remove(imageModel);
+                            adapter.setImageModels(imageModelList);
 
-                                adapter.setImageModels(imageModelList);
-
-                                break;
-
-                            }
+                            break;
 
                         }
+
                     }
-
-                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModelList);
-
                 }
+
+                GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModelList);
+
             });
 
             model = null;
@@ -264,7 +249,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
     private void deleteProduct(List<String> items) {
 
-        UpdateProductRequestModel model = new UpdateProductRequestModel();
+        UpdateProductRequestModel model;
 
         for (final String item : items) {
 
@@ -274,28 +259,24 @@ public class FragmentGallery extends BaseFragment implements Observer {
             model.setProductId(item);
             model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
 
-            RetrofitManager.getInstance().updateSalonProducts(model, new AbstractCallback() {
+            RetrofitManager.getInstance().updateSalonProducts(model, (isSuccess, result) -> {
 
-                @Override
-                public void onResult(boolean isSuccess, Object result) {
+                if (isSuccess) {
 
-                    if (isSuccess) {
+                    for (SalonProduct prod : productsList) {
 
-                        for (SalonProduct prod : productsList) {
+                        if (prod.getId().equalsIgnoreCase(item)) {
 
-                            if (prod.getId().equalsIgnoreCase(item)) {
+                            productsList.remove(prod);
 
-                                productsList.remove(prod);
+                            adapter.setProductsList(productsList);
 
-                                adapter.setProductsList(productsList);
+                            break;
 
-                                break;
-
-                            }
                         }
                     }
-
                 }
+
             });
 
         }
@@ -305,56 +286,31 @@ public class FragmentGallery extends BaseFragment implements Observer {
 
     private void addGallaryItem() {
 
-        FragmentManager.showAddGalleryItemFragment(salon, new AbstractCallback() {
+        FragmentManager.showAddGalleryItemFragment(salon, (isSuccess, result) -> RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), (isSuccess1, result1) -> {
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
+            List<ImageModel> imageModels = ((SalonModel) result1).getGallery();
 
-                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), new AbstractCallback() {
+            adapter.setImageModels(imageModels);
 
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
+            GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModels);
 
-                        List<ImageModel> imageModels = ((SalonModel) result).getGallery();
-
-                        adapter.setImageModels(imageModels);
-
-                        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModels);
-
-                    }
-                });
-
-
-            }
-        });
+        }));
     }
 
 
     private void addProduct() {
 
-        FragmentManager.showAddProductFragment(new AbstractCallback() {
+        FragmentManager.showAddProductFragment((isSuccess, result) -> RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), (isSuccess1, result1) -> {
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
+            List<SalonProduct> products = ((SalonModel) result1).getProducts();
 
-                RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), new AbstractCallback() {
+            adapter.setImageModels(((SalonModel) result1).getProductsImages());
 
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
+            adapter.setProductsList(products);
 
-                        List<SalonProduct> products = ((SalonModel) result).getProducts();
+            GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<>());
 
-                        adapter.setImageModels(((SalonModel) result).getProductsImages());
-
-                        adapter.setProductsList(products);
-
-                        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>());
-
-                    }
-                });
-
-            }
-        });
+        }));
 
     }
 
@@ -389,7 +345,7 @@ public class FragmentGallery extends BaseFragment implements Observer {
     @Override
     public boolean onBackPressed() {
 
-        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>());
+        GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<>());
 
         return super.onBackPressed();
     }

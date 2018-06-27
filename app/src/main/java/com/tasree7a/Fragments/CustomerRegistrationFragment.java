@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,16 +10,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.Enums.Language;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Signup.SignupModel;
-import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
+import com.tasree7a.customcomponent.CustomButton;
+import com.tasree7a.enums.Language;
 import com.tasree7a.interfaces.AbstractCallback;
-import com.tasree7a.utils.AppUtil;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.signup.SignupResponseModel;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -53,20 +51,20 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
         rootView = inflater.inflate(R.layout.fragment_customer_registration, container, false);
 
-        fullName = (EditText) rootView.findViewById(R.id.input_full_name);
+        fullName = rootView.findViewById(R.id.input_full_name);
 
-        username = (EditText) rootView.findViewById(R.id.input_username);
+        username = rootView.findViewById(R.id.input_username);
 
-        inputEmail = (EditText) rootView.findViewById(R.id.input_email);
+        inputEmail = rootView.findViewById(R.id.input_email);
 
-        inputPassword = (EditText) rootView.findViewById(R.id.input_password);
+        inputPassword = rootView.findViewById(R.id.input_password);
 
-        register = (CustomButton) rootView.findViewById(R.id.register);
+        register = rootView.findViewById(R.id.register);
 
         register.setOnClickListener(this);
 
 
-        RelativeLayout login = (RelativeLayout) rootView.findViewById(R.id.login_container);
+        RelativeLayout login = rootView.findViewById(R.id.login_container);
 
         login.setOnClickListener(this);
 
@@ -97,7 +95,7 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
             if (!firstName.isEmpty() && !lastName.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
 
-                SignupModel model = new SignupModel();
+                com.tasree7a.Models.Signup.SignupModel model = new com.tasree7a.Models.Signup.SignupModel();
 
                 model.setUsername(username);
 

@@ -1,6 +1,6 @@
-package com.tasree7a.Models.Calendar;
+package com.tasree7a.models.calendar;
 
-import com.tasree7a.Enums.CalenderType;
+import com.tasree7a.enums.CalenderType;
 
 import org.joda.time.LocalDate;
 

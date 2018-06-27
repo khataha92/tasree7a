@@ -1,4 +1,4 @@
-package com.tasree7a.Models.Login;
+package com.tasree7a.models.login;
 
 import com.google.gson.annotations.SerializedName;
 

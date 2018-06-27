@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
 
-        <com.tasree7a.CustomComponent.AutoStopRippleBackground
+        <AutoStopRippleBackground
             android:id="@+id/favouriteContainer"
             android:layout_width="60dp"
             android:layout_height="50dp"
@@ -40,7 +40,7 @@
                 android:id="@+id/add_to_favorite"
                 android:src="@drawable/favorite_red"/>
 
-        </com.tasree7a.CustomComponent.AutoStopRippleBackground>
+        </AutoStopRippleBackground>
 
     </RelativeLayout>
 
@@ -73,7 +73,7 @@
             android:textColor="@color/MEDIUM_GRAY"
             android:textSize="13sp"/>
 
-        <com.tasree7a.CustomComponent.CustomRatingBar
+        <CustomRatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/salon_rating"

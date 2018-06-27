@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.content.Context;
 import android.text.TextWatcher;
@@ -11,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tasree7a.Managers.FragmentManager;
 import com.tasree7a.R;
 import com.tasree7a.interfaces.OnSearchBarStateChange;
+import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 

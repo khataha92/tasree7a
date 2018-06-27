@@ -22,7 +22,7 @@
             android:textColor="@color/APP_TEXT_COLOR"
             android:textSize="13.3sp" />
 
-        <com.tasree7a.CustomComponent.CustomRate
+        <CustomRate
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"

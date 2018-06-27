@@ -1,10 +1,11 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.tasree7a.Models.BaseCardModel;
-import com.tasree7a.ViewHolders.BaseCardViewHolder;
+import com.tasree7a.models.BaseCardModel;
+import com.tasree7a.viewholders.BaseCardViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,9 @@ import java.util.List;
 
 public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder> {
 
-    List<BaseCardModel> cardModels;
+    private List<BaseCardModel> cardModels;
 
-    List<BaseCardViewHolder> viewHolders = new ArrayList<>();
+    private List<BaseCardViewHolder> viewHolders = new ArrayList<>();
 
 
     public BaseCardAdapter(List<BaseCardModel> cardModelList) {
@@ -28,8 +29,9 @@ public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder> {
     }
 
 
+    @NonNull
     @Override
-    public BaseCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         BaseCardViewHolder viewHolder = BaseCardViewHolder.createViewHolder(parent, cardModels.get(viewType));
 
@@ -49,7 +51,7 @@ public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(BaseCardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseCardViewHolder holder, int position) {
 
         holder.initializeViewOnUI();
 
@@ -81,7 +83,7 @@ public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder> {
 
 
     @Override
-    public void onViewAttachedToWindow(BaseCardViewHolder holder) {
+    public void onViewAttachedToWindow(@NonNull BaseCardViewHolder holder) {
 
         super.onViewAttachedToWindow(holder);
 
@@ -90,7 +92,7 @@ public class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewHolder> {
 
 
     @Override
-    public void onViewDetachedFromWindow(BaseCardViewHolder holder) {
+    public void onViewDetachedFromWindow(@NonNull BaseCardViewHolder holder) {
 
         super.onViewDetachedFromWindow(holder);
 

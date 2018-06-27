@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -11,13 +11,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Models.AddNewStaffMemberDataModel;
-import com.tasree7a.Models.SalonDetails.SalonBarber;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.models.AddNewStaffMemberDataModel;
+import com.tasree7a.models.salondetails.SalonBarber;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;

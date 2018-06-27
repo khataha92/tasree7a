@@ -89,7 +89,7 @@
                 android:layout_marginBottom="11.7dp"
                 android:background="@color/WHITE">
 
-                <com.tasree7a.CustomComponent.CustomRadioGroup
+                <CustomRadioGroup
                     android:id="@+id/salon_barber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -161,11 +161,11 @@
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="17dp">
 
-                <com.tasree7a.CustomComponent.Tasree7aWheel
+                <Tasree7aWheel
                     android:id="@+id/time_wheel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--<com.tasree7a.CustomComponent.CustomTimePicker-->
+                <!--<CustomTimePicker-->
                 <!--android:id="@+id/timePicker"-->
                 <!--style="@style/TimePickerTheme"-->
                 <!--android:layout_width="match_parent"-->

@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;

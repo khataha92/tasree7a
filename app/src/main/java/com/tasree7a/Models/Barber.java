@@ -1,4 +1,4 @@
-package com.tasree7a.Models;
+package com.tasree7a.models;
 
 /**
  * Created by mac on 9/4/17.

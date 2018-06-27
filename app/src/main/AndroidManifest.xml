@@ -17,10 +17,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-    <uses-library
-        android:name="com.google.android.maps"
-        android:required="true"/>
-
     <uses-sdk tools:overrideLibrary="com.tsongkha.spinnerdatepicker"/>
 
     <application
@@ -29,13 +25,17 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true"/>
+
         <service
-            android:name=".Services.LocationService"
+            android:name=".services.LocationService"
             android:exported="false"/>
 
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan"
             >
@@ -91,19 +91,19 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="@string/fb_login_protocol_scheme"/>
+                <data android:scheme="fb442974186045880"/>
             </intent-filter>
         </activity>
 
         <service
-            android:name=".Services.PushService">
+            android:name=".services.PushService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-            android:name=".Services.InstanceIdService">
+            android:name=".services.InstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

@@ -1,4 +1,4 @@
-package com.tasree7a.Models.MapView;
+package com.tasree7a.models.mapview;
 
 import android.location.Location;
 import android.util.Log;

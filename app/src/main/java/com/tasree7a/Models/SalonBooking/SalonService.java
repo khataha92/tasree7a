@@ -1,4 +1,4 @@
-package com.tasree7a.Models.SalonBooking;
+package com.tasree7a.models.salonbooking;
 
 import com.google.gson.annotations.SerializedName;
 import com.tasree7a.Constants;

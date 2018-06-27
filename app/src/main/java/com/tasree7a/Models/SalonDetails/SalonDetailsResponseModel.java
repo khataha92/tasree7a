@@ -1,7 +1,7 @@
-package com.tasree7a.Models.SalonDetails;
+package com.tasree7a.models.salondetails;
 
 import com.google.gson.annotations.SerializedName;
-import com.tasree7a.Enums.ResponseCode;
+import com.tasree7a.enums.ResponseCode;
 
 /**
  * Created by mac on 7/18/17.

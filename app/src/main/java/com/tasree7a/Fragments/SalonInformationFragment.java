@@ -1,10 +1,9 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -30,31 +28,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-
-import com.tasree7a.CustomComponent.CircularCheckBox;
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.CustomComponent.CustomTimePicker;
-import com.tasree7a.CustomComponent.SalonStaffContainer;
-import com.tasree7a.Enums.Gender;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.AddNewBarberRequestModel;
-import com.tasree7a.Models.AddNewStaffMemberDataModel;
-import com.tasree7a.Models.Login.User;
-import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
-import com.tasree7a.Models.SalonDetails.SalonInformationRequestModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.customcomponent.CircularCheckBox;
+import com.tasree7a.customcomponent.CustomButton;
+import com.tasree7a.customcomponent.CustomTimePicker;
+import com.tasree7a.customcomponent.SalonStaffContainer;
+import com.tasree7a.enums.Gender;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.AddNewBarberRequestModel;
+import com.tasree7a.models.AddNewStaffMemberDataModel;
+import com.tasree7a.models.login.User;
+import com.tasree7a.models.salondetails.AddNewSalonResponseModel;
+import com.tasree7a.models.salondetails.SalonInformationRequestModel;
+import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -62,8 +56,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import retrofit2.Response;
-
-import static android.util.Base64.NO_PADDING;
 
 /**
  * Created by SamiKhleaf on 10/20/17.
@@ -123,85 +115,63 @@ public class SalonInformationFragment extends BaseFragment {
         rootView = inflater.inflate(R.layout.view_salon_info, container, false);
         initViews();
 
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager.popCurrentVisibleFragment();
-            }
-        });
+        rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
-        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager.popCurrentVisibleFragment();
-            }
-        });
+        rootView.findViewById(R.id.cancel).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
-        fromTime.setOnClickListener(new View.OnClickListener() {
+        fromTime.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            final Dialog dialog = new Dialog(ThisApplication.getCurrentActivity());
 
-                final Dialog dialog = new Dialog(ThisApplication.getCurrentActivity());
+            dialog.setContentView(R.layout.date_dialog);
 
-                dialog.setContentView(R.layout.date_dialog);
+            dialog.findViewById(R.id.done).setOnClickListener(null);
 
-                dialog.findViewById(R.id.done).setOnClickListener(null);
+            dialog.findViewById(R.id.done).setAlpha(0.5f);
 
-                dialog.findViewById(R.id.done).setAlpha(0.5f);
+            dialog.findViewById(R.id.done).setEnabled(false);
 
-                dialog.findViewById(R.id.done).setEnabled(false);
+            ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener((view, hourOfDay, minute) -> {
 
-                ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                if (finalTime == null) {
 
-                    @Override
-                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                    dialog.findViewById(R.id.done).setOnClickListener(null);
 
-                        if (finalTime == null) {
+                    dialog.findViewById(R.id.done).setAlpha(0.5f);
 
-                            dialog.findViewById(R.id.done).setOnClickListener(null);
+                    dialog.findViewById(R.id.done).setEnabled(false);
 
-                            dialog.findViewById(R.id.done).setAlpha(0.5f);
+                } else {
 
-                            dialog.findViewById(R.id.done).setEnabled(false);
+                    dialog.findViewById(R.id.done).setAlpha(1f);
 
-                        } else {
+                    dialog.findViewById(R.id.done).setEnabled(true);
 
-                            dialog.findViewById(R.id.done).setAlpha(1f);
+                    dialog.findViewById(R.id.done).setOnClickListener(v1 -> {
 
-                            dialog.findViewById(R.id.done).setEnabled(true);
+                        SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
 
-                            dialog.findViewById(R.id.done).setOnClickListener(new View.OnClickListener() {
+                        SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
 
-                                @Override
-                                public void onClick(View v) {
+                        try {
+                            Date date = parseFormat.parse(finalTime);
 
-                                    SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
+                            fromTime.setText(displayFormat.format(date));
 
-                                    SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
-
-                                    try {
-                                        Date date = parseFormat.parse(finalTime);
-
-                                        fromTime.setText(displayFormat.format(date));
-
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                    dialog.dismiss();
-                                }
-                            });
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
 
 
-                        finalTime = hourOfDay + ":" + minute;
-                    }
-                });
+                        dialog.dismiss();
+                    });
+                }
 
-                dialog.show();
-            }
+
+                finalTime = hourOfDay + ":" + minute;
+            });
+
+            dialog.show();
         });
 
         toTime = rootView.findViewById(R.id.to_hours);
@@ -222,52 +192,44 @@ public class SalonInformationFragment extends BaseFragment {
                 dialog.findViewById(R.id.done).setEnabled(false);
 
 
-                ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener((view, hourOfDay, minute) -> {
 
-                    @Override
-                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                    if (finalTime == null) {
 
-                        if (finalTime == null) {
+                        dialog.findViewById(R.id.done).setOnClickListener(null);
 
-                            dialog.findViewById(R.id.done).setOnClickListener(null);
+                        dialog.findViewById(R.id.done).setAlpha(0.5f);
 
-                            dialog.findViewById(R.id.done).setAlpha(0.5f);
+                        dialog.findViewById(R.id.done).setEnabled(false);
 
-                            dialog.findViewById(R.id.done).setEnabled(false);
+                    } else {
 
-                        } else {
+                        dialog.findViewById(R.id.done).setAlpha(1f);
 
-                            dialog.findViewById(R.id.done).setAlpha(1f);
+                        dialog.findViewById(R.id.done).setEnabled(true);
 
-                            dialog.findViewById(R.id.done).setEnabled(true);
+                        dialog.findViewById(R.id.done).setOnClickListener(v12 -> {
 
-                            dialog.findViewById(R.id.done).setOnClickListener(new View.OnClickListener() {
+                            SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
 
-                                @Override
-                                public void onClick(View v) {
+                            SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
 
-                                    SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
+                            try {
+                                Date date = parseFormat.parse(finalTime);
 
-                                    SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
+                                toTime.setText(displayFormat.format(date));
 
-                                    try {
-                                        Date date = parseFormat.parse(finalTime);
-
-                                        toTime.setText(displayFormat.format(date));
-
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
 
 
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
-
-
-                        finalTime = hourOfDay + ":" + minute;
+                            dialog.dismiss();
+                        });
                     }
+
+
+                    finalTime = hourOfDay + ":" + minute;
                 });
 
                 dialog.show();
@@ -277,41 +239,31 @@ public class SalonInformationFragment extends BaseFragment {
 
         changeImageView = rootView.findViewById(R.id.change_image);
 
-        changeImageView.setOnClickListener(new View.OnClickListener() {
+        changeImageView.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            //TODO: TEMP -> create option menu
+            AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
+            alertDialog.setTitle("Choose");
+            alertDialog.setMessage("choose your picture");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
+                    (dialog, which) -> {
 
-                //TODO: TEMP -> create option menu
-                AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
-                alertDialog.setTitle("Choose");
-                alertDialog.setMessage("choose your picture");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
-                        new DialogInterface.OnClickListener() {
+                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
 
-                            public void onClick(DialogInterface dialog, int which) {
+                    });
 
-                                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
+                    (dialog, which) -> {
 
-                            }
-                        });
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
 
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
-                        new DialogInterface.OnClickListener() {
+                    });
 
-                            public void onClick(DialogInterface dialog, int which) {
+            alertDialog.show();
 
-                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
-
-                            }
-                        });
-
-                alertDialog.show();
-
-            }
         });
 
         salonName = rootView.findViewById(R.id.salon_name);
@@ -400,13 +352,9 @@ public class SalonInformationFragment extends BaseFragment {
         prepareAddSalonRequestData();
         if (staffContainer.getBarbers() != null && staffContainer.getBarbers().size() != 0) {
             UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
-            RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, new AbstractCallback() {
-
-                @Override
-                public void onResult(boolean isSuccess, Object result) {
-                    final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
-                    addSalonBarbers(responseModel);
-                }
+            RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, (isSuccess, result) -> {
+                final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
+                addSalonBarbers(responseModel);
             });
         } else {
             Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
@@ -465,32 +413,24 @@ public class SalonInformationFragment extends BaseFragment {
     }
 
     private void addSalonBarbers(final AddNewSalonResponseModel responseModel) {
-        RetrofitManager.getInstance().getSalonDetails(responseModel.getDetails().getSalonId(), new AbstractCallback() {
+        RetrofitManager.getInstance().getSalonDetails(responseModel.getDetails().getSalonId(), (isSuccess, result) -> {
+            SalonModel model = (SalonModel) result;
+            model.setBusiness(true);
+            User user = UserDefaultUtil.getCurrentUser();
+            user.setSalonId(model.getId());
+            UserDefaultUtil.saveUser(user);
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
-                SalonModel model = (SalonModel) result;
-                model.setBusiness(true);
-                User user = UserDefaultUtil.getCurrentUser();
-                user.setSalonId(model.getId());
-                UserDefaultUtil.saveUser(user);
+            for (AddNewStaffMemberDataModel staffMemberDataModel : staffContainer.getBarbers()) {
+                RetrofitManager.getInstance().addNewBarber(getRequestDataModel(staffMemberDataModel, responseModel), (isSuccess1, result1) -> {
+                });
+            }
 
-                for (AddNewStaffMemberDataModel staffMemberDataModel : staffContainer.getBarbers()) {
-                    RetrofitManager.getInstance().addNewBarber(getRequestDataModel(staffMemberDataModel, responseModel), new AbstractCallback() {
-
-                        @Override
-                        public void onResult(boolean isSuccess, Object result) {
-                        }
-                    });
-                }
-
-                UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
-                if (shouldPopFragment) {
-                    FragmentManager.showSalonDetailsFragment(model);
-                    FragmentManager.popBeforeCurrentVisibleFragment();
-                } else {
-                    FragmentManager.popCurrentVisibleFragment();
-                }
+            UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+            if (shouldPopFragment) {
+                FragmentManager.showSalonDetailsFragment(model);
+                FragmentManager.popBeforeCurrentVisibleFragment();
+            } else {
+                FragmentManager.popCurrentVisibleFragment();
             }
         });
     }

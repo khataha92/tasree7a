@@ -42,7 +42,7 @@
                 android:clickable="true"
                 android:visibility="gone" />
 
-            <com.tasree7a.CustomComponent.CustomTopBar
+            <com.tasree7a.customcomponent.CustomTopBar
                 android:id="@+id/top_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

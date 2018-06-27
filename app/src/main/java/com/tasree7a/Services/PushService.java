@@ -1,4 +1,4 @@
-package com.tasree7a.Services;
+package com.tasree7a.services;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 

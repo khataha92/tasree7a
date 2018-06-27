@@ -1,6 +1,5 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +7,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,32 +14,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.facebook.AccessToken;
-import com.google.gson.Gson;
-import com.tasree7a.Adapters.BaseCardAdapter;
-import com.tasree7a.Adapters.CardsRecyclerAdapter;
-import com.tasree7a.CustomComponent.CustomSwitch;
-import com.tasree7a.Enums.CardFactory;
-import com.tasree7a.Enums.CardType;
-import com.tasree7a.Enums.Language;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.BaseCardModel;
-import com.tasree7a.Models.Gallery.GalleryModel;
-import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.LocationCard.LocationCardModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Observables.GallaryItemsChangedObservable;
-import com.tasree7a.Observables.MenuIconClickedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
+import com.tasree7a.adapters.BaseCardAdapter;
+import com.tasree7a.adapters.CardsRecyclerAdapter;
+import com.tasree7a.customcomponent.CustomSwitch;
+import com.tasree7a.enums.CardFactory;
+import com.tasree7a.enums.CardType;
+import com.tasree7a.enums.Language;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.BaseCardModel;
+import com.tasree7a.models.gallery.GalleryModel;
+import com.tasree7a.models.locationcard.LocationCardModel;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.observables.GallaryItemsChangedObservable;
+import com.tasree7a.observables.MenuIconClickedObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -71,24 +66,23 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
     CustomSwitch langSwitch;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_salon_details, container, false);
 
-        nvDrawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
+        nvDrawer = rootView.findViewById(R.id.drawer_layout);
 
-        nvView = (NavigationView) rootView.findViewById(R.id.nvView);
+        nvView = rootView.findViewById(R.id.nvView);
 
         navHeader = nvView.getHeaderView(0);
 
-        closeDrawer = (ImageView) nvView.getHeaderView(0).findViewById(R.id.close_menu);
+        closeDrawer = nvView.getHeaderView(0).findViewById(R.id.close_menu);
 
         adapter = new BaseCardAdapter(getCardModels());
 
-        salonDetails = (RecyclerView) rootView.findViewById(R.id.salon_cards);
+        salonDetails = rootView.findViewById(R.id.salon_cards);
 
         salonDetails.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -231,19 +225,11 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
     private void initLangButton() {
 
-        langSwitch = (CustomSwitch) navHeader.findViewById(R.id.switch_item);
+        langSwitch = navHeader.findViewById(R.id.switch_item);
 
         langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
 
-        langSwitch.setAction(new Runnable() {
-
-            @Override
-            public void run() {
-
-                UIUtils.showConfirmLanguageChangeDialog(langSwitch);
-
-            }
-        });
+        langSwitch.setAction(() -> UIUtils.showConfirmLanguageChangeDialog(langSwitch));
 
         if (UserDefaultUtil.getAppLanguage() == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);

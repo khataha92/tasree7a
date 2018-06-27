@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,24 +8,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.tasree7a.Adapters.CitiesSpinnerAdapter;
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.CustomComponent.CustomCheckableGroup;
-import com.tasree7a.CustomComponent.CustomCheckbox;
-import com.tasree7a.CustomComponent.CustomRadioButton;
-import com.tasree7a.CustomComponent.CustomRadioGroup;
-import com.tasree7a.CustomComponent.CustomSwitch;
-import com.tasree7a.Enums.FilterType;
-import com.tasree7a.Enums.Gender;
-import com.tasree7a.Managers.FilterAndSortManager;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.SessionManager;
-import com.tasree7a.Models.PopularSalons.CityModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Observables.FilterAndSortObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.adapters.CitiesSpinnerAdapter;
+import com.tasree7a.customcomponent.CustomButton;
+import com.tasree7a.customcomponent.CustomCheckableGroup;
+import com.tasree7a.customcomponent.CustomCheckbox;
+import com.tasree7a.customcomponent.CustomRadioButton;
+import com.tasree7a.customcomponent.CustomRadioGroup;
+import com.tasree7a.customcomponent.CustomSwitch;
+import com.tasree7a.enums.FilterType;
+import com.tasree7a.enums.Gender;
 import com.tasree7a.interfaces.Checkable;
+import com.tasree7a.managers.FilterAndSortManager;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.SessionManager;
+import com.tasree7a.models.popularsalons.CityModel;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.observables.FilterAndSortObservable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,23 +52,18 @@ public class FragmentFilter extends BaseFragment {
 
         rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_filter,null);
 
-        applyButton = (CustomButton) rootView.findViewById(R.id.btn_apply);
+        applyButton = rootView.findViewById(R.id.btn_apply);
 
-        sortTypeGroup = (CustomRadioGroup) rootView.findViewById(R.id.sort_by);
+        sortTypeGroup = rootView.findViewById(R.id.sort_by);
 
-        filters = (CustomCheckableGroup) rootView.findViewById(R.id.filters);
+        filters = rootView.findViewById(R.id.filters);
 
-        genderFilter = (CustomSwitch) rootView.findViewById(R.id.male_female);
+        genderFilter = rootView.findViewById(R.id.male_female);
 
         genderFilter.setChecked(FilterAndSortManager.getInstance().getSalonType() == Gender.FEMALE);
 
-        genderFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                genderFilter.setChecked(!genderFilter.isChecked());
-            }
-        });
-        Spinner citiesSpinner = (Spinner) rootView.findViewById(R.id.cities_spinner);
+        genderFilter.setOnClickListener(v -> genderFilter.setChecked(!genderFilter.isChecked()));
+        Spinner citiesSpinner = rootView.findViewById(R.id.cities_spinner);
 
         List<SalonModel> salonModels = SessionManager.getInstance().getSalons();
 
@@ -121,23 +116,20 @@ public class FragmentFilter extends BaseFragment {
             }
         }
 
-        applyButton.setOnClickListener(new View.OnClickListener() {
+        applyButton.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            FilterAndSortManager filterAndSortManager = FilterAndSortManager.getInstance();
 
-                FilterAndSortManager filterAndSortManager = FilterAndSortManager.getInstance();
+            filterAndSortManager.setSortType(((CustomRadioButton) sortTypeGroup.getCheckedItem()).getSortType());
 
-                filterAndSortManager.setSortType(((CustomRadioButton) sortTypeGroup.getCheckedItem()).getSortType());
+            List<FilterType> filterTypes = new ArrayList<>();
 
-                List<FilterType> filterTypes = new ArrayList<>();
+            List<Checkable> checkables = filters.getCheckedList();
 
-                List<Checkable> checkables = filters.getCheckedList();
+            for(int i = 0 ; i < checkables.size() ; i++){
 
-                for(int i = 0 ; i < checkables.size() ; i++){
-
-                    filterTypes.add(((CustomCheckbox)checkables.get(i)).getFilterType());
-                }
+                filterTypes.add(((CustomCheckbox)checkables.get(i)).getFilterType());
+            }
 
 //                if (genderFilter.isChecked()){
 //
@@ -149,30 +141,21 @@ public class FragmentFilter extends BaseFragment {
 //
 //                }
 
-                FilterAndSortManager.getInstance().setSalonType(genderFilter.isChecked() ? Gender.FEMALE : Gender.MALE);
+            FilterAndSortManager.getInstance().setSalonType(genderFilter.isChecked() ? Gender.FEMALE : Gender.MALE);
 
-                filterAndSortManager.getFilters().clear();
+            filterAndSortManager.getFilters().clear();
 
-                filterAndSortManager.getFilters().addAll(filterTypes);
+            filterAndSortManager.getFilters().addAll(filterTypes);
 
-                FilterAndSortObservable.getInstance().notifyFilterChanged();
+            FilterAndSortObservable.getInstance().notifyFilterChanged();
 
-                FragmentManager.popCurrentVisibleFragment();
+            FragmentManager.popCurrentVisibleFragment();
 
-            }
         });
 
-        ImageView back = (ImageView) rootView.findViewById(R.id.back);
+        ImageView back = rootView.findViewById(R.id.back);
 
-        back.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.popCurrentVisibleFragment();
-
-            }
-        });
+        back.setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
         return rootView;
     }

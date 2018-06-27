@@ -1,4 +1,4 @@
-package com.tasree7a.Enums;
+package com.tasree7a.enums;
 
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;

@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -20,21 +20,20 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.Enums.LoginType;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Login.LoginModel;
-import com.tasree7a.Models.Login.LoginResponseModel;
-import com.tasree7a.Models.Login.User;
-import com.tasree7a.Models.Signup.SignupModel;
-import com.tasree7a.Models.Signup.SignupResponseModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
 import com.tasree7a.activities.ResetPasswordActivity;
 import com.tasree7a.activities.SignupActivity;
+import com.tasree7a.customcomponent.CustomButton;
+import com.tasree7a.enums.LoginType;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.login.LoginModel;
+import com.tasree7a.models.login.LoginResponseModel;
+import com.tasree7a.models.login.User;
+import com.tasree7a.models.signup.SignupResponseModel;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
@@ -44,7 +43,7 @@ import org.json.JSONObject;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tasree7a.ThisApplication.callbackManager;
 
-public class BaseLoginFragment extends BaseFragment implements View.OnClickListener {
+public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment implements View.OnClickListener {
 
     CustomButton login;
 
@@ -77,33 +76,29 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
         rootView = inflater.inflate(R.layout.fragment_base_login, container, false);
 
-        signup = (TextView) rootView.findViewById(R.id.sign_up);
+        signup = rootView.findViewById(R.id.sign_up);
 
-        rootView.findViewById(R.id.forgot_password).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.forgot_password).setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            Intent intent = new Intent(ThisApplication.getCurrentActivity(), ResetPasswordActivity.class);
 
-                Intent intent = new Intent(ThisApplication.getCurrentActivity(), ResetPasswordActivity.class);
+            startActivity(intent);
 
-                startActivity(intent);
-
-            }
         });
 
         signup.setOnClickListener(this);
 
         rootView.findViewById(R.id.new_user).setOnClickListener(this);
 
-        login = (CustomButton) rootView.findViewById(R.id.login_with_fb);
+        login = rootView.findViewById(R.id.login_with_fb);
 
         login.setOnClickListener(this);
 
-        normalLogin = (CustomButton) rootView.findViewById(R.id.normal_login_button);
+        normalLogin = rootView.findViewById(R.id.normal_login_button);
 
         normalLogin.setOnClickListener(this);
 
-        loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
+        loginButton = rootView.findViewById(R.id.login_button);
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -136,7 +131,7 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
                                 // Application code
                                 try {
 
-                                    SignupModel signupModel = new SignupModel();
+                                    com.tasree7a.Models.Signup.SignupModel signupModel = new com.tasree7a.Models.Signup.SignupModel();
 
                                     String name = object.getString("name");
 
@@ -172,27 +167,23 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                                     signupModel.setUsername("");
 
-                                    RetrofitManager.getInstance().register(signupModel, new AbstractCallback() {
+                                    RetrofitManager.getInstance().register(signupModel, (isSuccess, result) -> {
 
-                                        @Override
-                                        public void onResult(boolean isSuccess, Object result) {
+                                        if (isSuccess) {
 
-                                            if (isSuccess) {
+                                            SignupResponseModel model = (SignupResponseModel) result;
 
-                                                SignupResponseModel model = (SignupResponseModel) result;
+                                            User user = model.getUserDetails().getUser();
 
-                                                User user = model.getUserDetails().getUser();
+                                            UserDefaultUtil.saveUser(user);
 
-                                                UserDefaultUtil.saveUser(user);
+                                            startHomeActivity();
+                                        } else {
 
-                                                startHomeActivity();
-                                            } else {
-
-                                                Toast.makeText(getContext(), "Error in login, please try again later", Toast.LENGTH_LONG).show();
-
-                                            }
+                                            Toast.makeText(getContext(), "Error in login, please try again later", Toast.LENGTH_LONG).show();
 
                                         }
+
                                     });
 
                                 } catch (Exception e) {
@@ -257,9 +248,9 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
             case R.id.normal_login_button:
 
-                EditText email = (EditText) rootView.findViewById(R.id.input_email);
+                EditText email = rootView.findViewById(R.id.input_email);
 
-                EditText password = (EditText) rootView.findViewById(R.id.input_password);
+                EditText password = rootView.findViewById(R.id.input_password);
 
                 String emailStr = email.getText().toString();
 
@@ -279,38 +270,34 @@ public class BaseLoginFragment extends BaseFragment implements View.OnClickListe
 
                     UIUtils.showSweetLoadingDialog();
 
-                    RetrofitManager.getInstance().login(model, new AbstractCallback() {
+                    RetrofitManager.getInstance().login(model, (isSuccess, result) -> {
 
-                        @Override
-                        public void onResult(boolean isSuccess, Object result) {
+                        UIUtils.hideSweetLoadingDialog();
 
-                            UIUtils.hideSweetLoadingDialog();
+                        if (isSuccess) {
 
-                            if (isSuccess) {
+                            LoginResponseModel responseModel = (LoginResponseModel) result;
 
-                                LoginResponseModel responseModel = (LoginResponseModel) result;
+                            if (responseModel.getResponseCode().equalsIgnoreCase("200")) {
 
-                                if (responseModel.getResponseCode().equalsIgnoreCase("200")) {
+                                User user = responseModel.getUser();
 
-                                    User user = responseModel.getUser();
+                                user.setBusiness(isBusiness ? 1 : 0);
 
-                                    user.setBusiness(isBusiness ? 1 : 0);
+                                user.setSalonId(responseModel.getSalonId());
 
-                                    user.setSalonId(responseModel.getSalonId());
+                                UserDefaultUtil.saveUser(user);
 
-                                    UserDefaultUtil.saveUser(user);
+                                startHomeActivity();
 
-                                    startHomeActivity();
+                            } else {
 
-                                } else {
-
-                                    Toast.makeText(getApplicationContext(), "Error in login ", Toast.LENGTH_LONG).show();
-
-                                }
+                                Toast.makeText(getApplicationContext(), "Error in login ", Toast.LENGTH_LONG).show();
 
                             }
 
                         }
+
                     });
 
                 } else {

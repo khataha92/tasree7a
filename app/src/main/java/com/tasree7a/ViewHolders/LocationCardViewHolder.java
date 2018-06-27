@@ -1,10 +1,10 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.view.View;
 
-import com.tasree7a.CustomComponent.SalonLocationCard;
-import com.tasree7a.Models.BaseCardModel;
-import com.tasree7a.Models.LocationCard.LocationCardModel;
+import com.tasree7a.customcomponent.SalonLocationCard;
+import com.tasree7a.models.BaseCardModel;
+import com.tasree7a.models.locationcard.LocationCardModel;
 
 import org.greenrobot.eventbus.EventBus;
 

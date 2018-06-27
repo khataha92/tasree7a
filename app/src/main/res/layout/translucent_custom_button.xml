@@ -23,7 +23,7 @@
         android:alpha="0.2"
         android:background="@drawable/shadow_diagonal_with_rad"/>
 
-    <com.tasree7a.CustomComponent.CustomButton
+    <com.tasree7a.customcomponent.CustomButton
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="75dp"

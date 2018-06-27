@@ -1,8 +1,8 @@
-package com.tasree7a.Models.PopularSalons;
+package com.tasree7a.models.popularsalons;
 
 import com.google.gson.annotations.SerializedName;
-import com.tasree7a.Enums.ResponseCode;
-import com.tasree7a.Models.SalonDetails.SalonModel;
+import com.tasree7a.enums.ResponseCode;
+import com.tasree7a.models.salondetails.SalonModel;
 
 import java.util.List;
 
@@ -10,14 +10,13 @@ import java.util.List;
  * Created by mac on 6/20/17.
  */
 
-public class
-PopularSalonsResponseModel {
+public class PopularSalonsResponseModel {
 
     @SerializedName("response_code")
-    ResponseCode responseCode;
+    private ResponseCode responseCode;
 
     @SerializedName("salons")
-    List<SalonModel> salons;
+    private List<SalonModel> salons;
 
     public List<SalonModel> getSalons() {
         return salons;

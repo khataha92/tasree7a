@@ -7,16 +7,14 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 
 import com.facebook.AccessToken;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.tasree7a.Enums.Language;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.enums.Language;
 
 import java.util.List;
 import java.util.Locale;

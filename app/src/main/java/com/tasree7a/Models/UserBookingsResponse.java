@@ -1,7 +1,7 @@
-package com.tasree7a.Models;
+package com.tasree7a.models;
 
 import com.google.gson.annotations.SerializedName;
-import com.tasree7a.Models.Bookings.BookingModel;
+import com.tasree7a.models.bookings.BookingModel;
 
 import java.util.List;
 

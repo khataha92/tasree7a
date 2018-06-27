@@ -1,9 +1,7 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import com.tasree7a.R;
 
 /**
  * Created by mac on 8/27/17.

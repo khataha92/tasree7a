@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tasree7a.Enums.FontsType;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.enums.FontsType;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

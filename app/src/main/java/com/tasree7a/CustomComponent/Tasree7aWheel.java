@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -11,15 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.google.common.base.Strings;
 import com.tasree7a.R;
 import com.tsongkha.spinnerdatepicker.TwoDigitFormatter;
 
 import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Tasree7aWheel extends LinearLayout {
 

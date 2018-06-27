@@ -1,31 +1,24 @@
 package com.tasree7a.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.tasree7a.Adapters.ViewPagerAdapter;
-import com.tasree7a.Enums.Language;
-import com.tasree7a.Enums.LoginType;
-import com.tasree7a.Fragments.BaseLoginFragment;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.adapters.ViewPagerAdapter;
+import com.tasree7a.enums.Language;
+import com.tasree7a.enums.LoginType;
+import com.tasree7a.fragments.BaseLoginFragment;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.UserDefaultUtil;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -44,6 +37,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         initializations();
 
@@ -57,7 +51,7 @@ public class MainActivity extends FragmentActivity {
 
 //        Log.d(TAG, token);
 
-        if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
+        if ((UserDefaultUtil.getAppLanguage() == Language.AR) && UserDefaultUtil.getUserLanguage() == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         else

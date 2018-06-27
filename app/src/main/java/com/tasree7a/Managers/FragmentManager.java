@@ -1,4 +1,4 @@
-package com.tasree7a.Managers;
+package com.tasree7a.managers;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,39 +8,40 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.tasree7a.Fragments.AddGalleryFragment;
-import com.tasree7a.Fragments.AddNewSalonServiceFragment;
-import com.tasree7a.Fragments.AddProductFragment;
-import com.tasree7a.Fragments.AddStaffMemberFragment;
-import com.tasree7a.Fragments.BaseFragment;
-import com.tasree7a.Fragments.BookNowFragment;
-import com.tasree7a.Fragments.BookScheduleFragment;
-import com.tasree7a.Fragments.CalenderFragment;
-import com.tasree7a.Fragments.ChangePasswordFragment;
-import com.tasree7a.Fragments.FragmentBookingList;
-import com.tasree7a.Fragments.FragmentFeedBack;
-import com.tasree7a.Fragments.FragmentFilter;
-import com.tasree7a.Fragments.FragmentGallery;
-import com.tasree7a.Fragments.FragmentMapView;
-import com.tasree7a.Fragments.FullScreenGalleryFragment;
-import com.tasree7a.Fragments.HomeFragment;
-import com.tasree7a.Fragments.ProfileFragment;
-import com.tasree7a.Fragments.SalonDetailsFragment;
-import com.tasree7a.Fragments.SalonInformationFragment;
-import com.tasree7a.Fragments.SalonServicesFragment;
-import com.tasree7a.Fragments.SettingsFragment;
-import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Models.SalonDetails.SalonProduct;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
+import com.tasree7a.fragments.AddGalleryFragment;
+import com.tasree7a.fragments.AddNewSalonServiceFragment;
+import com.tasree7a.fragments.AddProductFragment;
+import com.tasree7a.fragments.AddStaffMemberFragment;
+import com.tasree7a.fragments.BaseFragment;
+import com.tasree7a.fragments.BookNowFragment;
+import com.tasree7a.fragments.BookScheduleFragment;
+import com.tasree7a.fragments.CalenderFragment;
+import com.tasree7a.fragments.ChangePasswordFragment;
+import com.tasree7a.fragments.FragmentBookingList;
+import com.tasree7a.fragments.FragmentFeedBack;
+import com.tasree7a.fragments.FragmentFilter;
+import com.tasree7a.fragments.FragmentGallery;
+import com.tasree7a.fragments.FragmentMapView;
+import com.tasree7a.fragments.FullScreenGalleryFragment;
+import com.tasree7a.fragments.HomeFragment;
+import com.tasree7a.fragments.ProfileFragment;
+import com.tasree7a.fragments.SalonDetailsFragment;
+import com.tasree7a.fragments.SalonInformationFragment;
+import com.tasree7a.fragments.SalonServicesFragment;
+import com.tasree7a.fragments.SettingsFragment;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.models.gallery.ImageModel;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.models.salondetails.SalonProduct;
 import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by mohammad on 4/22/15.
@@ -262,15 +263,11 @@ public class FragmentManager {
 
                 //trans.setAllowOptimization(true);
 
-                Runnable commitRunnable = new Runnable() {
+                Runnable commitRunnable = () -> {
 
-                    public void run() {
+                    trans.remove(fromFragment);
 
-                        trans.remove(fromFragment);
-
-                        trans.commitNowAllowingStateLoss();
-
-                    }
+                    trans.commitNowAllowingStateLoss();
 
                 };
 

@@ -1,23 +1,19 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.tasree7a.Enums.CardFactory;
-import com.tasree7a.Enums.CardType;
-import com.tasree7a.Models.BaseCardModel;
-import com.tasree7a.ViewHolders.BaseCardViewHolder;
-import com.tasree7a.ViewHolders.EmptyViewHolder;
+import com.tasree7a.enums.CardFactory;
+import com.tasree7a.enums.CardType;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.models.BaseCardModel;
+import com.tasree7a.viewholders.BaseCardViewHolder;
+import com.tasree7a.viewholders.EmptyViewHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by mohammad nabulsi on 11/9/15.
- * RecyclerView adapter for CardFactory
- */
 public class CardsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     public WeakReference<CardFactory> cardFactory = new WeakReference<>(null);
@@ -97,9 +93,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if (cardFactory.get() == null) return null;
 
-        BaseCardModel cardModel = cardFactory.get().getCardModels().get(position);//cardFactory.getCardModels().get(position);
-
-        return cardModel;
+        return cardFactory.get().getCardModels().get(position);
 
     }
 

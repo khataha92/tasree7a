@@ -65,7 +65,7 @@
             android:text="@string/AR"
             />
 
-        <com.tasree7a.CustomComponent.CustomSwitch
+        <com.tasree7a.customcomponent.CustomSwitch
             android:layout_width="30dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"

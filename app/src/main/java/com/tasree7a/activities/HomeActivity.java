@@ -8,13 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.observables.PermissionGrantedObservable;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.PermissionCode;
 import com.tasree7a.utils.UIUtils;
@@ -55,16 +54,13 @@ public class HomeActivity extends FragmentActivity {
     }
 
     private void requestSalonDetails() {
-        RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), new AbstractCallback() {
-            @Override
-            public void onResult (boolean isSuccess, Object result) {
-                findViewById(R.id.loading).setVisibility(View.GONE);
-                if (isSuccess
-                        && result != null) {
-                    SalonModel salonModel = (SalonModel) result;
-                    salonModel.setBusiness(true);
-                    FragmentManager.showSalonDetailsFragment(salonModel, true);
-                }
+        RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), (isSuccess, result) -> {
+            findViewById(R.id.loading).setVisibility(View.GONE);
+            if (isSuccess
+                    && result != null) {
+                SalonModel salonModel = (SalonModel) result;
+                salonModel.setBusiness(true);
+                FragmentManager.showSalonDetailsFragment(salonModel, true);
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,32 +20,32 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.facebook.AccessToken;
-import com.tasree7a.Adapters.PopularSallonsAdapter;
-import com.tasree7a.CustomComponent.CustomSwitch;
-import com.tasree7a.CustomComponent.CustomTopBar;
-import com.tasree7a.Enums.FilterType;
-import com.tasree7a.Enums.Gender;
-import com.tasree7a.Enums.Language;
-import com.tasree7a.Enums.ResponseCode;
-import com.tasree7a.Managers.FilterAndSortManager;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Managers.SalonsComparable;
-import com.tasree7a.Managers.SessionManager;
-import com.tasree7a.Models.FavoriteModels.FavoriteDetailsModel;
-import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
-import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Observables.FavoriteChangeObservable;
-import com.tasree7a.Observables.FilterAndSortObservable;
-import com.tasree7a.Observables.LocationChangedObservable;
-import com.tasree7a.Observables.PermissionGrantedObservable;
 import com.tasree7a.R;
-import com.tasree7a.Services.LocationService;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
+import com.tasree7a.adapters.PopularSallonsAdapter;
+import com.tasree7a.customcomponent.CustomSwitch;
+import com.tasree7a.customcomponent.CustomTopBar;
+import com.tasree7a.enums.FilterType;
+import com.tasree7a.enums.Gender;
+import com.tasree7a.enums.Language;
+import com.tasree7a.enums.ResponseCode;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.OnSearchBarStateChange;
+import com.tasree7a.managers.FilterAndSortManager;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.managers.SalonsComparable;
+import com.tasree7a.managers.SessionManager;
+import com.tasree7a.models.favoritemodels.FavoriteDetailsModel;
+import com.tasree7a.models.favoritemodels.FavoriteResponseModel;
+import com.tasree7a.models.popularsalons.PopularSalonsResponseModel;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.observables.FavoriteChangeObservable;
+import com.tasree7a.observables.FilterAndSortObservable;
+import com.tasree7a.observables.LocationChangedObservable;
+import com.tasree7a.observables.PermissionGrantedObservable;
+import com.tasree7a.services.LocationService;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
@@ -92,15 +92,15 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         addObservables();
 
-        topBar = (CustomTopBar) rootView.findViewById(R.id.top_bar);
+        topBar = rootView.findViewById(R.id.top_bar);
 
-        nvDrawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
+        nvDrawer = rootView.findViewById(R.id.drawer_layout);
 
-        nvView = (NavigationView) rootView.findViewById(R.id.nvView);
+        nvView = rootView.findViewById(R.id.nvView);
 
         navHeader = nvView.getHeaderView(0);
 
-        closeDrawer = (ImageView) nvView.getHeaderView(0).findViewById(R.id.close_menu);
+        closeDrawer = nvView.getHeaderView(0).findViewById(R.id.close_menu);
 
         transparentView = rootView.findViewById(R.id.transparent_view);
 
@@ -122,7 +122,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         nvView.setLayoutParams(params);
 
-        popularSallons = (RecyclerView) rootView.findViewById(R.id.popular_sallons);
+        popularSallons = rootView.findViewById(R.id.popular_sallons);
 
         popularSallons.setLayoutManager(new LinearLayoutManager(ThisApplication.getCurrentActivity()));
 
@@ -146,15 +146,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     private void initTopBar() {
 
-        topBar.setOnFirstIconClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                nvDrawer.openDrawer(nvView);
-
-            }
-        });
+        topBar.setOnFirstIconClickListener(v -> nvDrawer.openDrawer(nvView));
 
         topBar.setOnSearchBarStateChange(new OnSearchBarStateChange() {
 
@@ -233,29 +225,17 @@ public class HomeFragment extends BaseFragment implements Observer {
 
     private void initCloseButton() {
 
-        closeDrawer.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                nvDrawer.closeDrawers();
-
-            }
-        });
+        closeDrawer.setOnClickListener(v -> nvDrawer.closeDrawers());
     }
 
 
     private void initProfileImage() {
 
-        navHeader.findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
+        navHeader.findViewById(R.id.profile_image).setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if (!UserDefaultUtil.isFBUser())
+                FragmentManager.showProfileFragment();
 
-                if (!UserDefaultUtil.isFBUser())
-                    FragmentManager.showProfileFragment();
-
-            }
         });
     }
 
@@ -263,85 +243,73 @@ public class HomeFragment extends BaseFragment implements Observer {
     private void initMenueItems() {
 
         nvView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
+                menuItem -> {
 
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    int itemId = menuItem.getItemId();
 
-                        int itemId = menuItem.getItemId();
+                    switch (itemId) {
 
-                        switch (itemId) {
+                        case R.id.bookings:
 
-                            case R.id.bookings:
+                            FragmentManager.showFragmentBookingList();
 
-                                FragmentManager.showFragmentBookingList();
+                            break;
 
-                                break;
+                        case R.id.map_view:
 
-                            case R.id.map_view:
+                            FragmentManager.showMapViewFragment(SessionManager.getInstance().getSalons());
 
-                                FragmentManager.showMapViewFragment(SessionManager.getInstance().getSalons());
+                            break;
 
-                                break;
+                        case R.id.favorites:
 
-                            case R.id.favorites:
+                            FilterAndSortManager.getInstance().getFilters().add(FilterType.FAVORITE);
 
-                                FilterAndSortManager.getInstance().getFilters().add(FilterType.FAVORITE);
+                            FilterAndSortObservable.getInstance().notifyFilterChanged();
 
-                                FilterAndSortObservable.getInstance().notifyFilterChanged();
+                            break;
 
-                                break;
+                        case R.id.sallons:
 
-                            case R.id.sallons:
+                            FilterAndSortManager.getInstance().reset();
 
-                                FilterAndSortManager.getInstance().reset();
+                            FilterAndSortObservable.getInstance().notifyFilterChanged();
 
-                                FilterAndSortObservable.getInstance().notifyFilterChanged();
+                            break;
 
-                                break;
+                        case R.id.logout:
 
-                            case R.id.logout:
+                            UserDefaultUtil.logout();
 
-                                UserDefaultUtil.logout();
+                            AccessToken.setCurrentAccessToken(null);
 
-                                AccessToken.setCurrentAccessToken(null);
+                            startActivity(new Intent(getContext(), MainActivity.class));
 
-                                startActivity(new Intent(getContext(), MainActivity.class));
+                            getActivity().finish();
 
-                                getActivity().finish();
+                            break;
 
-                                break;
+                        case R.id.settings:
 
-                            case R.id.settings:
+                            FragmentManager.showSettingsFragment();
 
-                                FragmentManager.showSettingsFragment();
-
-                                break;
-                        }
-
-                        nvDrawer.closeDrawers();
-
-                        return true;
+                            break;
                     }
+
+                    nvDrawer.closeDrawers();
+
+                    return true;
                 });
     }
 
 
     private void initLangButton() {
 
-        langSwitch = (CustomSwitch) navHeader.findViewById(R.id.switch_item);
+        langSwitch = navHeader.findViewById(R.id.switch_item);
 
         langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
 
-        langSwitch.setAction(new Runnable() {
-
-            @Override
-            public void run() {
-
-                UIUtils.showConfirmLanguageChangeDialog(langSwitch);
-
-            }
-        });
+        langSwitch.setAction(() -> UIUtils.showConfirmLanguageChangeDialog(langSwitch));
 
         if (UserDefaultUtil.getAppLanguage() == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -359,21 +327,8 @@ public class HomeFragment extends BaseFragment implements Observer {
         builder.setMessage(getString(R.string.LOCATION_DISABLED_MESSAGE))
 
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.ENABLE_LOCATION), new DialogInterface.OnClickListener() {
-
-                    public void onClick(final DialogInterface dialog, final int id) {
-
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton(getString(R.string.CLOSE), new DialogInterface.OnClickListener() {
-
-                    public void onClick(final DialogInterface dialog, final int id) {
-
-                        FragmentManager.popCurrentVisibleFragment();
-
-                    }
-                });
+                .setPositiveButton(getString(R.string.ENABLE_LOCATION), (dialog, id) -> startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
+                .setNegativeButton(getString(R.string.CLOSE), (dialog, id) -> FragmentManager.popCurrentVisibleFragment());
         final AlertDialog alert = builder.create();
         alert.show();
     }
@@ -419,39 +374,35 @@ public class HomeFragment extends BaseFragment implements Observer {
             return;
         }
 
-        RetrofitManager.getInstance().getNearestSalons(location.getLatitude(), location.getLongitude(), new AbstractCallback() {
+        RetrofitManager.getInstance().getNearestSalons(location.getLatitude(), location.getLongitude(), (isSuccess, result) -> {
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
+            if (isSuccess) {
 
-                if (isSuccess) {
+                hideLoadingView();
 
-                    hideLoadingView();
+                PopularSalonsResponseModel model = (PopularSalonsResponseModel) result;
 
-                    PopularSalonsResponseModel model = (PopularSalonsResponseModel) result;
+                if (model.getResponseCode() == ResponseCode.SUCCESS) {
 
-                    if (model.getResponseCode() == ResponseCode.SUCCESS) {
+                    List<SalonModel> salons = model.getSalons();
 
-                        List<SalonModel> salons = model.getSalons();
+                    filteredSalons = salons;
 
-                        filteredSalons = salons;
+                    SessionManager.getInstance().setSalons(salons);
 
-                        SessionManager.getInstance().setSalons(salons);
+                    PopularSallonsAdapter adapter = new PopularSallonsAdapter();
 
-                        PopularSallonsAdapter adapter = new PopularSallonsAdapter();
+                    adapter.setSalonModels(salons);
 
-                        adapter.setSalonModels(salons);
+                    popularSallons.setAdapter(adapter);
 
-                        popularSallons.setAdapter(adapter);
-
-                    } else {
-
-                    }
-
+                } else {
 
                 }
 
+
             }
+
         });
 
     }
@@ -488,7 +439,7 @@ public class HomeFragment extends BaseFragment implements Observer {
 
             } else {
 
-                boolean isMale = FilterAndSortManager.getInstance().getSalonType() == Gender.MALE ? true : false;
+                boolean isMale = FilterAndSortManager.getInstance().getSalonType() == Gender.MALE;
 
                 List<SalonModel> allSalons = SessionManager.getInstance().getSalons();
 
@@ -520,9 +471,7 @@ public class HomeFragment extends BaseFragment implements Observer {
                     }
 
                     if (shouldContain) {
-
                         filteredSalons.add(allSalons.get(i));
-
                     }
                 }
             }
@@ -589,23 +538,19 @@ public class HomeFragment extends BaseFragment implements Observer {
 
         if (!UserDefaultUtil.isBusinessUser()) {
 
-            RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getCurrentUser().getId(), new AbstractCallback() {
+            RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getCurrentUser().getId(), (isSuccess, result) -> {
 
-                @Override
-                public void onResult(boolean isSuccess, Object result) {
+                if (isSuccess && result != null) {
 
-                    if (isSuccess && result != null) {
+                    List<SalonModel> salonModels = new ArrayList<>();
 
-                        List<SalonModel> salonModels = new ArrayList<>();
+                    for (FavoriteDetailsModel details : ((FavoriteResponseModel) result).getDetails()) {
 
-                        for (FavoriteDetailsModel details : ((FavoriteResponseModel) result).getDetails()) {
+                        salonModels.add(details.getSalonModel());
 
-                            salonModels.add(details.getSalonModel());
-
-                        }
-
-                        UserDefaultUtil.saveFavoriteSalons(salonModels);
                     }
+
+                    UserDefaultUtil.saveFavoriteSalons(salonModels);
                 }
             });
         }

@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tasree7a.Constants;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Observables.FavoriteChangeObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.observables.FavoriteChangeObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -90,7 +90,7 @@ public class SalonMapDetails extends LinearLayout implements Observer {
 
         // Set image
 
-        ImageView imageView = (ImageView) findViewById(R.id.salon_image);
+        ImageView imageView = findViewById(R.id.salon_image);
 
         if( salonModel.getImage() != null) {
 
@@ -107,41 +107,39 @@ public class SalonMapDetails extends LinearLayout implements Observer {
         }
 
         // Set favourite
-        final AutoStopRippleBackground favouriteContainer = (AutoStopRippleBackground)findViewById(R.id.favouriteContainer);
+        final AutoStopRippleBackground favouriteContainer = findViewById(R.id.favouriteContainer);
 
         favouriteContainer.setAnimationExpirationMS(1000);
 
-        ImageView favorite = (ImageView) findViewById(R.id.add_to_favorite);//, this, ImageView.class);
+        ImageView favorite = findViewById(R.id.add_to_favorite);//, this, ImageView.class);
 
         changeStateOfFavourite(salonModel.isFavorite());
 
-        favorite.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
+        favorite.setOnClickListener(v -> {
 
-                favouriteContainer.stopRippleAnimation();
+            favouriteContainer.stopRippleAnimation();
 
-                if (salonModel.isFavorite()) {
+            if (salonModel.isFavorite()) {
 
-                    UserDefaultUtil.removeSalonFromFavorite(salonModel);
+                UserDefaultUtil.removeSalonFromFavorite(salonModel);
 
-                    FavoriteChangeObservable.sharedInstance().setFavoriteChanged(salonModel);
+                FavoriteChangeObservable.sharedInstance().setFavoriteChanged(salonModel);
 
-                } else {
+            } else {
 
-                    favouriteContainer.startRippleAnimation();
+                favouriteContainer.startRippleAnimation();
 
-                    UserDefaultUtil.addSalonToFavorite(salonModel);
+                UserDefaultUtil.addSalonToFavorite(salonModel);
 
-                    FavoriteChangeObservable.sharedInstance().setFavoriteChanged(salonModel);
-
-                }
+                FavoriteChangeObservable.sharedInstance().setFavoriteChanged(salonModel);
 
             }
+
         });
 
         // set rating
 
-        CustomRatingBar ratingBar = (CustomRatingBar) findViewById(R.id.salon_rating);
+        CustomRatingBar ratingBar = findViewById(R.id.salon_rating);
 
         ratingBar.setRating(salonModel.getRating());
 
@@ -205,11 +203,11 @@ public class SalonMapDetails extends LinearLayout implements Observer {
 
     private void changeStateOfFavourite(boolean isFavourite) {
 
-        AutoStopRippleBackground favouriteContainer = (AutoStopRippleBackground)findViewById(R.id.favouriteContainer);
+        AutoStopRippleBackground favouriteContainer = findViewById(R.id.favouriteContainer);
 
         favouriteContainer.setAnimationExpirationMS(1000);
 
-        ImageView favorite = (ImageView) findViewById(R.id.add_to_favorite);
+        ImageView favorite = findViewById(R.id.add_to_favorite);
 
         if(isFavourite){
 

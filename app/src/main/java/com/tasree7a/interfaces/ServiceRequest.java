@@ -1,21 +1,19 @@
 package com.tasree7a.interfaces;
 
-import com.tasree7a.Models.FavoriteModels.FavoriteResponseModel;
-import com.tasree7a.Models.Login.LoginResponseModel;
-import com.tasree7a.Models.PopularSalons.PopularSalonsResponseModel;
-import com.tasree7a.Models.SalonBooking.AvailableTimesResponse;
-import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
-import com.tasree7a.Models.SalonDetails.AddNewSalonResponseModel;
-import com.tasree7a.Models.SalonDetails.SalonDetailsResponseModel;
-import com.tasree7a.Models.Signup.SignupResponseModel;
-import com.tasree7a.Models.UpdateGalleryResponseModel;
-import com.tasree7a.Models.UserBookingsResponse;
-
+import com.tasree7a.models.UpdateGalleryResponseModel;
+import com.tasree7a.models.UserBookingsResponse;
+import com.tasree7a.models.favoritemodels.FavoriteResponseModel;
+import com.tasree7a.models.login.LoginResponseModel;
+import com.tasree7a.models.popularsalons.PopularSalonsResponseModel;
+import com.tasree7a.models.salonbooking.AvailableTimesResponse;
+import com.tasree7a.models.salonbooking.SalonServicesResponse;
+import com.tasree7a.models.salondetails.AddNewSalonResponseModel;
+import com.tasree7a.models.salondetails.SalonDetailsResponseModel;
+import com.tasree7a.models.signup.SignupResponseModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 
 /**

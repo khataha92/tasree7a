@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,18 +8,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tasree7a.Adapters.SalonServicesAdapter;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.SalonBooking.SalonService;
-import com.tasree7a.Models.SalonBooking.SalonServicesResponse;
-import com.tasree7a.Observables.ServicesChangedObservable;
 import com.tasree7a.R;
+import com.tasree7a.adapters.SalonServicesAdapter;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.salonbooking.SalonService;
+import com.tasree7a.models.salonbooking.SalonServicesResponse;
+import com.tasree7a.observables.ServicesChangedObservable;
 import com.tasree7a.utils.UIUtils;
 
 import java.util.ArrayList;

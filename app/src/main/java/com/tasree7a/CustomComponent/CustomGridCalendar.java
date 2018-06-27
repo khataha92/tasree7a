@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -10,14 +10,14 @@ import android.util.TypedValue;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tasree7a.Adapters.CalendarListAdapter;
-import com.tasree7a.Adapters.CalendarMonthAdapter;
-import com.tasree7a.Enums.FontsType;
-import com.tasree7a.Models.Calendar.CalendarViewsModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.adapters.CalendarListAdapter;
+import com.tasree7a.adapters.CalendarMonthAdapter;
+import com.tasree7a.enums.FontsType;
 import com.tasree7a.interfaces.DateCalenderViewListener;
 import com.tasree7a.interfaces.RecyclerViewScrollTopListener;
+import com.tasree7a.models.calendar.CalendarViewsModel;
 import com.tasree7a.utils.FontUtil;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;

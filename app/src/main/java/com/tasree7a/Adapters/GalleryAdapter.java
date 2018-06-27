@@ -1,25 +1,24 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.LoginFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.SalonDetails.SalonProduct;
-import com.tasree7a.Observables.ItemSelectedObservable;
-import com.tasree7a.Observables.ServicesTotalChangeObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.ViewHolders.GalleryItemViewHolder;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.models.gallery.ImageModel;
+import com.tasree7a.models.salondetails.SalonProduct;
+import com.tasree7a.observables.ItemSelectedObservable;
 import com.tasree7a.utils.UserDefaultUtil;
+import com.tasree7a.viewholders.GalleryItemViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by mac on 6/14/17.
@@ -27,15 +26,16 @@ import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> {
 
-    List<ImageModel> imageModels = new ArrayList<>();
+    private List<ImageModel> imageModels = new ArrayList<>();
 
-    List<SalonProduct> productsList = new ArrayList<>();
+    private List<SalonProduct> productsList = new ArrayList<>();
 
-    boolean isProduct;
+    private boolean isProduct;
 
 
+    @NonNull
     @Override
-    public GalleryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GalleryItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(ThisApplication.getCurrentActivity()).inflate(R.layout.gallery_image, null);
 
@@ -45,7 +45,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
 
 
     @Override
-    public void onBindViewHolder(final GalleryItemViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final GalleryItemViewHolder holder, final int position) {
 
         try {
 
@@ -58,44 +58,32 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
         }
         if (!UserDefaultUtil.isBusinessUser()) {
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    FragmentManager.showGalleryFullScreenFragment(imageModels, position);
-
-                }
-            });
+            holder.itemView.setOnClickListener(v -> FragmentManager.showGalleryFullScreenFragment(imageModels, position));
 
         } else {
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(v -> {
 
-                @Override
-                public void onClick(View v) {
+                if (holder.itemView.findViewById(R.id.selected).getVisibility() == View.GONE) {
 
-                    if (holder.itemView.findViewById(R.id.selected).getVisibility() == View.GONE) {
+                    holder.itemView.findViewById(R.id.selected).setVisibility(View.VISIBLE);
 
-                        holder.itemView.findViewById(R.id.selected).setVisibility(View.VISIBLE);
+                    holder.itemView.findViewById(R.id.image_container).setAlpha(0.5f);
 
-                        holder.itemView.findViewById(R.id.image_container).setAlpha(0.5f);
+                    ReservationSessionManager.getInstance().addSelectedItem(isProduct ? productsList.get(position).getId() : imageModels.get(position).getImageId());
 
-                        ReservationSessionManager.getInstance().addSelectedItem(isProduct ? productsList.get(position).getId() : imageModels.get(position).getImageId());
+                } else {
 
-                    } else {
+                    holder.itemView.findViewById(R.id.selected).setVisibility(View.GONE);
 
-                        holder.itemView.findViewById(R.id.selected).setVisibility(View.GONE);
+                    holder.itemView.findViewById(R.id.image_container).setAlpha(1.0f);
 
-                        holder.itemView.findViewById(R.id.image_container).setAlpha(1.0f);
-
-                        ReservationSessionManager.getInstance().removeSelectedItem(isProduct ? productsList.get(position).getId() : imageModels.get(position).getImageId());
-
-                    }
-
-                    ItemSelectedObservable.sharedInstance().setItemSelected(ReservationSessionManager.getInstance().getSelectedItems().size() != 0);
+                    ReservationSessionManager.getInstance().removeSelectedItem(isProduct ? productsList.get(position).getId() : imageModels.get(position).getImageId());
 
                 }
+
+                ItemSelectedObservable.sharedInstance().setItemSelected(ReservationSessionManager.getInstance().getSelectedItems().size() != 0);
+
             });
         }
 

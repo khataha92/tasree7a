@@ -1,4 +1,4 @@
-package com.tasree7a.Models.PopularSalons;
+package com.tasree7a.models.popularsalons;
 
 import com.google.gson.annotations.SerializedName;
 

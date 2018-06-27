@@ -1,7 +1,6 @@
-package com.tasree7a.Models.Signup;
+package com.tasree7a.models.signup;
 
 import com.google.gson.annotations.SerializedName;
-import com.tasree7a.Models.Login.User;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

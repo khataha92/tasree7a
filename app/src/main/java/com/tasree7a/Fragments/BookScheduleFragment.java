@@ -1,6 +1,5 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -11,19 +10,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tasree7a.CustomComponent.CustomRadioButton;
-import com.tasree7a.CustomComponent.CustomRadioGroup;
-import com.tasree7a.CustomComponent.Tasree7aWheel;
-import com.tasree7a.Enums.CustomOrientation;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.SalonBooking.AvailableTimesResponse;
-import com.tasree7a.Models.SalonDetails.SalonBarber;
-import com.tasree7a.Models.SalonDetails.SalonModel;
+
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.customcomponent.CustomRadioButton;
+import com.tasree7a.customcomponent.CustomRadioGroup;
+import com.tasree7a.customcomponent.Tasree7aWheel;
+import com.tasree7a.enums.CustomOrientation;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.salonbooking.AvailableTimesResponse;
+import com.tasree7a.models.salondetails.SalonBarber;
+import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -63,15 +63,12 @@ public class BookScheduleFragment extends BaseFragment {
 
         timeWheel = rootView.findViewById(R.id.time_wheel);
 
-        timeWheel.setAction(new Runnable() {
-            @Override
-            public void run() {
+        timeWheel.setAction(() -> {
 
-                boolean available = salonModel.getAvailableTimesFormatted().indexOf(timeWheel.getTime()+"") != -1;
-                confirm.setClickable(available);
-                timeWheel.setAvailable(available);
+            boolean available = salonModel.getAvailableTimesFormatted().indexOf(timeWheel.getTime()+"") != -1;
+            confirm.setClickable(available);
+            timeWheel.setAvailable(available);
 
-            }
         });
         Calendar c = Calendar.getInstance();
 
@@ -87,101 +84,69 @@ public class BookScheduleFragment extends BaseFragment {
 
         localDate = new LocalDate(date);
 
-        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.cancel).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.popCurrentVisibleFragment();
-
-            }
-        });
-
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.popCurrentVisibleFragment();
-
-            }
-        });
+        rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
         initSalonBarbers();
 
-        rootView.findViewById(R.id.date_container).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.date_container).setOnClickListener(v -> FragmentManager.showCalendarFragment((isSuccess, result) -> {
 
-            @Override
-            public void onClick(final View v) {
+            if (isSuccess) {
 
-                FragmentManager.showCalendarFragment(new AbstractCallback() {
+                localDate = (LocalDate) result;
 
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
+                ((TextView) rootView.findViewById(R.id.select_checkin_date)).setText(localDate.toString());
 
-                        if (isSuccess) {
-
-                            localDate = (LocalDate) result;
-
-                            ((TextView) rootView.findViewById(R.id.select_checkin_date)).setText(localDate.toString());
-
-                            getAvailableTimeOnDate(localDate.toString());
-
-                        }
-
-                    }
-                });
+                getAvailableTimeOnDate(localDate.toString());
 
             }
-        });
+
+        }));
 
         String total = getString(R.string.TOTAL);
 
         ((TextView) rootView.findViewById(R.id.total)).setText(total + ": $" + ReservationSessionManager.getInstance().getTotal());
 
-        confirm.setOnClickListener(new View.OnClickListener() {
+        confirm.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            //TODO: Causes a crash
+            String barberId = ((CustomRadioButton) radioGroup.getCheckedItem()).getItemId();
 
-                //TODO: Causes a crash
-                String barberId = ((CustomRadioButton) radioGroup.getCheckedItem()).getItemId();
+            String salonId = ReservationSessionManager.getInstance().getSalonModel().getId();
 
-                String salonId = ReservationSessionManager.getInstance().getSalonModel().getId();
+            String userId = UserDefaultUtil.getCurrentUser().getId();
 
-                String userId = UserDefaultUtil.getCurrentUser().getId();
+            int[] services = new int[ReservationSessionManager.getInstance().getSelectedServices().size()];
 
-                int[] services = new int[ReservationSessionManager.getInstance().getSelectedServices().size()];
+            for (int i = 0; i < ReservationSessionManager.getInstance().getSelectedServices().size(); i++) {
 
-                for (int i = 0; i < ReservationSessionManager.getInstance().getSelectedServices().size(); i++) {
-
-                    services[i] = Integer.parseInt(ReservationSessionManager.getInstance().getSelectedServices().get(i).getId());
-
-                }
-
-                RetrofitManager.getInstance().addBooking(barberId, salonId, services, userId, localDate.toString(), timeWheel.getTime() + "", new AbstractCallback() {
-
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
-
-                        if (isSuccess) {
-
-                            FragmentManager.popCurrentVisibleFragment();
-
-                            FragmentManager.popCurrentVisibleFragment();
-
-                            Toast.makeText(ThisApplication.getCurrentActivity(), "Added booking successfully", Toast.LENGTH_SHORT).show();
-
-                        } else {
-
-                            Toast.makeText(getContext(), "Error occurred while trying to add booking", Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }
-                });
+                services[i] = Integer.parseInt(ReservationSessionManager.getInstance().getSelectedServices().get(i).getId());
 
             }
+
+            RetrofitManager.getInstance().addBooking(barberId, salonId, services, userId, localDate.toString(), timeWheel.getTime() + "", new AbstractCallback() {
+
+                @Override
+                public void onResult(boolean isSuccess, Object result) {
+
+                    if (isSuccess) {
+
+                        FragmentManager.popCurrentVisibleFragment();
+
+                        FragmentManager.popCurrentVisibleFragment();
+
+                        Toast.makeText(ThisApplication.getCurrentActivity(), "Added booking successfully", Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        Toast.makeText(getContext(), "Error occurred while trying to add booking", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+            });
+
         });
 
         return rootView;
@@ -233,20 +198,16 @@ public class BookScheduleFragment extends BaseFragment {
 
         UIUtils.showLoadingView(rootView, this);
 
-        RetrofitManager.getInstance().getAvailableTimes(ReservationSessionManager.getInstance().getSalonModel().getId(), date, new AbstractCallback() {
+        RetrofitManager.getInstance().getAvailableTimes(ReservationSessionManager.getInstance().getSalonModel().getId(), date, (isSuccess, result) -> {
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
+            UIUtils.hideLoadingView(rootView, BookScheduleFragment.this);
 
-                UIUtils.hideLoadingView(rootView, BookScheduleFragment.this);
+            if (isSuccess) {
 
-                if (isSuccess) {
-
-                    availableTimes = ((AvailableTimesResponse) result).getAvailableTimes();
-
-                }
+                availableTimes = ((AvailableTimesResponse) result).getAvailableTimes();
 
             }
+
         });
     }
 

@@ -1,14 +1,15 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.tasree7a.Enums.Sizes;
-import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.enums.Sizes;
+import com.tasree7a.models.gallery.ImageModel;
 import com.tasree7a.utils.UIUtils;
 
 import java.util.List;
@@ -27,8 +28,9 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
         View v = ThisApplication.getCurrentActivity().getLayoutInflater().inflate(R.layout.pager_image_card, null);
 

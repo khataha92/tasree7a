@@ -1,8 +1,7 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,15 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Models.UpdateSalonImagesRequestModel;
-import com.tasree7a.Observables.GallaryItemsChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.customcomponent.CustomButton;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.UpdateSalonImagesRequestModel;
+import com.tasree7a.models.gallery.ImageModel;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.observables.GallaryItemsChangedObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -71,18 +71,11 @@ public class AddGalleryFragment extends BaseFragment {
 
         rootView = inflater.inflate(R.layout.add_gallery_item, container, false);
 
-        selectedImage = (ImageView) rootView.findViewById(R.id.add_img);
+        selectedImage = rootView.findViewById(R.id.add_img);
 
-        saveBtn = (CustomButton) rootView.findViewById(R.id.apply);
+        saveBtn = rootView.findViewById(R.id.apply);
 
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
-            }
-        });
+        rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
         initSaveButton();
 
@@ -94,46 +87,36 @@ public class AddGalleryFragment extends BaseFragment {
 
     private void initSelectedImage() {
 
-        selectedImage.setOnClickListener(new View.OnClickListener() {
+        selectedImage.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            //TODO: TEMP -> create option menu
+            AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
 
-                //TODO: TEMP -> create option menu
-                AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
+            alertDialog.setTitle("Choose");
 
-                alertDialog.setTitle("Choose");
+            alertDialog.setMessage("choose your picture");
 
-                alertDialog.setMessage("choose your picture");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
+                    (dialog, which) -> {
 
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
-                        new DialogInterface.OnClickListener() {
+                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                            public void onClick(DialogInterface dialog, int which) {
+                        startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
 
-                                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    });
 
-                                startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
+                    (dialog, which) -> {
 
-                            }
-                        });
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
-                        new DialogInterface.OnClickListener() {
+                        startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
 
-                            public void onClick(DialogInterface dialog, int which) {
+                    });
 
-                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            alertDialog.show();
 
-                                startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
-
-                            }
-                        });
-
-                alertDialog.show();
-
-            }
         });
 
     }
@@ -141,64 +124,49 @@ public class AddGalleryFragment extends BaseFragment {
 
     private void initSaveButton() {
 
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            UpdateSalonImagesRequestModel model = new UpdateSalonImagesRequestModel();
 
-                UpdateSalonImagesRequestModel model = new UpdateSalonImagesRequestModel();
+            model.setBase64Image(base64Image);
 
-                model.setBase64Image(base64Image);
+            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
 
-                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
+            model.setOperation("ADD");
 
-                model.setOperation("ADD");
+            UIUtils.showSweetLoadingDialog();
 
-                UIUtils.showSweetLoadingDialog();
+            updateSalonImages(model);
 
-                updateSalonImages(model);
-
-            }
         });
     }
 
 
     private void updateSalonImages(UpdateSalonImagesRequestModel model) {
 
-        RetrofitManager.getInstance().updateSalonImages(model, new AbstractCallback() {
+        RetrofitManager.getInstance().updateSalonImages(model, (isSuccess, result) -> {
 
-            @Override
-            public void onResult(boolean isSuccess, Object result) {
+            if (isSuccess) {
 
-                if (isSuccess) {
+                RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), (isSuccess1, result1) -> salonModel = (SalonModel) result1);
 
-                    RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), new AbstractCallback() {
+                if (!showG) {
 
-                        @Override
-                        public void onResult(boolean isSuccess, Object result) {
+                    FragmentManager.popCurrentVisibleFragment();
 
-                            salonModel = (SalonModel) result;
-                        }
-                    });
+                } else {
 
-                    if (!showG) {
-
-                        com.tasree7a.Managers.FragmentManager.popCurrentVisibleFragment();
-
-                    } else {
-
-                        com.tasree7a.Managers.FragmentManager.showFragmentGallery(salonModel, (ArrayList<ImageModel>) salonModel.getGallery(), null);
-                    }
-
-                    UIUtils.hideSweetLoadingDialog();
-
-                    if (callback != null) callback.onResult(true, result);
-
-                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>() {
-
-                    });
-
+                    FragmentManager.showFragmentGallery(salonModel, (ArrayList<ImageModel>) salonModel.getGallery(), null);
                 }
+
+                UIUtils.hideSweetLoadingDialog();
+
+                if (callback != null) callback.onResult(true, result);
+
+                GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>() {
+
+                });
+
             }
         });
     }
@@ -212,7 +180,7 @@ public class AddGalleryFragment extends BaseFragment {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        Bitmap yourSelectedImage = null;
+        Bitmap yourSelectedImage;
 
         if (!(requestCode == Activity.RESULT_CANCELED)) {
 

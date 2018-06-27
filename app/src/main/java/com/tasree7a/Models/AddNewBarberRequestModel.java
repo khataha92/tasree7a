@@ -1,8 +1,6 @@
-package com.tasree7a.Models;
+package com.tasree7a.models;
 
 import com.google.gson.annotations.SerializedName;
-
-import retrofit2.http.Field;
 
 /**
  * Created by SamiKhleaf on 10/23/17.

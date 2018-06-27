@@ -75,7 +75,7 @@
         android:textSize="19.3sp"
         tools:text="Samer Salon" />
 
-    <com.tasree7a.CustomComponent.CustomRatingBar
+    <CustomRatingBar
         android:id="@+id/salon_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

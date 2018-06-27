@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tasree7a.Adapters.GalleryPagerAdapter;
-import com.tasree7a.Models.Gallery.ImageModel;
 import com.tasree7a.R;
+import com.tasree7a.adapters.GalleryPagerAdapter;
+import com.tasree7a.models.gallery.ImageModel;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class FullScreenGalleryFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_fullscreen_gallery, container, false);
 
-        galleryPager = (ViewPager) rootView.findViewById(R.id.gallery_pager);
+        galleryPager = rootView.findViewById(R.id.gallery_pager);
 
         GalleryPagerAdapter galleryPagerAdapter = new GalleryPagerAdapter(imageModelList);
 

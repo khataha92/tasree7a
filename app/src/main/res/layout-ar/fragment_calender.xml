@@ -27,14 +27,14 @@
 
     </FrameLayout>
 
-    <com.tasree7a.CustomComponent.CustomGridCalendar
+    <CustomGridCalendar
         android:id="@+id/custom_grid_calender"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/select_date_bottom_view"
         android:layout_below="@+id/date_segment"/>
 
-    <com.tasree7a.CustomComponent.CustomButton
+    <com.tasree7a.customcomponent.CustomButton
         android:id="@+id/select_date_bottom_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

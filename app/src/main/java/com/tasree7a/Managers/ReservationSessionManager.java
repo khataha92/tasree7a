@@ -1,7 +1,7 @@
-package com.tasree7a.Managers;
+package com.tasree7a.managers;
 
-import com.tasree7a.Models.SalonBooking.SalonService;
-import com.tasree7a.Models.SalonDetails.SalonModel;
+import com.tasree7a.models.salonbooking.SalonService;
+import com.tasree7a.models.salondetails.SalonModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,6 @@ package com.tasree7a.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -31,19 +30,14 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.tasree7a.CustomComponent.CustomSwitch;
-import com.tasree7a.Enums.Language;
-import com.tasree7a.Enums.Sizes;
-import com.tasree7a.Fragments.BaseFragment;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Models.Bookings.BookingModel;
-import com.tasree7a.Models.Bookings.BookingServiceModel;
-import com.tasree7a.Models.LoadingViewModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.tasree7a.customcomponent.CustomSwitch;
+import com.tasree7a.enums.Language;
+import com.tasree7a.enums.Sizes;
+import com.tasree7a.fragments.BaseFragment;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.models.LoadingViewModel;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -327,29 +321,17 @@ public class UIUtils {
 
                 .setMessage(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.CONFILM_LANG_CHANGE_TEXT))
 
-                .setPositiveButton(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.YES), new DialogInterface.OnClickListener() {
+                .setPositiveButton(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.YES), (dialog, which) -> {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    Language lang = UserDefaultUtil.isAppLanguageArabic() ? Language.EN : Language.AR;
 
-                        Language lang = UserDefaultUtil.isAppLanguageArabic() ? Language.EN : Language.AR;
+                    langSwitch.setChecked(!langSwitch.isChecked());
 
-                        langSwitch.setChecked(!langSwitch.isChecked());
+                    UserDefaultUtil.setAppLanguage(lang);
 
-                        UserDefaultUtil.setAppLanguage(lang);
-
-                    }
                 })
 
-                .setNegativeButton(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.NO), new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-
-                    }
-                }).setCancelable(false);
+                .setNegativeButton(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.NO), (dialog, which) -> dialog.dismiss()).setCancelable(false);
 
         AlertDialog dialog = builder.create();
 
@@ -455,23 +437,11 @@ public class UIUtils {
 
             }
 
-            ThisApplication.getCurrentActivity().runOnUiThread(new Runnable() {
-
-                public void run() {
-
-                    ImageLoader.getInstance().displayImage(urlStringWithSize, imageView);
-                }
-            });
+            ThisApplication.getCurrentActivity().runOnUiThread(() -> ImageLoader.getInstance().displayImage(urlStringWithSize, imageView));
 
         } else {
 
-            ThisApplication.getCurrentActivity().runOnUiThread(new Runnable() {
-
-                public void run() {
-
-                    imageRequest.into(imageView);
-                }
-            });
+            ThisApplication.getCurrentActivity().runOnUiThread(() -> imageRequest.into(imageView));
 
         }
 

@@ -1,4 +1,5 @@
-package com.tasree7a.Enums;
+package com.tasree7a.enums;
+
 
 import com.google.gson.annotations.SerializedName;
 

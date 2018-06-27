@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -14,20 +14,19 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.ui.IconGenerator;
-import com.tasree7a.CustomComponent.CustomMapSalonRenderer;
-import com.tasree7a.CustomComponent.SalonMapDetails;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.customcomponent.CustomMapSalonRenderer;
+import com.tasree7a.customcomponent.SalonMapDetails;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.MapsUtils;
 import com.tasree7a.utils.UIUtils;
@@ -124,32 +123,17 @@ public class FragmentMapView extends BaseFragment {
 
     public void showSalonDetails(boolean showDetails, final SalonModel salonModel) {
 
-        SalonMapDetails hotelDetailsLayout = (SalonMapDetails) rootView.findViewById(R.id.salon_map_details);
+        SalonMapDetails hotelDetailsLayout = rootView.findViewById(R.id.salon_map_details);
 
         if (showDetails && salonModel != null) {
 
-            hotelDetailsLayout.setSalonDetails(salonModel, true, null, new Runnable() {
-
-                @Override
-                public void run() {
-
-                    mCustomMapSalonRenderer.onClusterItemClick(salonModel);
-                }
-            });
+            hotelDetailsLayout.setSalonDetails(salonModel, true, null, () -> mCustomMapSalonRenderer.onClusterItemClick(salonModel));
 
         }
 
         hotelDetailsLayout.setClickable(true);
 
-        hotelDetailsLayout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.showSalonDetailsFragment(salonModel);
-
-            }
-        });
+        hotelDetailsLayout.setOnClickListener(v -> FragmentManager.showSalonDetailsFragment(salonModel));
 
         hotelDetailsLayout.animateSalonDetailsLayout(showDetails);
 
@@ -233,26 +217,22 @@ public class FragmentMapView extends BaseFragment {
                 googlePlayAvailable = true;
 
                 // Try to obtain the mMap from the SupportMapFragment.
-                fragment.getMapAsync(new OnMapReadyCallback() {
+                fragment.getMapAsync(googleMap -> {
 
-                    @Override
-                    public void onMapReady(GoogleMap googleMap) {
+                    mMap = googleMap;
 
-                        mMap = googleMap;
+                    Location location = AppUtil.getCurrentLocation();
 
-                        Location location = AppUtil.getCurrentLocation();
+                    IconGenerator iconGenerator = new IconGenerator(ThisApplication.getCurrentActivity());
 
-                        IconGenerator iconGenerator = new IconGenerator(ThisApplication.getCurrentActivity());
+                    MapsUtils.addSimpleMarkerToMap(location, iconGenerator, mMap);
 
-                        MapsUtils.addSimpleMarkerToMap(location, iconGenerator, mMap);
+                    // Check if we were successful in obtaining the mMap.
+                    if (mMap != null) {
 
-                        // Check if we were successful in obtaining the mMap.
-                        if (mMap != null) {
-
-                            setUpMap();
-                        }
-
+                        setUpMap();
                     }
+
                 });
 
             }

@@ -1,4 +1,4 @@
-package com.tasree7a.Models.SalonDetails;
+package com.tasree7a.models.salondetails;
 
 /**
  * Created by SamiKhleaf on 10/21/17.

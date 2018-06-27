@@ -1,7 +1,5 @@
 package com.tasree7a;
 
-import android.util.Log;
-
 /**
  * Created by samikhleaf on 2/23/18.
  */

@@ -1,4 +1,4 @@
-package com.tasree7a.CustomComponent;
+package com.tasree7a.customcomponent;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,11 +26,11 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
 import com.google.maps.android.ui.SquareTextView;
-import com.tasree7a.Fragments.FragmentMapView;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.fragments.FragmentMapView;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.UIUtils;
 
 import java.util.concurrent.ExecutorService;

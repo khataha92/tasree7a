@@ -1,4 +1,4 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.ViewHolders.PopularSallonsItemViewHolder;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.UserDefaultUtil;
+import com.tasree7a.viewholders.PopularSallonsItemViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

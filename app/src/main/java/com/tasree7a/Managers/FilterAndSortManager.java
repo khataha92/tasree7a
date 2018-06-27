@@ -1,8 +1,8 @@
-package com.tasree7a.Managers;
+package com.tasree7a.managers;
 
-import com.tasree7a.Enums.FilterType;
-import com.tasree7a.Enums.Gender;
-import com.tasree7a.Enums.SortType;
+import com.tasree7a.enums.FilterType;
+import com.tasree7a.enums.Gender;
+import com.tasree7a.enums.SortType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +15,20 @@ public class FilterAndSortManager {
 
     private static FilterAndSortManager instance = null;
 
-    SortType sortType = SortType.DISTANCE;
+    private SortType sortType = SortType.DISTANCE;
 
-    Gender salonType = Gender.MALE;
+    private Gender salonType = Gender.MALE;
 
-    List<FilterType> filters = new ArrayList<>();
+    private List<FilterType> filters = new ArrayList<>();
 
-    private FilterAndSortManager(){
+    private FilterAndSortManager() {
 
 
     }
 
-    public static FilterAndSortManager getInstance(){
+    public static FilterAndSortManager getInstance() {
 
-        if(instance == null){
+        if (instance == null) {
 
             instance = new FilterAndSortManager();
 
@@ -40,7 +40,7 @@ public class FilterAndSortManager {
 
     }
 
-    public void reset(){
+    public void reset() {
 
         sortType = SortType.DISTANCE;
 

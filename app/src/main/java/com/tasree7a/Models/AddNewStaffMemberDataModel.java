@@ -1,4 +1,4 @@
-package com.tasree7a.Models;
+package com.tasree7a.models;
 
 /**
  * Created by SamiKhleaf on 10/21/17.

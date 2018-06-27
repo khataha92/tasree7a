@@ -1,4 +1,4 @@
-package com.tasree7a.Models.Bookings;
+package com.tasree7a.models.bookings;
 
 /**
  * Created by mac on 8/31/17.

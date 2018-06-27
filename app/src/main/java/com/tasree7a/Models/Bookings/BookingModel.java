@@ -1,9 +1,9 @@
-package com.tasree7a.Models.Bookings;
+package com.tasree7a.models.bookings;
 
 import com.google.gson.annotations.SerializedName;
-import com.tasree7a.Models.PopularSalons.CityModel;
-import com.tasree7a.Models.PopularSalons.CountryModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
+import com.tasree7a.models.popularsalons.CityModel;
+import com.tasree7a.models.popularsalons.CountryModel;
+import com.tasree7a.models.salondetails.SalonModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,7 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,16 +17,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.tasree7a.CustomComponent.CustomButton;
 import com.tasree7a.DummyConstants;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.AddNewServiceRequestModel;
-import com.tasree7a.Observables.GallaryItemsChangedObservable;
-import com.tasree7a.Observables.ServicesChangedObservable;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.customcomponent.CustomButton;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.AddNewServiceRequestModel;
+import com.tasree7a.observables.ServicesChangedObservable;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -61,93 +58,69 @@ public class AddNewSalonServiceFragment extends BaseFragment {
 
         rootView = inflater.inflate(R.layout.add_service, container, false);
 
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
+        selectedImage = rootView.findViewById(R.id.add_img);
 
-            @Override
-            public void onClick(View v) {
-                FragmentManager.popCurrentVisibleFragment();
-            }
-        });
-        selectedImage = (ImageView) rootView.findViewById(R.id.add_img);
+        serviceType = rootView.findViewById(R.id.service_type);
 
-        serviceType = (EditText) rootView.findViewById(R.id.service_type);
+        price = rootView.findViewById(R.id.price);
 
-        price = (EditText) rootView.findViewById(R.id.price);
+        duration = rootView.findViewById(R.id.duration_time);
 
-        duration = (EditText) rootView.findViewById(R.id.duration_time);
+        saveBtn = rootView.findViewById(R.id.apply);
 
-        saveBtn = (CustomButton) rootView.findViewById(R.id.apply);
+        saveBtn.setOnClickListener(v -> {
 
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+            final AddNewServiceRequestModel model = new AddNewServiceRequestModel();
 
-            @Override
-            public void onClick(View v) {
+            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
 
-                final AddNewServiceRequestModel model = new AddNewServiceRequestModel();
+            model.setServiceImage(base64Image);
 
-                model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
+            model.setServiceName(serviceType.getText().toString());
 
-                model.setServiceImage(base64Image);
+            model.setServicePrice(price.getText().toString());
 
-                model.setServiceName(serviceType.getText().toString());
+            RetrofitManager.getInstance().addSalonService(model, (isSuccess, result) -> {
 
-                model.setServicePrice(price.getText().toString());
+                if (isSuccess) {
+                    //TODO: Show Services fragment and don't go back to this
 
-                RetrofitManager.getInstance().addSalonService(model, new AbstractCallback() {
-
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
-
-                        if (isSuccess) {
-                            //TODO: Show Services fragment and don't go back to this
-
-                            FragmentManager.popCurrentVisibleFragment();
-                            ServicesChangedObservable.sharedInstance().setServicesChanged();
-                        }
-                    }
-                });
+                    FragmentManager.popCurrentVisibleFragment();
+                    ServicesChangedObservable.sharedInstance().setServicesChanged();
+                }
+            });
 
 
-            }
         });
 
 
-        selectedImage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
+        selectedImage.setOnClickListener(v -> {
 
 
-                //TODO: TEMP -> create option menu
-                AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
-                alertDialog.setTitle("Choose");
-                alertDialog.setMessage("choose your picture");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
-                        new DialogInterface.OnClickListener() {
+            //TODO: TEMP -> create option menu
+            AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
+            alertDialog.setTitle("Choose");
+            alertDialog.setMessage("choose your picture");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
+                    (dialog, which) -> {
 
-                            public void onClick(DialogInterface dialog, int which) {
+                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
 
-                                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
+                    });
 
-                            }
-                        });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
+                    (dialog, which) -> {
 
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
-                        new DialogInterface.OnClickListener() {
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
 
-                            public void onClick(DialogInterface dialog, int which) {
+                    });
 
-                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
+            alertDialog.show();
 
-                            }
-                        });
-
-                alertDialog.show();
-
-            }
         });
 
 

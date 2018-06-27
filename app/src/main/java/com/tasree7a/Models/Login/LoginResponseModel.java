@@ -1,4 +1,4 @@
-package com.tasree7a.Models.Login;
+package com.tasree7a.models.login;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,16 +9,16 @@ import com.google.gson.annotations.SerializedName;
 public class LoginResponseModel {
 
     @SerializedName("response_code")
-    String responseCode;
+    private String responseCode;
 
     @SerializedName("response_message")
-    String responseMessage;
+    private String responseMessage;
 
     @SerializedName("details")
-    User user;
+    private User user;
 
     @SerializedName("salon_id")
-    String salonId;
+    private String salonId;
 
     public String getSalonId() {
         return salonId;

@@ -1,4 +1,4 @@
-package com.tasree7a.Enums;
+package com.tasree7a.enums;
 
 public enum BookingStatus {
     CANCELED_BY_BARBER(0),

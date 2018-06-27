@@ -1,38 +1,28 @@
-package com.tasree7a.Adapters;
+package com.tasree7a.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.tasree7a.Enums.CalendarDayViewType;
-import com.tasree7a.Enums.Language;
-import com.tasree7a.Models.Calendar.CalendarViewsModel;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.ViewHolders.CalendarDayViewHolder;
+import com.tasree7a.enums.CalendarDayViewType;
 import com.tasree7a.interfaces.CalenderCellClickListener;
+import com.tasree7a.models.calendar.CalendarViewsModel;
 import com.tasree7a.utils.UIUtils;
-import com.tasree7a.utils.UserDefaultUtil;
+import com.tasree7a.viewholders.CalendarDayViewHolder;
 
 import org.joda.time.LocalDate;
-import org.joda.time.YearMonth;
 
-import java.util.List;
-import java.util.Map;
-
-import static com.tasree7a.Enums.CalendarDayViewType.EMPTY_DAY;
-import static com.tasree7a.Enums.CalendarDayViewType.IN_MARKERS_INTERVAL_DAY;
-import static com.tasree7a.Enums.CalendarDayViewType.IN_SELECTION_DAY;
-import static com.tasree7a.Enums.CalendarDayViewType.NORMAL_DAY;
+import static com.tasree7a.enums.CalendarDayViewType.EMPTY_DAY;
+import static com.tasree7a.enums.CalendarDayViewType.IN_MARKERS_INTERVAL_DAY;
+import static com.tasree7a.enums.CalendarDayViewType.IN_SELECTION_DAY;
+import static com.tasree7a.enums.CalendarDayViewType.NORMAL_DAY;
 
 
 /**
@@ -77,13 +67,10 @@ public class CalendarMonthAdapter extends RecyclerView.Adapter<CalendarDayViewHo
     }
 
 
+    @NonNull
     @Override
-    public CalendarDayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(context).inflate(R.layout.calendar_normal_day_layout, parent, false);
-
-        return new CalendarDayViewHolder(view);
-
+    public CalendarDayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CalendarDayViewHolder(LayoutInflater.from(context).inflate(R.layout.calendar_normal_day_layout, parent, false));
     }
 
 
@@ -118,7 +105,7 @@ public class CalendarMonthAdapter extends RecyclerView.Adapter<CalendarDayViewHo
     }
 
     @Override
-    public void onBindViewHolder(final CalendarDayViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CalendarDayViewHolder holder, int position) {
 
         if (position < indexOfMonth || (position > days.length + indexOfMonth)) {
             return;

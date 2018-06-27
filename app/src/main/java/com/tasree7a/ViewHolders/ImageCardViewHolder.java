@@ -1,19 +1,20 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tasree7a.CustomComponent.CustomRatingBar;
-import com.tasree7a.Enums.Sizes;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.ReservationSessionManager;
-import com.tasree7a.Models.BaseCardModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
-import com.tasree7a.Observables.FavoriteChangeObservable;
-import com.tasree7a.Observables.MenuIconClickedObservable;
+;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.customcomponent.CustomRatingBar;
+import com.tasree7a.enums.Sizes;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.models.BaseCardModel;
+import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.observables.FavoriteChangeObservable;
+import com.tasree7a.observables.MenuIconClickedObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -31,55 +32,38 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
         View back = itemView.findViewById(R.id.back);
 
-        back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
-            @Override
-            public void onClick(View v) {
+        TextView bookNowLbl = itemView.findViewById(R.id.book_now_lbl);
 
-                FragmentManager.popCurrentVisibleFragment();
+        View.OnClickListener listener = v -> {
 
-            }
+            ReservationSessionManager.getInstance().setSalonModel(salonModel);
 
-        });
+            FragmentManager.showBookNowFragment();
 
-        TextView bookNowLbl = (TextView) itemView.findViewById(R.id.book_now_lbl);
-
-        View.OnClickListener listener = new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                ReservationSessionManager.getInstance().setSalonModel(salonModel);
-
-                FragmentManager.showBookNowFragment();
-
-            }
         };
 
 
         final View addToFavorite = itemView.findViewById(R.id.add_to_favorite);
 
-        addToFavorite.setOnClickListener(new View.OnClickListener() {
+        addToFavorite.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if (UserDefaultUtil.isSalonFavorite(salonModel)) {
 
-                if (UserDefaultUtil.isSalonFavorite(salonModel)) {
+                UserDefaultUtil.removeSalonFromFavorite(salonModel);
 
-                    UserDefaultUtil.removeSalonFromFavorite(salonModel);
+                ((ImageView) v).setImageResource(R.drawable.ic_favorite_unchecked);
 
-                    ((ImageView) v).setImageResource(R.drawable.ic_favorite_unchecked);
+            } else {
 
-                } else {
+                UserDefaultUtil.addSalonToFavorite(salonModel);
 
-                    UserDefaultUtil.addSalonToFavorite(salonModel);
+                ((ImageView) v).setImageResource(R.drawable.ic_favorite_checked);
 
-                    ((ImageView) v).setImageResource(R.drawable.ic_favorite_checked);
-
-                }
-
-                FavoriteChangeObservable.sharedInstance().setFavoriteChanged(salonModel);
             }
+
+            FavoriteChangeObservable.sharedInstance().setFavoriteChanged(salonModel);
         });
 
         if (UserDefaultUtil.isSalonFavorite(salonModel)) {
@@ -92,15 +76,15 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
         }
 
-        CustomRatingBar ratingBar = (CustomRatingBar) itemView.findViewById(R.id.salon_rating);
+        CustomRatingBar ratingBar = itemView.findViewById(R.id.salon_rating);
 
         ratingBar.setRating(salonModel.getRating());
 
-        TextView salonName = (TextView) itemView.findViewById(R.id.sallon_name);
+        TextView salonName = itemView.findViewById(R.id.sallon_name);
 
         salonName.setText(salonModel.getName());
 
-        ImageView salonCover = (ImageView) itemView.findViewById(R.id.salon_image);
+        ImageView salonCover = itemView.findViewById(R.id.salon_image);
 
         UIUtils.loadUrlIntoImageView(salonModel.getImage(), salonCover, Sizes.MEDIUM);
 
@@ -124,24 +108,9 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
             menu.setPadding(0, 0, 0, 0);
 
-            menu.setOnClickListener(new View.OnClickListener() {
+            menu.setOnClickListener(v -> MenuIconClickedObservable.sharedInstance().menuIconClicked());
 
-                @Override
-                public void onClick(View v) {
-
-                    MenuIconClickedObservable.sharedInstance().menuIconClicked();
-
-                }
-            });
-
-            View.OnClickListener servicesListener = new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    FragmentManager.showSalonServicesFragment();
-                }
-            };
+            View.OnClickListener servicesListener = v -> FragmentManager.showSalonServicesFragment();
 
             bookNow.setOnClickListener(servicesListener);
 

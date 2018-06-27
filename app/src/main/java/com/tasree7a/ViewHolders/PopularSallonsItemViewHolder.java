@@ -1,13 +1,13 @@
-package com.tasree7a.ViewHolders;
+package com.tasree7a.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tasree7a.CustomComponent.CustomRatingBar;
-import com.tasree7a.CustomComponent.RoundedCornersImageView;
 import com.tasree7a.R;
+import com.tasree7a.customcomponent.CustomRatingBar;
+import com.tasree7a.customcomponent.RoundedCornersImageView;
 
 /**
  * Created by mac on 5/11/17.
@@ -28,15 +28,15 @@ public class PopularSallonsItemViewHolder extends RecyclerView.ViewHolder {
     public PopularSallonsItemViewHolder(View itemView) {
         super(itemView);
 
-        sallonName = (TextView) itemView.findViewById(R.id.sallon_name);
+        sallonName = itemView.findViewById(R.id.sallon_name);
 
-        city = (TextView) itemView.findViewById(R.id.salon_city);
+        city = itemView.findViewById(R.id.salon_city);
 
-        ratingBar = (CustomRatingBar) itemView.findViewById(R.id.salon_rating);
+        ratingBar = itemView.findViewById(R.id.salon_rating);
 
-        imageView = (RoundedCornersImageView) itemView.findViewById(R.id.sallon_image);
+        imageView = itemView.findViewById(R.id.sallon_image);
 
-        favorite = (ImageView) itemView.findViewById(R.id.is_popular);
+        favorite = itemView.findViewById(R.id.is_popular);
 
     }
 

@@ -1,4 +1,4 @@
-package com.tasree7a.Models.SalonDetails;
+package com.tasree7a.models.salondetails;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.Expose;
@@ -6,15 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
 import com.tasree7a.AvailableTimesHelper;
 import com.tasree7a.Constants;
-import com.tasree7a.Enums.FilterType;
-import com.tasree7a.Enums.Gender;
-import com.tasree7a.Models.Gallery.ImageModel;
-import com.tasree7a.Models.MapView.GeoLocationModel;
-import com.tasree7a.Models.PopularSalons.CityModel;
-import com.tasree7a.Models.PopularSalons.RankModel;
-import com.tasree7a.Models.SalonBooking.SalonService;
-import com.tasree7a.Models.SalonDetails.SalonProduct;
+import com.tasree7a.enums.FilterType;
+import com.tasree7a.enums.Gender;
 import com.tasree7a.interfaces.Filterable;
+import com.tasree7a.models.gallery.ImageModel;
+import com.tasree7a.models.mapview.GeoLocationModel;
+import com.tasree7a.models.popularsalons.CityModel;
+import com.tasree7a.models.popularsalons.RankModel;
+import com.tasree7a.models.salonbooking.SalonService;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -29,55 +28,55 @@ import java.util.List;
 public class SalonModel implements Filterable, ClusterItem, Serializable {
 
     @SerializedName("rank")
-    RankModel rank;
+    private RankModel rank;
 
     @SerializedName("city")
-    CityModel salonCity;
+    private CityModel salonCity;
 
     @SerializedName("id")
-    String id;
+    private String id;
 
     @SerializedName("name")
-    String name;
+    private String name;
 
     @SerializedName("latitude")
-    double lat;
+    private double lat;
 
     @SerializedName("longitude")
-    double lng;
+    private double lng;
 
     @SerializedName("owner_name")
-    String ownerName;
+    private String ownerName;
 
     @SerializedName("owner_mobile")
-    String ownerMobileNumber;
+    private String ownerMobileNumber;
 
     @SerializedName("distance")
-    double distance;
+    private double distance;
 
     @SerializedName("salon_img")
-    String image;
+    private String image;
 
     @SerializedName("salon_barbers")
-    List<SalonBarber> salonBarbers;
+    private List<SalonBarber> salonBarbers;
 
     @SerializedName("salon_images")
-    List<ImageModel> gallery;
+    private List<ImageModel> gallery;
 
     @SerializedName("products")
-    List<SalonProduct> products;
+    private List<SalonProduct> products;
 
     @SerializedName("salon_type")
-    Gender salonType;
+    private Gender salonType;
 
-    GeoLocationModel locationModel;
+    private GeoLocationModel locationModel;
 
     @SerializedName("salon_services")
-    List<SalonService> salonServices;
+    private List<SalonService> salonServices;
 
     @SerializedName("available_time")
     @Expose
-    List<Integer> availableTimes;
+    private List<Integer> availableTimes;
 
 //    @SerializedName("available_time")
 //    int[] availableTimess;
@@ -107,7 +106,7 @@ public class SalonModel implements Filterable, ClusterItem, Serializable {
         return salonServices;
     }
 
-    public List<SalonBarber> getSalonBarbers() {
+    public List<com.tasree7a.models.salondetails.SalonBarber> getSalonBarbers() {
         return salonBarbers;
     }
 
@@ -203,13 +202,13 @@ public class SalonModel implements Filterable, ClusterItem, Serializable {
 
     }
 
-    public List<SalonProduct> getProducts() {
+    public List<com.tasree7a.models.salondetails.SalonProduct> getProducts() {
 
         return products;
 
     }
 
-    public void setProducts(List<SalonProduct> products) {
+    public void setProducts(List<com.tasree7a.models.salondetails.SalonProduct> products) {
         this.products = products;
     }
 
@@ -338,7 +337,7 @@ public class SalonModel implements Filterable, ClusterItem, Serializable {
         this.salonType = salonType;
     }
 
-    public void setSalonBarbers(List<SalonBarber> salonBarbers) {
+    public void setSalonBarbers(List<com.tasree7a.models.salondetails.SalonBarber> salonBarbers) {
         this.salonBarbers = salonBarbers;
     }
 

@@ -199,7 +199,7 @@
                 android:textColor="@color/APP_TEXT_COLOR"
                 android:textSize="19.3sp"/>
 
-            <com.tasree7a.CustomComponent.CustomCheckableGroup
+            <CustomCheckableGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="17dp"
@@ -207,7 +207,7 @@
                 android:gravity="center"
                 android:padding="9dp">
 
-                <com.tasree7a.CustomComponent.CircularCheckBox
+                <CircularCheckBox
                     android:id="@+id/sat"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -215,7 +215,7 @@
                     app:customCheckboxText="@string/SAT"
                     app:setChecked="true"/>
 
-                <com.tasree7a.CustomComponent.CircularCheckBox
+                <CircularCheckBox
                     android:id="@+id/sun"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -223,7 +223,7 @@
                     app:customCheckboxText="@string/SUN"
                     app:setChecked="true"/>
 
-                <com.tasree7a.CustomComponent.CircularCheckBox
+                <CircularCheckBox
                     android:id="@+id/mon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -231,7 +231,7 @@
                     app:customCheckboxText="@string/MON"
                     app:setChecked="false"/>
 
-                <com.tasree7a.CustomComponent.CircularCheckBox
+                <CircularCheckBox
                     android:id="@+id/tue"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -239,7 +239,7 @@
                     app:customCheckboxText="@string/TUE"
                     app:setChecked="true"/>
 
-                <com.tasree7a.CustomComponent.CircularCheckBox
+                <CircularCheckBox
                     android:id="@+id/wed"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -247,7 +247,7 @@
                     app:customCheckboxText="@string/WED"
                     app:setChecked="true"/>
 
-                <com.tasree7a.CustomComponent.CircularCheckBox
+                <CircularCheckBox
                     android:id="@+id/thu"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -255,7 +255,7 @@
                     app:customCheckboxText="@string/THU"
                     app:setChecked="true"/>
 
-                <com.tasree7a.CustomComponent.CircularCheckBox
+                <CircularCheckBox
                     android:id="@+id/fri"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -263,7 +263,7 @@
                     app:customCheckboxText="@string/FRI"
                     app:setChecked="true"/>
 
-            </com.tasree7a.CustomComponent.CustomCheckableGroup>
+            </CustomCheckableGroup>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -327,7 +327,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="17dp">
 <!---->
-                <com.tasree7a.CustomComponent.SalonStaffContainer
+                <SalonStaffContainer
                     android:id="@+id/salon_staff_container"
                     android:layout_width="match_parent"
                     android:visibility="visible"
@@ -345,7 +345,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.tasree7a.CustomComponent.CustomButton
+                <com.tasree7a.customcomponent.CustomButton
                     android:id="@+id/cancel"
                     android:layout_width="145dp"
                     android:layout_height="56dp"
@@ -360,7 +360,7 @@
                     app:customButtonTextSize="19sp"/>
 
 
-                <com.tasree7a.CustomComponent.CustomButton
+                <com.tasree7a.customcomponent.CustomButton
                     android:id="@+id/save"
                     android:layout_width="145dp"
                     android:layout_height="56dp"

@@ -1,4 +1,4 @@
-package com.tasree7a.Fragments;
+package com.tasree7a.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.tasree7a.CustomComponent.CustomButton;
-import com.tasree7a.Managers.FragmentManager;
-import com.tasree7a.Managers.RetrofitManager;
-import com.tasree7a.Models.AddNewBarberRequestModel;
-import com.tasree7a.Models.AddNewStaffMemberDataModel;
-import com.tasree7a.Models.SalonDetails.SalonModel;
 import com.tasree7a.R;
+import com.tasree7a.customcomponent.CustomButton;
 import com.tasree7a.interfaces.AbstractCallback;
+import com.tasree7a.managers.FragmentManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.AddNewBarberRequestModel;
+import com.tasree7a.models.AddNewStaffMemberDataModel;
+import com.tasree7a.models.salondetails.SalonModel;
 
 import static android.view.View.GONE;
 
@@ -52,78 +52,70 @@ public class AddStaffMemberFragment extends BaseFragment {
 
         rootView = inflater.inflate(R.layout.add_staff, container, false);
 
-        staffName = (EditText) rootView.findViewById(R.id.staff_name);
-        staffEmail = (EditText) rootView.findViewById(R.id.email);
-        staffPass = (EditText) rootView.findViewById(R.id.password);
-        staffPassConfirm = (EditText) rootView.findViewById(R.id.confirm);
+        staffName = rootView.findViewById(R.id.staff_name);
+        staffEmail = rootView.findViewById(R.id.email);
+        staffPass = rootView.findViewById(R.id.password);
+        staffPassConfirm = rootView.findViewById(R.id.confirm);
 
-        save = (CustomButton) rootView.findViewById(R.id.save);
-        cancel = (CustomButton) rootView.findViewById(R.id.cancel);
+        save = rootView.findViewById(R.id.save);
+        cancel = rootView.findViewById(R.id.cancel);
 
-        save.setOnClickListener(new View.OnClickListener() {
+        save.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if ((staffPass.getText().toString().length() != 0
+                    && staffPassConfirm.getText().toString().length() != 0)
+                    && staffPass.getText().toString().equals(staffPassConfirm.getText().toString())) {
 
-                if ((staffPass.getText().toString().length() != 0
-                        && staffPassConfirm.getText().toString().length() != 0)
-                        && staffPass.getText().toString().equals(staffPassConfirm.getText().toString())) {
+                staffMemberDataModel = new AddNewStaffMemberDataModel();
 
-                    staffMemberDataModel = new AddNewStaffMemberDataModel();
+                staffMemberDataModel.setStaffName(staffName.getText().toString());
 
-                    staffMemberDataModel.setStaffName(staffName.getText().toString());
+                staffMemberDataModel.setStaffEmail(staffEmail.getText().toString());
 
-                    staffMemberDataModel.setStaffEmail(staffEmail.getText().toString());
+                staffMemberDataModel.setStaffPass(staffPass.getText().toString());
 
-                    staffMemberDataModel.setStaffPass(staffPass.getText().toString());
+                if (salonModel != null) {
 
-                    if (salonModel != null) {
+                    AddNewBarberRequestModel barberModel;
 
-                        AddNewBarberRequestModel barberModel;
+                    barberModel = new AddNewBarberRequestModel();
 
-                        barberModel = new AddNewBarberRequestModel();
+                    barberModel.setSalonId(salonModel.getId());
 
-                        barberModel.setSalonId(salonModel.getId());
+                    barberModel.setLastName(staffName.getText().toString().split(" ")[0]);
 
-                        barberModel.setLastName(staffName.getText().toString().split(" ")[0]);
+                    barberModel.setFirstName(staffName.getText().toString().split(" ")[1]);
 
-                        barberModel.setFirstName(staffName.getText().toString().split(" ")[1]);
+                    barberModel.setEmail(staffMemberDataModel.getStaffEmail());
 
-                        barberModel.setEmail(staffMemberDataModel.getStaffEmail());
+                    barberModel.setPass(staffMemberDataModel.getStaffPass());
 
-                        barberModel.setPass(staffMemberDataModel.getStaffPass());
+                    barberModel.setCreatedAt("1");
 
-                        barberModel.setCreatedAt("1");
+                    barberModel.setStartTime("12");
 
-                        barberModel.setStartTime("12");
+                    barberModel.setEndTime("15");
 
-                        barberModel.setEndTime("15");
+                    barberModel.setUpdatedAt("16");
 
-                        barberModel.setUpdatedAt("16");
+                    barberModel.setUserName(staffName.getText().toString().split(" ")[0]);
 
-                        barberModel.setUserName(staffName.getText().toString().split(" ")[0]);
+                    RetrofitManager.getInstance().addNewBarber(barberModel, (isSuccess, result) -> {
 
-                        RetrofitManager.getInstance().addNewBarber(barberModel, new AbstractCallback() {
+                    });
 
-                            @Override
-                            public void onResult(boolean isSuccess, Object result) {
-
-                            }
-                        });
-
-                        barberModel = null;
-                    }
-
-                    if (addStaffCallback != null) {
-
-                        addStaffCallback.onResult(true, staffMemberDataModel);
-
-                    }
-
-                    FragmentManager.popCurrentVisibleFragment();
+                    barberModel = null;
                 }
 
+                if (addStaffCallback != null) {
+
+                    addStaffCallback.onResult(true, staffMemberDataModel);
+
+                }
+
+                FragmentManager.popCurrentVisibleFragment();
             }
+
         });
 
         if (salonModel != null) {
@@ -132,14 +124,7 @@ public class AddStaffMemberFragment extends BaseFragment {
 
         } else {
 
-            cancel.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    FragmentManager.popCurrentVisibleFragment();
-                }
-            });
+            cancel.setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
         }
 
         return rootView;

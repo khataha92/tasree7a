@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.customcomponent.CircularCheckBox;
@@ -63,28 +64,25 @@ import retrofit2.Response;
 
 public class SalonInformationFragment extends BaseFragment {
 
+    private final int CAMERA_REQUEST = 1888;
+    private final int GALLERY_REQUEST = 1889;
+
     private RelativeLayout changeImageView; //id: change_image
-
     private EditText salonName; //id: salon_name
-
     private EditText ownerNamer; //id: owner_name
-
     private EditText email; //id: email
-
     private EditText currency; //id: currency
-
     private EditText mobile; //id: mobile
-
     private CustomButton saveBtn;
-
     private AppCompatCheckBox male, female;
+    private TextView fromTime, toTime;
 
+    private String finalTime = null;
     private String base64Image = "";
+    private boolean shouldPopFragment = true;
 
     private SalonInformationRequestModel salonInformationRequestModel = null;
-
     private SalonStaffContainer staffContainer;
-
     private CircularCheckBox[] workingDays = new CircularCheckBox[7];
 
     private int[] workingDaysIDs = new int[]{
@@ -97,26 +95,15 @@ public class SalonInformationFragment extends BaseFragment {
             R.id.fri
     };
 
-    private TextView fromTime, toTime;
-
-    String finalTime = null;
-
-    private final int CAMERA_REQUEST = 1888;
-
-    private final int GALLERY_REQUEST = 1889;
-
-    private boolean shouldPopFragment = true;
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.view_salon_info, container, false);
+
         initViews();
 
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
-
         rootView.findViewById(R.id.cancel).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
         fromTime.setOnClickListener(v -> {

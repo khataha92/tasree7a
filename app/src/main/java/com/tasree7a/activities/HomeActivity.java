@@ -42,9 +42,9 @@ public class HomeActivity extends FragmentActivity {
             UIUtils.hideSweetLoadingDialog();
         } else {
             findViewById(R.id.loading).setVisibility(View.VISIBLE);
-            String salonID = UserDefaultUtil.getCurrentUser().getId();
-            if (salonID != null
-                && salonID.equalsIgnoreCase("-1")) {
+            String salonID = UserDefaultUtil.getCurrentUser().getSalonId();
+            if (salonID == null
+                || salonID.equalsIgnoreCase("-1")) {
                 findViewById(R.id.loading).setVisibility(View.GONE);
                 FragmentManager.showSalonInfoFragment(true);
             } else {

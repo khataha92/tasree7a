@@ -208,7 +208,7 @@
                 android:orientation="vertical"
                 >
 
-                <CustomCheckableGroup
+                <com.tasree7a.customcomponent.CustomCheckableGroup
                     android:id="@+id/filters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
                         app:text="@string/ALL"
                         />
 
-                </CustomCheckableGroup>
+                </com.tasree7a.customcomponent.CustomCheckableGroup>
             </LinearLayout>
 
         </RelativeLayout>

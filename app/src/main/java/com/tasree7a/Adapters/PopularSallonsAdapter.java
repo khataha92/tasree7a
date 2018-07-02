@@ -1,5 +1,6 @@
 package com.tasree7a.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,8 +27,9 @@ public class PopularSallonsAdapter extends RecyclerView.Adapter<PopularSallonsIt
     List<SalonModel> salonModels = new ArrayList<>();
 
 
+    @NonNull
     @Override
-    public PopularSallonsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PopularSallonsItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(ThisApplication.getCurrentActivity()).inflate(R.layout.popular_list_item, null);
 
@@ -36,43 +38,30 @@ public class PopularSallonsAdapter extends RecyclerView.Adapter<PopularSallonsIt
 
 
     @Override
-    public void onBindViewHolder(final PopularSallonsItemViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final PopularSallonsItemViewHolder holder, int position) {
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.showSalonDetailsFragment(salonModels.get(position));
-
-            }
-
-        });
+        holder.imageView.setOnClickListener(v -> FragmentManager.showSalonDetailsFragment(salonModels.get(position)));
 
         holder.favorite.setImageResource(UserDefaultUtil.isSalonFavorite(salonModels.get(position))
                 ? R.drawable.ic_favorite_checked
                 : R.drawable.ic_favorite_unchecked);
 
-        holder.favorite.setOnClickListener(new View.OnClickListener() {
+        holder.favorite.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if (UserDefaultUtil.isSalonFavorite(salonModels.get(position))) {
 
-                if (UserDefaultUtil.isSalonFavorite(salonModels.get(position))) {
+                holder.favorite.setImageResource(R.drawable.ic_favorite_unchecked);
 
-                    holder.favorite.setImageResource(R.drawable.ic_favorite_unchecked);
+                UserDefaultUtil.removeSalonFromFavorite(salonModels.get(position));
 
-                    UserDefaultUtil.removeSalonFromFavorite(salonModels.get(position));
+            } else {
 
-                } else {
+                holder.favorite.setImageResource(R.drawable.ic_favorite_checked);
 
-                    holder.favorite.setImageResource(R.drawable.ic_favorite_checked);
-
-                    UserDefaultUtil.addSalonToFavorite(salonModels.get(position));
-
-                }
+                UserDefaultUtil.addSalonToFavorite(salonModels.get(position));
 
             }
+
         });
 
         if (UserDefaultUtil.isSalonFavorite(salonModels.get(position))) {

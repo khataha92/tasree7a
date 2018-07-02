@@ -143,11 +143,11 @@ public abstract class DateUtil {
     }
 
     /**
-     * Get day name from date, three letters
+     * Get day mName from date, three letters
      *
-     * @param date The date to get day name from
-     * @param isFull true: returns full day name, false: returns short day name
-     * @return Day name
+     * @param date The date to get day mName from
+     * @param isFull true: returns full day mName, false: returns short day mName
+     * @return Day mName
      */
     public static String getDayName(final Date date,boolean isFull) {
 

@@ -88,7 +88,7 @@ public class SalonMapDetails extends LinearLayout implements Observer {
 
         ((TextView)findViewById(R.id.salon_address)).setText(address);
 
-        // Set image
+        // Set mImage
 
         ImageView imageView = findViewById(R.id.salon_image);
 

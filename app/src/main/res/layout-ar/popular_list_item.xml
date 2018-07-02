@@ -11,7 +11,7 @@
         android:background="@color/BG_GRAY"
         android:elevation="2dp">
 
-        <RoundedCornersImageView
+        <com.tasree7a.customcomponent.RoundedCornersImageView
             android:id="@+id/sallon_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -59,7 +59,7 @@
                 android:layout_marginTop="13.7dp"
                 android:src="@drawable/like" />
 
-            <CustomRatingBar
+            <com.tasree7a.customcomponent.CustomRatingBar
                 android:id="@+id/salon_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

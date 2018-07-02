@@ -133,7 +133,7 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
 
                                     com.tasree7a.Models.Signup.SignupModel signupModel = new com.tasree7a.Models.Signup.SignupModel();
 
-                                    String name = object.getString("name");
+                                    String name = object.getString("mName");
 
                                     String email = object.getString("email");
 
@@ -198,7 +198,7 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
 
                 Bundle parameters = new Bundle();
                 parameters.putString("fields",
-                        "id,name,email,gender,birthday");
+                        "id,mName,email,gender,birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
             }

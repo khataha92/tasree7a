@@ -96,7 +96,7 @@ public class CustomMapSalonRenderer extends DefaultClusterRenderer<SalonModel> i
     protected void onBeforeClusterItemRendered(SalonModel hotel, MarkerOptions markerOptions) {
 
         // Draw a single person.
-        // Set the info window to show their name.
+        // Set the info window to show their mName.
 
         if (stop ) return;
 

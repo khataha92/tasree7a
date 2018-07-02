@@ -377,7 +377,7 @@ public class UIUtils {
 
         if (Strings.isNullOrEmpty(urlString)) return;
 
-        // If the memory is incapable of handling full feature image loading
+        // If the memory is incapable of handling full feature mImage loading
         boolean minimumImageMode = false;
 
         // No large images on minimum mode

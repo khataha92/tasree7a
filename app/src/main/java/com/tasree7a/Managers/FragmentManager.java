@@ -542,21 +542,15 @@ public class FragmentManager {
     }
 
 
+    //TODO: Pass Name,Email, for salon from the registration
     public static void showSalonInfoFragment(boolean shouldPopFragment) {
-
         SalonInformationFragment fragment = new SalonInformationFragment();
-
         fragment.setShouldPopFragment(shouldPopFragment);
-
         replaceFragment(fragment, true);
-
     }
 
-
     public static void showAddNewStaffFragment(AbstractCallback abstractCallback) {
-
         showAddNewStaffFragment(null, abstractCallback);
-
     }
 
 

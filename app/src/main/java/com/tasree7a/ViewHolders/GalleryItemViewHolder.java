@@ -8,9 +8,12 @@ import android.widget.TextView;
 
 import com.tasree7a.R;
 import com.tasree7a.enums.Sizes;
+import com.tasree7a.interfaces.ImageGalleryClickListener;
+import com.tasree7a.managers.ReservationSessionManager;
 import com.tasree7a.models.gallery.ImageModel;
-import com.tasree7a.models.salondetails.SalonProduct;
+import com.tasree7a.observables.ItemSelectedObservable;
 import com.tasree7a.utils.UIUtils;
+import com.tasree7a.utils.UserDefaultUtil;
 
 /**
  * Created by mac on 6/14/17.
@@ -20,50 +23,37 @@ import com.tasree7a.utils.UIUtils;
 
 public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageView image;
+    private boolean mIsSelected;
 
-    public TextView name;
+    public ImageView mImage;
+    public ImageView mSelectionHover;
+    public RelativeLayout mImageContainer;
 
-    public TextView price;
+    private ImageGalleryClickListener mImageGalleryClickListener;
 
-    public ImageView selectenImage;
-
-    public RelativeLayout imageContainer;
-
-
-    public GalleryItemViewHolder(View itemView) {
-
+    public GalleryItemViewHolder(View itemView, ImageGalleryClickListener imageGalleryClickListener) {
         super(itemView);
+        mImageGalleryClickListener = imageGalleryClickListener;
 
-        image = itemView.findViewById(R.id.image);
+        mImage = itemView.findViewById(R.id.image);
+        mSelectionHover = itemView.findViewById(R.id.selected);
+        mImageContainer = itemView.findViewById(R.id.image_container);
 
-        name = itemView.findViewById(R.id.product_name);
-
-        price = itemView.findViewById(R.id.product_price);
-
-        selectenImage = itemView.findViewById(R.id.selected);
-
-        imageContainer = itemView.findViewById(R.id.image_container);
-
+        itemView.setOnClickListener(v -> {
+            if (!UserDefaultUtil.isBusinessUser()) {
+                mImageGalleryClickListener.onImageItemClicked(false, getAdapterPosition());
+            } else {
+                mIsSelected = !mIsSelected;
+                mSelectionHover.setVisibility(mIsSelected ? View.VISIBLE : View.GONE);
+                mImageContainer.setAlpha(mIsSelected ? 0.5f : 1.0f);
+//                ItemSelectedObservable.sharedInstance().setItemSelected(ReservationSessionManager.getInstance().getSelectedItems().size() != 0);
+            }
+        });
     }
 
-
-    public void init(ImageModel imageModel, boolean isProduct, SalonProduct product) {
-
-        if (image != null) {
-
-            UIUtils.loadUrlIntoImageView(imageModel.getImagePath(), image, Sizes.MEDIUM);
-
-        }
-
-        if (isProduct) {
-
-            itemView.findViewById(R.id.product_details).setVisibility(View.VISIBLE);
-
-            name.setText(product.getName());
-
-            price.setText("$" + product.getPrice());
-
+    public void bind(ImageModel imageModel) {
+        if (mImage != null) {
+            UIUtils.loadUrlIntoImageView(imageModel.getImagePath(), mImage, Sizes.MEDIUM);
         }
     }
 }

@@ -208,7 +208,7 @@
                 android:textColor="@color/APP_TEXT_COLOR"
                 android:textSize="19.3sp"/>
 
-            <CustomCheckableGroup
+            <com.tasree7a.customcomponent.CustomCheckableGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="17dp"
@@ -216,7 +216,7 @@
                 android:gravity="center"
                 android:padding="9dp">
 
-                <CircularCheckBox
+                <com.tasree7a.customcomponent.CircularCheckBox
                     android:id="@+id/sat"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -225,7 +225,7 @@
                     app:customCheckboxText="@string/SAT"
                     app:setChecked="true"/>
 
-                <CircularCheckBox
+                <com.tasree7a.customcomponent.CircularCheckBox
                     android:id="@+id/sun"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -234,7 +234,7 @@
                     app:customCheckboxText="@string/SUN"
                     app:setChecked="true"/>
 
-                <CircularCheckBox
+                <com.tasree7a.customcomponent.CircularCheckBox
                     android:id="@+id/mon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -243,7 +243,7 @@
                     app:customCheckboxText="@string/MON"
                     app:setChecked="false"/>
 
-                <CircularCheckBox
+                <com.tasree7a.customcomponent.CircularCheckBox
                     android:id="@+id/tue"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -252,7 +252,7 @@
                     app:customCheckboxText="@string/TUE"
                     app:setChecked="true"/>
 
-                <CircularCheckBox
+                <com.tasree7a.customcomponent.CircularCheckBox
                     android:id="@+id/wed"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -261,7 +261,7 @@
                     app:customCheckboxText="@string/WED"
                     app:setChecked="true"/>
 
-                <CircularCheckBox
+                <com.tasree7a.customcomponent.CircularCheckBox
                     android:id="@+id/thu"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -270,7 +270,7 @@
                     app:customCheckboxText="@string/THU"
                     app:setChecked="true"/>
 
-                <CircularCheckBox
+                <com.tasree7a.customcomponent.CircularCheckBox
                     android:id="@+id/fri"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -279,7 +279,7 @@
                     app:customCheckboxText="@string/FRI"
                     app:setChecked="true"/>
 
-            </CustomCheckableGroup>
+            </com.tasree7a.customcomponent.CustomCheckableGroup>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -348,7 +348,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="17dp">
 
-                <SalonStaffContainer
+                <com.tasree7a.customcomponent.SalonStaffContainer
                     android:id="@+id/salon_staff_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

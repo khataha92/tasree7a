@@ -115,14 +115,13 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
 
                         UserDefaultUtil.setIsRegestering(true);
 
-                        Intent intent = new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class);
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
 
                         intent.putExtra(FragmentArg.SALON_INFO, signupResponseModel);
 
                         startActivity(intent);
 
-                        ThisApplication.getCurrentActivity().finish();
-
+                        getActivity().finish();
                     }
 
                 });

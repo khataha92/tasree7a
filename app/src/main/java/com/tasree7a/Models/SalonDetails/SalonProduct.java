@@ -13,7 +13,7 @@ public class SalonProduct implements Serializable{
     @SerializedName("id")
     String id;
 
-    @SerializedName("name")
+    @SerializedName("mName")
     String name;
 
     @SerializedName("description")
@@ -22,7 +22,7 @@ public class SalonProduct implements Serializable{
     @SerializedName("img_url")
     String url;
 
-    @SerializedName("price")
+    @SerializedName("mPrice")
     String price;
 
     public String getId() {

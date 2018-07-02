@@ -11,7 +11,7 @@ public class CityModel {
     @SerializedName("id")
     String id;
 
-    @SerializedName("name")
+    @SerializedName("mName")
     String name;
 
 //    @SerializedName("cLat")

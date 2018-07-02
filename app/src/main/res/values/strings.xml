@@ -138,5 +138,6 @@ soon as possible</string>
     <string name="GENDER">Gender</string>
     <string name="MALE">Male</string>
     <string name="FEMALE">Female</string>
+    <string name="dash_separator">-</string>
 
 </resources>

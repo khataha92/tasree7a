@@ -62,17 +62,18 @@ import retrofit2.Response;
  * Created by SamiKhleaf on 10/20/17.
  */
 
+//TODO-> refactor to activity later
 public class SalonInformationFragment extends BaseFragment {
 
     private final int CAMERA_REQUEST = 1888;
     private final int GALLERY_REQUEST = 1889;
 
-    private RelativeLayout changeImageView; //id: change_image
-    private EditText salonName; //id: salon_name
-    private EditText ownerNamer; //id: owner_name
-    private EditText email; //id: email
-    private EditText currency; //id: currency
-    private EditText mobile; //id: mobile
+    private RelativeLayout changeImageView;
+    private EditText salonName;
+    private EditText ownerNamer;
+    private EditText email;
+    private EditText currency;
+    private EditText mobile;
     private CustomButton saveBtn;
     private AppCompatCheckBox male, female;
     private TextView fromTime, toTime;
@@ -98,226 +99,138 @@ public class SalonInformationFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.activity_salon_information, container, false);
 
-        rootView = inflater.inflate(R.layout.view_salon_info, container, false);
+        //TODO: Recieve data frm the prev View and fill it in its place
 
         initViews();
-
+        //TODO: Refactor -> will last long {
+        initFromTimeView();
+        initToTimeView();
+        //TODO: }
+        initChangeImageView();
+        initWorkingDays();
+        checkLocationPermission();
+        preFillData();
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
         rootView.findViewById(R.id.cancel).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
+        saveBtn.setOnClickListener(v -> executeRequests());
+//        SalonModel user = UserDefaultUtil.getCurrentSalonUser();
+//        salonName.setText(user.getName());
+//        ownerNamer.setText(user.getOwnerName());
+//        email.setText(UserDefaultUtil.getCurrentUser().getEmail());
+        //TODO: Remove those: written for testing purposes
+//        mobile.setText(user.getOwnerMobileNumber());
+        return rootView;
+    }
 
-        fromTime.setOnClickListener(v -> {
-
-            final Dialog dialog = new Dialog(ThisApplication.getCurrentActivity());
-
-            dialog.setContentView(R.layout.date_dialog);
-
-            dialog.findViewById(R.id.done).setOnClickListener(null);
-
-            dialog.findViewById(R.id.done).setAlpha(0.5f);
-
-            dialog.findViewById(R.id.done).setEnabled(false);
-
-            ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener((view, hourOfDay, minute) -> {
-
-                if (finalTime == null) {
-
-                    dialog.findViewById(R.id.done).setOnClickListener(null);
-
-                    dialog.findViewById(R.id.done).setAlpha(0.5f);
-
-                    dialog.findViewById(R.id.done).setEnabled(false);
-
+    private void initWorkingDays() {
+        //TODO: Will require refactor
+        for (int i = 0; i < workingDaysIDs.length; i++) {
+            workingDays[i] = rootView.findViewById(workingDaysIDs[i]);
+            final int finalI = i;
+            workingDays[i].setOnClickListener(v -> {
+                if (workingDays[finalI].isChecked()) {
+                    workingDays[finalI].uncheck();
                 } else {
-
-                    dialog.findViewById(R.id.done).setAlpha(1f);
-
-                    dialog.findViewById(R.id.done).setEnabled(true);
-
-                    dialog.findViewById(R.id.done).setOnClickListener(v1 -> {
-
-                        SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
-
-                        SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
-
-                        try {
-                            Date date = parseFormat.parse(finalTime);
-
-                            fromTime.setText(displayFormat.format(date));
-
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-
-                        dialog.dismiss();
-                    });
+                    workingDays[finalI].check();
                 }
-
-
-                finalTime = hourOfDay + ":" + minute;
             });
+        }
+    }
 
-            dialog.show();
-        });
-
-        toTime = rootView.findViewById(R.id.to_hours);
-
-        toTime.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                final Dialog dialog = new Dialog(ThisApplication.getCurrentActivity());
-
-                dialog.setContentView(R.layout.date_dialog);
-
-                dialog.findViewById(R.id.done).setOnClickListener(null);
-
-                dialog.findViewById(R.id.done).setAlpha(0.5f);
-
-                dialog.findViewById(R.id.done).setEnabled(false);
-
-
-                ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener((view, hourOfDay, minute) -> {
-
-                    if (finalTime == null) {
-
-                        dialog.findViewById(R.id.done).setOnClickListener(null);
-
-                        dialog.findViewById(R.id.done).setAlpha(0.5f);
-
-                        dialog.findViewById(R.id.done).setEnabled(false);
-
-                    } else {
-
-                        dialog.findViewById(R.id.done).setAlpha(1f);
-
-                        dialog.findViewById(R.id.done).setEnabled(true);
-
-                        dialog.findViewById(R.id.done).setOnClickListener(v12 -> {
-
-                            SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
-
-                            SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
-
-                            try {
-                                Date date = parseFormat.parse(finalTime);
-
-                                toTime.setText(displayFormat.format(date));
-
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-
-
-                            dialog.dismiss();
-                        });
-                    }
-
-
-                    finalTime = hourOfDay + ":" + minute;
-                });
-
-                dialog.show();
-            }
-        });
-
-
+    private void initChangeImageView() {
         changeImageView = rootView.findViewById(R.id.change_image);
-
         changeImageView.setOnClickListener(v -> {
-
-            //TODO: TEMP -> create option menu
+            //TODO: TEMP -> create option menu LARGE REFACTOR
             AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
             alertDialog.setTitle("Choose");
             alertDialog.setMessage("choose your picture");
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
                     (dialog, which) -> {
-
                         Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
-
                     });
-
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
                     (dialog, which) -> {
-
                         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
 
                     });
-
             alertDialog.show();
-
         });
-
-        salonName = rootView.findViewById(R.id.salon_name);
-
-        ownerNamer = rootView.findViewById(R.id.owner_name);
-
-        email = rootView.findViewById(R.id.email);
-
-        mobile = rootView.findViewById(R.id.mobile);
-
-        saveBtn = rootView.findViewById(R.id.save);
-
-//        SalonModel user = UserDefaultUtil.getCurrentSalonUser();
-
-//        salonName.setText(user.getName());
-
-//        ownerNamer.setText(user.getOwnerName());
-
-//        email.setText(UserDefaultUtil.getCurrentUser().getEmail());
-
-        for (int i = 0; i < workingDaysIDs.length; i++) {
-
-            workingDays[i] = rootView.findViewById(workingDaysIDs[i]);
-
-            final int finalI = i;
-
-            workingDays[i].setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    if (workingDays[finalI].isChecked()) {
-
-                        workingDays[finalI].uncheck();
-
-                    } else {
-
-                        workingDays[finalI].check();
-
-                    }
-
-                }
-            });
-
-        }
-
-        //TODO: Remove those: written for testing purposes
-
-//        mobile.setText(user.getOwnerMobileNumber());
-
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                executeRequests();
-            }
-
-        });
-
-        checkLocationPermission();
-
-        prefillData();
-
-        return rootView;
     }
 
-    private void prefillData() {
+    private void initToTimeView() {
+        toTime = rootView.findViewById(R.id.to_hours);
+        toTime.setOnClickListener(v -> {
+            final Dialog dialog = new Dialog(ThisApplication.getCurrentActivity());
+            dialog.setContentView(R.layout.date_dialog);
+            dialog.findViewById(R.id.done).setOnClickListener(null);
+            dialog.findViewById(R.id.done).setAlpha(0.5f);
+            dialog.findViewById(R.id.done).setEnabled(false);
+            ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener((view, hourOfDay, minute) -> {
+                if (finalTime == null) {
+                    dialog.findViewById(R.id.done).setOnClickListener(null);
+                    dialog.findViewById(R.id.done).setAlpha(0.5f);
+                    dialog.findViewById(R.id.done).setEnabled(false);
+                } else {
+                    dialog.findViewById(R.id.done).setAlpha(1f);
+                    dialog.findViewById(R.id.done).setEnabled(true);
+                    dialog.findViewById(R.id.done).setOnClickListener(v12 -> {
+                        SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
+                        SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
+                        try {
+                            Date date = parseFormat.parse(finalTime);
+                            toTime.setText(displayFormat.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    });
+                }
+                finalTime = hourOfDay + ":" + minute;
+            });
+            dialog.show();
+        });
+    }
+
+    private void initFromTimeView() {
+        fromTime = rootView.findViewById(R.id.from_hours);
+        fromTime.setOnClickListener(v -> {
+            final Dialog dialog = new Dialog(ThisApplication.getCurrentActivity());
+            dialog.setContentView(R.layout.date_dialog);
+            dialog.findViewById(R.id.done).setOnClickListener(null);
+            dialog.findViewById(R.id.done).setAlpha(0.5f);
+            dialog.findViewById(R.id.done).setEnabled(false);
+            ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener((view, hourOfDay, minute) -> {
+                if (finalTime == null) {
+                    dialog.findViewById(R.id.done).setOnClickListener(null);
+                    dialog.findViewById(R.id.done).setAlpha(0.5f);
+                    dialog.findViewById(R.id.done).setEnabled(false);
+                } else {
+                    dialog.findViewById(R.id.done).setAlpha(1f);
+                    dialog.findViewById(R.id.done).setEnabled(true);
+                    dialog.findViewById(R.id.done).setOnClickListener(v1 -> {
+                        SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
+                        SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
+                        try {
+                            Date date = parseFormat.parse(finalTime);
+                            fromTime.setText(displayFormat.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    });
+                }
+                finalTime = hourOfDay + ":" + minute;
+            });
+            dialog.show();
+        });
+    }
+
+    private void preFillData() {
         SalonModel salonModel = UserDefaultUtil.getCurrentSalonUser();
         if (salonModel != null) {
             salonName.setText(salonModel.getName());
@@ -445,8 +358,12 @@ public class SalonInformationFragment extends BaseFragment {
     private void initViews() {
         male = rootView.findViewById(R.id.male);
         female = rootView.findViewById(R.id.female);
-        fromTime = rootView.findViewById(R.id.from_hours);
         staffContainer = rootView.findViewById(R.id.salon_staff_container);
+        salonName = rootView.findViewById(R.id.salon_name);
+        ownerNamer = rootView.findViewById(R.id.owner_name);
+        email = rootView.findViewById(R.id.email);
+        mobile = rootView.findViewById(R.id.mobile);
+        saveBtn = rootView.findViewById(R.id.save);
     }
 
 
@@ -534,10 +451,8 @@ public class SalonInformationFragment extends BaseFragment {
 
 
     public boolean isShouldPopFragment() {
-
         return shouldPopFragment;
     }
-
 
     public void setShouldPopFragment(boolean shouldPopFragment) {
 

@@ -46,6 +46,7 @@ public class HomeActivity extends FragmentActivity {
             if (salonID == null
                 || salonID.equalsIgnoreCase("-1")) {
                 findViewById(R.id.loading).setVisibility(View.GONE);
+
                 FragmentManager.showSalonInfoFragment(true);
             } else {
                 requestSalonDetails();

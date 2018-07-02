@@ -544,6 +544,10 @@ public class FragmentManager {
 
     //TODO: Pass Name,Email, for salon from the registration
     public static void showSalonInfoFragment(boolean shouldPopFragment) {
+        showSalonInfoFragment(null, null, null, shouldPopFragment);
+    }
+
+    public static void showSalonInfoFragment(String password, String salonName, String salonEmail, boolean shouldPopFragment) {
         SalonInformationFragment fragment = new SalonInformationFragment();
         fragment.setShouldPopFragment(shouldPopFragment);
         replaceFragment(fragment, true);

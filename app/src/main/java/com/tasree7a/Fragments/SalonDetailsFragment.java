@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,7 +22,6 @@ import com.tasree7a.customcomponent.CustomSwitch;
 import com.tasree7a.enums.CardFactory;
 import com.tasree7a.enums.CardType;
 import com.tasree7a.enums.Language;
-import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.ReservationSessionManager;
 import com.tasree7a.managers.RetrofitManager;
@@ -52,7 +50,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     private SalonModel salonModel;
 
     private RecyclerView salonDetails;
-    private BaseCardAdapter adapter;
     private DrawerLayout nvDrawer;
     private NavigationView nvView;
     private View navHeader;
@@ -68,15 +65,16 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         nvView = rootView.findViewById(R.id.nvView);
         navHeader = nvView.getHeaderView(0);
         closeDrawer = nvView.getHeaderView(0).findViewById(R.id.close_menu);
-        adapter = new BaseCardAdapter(getCardModels());
         salonDetails = rootView.findViewById(R.id.salon_cards);
         salonDetails.setLayoutManager(new LinearLayoutManager(getContext()));
-        salonDetails.setAdapter(adapter);
+        salonDetails.setAdapter( new BaseCardAdapter(getCardModels()));
+
+        //TODO: Don't do that, just show the loader before requesting data then when the result is recieved hide the loader
         if (!didLoadFullSalon) {
             showLoadingView();
         }
 
-        //TODO: Should not exist? or ah?
+        //TODO: do this before opining the fragment
         if (isSalonDataValid()) {
             FragmentManager.showSalonInfoFragment(true);
         }
@@ -84,6 +82,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         initSideMenuViews();
         return rootView;
     }
+
 
     private void addObservables() {
         MenuIconClickedObservable.sharedInstance().addObserver(this);
@@ -95,24 +94,11 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
             nvDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
 
-        initProfileImage();
-        initCloseButton();
+        navHeader.findViewById(R.id.profile_image).setOnClickListener(v -> FragmentManager.showProfileFragment());
+        closeDrawer.setOnClickListener(v -> nvDrawer.closeDrawers());
+
         initLangButton();
         initNavigationView();
-    }
-
-    private void initProfileImage() {
-        navHeader.findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager.showProfileFragment();
-            }
-        });
-
-    }
-
-    private void initCloseButton() {
-        closeDrawer.setOnClickListener(v -> nvDrawer.closeDrawers());
     }
 
     private void initNavigationView() {
@@ -164,19 +150,12 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     @Override
     public void onResume() {
         super.onResume();
-        fragmentIsVisible();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        fragmentIsVisible();
+        getSalonDetails();
     }
 
     @Override
     public void fragmentIsVisible() {
         super.fragmentIsVisible();
-        getSalonDetails();
     }
 
     @Override
@@ -295,7 +274,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         if (o instanceof MenuIconClickedObservable) {
             nvDrawer.openDrawer(nvView);
         } else if (o instanceof GallaryItemsChangedObservable) {
-            fragmentIsVisible();
+            getSalonDetails();
         }
     }
 

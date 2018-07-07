@@ -269,7 +269,7 @@ public class UIUtils {
     private static void customizeLoadingView(View viewToAttach, View loadingView, LoadingViewModel loadingViewModel) {
 
         // Upper text
-        TextView upperTextView = (TextView)loadingView.findViewById(R.id.upper_loading_layout_label);
+        TextView upperTextView = (TextView) loadingView.findViewById(R.id.upper_loading_layout_label);
 
         if (upperTextView != null) {
 
@@ -365,15 +365,14 @@ public class UIUtils {
         }
     }
 
+    private final static String IMAGES_URL = "http://tasree7a.ps/services/public";
 
     public static void loadUrlIntoImageView(String urlString, ImageView imageView, Sizes size) {
-
         loadUrlIntoImageView(urlString, imageView, size, 0, null);
-
     }
 
 
-    public static void loadUrlIntoImageView(String urlString, final ImageView imageView, Sizes size, int placeholderId, RequestListener requestListener) {
+    private static void loadUrlIntoImageView(String urlString, final ImageView imageView, Sizes size, int placeholderId, RequestListener requestListener) {
 
         if (Strings.isNullOrEmpty(urlString)) return;
 
@@ -391,19 +390,16 @@ public class UIUtils {
                 .replace("/medium/", "/" + (size != null ? size.getValue() : Sizes.LARGE.getValue()) + "/")
                 .replace("/large/", "/" + (size != null ? size.getValue() : Sizes.LARGE.getValue()) + "/");
 
-        Uri uri = Uri.parse(urlStringWithSize);
+        Uri uri = Uri.parse(IMAGES_URL + urlStringWithSize);
 
+        if (urlString.contains("uploads")) {
+            Log.d("isurigood", uri.toString());
+        }
         final DrawableRequestBuilder<Uri> imageRequest = Glide.with(ThisApplication.getCurrentActivity())
                 .load(uri)
-                .thumbnail(0.1f)
+                .thumbnail(0.5f)
                 .placeholder(R.drawable.default_image)
                 .dontAnimate();
-
-        if (requestListener != null) {
-
-            imageRequest.listener(requestListener);
-
-        }
 
         if (size != Sizes.LARGE) {
 
@@ -411,40 +407,8 @@ public class UIUtils {
 
         }
 
-        if (placeholderId != 0) {
-
-            imageRequest.placeholder(placeholderId);
-
-        }
-
-        // In minimum mode, load images using UniversalImageLoader without a cache, it proven to minimize memory footprint
-        if (minimumImageMode) {
-
-            if (!ImageLoader.getInstance().isInited()) {
-
-                DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                        .imageScaleType(ImageScaleType.EXACTLY)
-                        .bitmapConfig(Bitmap.Config.RGB_565)
-                        .cacheInMemory()
-                        .build();
-
-
-                ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(ThisApplication.getCurrentActivity())
-                        .defaultDisplayImageOptions(imageOptions)
-                        .build();
-
-                ImageLoader.getInstance().init(config);
-
-            }
-
-            ThisApplication.getCurrentActivity().runOnUiThread(() -> ImageLoader.getInstance().displayImage(urlStringWithSize, imageView));
-
-        } else {
-
-            ThisApplication.getCurrentActivity().runOnUiThread(() -> imageRequest.into(imageView));
-
-        }
-
+        imageRequest.placeholder(R.drawable.default_image);
+        ThisApplication.getCurrentActivity().runOnUiThread(() -> imageRequest.into(imageView));
     }
 
 

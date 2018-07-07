@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.adapters.SalonServicesAdapter;
+import com.tasree7a.interfaces.SalonServiceSelectionListener;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.ReservationSessionManager;
 import com.tasree7a.managers.RetrofitManager;
@@ -30,7 +31,7 @@ import java.util.Observer;
  * Created by mac on 9/17/17.
  */
 
-public class BookNowFragment extends BaseFragment implements Observer {
+public class BookNowFragment extends BaseFragment implements SalonServiceSelectionListener, Observer {
 
     @Nullable
     @Override
@@ -54,7 +55,7 @@ public class BookNowFragment extends BaseFragment implements Observer {
 
                         List<SalonService> salonServices = ((SalonServicesResponse) result).getServices();
 
-                        salonService.setAdapter(new SalonServicesAdapter(salonServices));
+                        salonService.setAdapter(new SalonServicesAdapter(salonServices, this));
 
                         UIUtils.hideLoadingView(rootView, BookNowFragment.this);
 
@@ -90,6 +91,12 @@ public class BookNowFragment extends BaseFragment implements Observer {
         return rootView;
     }
 
+
+
+    @Override
+    public void onSalonServiceClicked(boolean selected, int position) {
+
+    }
 
     @Override
     public void onDetach() {

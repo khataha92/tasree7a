@@ -13,11 +13,9 @@ import android.widget.TextView;
 import com.tasree7a.R;
 import com.tasree7a.adapters.GalleryAdapter;
 import com.tasree7a.customcomponent.SpacesItemDecoration;
-import com.tasree7a.interfaces.ImageGalleryClickListener;
+import com.tasree7a.interfaces.GalleryClickListener;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.ReservationSessionManager;
-import com.tasree7a.managers.RetrofitManager;
-import com.tasree7a.models.UpdateSalonImagesRequestModel;
 import com.tasree7a.models.gallery.ImageModel;
 import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.observables.GallaryItemsChangedObservable;
@@ -35,7 +33,7 @@ import java.util.Observer;
  * Created by mac on 6/13/17.
  */
 
-public class FragmentGallery extends BaseFragment implements Observer, ImageGalleryClickListener {
+public class FragmentGallery extends BaseFragment implements Observer, GalleryClickListener {
 
     private RecyclerView gallery;
     private GalleryAdapter adapter;
@@ -52,7 +50,7 @@ public class FragmentGallery extends BaseFragment implements Observer, ImageGall
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_gallery, container, false);
+        rootView = LayoutInflater.from(getContext()).inflate(R.layout.activity_salon_images_gallery, container, false);
         gallery = rootView.findViewById(R.id.gallery);
         gallery.setLayoutManager(new GridLayoutManager(getContext(), 2));
         title = rootView.findViewById(R.id.title);

@@ -4,14 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.tasree7a.R;
 import com.tasree7a.enums.Sizes;
-import com.tasree7a.interfaces.ImageGalleryClickListener;
-import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.interfaces.GalleryClickListener;
 import com.tasree7a.models.gallery.ImageModel;
-import com.tasree7a.observables.ItemSelectedObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -29,11 +26,11 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
     public ImageView mSelectionHover;
     public RelativeLayout mImageContainer;
 
-    private ImageGalleryClickListener mImageGalleryClickListener;
+    private GalleryClickListener mGalleryClickListener;
 
-    public GalleryItemViewHolder(View itemView, ImageGalleryClickListener imageGalleryClickListener) {
+    public GalleryItemViewHolder(View itemView, GalleryClickListener galleryClickListener) {
         super(itemView);
-        mImageGalleryClickListener = imageGalleryClickListener;
+        mGalleryClickListener = galleryClickListener;
 
         mImage = itemView.findViewById(R.id.image);
         mSelectionHover = itemView.findViewById(R.id.selected);
@@ -41,7 +38,7 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
 
         itemView.setOnClickListener(v -> {
             if (!UserDefaultUtil.isBusinessUser()) {
-                mImageGalleryClickListener.onImageItemClicked(false, getAdapterPosition());
+                mGalleryClickListener.onImageItemClicked(false, getAdapterPosition());
             } else {
                 mIsSelected = !mIsSelected;
                 mSelectionHover.setVisibility(mIsSelected ? View.VISIBLE : View.GONE);

@@ -11,10 +11,16 @@ import com.tasree7a.models.salondetails.AddNewSalonResponseModel;
 import com.tasree7a.models.salondetails.SalonDetailsResponseModel;
 import com.tasree7a.models.signup.SignupResponseModel;
 
+import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * Created by mac on 5/17/17.
@@ -49,15 +55,16 @@ public interface ServiceRequest {
     Call<UpdateGalleryResponseModel> updateSalonImages(@Field("operation") String operation,
                                                        @Field("salonId") String salonId,
                                                        @Field("salonImage") String base64Image,
-                                                       @Field("imageId") String imageId);
+                                                       @Field("imageId") List<String> imageId);
 
 
-    @FormUrlEncoded
+    @Multipart
+//    @FormUrlEncoded
     @POST("addSalonService")
-    Call<Object> addSalonService(@Field("serviceName") String serviceName,
-                                 @Field("servicePrice") String servicePrice,
-                                 @Field("salonId") String salonId,
-                                 @Field("serviceImage") String serviceImage);
+    Call<Object> addSalonService(@Part("serviceName") RequestBody serviceName,
+                                 @Part("servicePrice") RequestBody servicePrice,
+                                 @Part("salonId") RequestBody salonId,
+                                 @Part MultipartBody.Part image/*@Field("serviceImage") String serviceImage*/);
 
 
     @FormUrlEncoded
@@ -76,7 +83,7 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("updateBookingStatus")
-    Call<Object>updateBookingStatus(@Field("bookId") String bookingID, @Field("bookStatus") String status);
+    Call<Object> updateBookingStatus(@Field("bookId") String bookingID, @Field("bookStatus") String status);
 
     @FormUrlEncoded
     @POST("getUserBookings")

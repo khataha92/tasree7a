@@ -1,5 +1,6 @@
 package com.tasree7a.managers;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.tasree7a.Constants;
@@ -23,7 +24,12 @@ import com.tasree7a.models.salondetails.SalonDetailsResponseModel;
 import com.tasree7a.models.salondetails.SalonInformationRequestModel;
 import com.tasree7a.models.signup.SignupResponseModel;
 
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -557,17 +563,20 @@ public class RetrofitManager {
     }
 
 
-    public void addSalonService(AddNewServiceRequestModel model, final AbstractCallback callback) {
+    public void addSalonService(AddNewServiceRequestModel model, File file, final AbstractCallback callback) {
 
-        Call<Object> get = request.addSalonService(model.getServiceName(),
-                model.getServicePrice(),
-                model.getSalonId(),
-                model.getServiceImage());
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("img_file", file.getName(), reqFile);
+
+        Call<Object> get = request.addSalonService(RequestBody.create(MediaType.parse("multipart/form-data"), model.getServiceName()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getServicePrice()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getSalonId()),
+                body);
 
         get.enqueue(new Callback<Object>() {
 
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
 
                 if (callback != null) {
 
@@ -577,9 +586,8 @@ public class RetrofitManager {
 
             }
 
-
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
 
                 if (callback != null) {
 

@@ -27,6 +27,8 @@ import java.util.List;
 
 public class SalonModel implements Filterable, ClusterItem, Serializable {
 
+    private boolean isBusiness = false;
+
     @SerializedName("rank")
     private RankModel rank;
 
@@ -99,7 +101,6 @@ public class SalonModel implements Filterable, ClusterItem, Serializable {
         return times;
     }
 
-    boolean isBusiness = false;
 
     public List<SalonService> getSalonServices() {
 

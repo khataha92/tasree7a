@@ -18,6 +18,16 @@ public class SalonService {
 
     double price;
 
+    boolean mIsSelected;
+
+    public boolean isSelected() {
+        return mIsSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        mIsSelected = selected;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -28,7 +38,8 @@ public class SalonService {
 
     public String getImageUrl() {
 
-        return Constants.IMAGE_PREFIX + imageUrl;
+//        return Constants.IMAGE_PREFIX + imageUrl;
+        return imageUrl;
 
     }
 

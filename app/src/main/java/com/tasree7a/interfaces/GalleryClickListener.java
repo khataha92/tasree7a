@@ -1,5 +1,5 @@
 package com.tasree7a.interfaces;
 
-public interface ImageGalleryClickListener {
+public interface GalleryClickListener {
     void onImageItemClicked(boolean isSelection, int position);
 }

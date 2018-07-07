@@ -3,19 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tasree7a">
 
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-sdk tools:overrideLibrary="com.tsongkha.spinnerdatepicker" />
 
@@ -92,6 +90,16 @@
 
         <activity android:name=".activities.SalonInformationActivity" />
 
+        <activity
+            android:name=".activities.SalonServicesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".activities.AddSalonServiceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
         <service android:name=".services.PushService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -110,5 +118,4 @@
             android:value="AIzaSyBsC-jNEKMbSWQgeuOyd28aYTsT61Cy17Q" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

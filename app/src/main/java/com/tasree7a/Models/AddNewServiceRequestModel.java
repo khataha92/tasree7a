@@ -17,54 +17,31 @@ public class AddNewServiceRequestModel {
     @SerializedName("salonId")
     String salonId;
 
-    @SerializedName("serviceImage")
-    String serviceImage;
-
-
     public String getServiceName() {
 
         return serviceName;
     }
 
-
-    public void setServiceName(String serviceName) {
-
+    public AddNewServiceRequestModel setServiceName(String serviceName) {
         this.serviceName = serviceName;
+        return this;
     }
 
-
     public String getServicePrice() {
-
         return servicePrice;
     }
 
-
-    public void setServicePrice(String servicePrice) {
-
+    public AddNewServiceRequestModel setServicePrice(String servicePrice) {
         this.servicePrice = servicePrice;
+        return this;
     }
 
-
     public String getSalonId() {
-
         return salonId;
     }
 
-
-    public void setSalonId(String salonId) {
-
+    public AddNewServiceRequestModel setSalonId(String salonId) {
         this.salonId = salonId;
-    }
-
-
-    public String getServiceImage() {
-
-        return serviceImage;
-    }
-
-
-    public void setServiceImage(String serviceImage) {
-
-        this.serviceImage = serviceImage;
+        return this;
     }
 }

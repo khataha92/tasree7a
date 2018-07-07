@@ -139,5 +139,10 @@ soon as possible</string>
     <string name="MALE">Male</string>
     <string name="FEMALE">Female</string>
     <string name="dash_separator">-</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="choose_yours">choose your picture</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="something_wrong">Something went wrong</string>
 
 </resources>

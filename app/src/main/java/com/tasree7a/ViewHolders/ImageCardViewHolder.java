@@ -1,5 +1,6 @@
 package com.tasree7a.viewholders;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 ;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.activities.SalonServicesActivity;
 import com.tasree7a.customcomponent.CustomRatingBar;
 import com.tasree7a.enums.Sizes;
 import com.tasree7a.managers.FragmentManager;
@@ -110,7 +112,7 @@ public class ImageCardViewHolder extends BaseCardViewHolder {
 
             menu.setOnClickListener(v -> MenuIconClickedObservable.sharedInstance().menuIconClicked());
 
-            View.OnClickListener servicesListener = v -> FragmentManager.showSalonServicesFragment();
+            View.OnClickListener servicesListener = v -> itemView.getContext().startActivity(new Intent(itemView.getContext(), SalonServicesActivity.class));//FragmentManager.showSalonServicesFragment();
 
             bookNow.setOnClickListener(servicesListener);
 

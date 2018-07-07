@@ -35,6 +35,7 @@ import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -45,7 +46,7 @@ import java.util.Observer;
 public class SalonDetailsFragment extends BaseFragment implements CardFactory, Observer {
 
     private boolean didLoadFullSalon = false;
-    private boolean isBusiness = false;
+//    private boolean isBusiness = false;
 
     private SalonModel salonModel;
 
@@ -67,7 +68,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         closeDrawer = nvView.getHeaderView(0).findViewById(R.id.close_menu);
         salonDetails = rootView.findViewById(R.id.salon_cards);
         salonDetails.setLayoutManager(new LinearLayoutManager(getContext()));
-        salonDetails.setAdapter( new BaseCardAdapter(getCardModels()));
+        salonDetails.setAdapter(new BaseCardAdapter(getCardModels()));
 
         //TODO: Don't do that, just show the loader before requesting data then when the result is recieved hide the loader
         if (!didLoadFullSalon) {
@@ -120,7 +121,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
                             UserDefaultUtil.logout();
                             AccessToken.setCurrentAccessToken(null);
                             startActivity(new Intent(getContext(), MainActivity.class));
-                            getActivity().finish();
+                            Objects.requireNonNull(getActivity()).finish();
                             break;
                         case R.id.settings:
                             FragmentManager.showSettingsFragment();
@@ -254,9 +255,9 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         this.didLoadFullSalon = didLoadFullSalon;
     }
 
-    public void setBusiness(boolean business) {
-        isBusiness = business;
-    }
+//    public void setBusiness(boolean business) {
+//        isBusiness = business;
+//    }
 
     @Override
     public void onDetach() {
@@ -274,32 +275,29 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         if (o instanceof MenuIconClickedObservable) {
             nvDrawer.openDrawer(nvView);
         } else if (o instanceof GallaryItemsChangedObservable) {
+            //TODO: No No No don't
+            //TODO: return result from Activity -> SalonGalary/Products to activity
             getSalonDetails();
         }
-    }
-
-    public boolean isSalonDataValid() {
-        return UserDefaultUtil.getCurrentUser().isBusiness()
-                && (Integer.parseInt(UserDefaultUtil.getCurrentUser().getId()) == -1);
     }
 
     public void getSalonDetails() {
         RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), (isSuccess, result) -> {
             if (!isAdded()) return;
             if (isSuccess) {
-                SalonModel temp = (SalonModel) result;
-                salonModel.setSalonBarbers(temp.getSalonBarbers());
-                salonModel.setLocationModel(temp.getLocationModel());
-                salonModel.setDistance(temp.getDistance());
-                salonModel.setLat(temp.getLat());
-                salonModel.setLng(temp.getLng());
-                salonModel.setOwnerMobileNumber(temp.getOwnerMobileNumber());
-                salonModel.setOwnerName(temp.getOwnerName());
-                salonModel.setSalonType(temp.getSalonType());
-                salonModel.setGallery(temp.getGallery());
-                salonModel.setProducts(temp.getProducts());
-                salonModel.setSalonCity(temp.getCity());
-                salonModel.setAvailableTimes(temp.getAvailableTimes());
+                salonModel = (SalonModel) result;
+//                salonModel.setSalonBarbers(temp.getSalonBarbers());
+//                salonModel.setLocationModel(temp.getLocationModel());
+//                salonModel.setDistance(temp.getDistance());
+//                salonModel.setLat(temp.getLat());
+//                salonModel.setLng(temp.getLng());
+//                salonModel.setOwnerMobileNumber(temp.getOwnerMobileNumber());
+//                salonModel.setOwnerName(temp.getOwnerName());
+//                salonModel.setSalonType(temp.getSalonType());
+//                salonModel.setGallery(temp.getGallery());
+//                salonModel.setProducts(temp.getProducts());
+//                salonModel.setSalonCity(temp.getCity());
+//                salonModel.setAvailableTimes(temp.getAvailableTimes());
                 didLoadFullSalon = true;
                 ((BaseCardAdapter) salonDetails.getAdapter()).setCardModels(getCardModels());
                 salonDetails.getAdapter().notifyDataSetChanged();
@@ -308,5 +306,10 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
             }
             hideLoadingView();
         });
+    }
+
+    public boolean isSalonDataValid() {
+        return UserDefaultUtil.getCurrentUser().isBusiness()
+                && (Integer.parseInt(UserDefaultUtil.getCurrentUser().getId()) == -1);
     }
 }

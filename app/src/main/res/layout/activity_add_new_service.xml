@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/BG_GRAY">
@@ -16,9 +17,10 @@
             android:layout_width="31dp"
             android:layout_height="41dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
             android:padding="10dp"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"
+            tools:ignore="ContentDescription" />
 
         <View
             android:layout_width="match_parent"
@@ -53,7 +55,9 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/profile_cam" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_cam"
+            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 
@@ -73,11 +77,10 @@
             android:layout_marginRight="44dp"
             android:layout_marginTop="13dp"
             android:hint="@string/SERVICE_TYPE"
+            android:inputType="text"
             android:textColor="@color/BLACK"
             android:textColorHint="@color/BLACK"
-            android:textSize="14.8sp"
-
-            />
+            android:textSize="14.8sp" />
 
         <EditText
             android:id="@+id/price"
@@ -87,7 +90,7 @@
             android:layout_marginRight="44dp"
             android:layout_marginTop="13dp"
             android:hint="@string/PRICE"
-            android:inputType="text"
+            android:inputType="number"
             android:maxLines="1"
             android:textColor="@color/BLACK"
             android:textColorHint="@color/BLACK"
@@ -100,9 +103,9 @@
             android:layout_marginLeft="44dp"
             android:layout_marginRight="44dp"
             android:layout_marginTop="13dp"
-            android:drawableRight="@drawable/ic_dropdown_arrow"
+            android:drawableEnd="@drawable/ic_dropdown_arrow"
             android:hint="@string/DURATION_TIME"
-            android:inputType="text"
+            android:inputType="number"
             android:maxLines="1"
             android:textColor="@color/BLACK"
             android:textColorHint="@color/BLACK"
@@ -124,7 +127,7 @@
             android:layout_width="145dp"
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginRight="26dp"
+            android:layout_marginEnd="26dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/shadow"
             android:paddingBottom="10dp"

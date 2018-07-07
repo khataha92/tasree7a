@@ -48,7 +48,7 @@ public class FragmentProducts extends BaseFragment implements Observer, ProductI
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_gallery, container, false);
+        View rootView = inflater.inflate(R.layout.activity_salon_images_gallery, container, false);
         mRecyclerView = rootView.findViewById(R.id.gallery);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mTitle = rootView.findViewById(R.id.title);

@@ -290,14 +290,14 @@ public class FragmentManager {
         fragment.setCallback(callback);
         replaceFragment(fragment);
     }
-
-    public static void showAddNewSalonServiceFragment() {
-        AddNewSalonServiceFragment fragment = new AddNewSalonServiceFragment();
-        replaceFragment(fragment);
-    }
-
-    public static void showSalonServicesFragment() {
-        SalonServicesFragment fragment = new SalonServicesFragment();
-        replaceFragment(fragment);
-    }
+//
+//    public static void showAddNewSalonServiceFragment() {
+//        AddNewSalonServiceFragment fragment = new AddNewSalonServiceFragment();
+//        replaceFragment(fragment);
+//    }
+//
+//    public static void showSalonServicesFragment() {
+//        SalonServicesFragment fragment = new SalonServicesFragment();
+//        replaceFragment(fragment);
+//    }
 }

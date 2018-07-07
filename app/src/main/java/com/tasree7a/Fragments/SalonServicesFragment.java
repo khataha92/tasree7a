@@ -64,7 +64,7 @@ public class SalonServicesFragment extends BaseFragment implements Observer {
             if (isSuccess) {
                 List<SalonService> salonServices = ((SalonServicesResponse) result).getServices();
                 if (salonServices == null || salonServices.size() == 0) {
-                    FragmentManager.showAddNewSalonServiceFragment();
+//                    FragmentManager.showAddNewSalonServiceFragment();
                 } else {
                     services.clear();
                     services = salonServices;

@@ -1,48 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/main_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/WHITE"
-                android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <FrameLayout
+        android:id="@+id/date_segment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clickable="true"
-        android:id="@+id/date_segment">
+        android:focusable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/WHITE"
             android:orientation="horizontal"
-            android:weightSum="1"
             android:paddingBottom="1dp"
-            android:paddingTop="1dp">
-
-
+            android:paddingTop="1dp"
+            android:weightSum="1">
         </LinearLayout>
-
     </FrameLayout>
 
-    <CustomGridCalendar
+    <com.tasree7a.customcomponent.CustomGridCalendar
         android:id="@+id/custom_grid_calender"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/select_date_bottom_view"
-        android:layout_below="@+id/date_segment"/>
+        android:layout_below="@+id/date_segment" />
 
     <com.tasree7a.customcomponent.CustomButton
         android:id="@+id/select_date_bottom_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/APP_GREEN"
-        app:customFonts="MEDIUM"
-        app:customButtonTextColor="@color/WHITE"
         android:layout_alignParentBottom="true"
-        />
-
+        android:background="@color/APP_GREEN"
+        app:customButtonTextColor="@color/WHITE"
+        app:customFonts="MEDIUM" />
 
 </RelativeLayout>

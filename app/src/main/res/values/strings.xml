@@ -144,5 +144,10 @@ soon as possible</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="something_wrong">Something went wrong</string>
+    <string name="error_provide_full_name">Please Provide a full barber name</string>
+    <string name="error_provide_email">Please provide the barber email address</string>
+    <string name="error_password_not_match">Barber passwords doesn\'t match</string>
+    <string name="error_provide_password">Please write a correct password</string>
+    <string name="error_add_barbers">You have to Add 1 Barber at least</string>
 
 </resources>

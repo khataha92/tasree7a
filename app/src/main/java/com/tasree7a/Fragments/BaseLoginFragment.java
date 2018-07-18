@@ -131,7 +131,7 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
                                 // Application code
                                 try {
 
-                                    com.tasree7a.Models.Signup.SignupModel signupModel = new com.tasree7a.Models.Signup.SignupModel();
+                                    com.tasree7a.models.signup.SignupModel signupModel = new com.tasree7a.models.signup.SignupModel();
 
                                     String name = object.getString("mName");
 
@@ -259,55 +259,30 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
                 if (!emailStr.isEmpty() && !pass.isEmpty()) {
 
                     model = new LoginModel();
-
                     model.setUsername(emailStr);
-
                     model.setPassword(pass);
-
                     model.setFacebookLogin(false);
-
                     model.setBusiness(isBusiness);
-
                     UIUtils.showSweetLoadingDialog();
-
                     RetrofitManager.getInstance().login(model, (isSuccess, result) -> {
-
                         UIUtils.hideSweetLoadingDialog();
-
                         if (isSuccess) {
-
                             LoginResponseModel responseModel = (LoginResponseModel) result;
-
                             if (responseModel.getResponseCode().equalsIgnoreCase("200")) {
-
                                 User user = responseModel.getUser();
-
                                 user.setBusiness(isBusiness ? 1 : 0);
-
                                 user.setSalonId(responseModel.getSalonId());
-
                                 UserDefaultUtil.saveUser(user);
-
                                 startHomeActivity();
-
                             } else {
-
                                 Toast.makeText(getApplicationContext(), "Error in login ", Toast.LENGTH_LONG).show();
-
                             }
-
                         }
-
                     });
-
                 } else {
-
-
                 }
-
                 break;
         }
-
     }
 
 

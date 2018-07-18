@@ -95,7 +95,7 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
             if (!firstName.isEmpty() && !lastName.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
 
-                com.tasree7a.Models.Signup.SignupModel model = new com.tasree7a.Models.Signup.SignupModel();
+                com.tasree7a.models.signup.SignupModel model = new com.tasree7a.models.signup.SignupModel();
 
                 model.setUsername(username);
 

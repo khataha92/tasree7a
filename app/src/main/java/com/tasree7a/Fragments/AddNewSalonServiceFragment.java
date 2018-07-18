@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.tasree7a.DummyConstants;
 import com.tasree7a.R;
@@ -31,7 +30,6 @@ import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.AddNewServiceRequestModel;
 import com.tasree7a.observables.ServicesChangedObservable;
-import com.tasree7a.utils.PermissionsUtil;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;

@@ -50,7 +50,7 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(ImageModel imageModel) {
         if (mImage != null) {
-            UIUtils.loadUrlIntoImageView(imageModel.getImagePath(), mImage, Sizes.MEDIUM);
+            UIUtils.loadUrlIntoImageView(itemView.getContext(), imageModel.getImagePath(), mImage, Sizes.MEDIUM);
         }
     }
 }

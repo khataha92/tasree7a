@@ -1,4 +1,4 @@
-package com.tasree7a.Models.Signup;
+package com.tasree7a.models.signup;
 
 /**
  * Created by mac on 5/17/17.

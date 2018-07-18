@@ -11,17 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
+import com.tasree7a.activities.SalonServicesActivity;
 import com.tasree7a.adapters.BaseCardAdapter;
 import com.tasree7a.adapters.CardsRecyclerAdapter;
+import com.tasree7a.customcomponent.CustomRatingBar;
 import com.tasree7a.customcomponent.CustomSwitch;
 import com.tasree7a.enums.CardFactory;
 import com.tasree7a.enums.CardType;
 import com.tasree7a.enums.Language;
+import com.tasree7a.enums.Sizes;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.ReservationSessionManager;
 import com.tasree7a.managers.RetrofitManager;
@@ -29,6 +33,7 @@ import com.tasree7a.models.BaseCardModel;
 import com.tasree7a.models.gallery.GalleryModel;
 import com.tasree7a.models.locationcard.LocationCardModel;
 import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.observables.FavoriteChangeObservable;
 import com.tasree7a.observables.GallaryItemsChangedObservable;
 import com.tasree7a.observables.MenuIconClickedObservable;
 import com.tasree7a.utils.UIUtils;
@@ -39,23 +44,31 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by mohammad on 5/18/15.
- * This is the fragment that will show languages list and change language
- */
 public class SalonDetailsFragment extends BaseFragment implements CardFactory, Observer {
-
-    private boolean didLoadFullSalon = false;
-//    private boolean isBusiness = false;
+    public static final String SALON_MODEL = SalonDetailsFragment.class.getName() + "SALON_MODEL";
 
     private SalonModel salonModel;
 
+    private View navHeader;
+    private View bookNow;
+    private View addToFavorite;
+    private ImageView closeDrawer;
+    private ImageView back;
+    private ImageView salonCover;
+    private TextView bookNowLbl;
+    private TextView salonName;
     private RecyclerView salonDetails;
     private DrawerLayout nvDrawer;
     private NavigationView nvView;
-    private View navHeader;
-    private ImageView closeDrawer;
+    private CustomRatingBar ratingBar;
     private CustomSwitch langSwitch;
+
+    private View.OnClickListener listener = v -> {
+        ReservationSessionManager.getInstance().setSalonModel(salonModel);
+        FragmentManager.showBookNowFragment();
+    };
+    private View.OnClickListener servicesListener = v -> rootView.getContext().startActivity(new Intent(getContext(), SalonServicesActivity.class));
+
 
     @Nullable
     @Override
@@ -66,24 +79,70 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         nvView = rootView.findViewById(R.id.nvView);
         navHeader = nvView.getHeaderView(0);
         closeDrawer = nvView.getHeaderView(0).findViewById(R.id.close_menu);
+        //TODO: After getting data
         salonDetails = rootView.findViewById(R.id.salon_cards);
-        salonDetails.setLayoutManager(new LinearLayoutManager(getContext()));
-        salonDetails.setAdapter(new BaseCardAdapter(getCardModels()));
 
-        //TODO: Don't do that, just show the loader before requesting data then when the result is recieved hide the loader
-        if (!didLoadFullSalon) {
-            showLoadingView();
+        Bundle args = getArguments();
+        if (args != null) {
+            salonModel = (SalonModel) args.getSerializable(SALON_MODEL);
         }
 
-        //TODO: do this before opining the fragment
-        if (isSalonDataValid()) {
-            FragmentManager.showSalonInfoFragment(true);
-        }
+        initViews(rootView);
         addObservables();
         initSideMenuViews();
         return rootView;
     }
 
+    private void initViews(View rootView) {
+        back = rootView.findViewById(R.id.back);
+        back.setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
+        bookNowLbl = rootView.findViewById(R.id.book_now_lbl);
+
+        addToFavorite = rootView.findViewById(R.id.add_to_favorite);
+        addToFavorite.setOnClickListener(v -> {
+            if (UserDefaultUtil.isSalonFavorite(salonModel)) {
+                UserDefaultUtil.removeSalonFromFavorite(salonModel);
+                ((ImageView) v).setImageResource(R.drawable.ic_favorite_unchecked);
+            } else {
+                UserDefaultUtil.addSalonToFavorite(salonModel);
+                ((ImageView) v).setImageResource(R.drawable.ic_favorite_checked);
+            }
+            FavoriteChangeObservable.sharedInstance().setFavoriteChanged(salonModel);
+        });
+
+        ratingBar = rootView.findViewById(R.id.salon_rating);
+        salonName = rootView.findViewById(R.id.sallon_name);
+        salonCover = rootView.findViewById(R.id.salon_image);
+        bookNow = rootView.findViewById(R.id.bookNow);
+    }
+
+    private void loadSalonData() {
+        ratingBar.setRating(salonModel.getRating());
+        salonName.setText(salonModel.getName());
+        UIUtils.loadUrlIntoImageView(getContext(), salonModel.getImage(), salonCover, Sizes.MEDIUM);
+
+        if (UserDefaultUtil.isSalonFavorite(salonModel)) {
+            ((ImageView) addToFavorite).setImageResource(R.drawable.ic_favorite_checked);
+        } else {
+            ((ImageView) addToFavorite).setImageResource(R.drawable.ic_favorite_unchecked);
+        }
+
+        if (UserDefaultUtil.isBusinessUser()) {
+            addToFavorite.setVisibility(View.GONE);
+            bookNowLbl.setText(R.string.SERVICES);
+
+            back.setImageResource(R.drawable.ic_side_menu);
+            back.setColorFilter(ThisApplication.getCurrentActivity().getBaseContext().getResources().getColor(R.color.WHITE));
+            back.setPadding(0, 0, 0, 0);
+            back.setOnClickListener(v -> MenuIconClickedObservable.sharedInstance().menuIconClicked());
+
+            bookNow.setOnClickListener(servicesListener);
+            bookNowLbl.setOnClickListener(servicesListener);
+        } else {
+            bookNow.setOnClickListener(listener);
+            bookNowLbl.setOnClickListener(listener);
+        }
+    }
 
     private void addObservables() {
         MenuIconClickedObservable.sharedInstance().addObserver(this);
@@ -91,10 +150,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     }
 
     private void initSideMenuViews() {
-        if (!salonModel.isBusiness()) {
-            nvDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        }
-
         navHeader.findViewById(R.id.profile_image).setOnClickListener(v -> FragmentManager.showProfileFragment());
         closeDrawer.setOnClickListener(v -> nvDrawer.closeDrawers());
 
@@ -168,9 +223,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         BaseCardModel cardModel = new BaseCardModel();
         cardModel.setCardType(type);
         switch (type) {
-            case IMAGE_CARD:
-                cardModel.setCardValue(salonModel);
-                break;
             case GALARY_CARD: {
                 GalleryModel galleryModel = new GalleryModel();
                 galleryModel.setTitle(getString(R.string.GALLERY));
@@ -209,10 +261,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     @Override
     public ArrayList<BaseCardModel> getCardModels() {
         ArrayList<BaseCardModel> cardModels = new ArrayList<>();
-        cardModels.add(getCardModel(CardType.IMAGE_CARD));
-        if (!didLoadFullSalon) {
-            return cardModels;
-        }
+
         if (UserDefaultUtil.isBusinessUser()
                 || salonModel.getGallery() != null && !salonModel.getGallery().isEmpty())
             cardModels.add(getCardModel(CardType.GALARY_CARD));
@@ -243,21 +292,9 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         this.salonModel = salonModel;
     }
 
-    private void showLoadingView() {
-        rootView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
-    }
-
     private void hideLoadingView() {
         rootView.findViewById(R.id.loading).setVisibility(View.GONE);
     }
-
-    public void setDidLoadFullSalon(boolean didLoadFullSalon) {
-        this.didLoadFullSalon = didLoadFullSalon;
-    }
-
-//    public void setBusiness(boolean business) {
-//        isBusiness = business;
-//    }
 
     @Override
     public void onDetach() {
@@ -282,27 +319,20 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     }
 
     public void getSalonDetails() {
-        RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), (isSuccess, result) -> {
+        RetrofitManager.getInstance().getSalonDetails(salonModel == null ? UserDefaultUtil.getCurrentUser().getSalonId() : salonModel.getId(), (isSuccess, result) -> {
             if (!isAdded()) return;
             if (isSuccess) {
+                //TODO: Refactor this
                 salonModel = (SalonModel) result;
-//                salonModel.setSalonBarbers(temp.getSalonBarbers());
-//                salonModel.setLocationModel(temp.getLocationModel());
-//                salonModel.setDistance(temp.getDistance());
-//                salonModel.setLat(temp.getLat());
-//                salonModel.setLng(temp.getLng());
-//                salonModel.setOwnerMobileNumber(temp.getOwnerMobileNumber());
-//                salonModel.setOwnerName(temp.getOwnerName());
-//                salonModel.setSalonType(temp.getSalonType());
-//                salonModel.setGallery(temp.getGallery());
-//                salonModel.setProducts(temp.getProducts());
-//                salonModel.setSalonCity(temp.getCity());
-//                salonModel.setAvailableTimes(temp.getAvailableTimes());
-                didLoadFullSalon = true;
-                ((BaseCardAdapter) salonDetails.getAdapter()).setCardModels(getCardModels());
-                salonDetails.getAdapter().notifyDataSetChanged();
+                loadSalonData();
                 UserDefaultUtil.setCurrentSalonUser(salonModel);
                 ReservationSessionManager.getInstance().setSalonModel(salonModel);
+                salonDetails.setLayoutManager(new LinearLayoutManager(getContext()));
+                salonDetails.setAdapter(new BaseCardAdapter(getCardModels()));
+                salonDetails.getAdapter().notifyDataSetChanged();
+                if (!salonModel.isBusiness()) {
+                    nvDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                }
             }
             hideLoadingView();
         });

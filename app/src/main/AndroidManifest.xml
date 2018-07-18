@@ -17,12 +17,23 @@
 
     <uses-sdk tools:overrideLibrary="com.tsongkha.spinnerdatepicker" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
 
         <uses-library
             android:name="com.google.android.maps"
@@ -70,9 +81,7 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-
+            android:label="@string/app_name" />
 
         <activity
             android:name="com.facebook.CustomTabActivity"
@@ -88,7 +97,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.SalonInformationActivity" />
+        <activity
+            android:name=".activities.SalonInformationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
         <activity
             android:name=".activities.SalonServicesActivity"
@@ -97,6 +109,11 @@
 
         <activity
             android:name=".activities.AddSalonServiceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".activities.AddBarberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 

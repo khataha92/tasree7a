@@ -2,7 +2,6 @@ package com.tasree7a.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
@@ -24,12 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestListener;
 import com.google.common.base.Strings;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.customcomponent.CustomSwitch;
@@ -50,6 +44,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class UIUtils {
 
     static SweetAlertDialog loadingDialog;
+    private final static String IMAGES_URL = "http://tasree7a.ps/services/public/uploads/";
 
     public static String[] images = {
             "http://www.jolie-shopping.com/wp-content/uploads/2016/02/cancela_barber_lo-skin-fade-pompadour-1.jpg",
@@ -157,70 +152,66 @@ public class UIUtils {
     };
 
     public static void hideLoadingView(View viewToAttach, BaseFragment fragment) {
-
-        showHideLoadingView(viewToAttach, fragment, false, null);
-
+//        showHideLoadingView(viewToAttach, fragment, false, null);
     }
 
     public static void showLoadingView(View viewToAttach, BaseFragment fragment) {
-
-        showHideLoadingView(viewToAttach, fragment, true, null);
-
+//        showHideLoadingView(viewToAttach, fragment, true, null);
     }
 
     public static void showSweetLoadingDialog() {
-
-        if (loadingDialog == null) {
-
-            loadingDialog = new SweetAlertDialog(ThisApplication.getCurrentActivity(), SweetAlertDialog.PROGRESS_TYPE);
-
-            loadingDialog.getProgressHelper().setBarColor(getColor(R.color.WHITE));
-
-            loadingDialog.setTitleText(getString(R.string.LOADING));
-
-            loadingDialog.setCancelable(false);
-
-        }
-
-        loadingDialog.show();
+//
+//        if (loadingDialog == null) {
+//
+//            loadingDialog = new SweetAlertDialog(ThisApplication.getCurrentActivity(), SweetAlertDialog.PROGRESS_TYPE);
+//
+//            loadingDialog.getProgressHelper().setBarColor(getColor(R.color.WHITE));
+//
+//            loadingDialog.setTitleText(getString(R.string.LOADING));
+//
+//            loadingDialog.setCancelable(false);
+//
+//        }
+//
+//        loadingDialog.show();
     }
 
     private static void showHideLoadingView(View viewToAttach,
                                             BaseFragment fragment,
                                             boolean show,
                                             LoadingViewModel loadingViewModel) {
-
-        if (viewToAttach == null
-                || fragment == null
-                || fragment.getActivity() == null
-                || fragment.getActivity().isFinishing()
-                || fragment.isDestroyed()) {
-
-            return;
-
-        }
-
-        View loadingView = viewToAttach.findViewById(R.id.layout_loading_view);
-
-        if (loadingView == null) {
-
-            loadingView = LayoutInflater.from(ThisApplication.getCurrentActivity()).inflate(R.layout.layout_loading_view, (ViewGroup) viewToAttach, false);
-
-            loadingView.setBackgroundColor(Color.WHITE);
-
-            loadingView.setClickable(true);
-
-            ((ViewGroup) viewToAttach).addView(loadingView);
-
-        }
-
-        if (show) {
-
-            customizeLoadingView(viewToAttach, loadingView, loadingViewModel);
-
-        }
-
-        showHideLoadingViewInternal(loadingView, show);
+//
+//        if (viewToAttach == null
+//                || fragment == null
+//                || fragment.getActivity() == null
+//                || fragment.getActivity().isFinishing()
+//                || fragment.isDestroyed()) {
+//
+//            return;
+//
+//        }
+//
+//        View loadingView = viewToAttach.findViewById(R.id.layout_loading_view);
+//
+//        if (loadingView == null) {
+//
+//            loadingView = LayoutInflater.from(ThisApplication.getCurrentActivity()).inflate(R.layout.layout_loading_view, (ViewGroup) viewToAttach, false);
+//
+//            loadingView.setBackgroundColor(Color.WHITE);
+//
+//            loadingView.setClickable(true);
+//
+//            ((ViewGroup) viewToAttach).addView(loadingView);
+//
+//        }
+//
+//        if (show) {
+//
+//            customizeLoadingView(viewToAttach, loadingView, loadingViewModel);
+//
+//        }
+//
+//        showHideLoadingViewInternal(loadingView, show);
 
     }
 
@@ -365,39 +356,27 @@ public class UIUtils {
         }
     }
 
-    private final static String IMAGES_URL = "http://tasree7a.ps/services/public";
-
-    public static void loadUrlIntoImageView(String urlString, ImageView imageView, Sizes size) {
-        loadUrlIntoImageView(urlString, imageView, size, 0, null);
-    }
-
-
-    private static void loadUrlIntoImageView(String urlString, final ImageView imageView, Sizes size, int placeholderId, RequestListener requestListener) {
+    public static void loadUrlIntoImageView(Context context, String urlString, final ImageView imageView, Sizes size) {
 
         if (Strings.isNullOrEmpty(urlString)) return;
 
-        // If the memory is incapable of handling full feature mImage loading
-        boolean minimumImageMode = false;
-
-        // No large images on minimum mode
-        if (minimumImageMode && (size == Sizes.LARGE || size == null)) {
-
-            size = Sizes.MEDIUM;
-
-        }
-
-        final String urlStringWithSize = urlString.replace("[size]", size != null ? size.getValue() : Sizes.LARGE.getValue())
+        String urlStringWithSize = urlString.replace("[size]", size != null ? size.getValue() : Sizes.LARGE.getValue())
                 .replace("/medium/", "/" + (size != null ? size.getValue() : Sizes.LARGE.getValue()) + "/")
                 .replace("/large/", "/" + (size != null ? size.getValue() : Sizes.LARGE.getValue()) + "/");
 
-        Uri uri = Uri.parse(IMAGES_URL + urlStringWithSize);
+        Uri uri = Uri.parse(urlStringWithSize);
 
-        if (urlString.contains("uploads")) {
-            Log.d("isurigood", uri.toString());
+        if (!urlString.contains("http")) {
+            if (urlStringWithSize.contains("uploads")) {
+                //noinspection ResultOfMethodCallIgnored
+                urlStringWithSize.replace("uploads/", "");
+            }
+
+            uri = Uri.parse(IMAGES_URL + urlStringWithSize);
         }
-        final DrawableRequestBuilder<Uri> imageRequest = Glide.with(ThisApplication.getCurrentActivity())
+        final DrawableRequestBuilder<Uri> imageRequest = Glide.with(context)
                 .load(uri)
-                .thumbnail(0.5f)
+                .thumbnail(0.1f)
                 .placeholder(R.drawable.default_image)
                 .dontAnimate();
 
@@ -408,7 +387,7 @@ public class UIUtils {
         }
 
         imageRequest.placeholder(R.drawable.default_image);
-        ThisApplication.getCurrentActivity().runOnUiThread(() -> imageRequest.into(imageView));
+        imageRequest.into(imageView);
     }
 
 

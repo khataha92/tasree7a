@@ -55,7 +55,7 @@
         </FrameLayout>
 
 
-        <CustomSquareRelativeLayout
+        <com.tasree7a.customcomponent.CustomSquareRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -82,7 +82,7 @@
                 android:textSize="13sp" />
 
 
-        </CustomSquareRelativeLayout>
+        </com.tasree7a.customcomponent.CustomSquareRelativeLayout>
 
         <LinearLayout
             android:id="@+id/holidays_container"

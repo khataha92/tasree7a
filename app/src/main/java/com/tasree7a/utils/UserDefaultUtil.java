@@ -74,52 +74,32 @@ public class UserDefaultUtil {
 
 
     public static void setCurrentSalonUser(SalonModel salon) {
-
         setStringValue(UserDefaultKeys.SALON_USER_MODEL.toString(), new Gson().toJson(salon));
-
     }
 
-
     public static boolean isBusinessUser() {
-
         try {
-
             return new Gson().fromJson(getStringValue(UserDefaultKeys.CURRENT_USER.toString()), User.class).isBusiness();
-
         } catch (Exception e) {
-
             return false;
         }
     }
 
-
     public static void setIsRegestering(boolean val) {
-
         setStringValue(UserDefaultKeys.IS_REGESTERING.toString(), val + "");
-
     }
-
 
     public static boolean isRegestering() {
-
         return getStringValue(UserDefaultKeys.IS_REGESTERING.toString()).equalsIgnoreCase("true");
-
     }
-
 
     private static void setIsFBUser(boolean isFBUser) {
-
         setStringValue(UserDefaultKeys.IS_FB.toString(), isFBUser + "");
-
     }
-
 
     public static boolean isFBUser() {
-
         return getStringValue(UserDefaultKeys.IS_FB.toString()).equalsIgnoreCase("true");
-
     }
-
 
     public static List<SearchHistoryItem> getSearchHistory() {
 
@@ -340,19 +320,22 @@ public class UserDefaultUtil {
 
     }
 
-
     public static User getCurrentUser() {
-
         return new Gson().fromJson(getStringValue(UserDefaultKeys.CURRENT_USER.getValue()), User.class);
-
     }
-
 
     public static void saveUser(User user) {
-
         setIsFBUser(user.isFacebook());
-
         setStringValue(UserDefaultKeys.CURRENT_USER.getValue(), new Gson().toJson(user));
+    }
+
+    public static void saveRegesteringUser(com.tasree7a.models.signup.SignupModel user) {
+        setStringValue(UserDefaultKeys.SALON_REGISTERING_USER_MODEL.getValue(), new Gson().toJson(user));
+    }
+
+    public static com.tasree7a.models.signup.SignupModel getRegisteringUser() {
+        return new Gson().fromJson(getStringValue(UserDefaultKeys.SALON_REGISTERING_USER_MODEL.getValue()), com.tasree7a.models.signup.SignupModel.class);
 
     }
+
 }

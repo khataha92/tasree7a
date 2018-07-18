@@ -65,7 +65,7 @@ public class GalaryCardViewHolder extends BaseCardViewHolder {
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            UIUtils.loadUrlIntoImageView(imageModels.get(i).getImagePath(), imageView, Sizes.MEDIUM);
+            UIUtils.loadUrlIntoImageView(itemView.getContext(), imageModels.get(i).getImagePath(), imageView, Sizes.MEDIUM);
 
             params.setMargins(i == 0 ? 0 : UIUtils.dpToPx(10), 0, 0, 0);
 

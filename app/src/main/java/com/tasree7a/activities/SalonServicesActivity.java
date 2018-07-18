@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
@@ -32,6 +33,7 @@ public class SalonServicesActivity extends AppCompatActivity implements SalonSer
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //TODO send Context to the uiutil instead of using the `ThisApplication`
         ThisApplication.setCurrentActivity(this);
         setContentView(R.layout.activity_salon_services);
 
@@ -89,6 +91,7 @@ public class SalonServicesActivity extends AppCompatActivity implements SalonSer
                 mServices.addAll(((SalonServicesResponse) result).getServices());
                 if (mServices == null || mServices.size() == 0) {
                     //TODO: Show Empty textview message
+                    Log.d("EMPTY", "EMPTY_VIEW_MESSAGE");
                 } else {
                     mServicesAdapter.notifyDataSetChanged();
                 }

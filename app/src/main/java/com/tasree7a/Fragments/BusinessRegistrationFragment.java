@@ -1,6 +1,5 @@
 package com.tasree7a.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +10,11 @@ import android.widget.Toast;
 
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.activities.HomeActivity;
+import com.tasree7a.activities.SalonInformationActivity;
 import com.tasree7a.customcomponent.CustomButton;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.login.User;
 import com.tasree7a.models.signup.SignupResponseModel;
-import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -35,6 +33,8 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
     EditText inputEmail;
 
     EditText inputPassword;
+
+    EditText ownerNAme;
 
     CustomButton register;
 
@@ -72,68 +72,43 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
         try {
 
             String salonName = fullName.getText().toString();
-
             String username = this.username.getText().toString();
-
             String password = inputPassword.getText().toString();
-
             String email = inputEmail.getText().toString();
 
             if (!salonName.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
 
-                com.tasree7a.Models.Signup.SignupModel model = new com.tasree7a.Models.Signup.SignupModel();
-
+                com.tasree7a.models.signup.SignupModel model = new com.tasree7a.models.signup.SignupModel();
                 model.setUsername(username);
-
                 model.setPassword(password);
-
                 model.setEmail(email);
-
                 model.setFbLogin(false);
-
                 model.setFirstName(salonName.split(" ")[0]);
-
                 model.setLastName(salonName.split(" ")[1]);
-
                 model.setFbLogin(false);
-
                 model.setBuisness(true);
 
                 UIUtils.showSweetLoadingDialog();
 
                 RetrofitManager.getInstance().register(model, (isSuccess, result) -> {
-
                     UIUtils.hideSweetLoadingDialog();
-
                     if (isSuccess) {
-
+                        UserDefaultUtil.saveRegesteringUser(model);
                         SignupResponseModel signupResponseModel = (SignupResponseModel) result;
-
                         User user = signupResponseModel.getUserDetails().getUser();
-
                         UserDefaultUtil.saveUser(user);
-
                         UserDefaultUtil.setIsRegestering(true);
-
-                        Intent intent = new Intent(getActivity(), HomeActivity.class);
-
-                        intent.putExtra(FragmentArg.SALON_INFO, signupResponseModel);
-
-                        startActivity(intent);
-
+                        SalonInformationActivity.launch(this,
+                                salonName,
+                                email,
+                                username);
                         getActivity().finish();
                     }
-
                 });
-
-
             } else {
-
                 Toast.makeText(ThisApplication.getCurrentActivity(), getString(R.string.SIGN_UP_ERROR_MISSING_INPUT), Toast.LENGTH_SHORT).show();
             }
-
         } catch (IndexOutOfBoundsException e) {
-
             Toast.makeText(getApplicationContext(), getString(R.string.ERROR_FIRST_NAME_LAST_NAME), Toast.LENGTH_LONG).show();
         }
 

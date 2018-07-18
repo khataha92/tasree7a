@@ -109,7 +109,7 @@ public class SalonLocationCard extends FrameLayout {
 
         String url = MapsUtils.generateStaticMapUrl(locationModel.getLatitude(), locationModel.getLongitude(), width, height);
 
-        UIUtils.loadUrlIntoImageView(url, hotelMap, null);
+        UIUtils.loadUrlIntoImageView(getContext(), url, hotelMap, null);
     }
 
 

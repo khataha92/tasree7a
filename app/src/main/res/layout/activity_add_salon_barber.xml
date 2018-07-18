@@ -33,11 +33,10 @@
         android:layout_below="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <EditText
-            android:id="@+id/staff_name"
+            android:id="@+id/barber_name"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="@string/NAME"
@@ -48,11 +47,10 @@
             android:textColorHint="@color/BLACK"
             android:textColor="@color/BLACK"
             android:inputType="text"
-            android:maxLines="1"
-            />
+            android:maxLines="1" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/barber_email"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="@string/EMAIL"
@@ -62,12 +60,11 @@
             android:layout_marginTop="13dp"
             android:textColorHint="@color/BLACK"
             android:textColor="@color/BLACK"
-            android:inputType="text"
-            android:maxLines="1"
-            />
+            android:inputType="textEmailAddress"
+            android:maxLines="1" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/barber_password"
             android:layout_width="match_parent"
             android:hint="@string/PASSWORD"
             android:layout_height="40dp"
@@ -77,12 +74,11 @@
             android:layout_marginTop="13dp"
             android:textColorHint="@color/BLACK"
             android:textColor="@color/BLACK"
-            android:inputType="text"
-            android:maxLines="1"
-            />
+            android:inputType="textPassword"
+            android:maxLines="1" />
 
         <EditText
-            android:id="@+id/confirm"
+            android:id="@+id/barber_password_confirmation"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="@string/CONFIRM_PASSWORD"
@@ -92,11 +88,8 @@
             android:layout_marginTop="13dp"
             android:textColorHint="@color/BLACK"
             android:textColor="@color/BLACK"
-            android:inputType="text"
-            android:maxLines="1"
-            />
-
-
+            android:inputType="textPassword"
+            android:maxLines="1" />
 
     </LinearLayout>
     <LinearLayout
@@ -109,7 +102,7 @@
         android:orientation="horizontal">
 
         <com.tasree7a.customcomponent.CustomButton
-            android:id="@+id/cancel"
+            android:id="@+id/cancel_barber"
             android:layout_width="145dp"
             android:layout_height="56dp"
             android:layout_marginRight="26dp"
@@ -124,7 +117,7 @@
 
 
         <com.tasree7a.customcomponent.CustomButton
-            android:id="@+id/save"
+            android:id="@+id/add_barber"
             android:layout_width="145dp"
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"

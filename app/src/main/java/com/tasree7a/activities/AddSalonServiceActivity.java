@@ -8,13 +8,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +24,17 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.AddNewServiceRequestModel;
+import com.tasree7a.utils.CameraUtils;
+import com.tasree7a.utils.ImagePath_MarshMallow;
 import com.tasree7a.utils.PermissionsUtil;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class AddSalonServiceActivity extends AppCompatActivity {
@@ -35,13 +42,13 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 987;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 3458;
 
-    private final int CAMERA_REQUEST = 1888;
-    private final int GALLERY_REQUEST = 1889;
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int GALLERY_REQUEST = 1889;
     public static final int REQUEST_CODE = 3253;
 
-    private Bitmap mSelectedBitmap;
     private File mSelectedFile;
-    private RelativeLayout mAddNewImage;
+    private Uri mFileUri;
+    private String mCurrentPhotoPath;
     private ImageView mSelectedImageDisplay;
 
     @Override
@@ -61,6 +68,8 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode != Activity.RESULT_OK || data == null) return;
+
         Uri selectedUri = data.getData();
 
         switch (requestCode) {
@@ -77,7 +86,7 @@ public class AddSalonServiceActivity extends AppCompatActivity {
                 break;
             case GALLERY_REQUEST:
                 try {
-                    mSelectedBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedUri);
+                    Bitmap mSelectedBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedUri);
                     mSelectedImageDisplay.setImageBitmap(mSelectedBitmap);
                     mSelectedFile = new File(getRealPathFromUri(selectedUri));
                 } catch (IOException e) {
@@ -129,6 +138,22 @@ public class AddSalonServiceActivity extends AppCompatActivity {
         });
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -173,9 +198,27 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     private void openCameraDialog() {
         if (PermissionsUtil.isPermessionGranted(this, Manifest.permission.CAMERA)) {
             Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(takePicture, CAMERA_REQUEST);
-        } else {
-            PermissionsUtil.grantPermession(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
+            mFileUri = CameraUtils.getOutputMediaFileUri(this);
+            if (takePicture.resolveActivity(getPackageManager()) != null) {
+
+                try {
+                    mSelectedFile = createImageFile();
+                } catch (IOException ignore) {
+                    // Error occurred while creating the File
+                }
+
+                // Continue only if the File was successfully created
+                if (mSelectedFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this,
+                            "com.example.android.fileprovider",
+                            mSelectedFile);
+
+                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePicture, CAMERA_REQUEST);
+                }
+            } else {
+                PermissionsUtil.grantPermession(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
+            }
         }
     }
 

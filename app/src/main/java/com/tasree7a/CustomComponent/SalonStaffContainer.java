@@ -13,9 +13,8 @@ import android.widget.Toast;
 
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
-import com.tasree7a.interfaces.AbstractCallback;
-import com.tasree7a.managers.FragmentManager;
-import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.interfaces.AddBarberClickListener;
+import com.tasree7a.models.AddNewBarberRequestModel;
 import com.tasree7a.models.AddNewStaffMemberDataModel;
 import com.tasree7a.models.salondetails.SalonBarber;
 import com.tasree7a.utils.UserDefaultUtil;
@@ -25,127 +24,68 @@ import java.util.List;
 
 public class SalonStaffContainer extends LinearLayout {
 
-    List<AddNewStaffMemberDataModel> barbers = new ArrayList<>();
-
-    List<SalonBarber> salonBarbers = new ArrayList<>();
-
-    LinearLayout itemsContainer;
-
-    private Context context;
+    private List<AddNewBarberRequestModel> barbers = new ArrayList<>();
+    private List<SalonBarber> salonBarbers = new ArrayList<>();
+    private LinearLayout itemsContainer;
+    private AddBarberClickListener mAddNewBarberClicked;
 
     public SalonStaffContainer(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public SalonStaffContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
-
-    private void init(Context context) {
-
-        this.context = context;
-
-        Context appContext = isInEditMode() ? context : ThisApplication.getCurrentActivity();
-
-        LayoutInflater inflater = (LayoutInflater) appContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View rootView = inflater.inflate(R.layout.add_staff_container, this, true);
-
+    private void init() {
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.add_staff_container, this, true);
         if (isInEditMode()) return;
-
-        itemsContainer = (LinearLayout) rootView.findViewById(R.id.items_container);
-
+        itemsContainer = rootView.findViewById(R.id.items_container);
         salonBarbers = UserDefaultUtil.getCurrentSalonUser() != null ? UserDefaultUtil.getCurrentSalonUser().getSalonBarbers() : salonBarbers;
-
         if (salonBarbers.size() != 0) {
-            prefillBarbers(salonBarbers);
+            preFillBarbers(salonBarbers);
         }
 
-
-        LinearLayout addStaffItem = (LinearLayout) rootView.findViewById(R.id.add_staff);
-
-        addStaffItem.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                FragmentManager.showAddNewStaffFragment(ReservationSessionManager.getInstance().getSalonModel(), new AbstractCallback() {
-
-                    @Override
-                    public void onResult(boolean isSuccess, Object result) {
-
-                        if (isSuccess && result != null) {
-
-                            AddNewStaffMemberDataModel staffMemberDataModel = (AddNewStaffMemberDataModel) result;
-
-                            addNewItem(staffMemberDataModel);
-
-                        }
-
-                    }
-                });
-
-            }
-        });
+        LinearLayout addStaffItem = rootView.findViewById(R.id.add_staff);
+        addStaffItem.setOnClickListener(v -> mAddNewBarberClicked.onAddNewBarberClicked());
     }
 
-    public void prefillBarbers(List<SalonBarber> barbersList) {
-        AddNewStaffMemberDataModel temp = new AddNewStaffMemberDataModel();
-
+    public void preFillBarbers(List<SalonBarber> barbersList) {
+        AddNewBarberRequestModel temp = new AddNewBarberRequestModel();
         for (SalonBarber barber : barbersList) {
-
-            temp.setStaffName(barber.getBarberFirstName() + " " + barber.getBarberLastName());
-
-            temp.setStaffEmail(barber.getEmail());
-
-            addNewItem(temp);
+            temp.setFirstName(barber.getBarberFirstName());
+            temp.setLastName(barber.getBarberLastName());
+            temp.setEmail(barber.getEmail());
+            addNewBarber(temp);
         }
     }
 
-    private void addNewItem(AddNewStaffMemberDataModel staffMemberDataModel) {
-
-        Context appContext = isInEditMode() ? context : ThisApplication.getCurrentActivity();
-
-        LayoutInflater inflater = (LayoutInflater) appContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        RelativeLayout barberItem = (RelativeLayout) inflater.inflate(R.layout.staff_item_view, null);
-
-        ((TextView) barberItem.findViewById(R.id.new_item)).setText(staffMemberDataModel.getStaffEmail());
-
-        barberItem.findViewById(R.id.new_item).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                //TODO: handle removing items
-
-                Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
-                        "delete it!!",
-                        Toast.LENGTH_LONG).show();
-
-            }
+    public void addNewBarber(AddNewBarberRequestModel staffMemberDataModel) {
+        RelativeLayout barberItem = (RelativeLayout) LayoutInflater.from(getContext()).inflate(R.layout.staff_item_view, this, false);
+        ((TextView) barberItem.findViewById(R.id.new_item)).setText(staffMemberDataModel.getEmail());
+        barberItem.findViewById(R.id.new_item).setOnClickListener(v -> {
+            //TODO: handle removing items
+            Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
+                    "delete it!!",
+                    Toast.LENGTH_LONG).show();
         });
 
         if (barberItem.getParent() != null)
             ((ViewGroup) barberItem.getParent()).removeView(barberItem);
-
         LinearLayout.LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         lp.setMargins(25, 15, 25, 0);
-
         barberItem.setLayoutParams(lp);
-
         itemsContainer.addView(barberItem, 0);
-
         barbers.add(staffMemberDataModel);
     }
 
-
-    public List<AddNewStaffMemberDataModel> getBarbers() {
-
+    public List<AddNewBarberRequestModel> getBarbers() {
         return barbers;
+    }
+
+    public void setOnAddNewBarberClicked(AddBarberClickListener addNewBarberClicked) {
+        this.mAddNewBarberClicked = addNewBarberClicked;
     }
 }

@@ -43,11 +43,11 @@ public class ProfileFragment extends BaseFragment {
 
         if (UserDefaultUtil.isFBUser()) {
 
-            UIUtils.loadUrlIntoImageView(ReservationSessionManager.getInstance().getFbImage(), image, Sizes.LARGE);
+            UIUtils.loadUrlIntoImageView(getContext(), ReservationSessionManager.getInstance().getFbImage(), image, Sizes.LARGE);
 
         } else {
 
-            UIUtils.loadUrlIntoImageView(UserDefaultUtil.getCurrentUser().getImageUrl(), image, Sizes.LARGE);
+            UIUtils.loadUrlIntoImageView(getContext(), UserDefaultUtil.getCurrentUser().getImageUrl(), image, Sizes.LARGE);
 
         }
 

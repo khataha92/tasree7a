@@ -6,121 +6,94 @@ package com.tasree7a.models.salondetails;
 
 public class SalonInformationRequestModel {
 
-    String userID;
-    String cityID;
-    String salonType;
-    String salonBase64Image;
-    String ownerName;
-    String ownerMobile;
-    String salonLat;
-    String salonLong;
-    String salonName;
-
+    private String userID;
+    private String cityID;
+    private String salonType;
+    private String salonBase64Image;
+    private String ownerName;
+    private String ownerMobile;
+    private String salonLat;
+    private String salonLong;
+    private String salonName;
 
     public String getUserID() {
-
         return userID;
     }
 
-
-    public void setUserID(String userID) {
-
+    public SalonInformationRequestModel setUserID(String userID) {
         this.userID = userID;
+        return this;
     }
 
-
     public String getCityID() {
-
         return cityID;
     }
 
-
-    public void setCityID(String cityID) {
-
+    public SalonInformationRequestModel setCityID(String cityID) {
         this.cityID = cityID;
+        return this;
     }
 
-
     public String getSalonType() {
-
         return salonType;
     }
 
-
-    public void setSalonType(String salonType) {
-
+    public SalonInformationRequestModel setSalonType(String salonType) {
         this.salonType = salonType;
+        return this;
     }
 
-
     public String getSalonBase64Image() {
-
         return salonBase64Image;
     }
 
-
-    public void setSalonBase64Image(String salonBase64Image) {
-
+    public SalonInformationRequestModel setSalonBase64Image(String salonBase64Image) {
         this.salonBase64Image = salonBase64Image;
+        return this;
     }
 
-
     public String getOwnerName() {
-
         return ownerName;
     }
 
-
-    public void setOwnerName(String ownerName) {
-
+    public SalonInformationRequestModel setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+        return this;
     }
 
-
     public String getOwnerMobile() {
-
         return ownerMobile;
     }
 
-
-    public void setOwnerMobile(String ownerMobile) {
-
+    public SalonInformationRequestModel setOwnerMobile(String ownerMobile) {
         this.ownerMobile = ownerMobile;
+        return this;
     }
 
-
     public String getSalonLat() {
-
         return salonLat;
     }
 
-
-    public void setSalonLat(String salonLat) {
-
+    public SalonInformationRequestModel setSalonLat(String salonLat) {
         this.salonLat = salonLat;
+        return this;
     }
 
-
     public String getSalonLong() {
-
         return salonLong;
     }
 
-
-    public void setSalonLong(String salonLong) {
-
+    public SalonInformationRequestModel setSalonLong(String salonLong) {
         this.salonLong = salonLong;
+        return this;
     }
 
-
     public String getSalonName() {
-
         return salonName;
     }
 
-
-    public void setSalonName(String salonName) {
-
+    public SalonInformationRequestModel setSalonName(String salonName) {
         this.salonName = salonName;
+        return this;
     }
 }

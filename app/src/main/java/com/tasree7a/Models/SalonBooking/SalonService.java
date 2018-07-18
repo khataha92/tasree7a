@@ -1,5 +1,8 @@
 package com.tasree7a.models.salonbooking;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 import com.tasree7a.Constants;
 
@@ -7,7 +10,7 @@ import com.tasree7a.Constants;
  * Created by mac on 8/27/17.
  */
 
-public class SalonService {
+public class SalonService implements Parcelable{
 
     String id;
 
@@ -19,6 +22,31 @@ public class SalonService {
     double price;
 
     boolean mIsSelected;
+
+    protected SalonService(Parcel in) {
+        id = in.readString();
+        imageUrl = in.readString();
+        name = in.readString();
+        price = in.readDouble();
+        mIsSelected = in.readByte() != 0;
+    }
+
+    public static final Creator<SalonService> CREATOR = new Creator<SalonService>() {
+        @Override
+        public SalonService createFromParcel(Parcel in) {
+            return new SalonService(in);
+        }
+
+        @Override
+        public SalonService[] newArray(int size) {
+            return new SalonService[size];
+        }
+    };
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.getId().equals(((SalonService) obj).getId());
+    }
 
     public boolean isSelected() {
         return mIsSelected;
@@ -60,6 +88,21 @@ public class SalonService {
     }
 
     public void setPrice(double price) {
+
         this.price = price;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(imageUrl);
+        dest.writeString(name);
+        dest.writeDouble(price);
+        dest.writeByte((byte) (mIsSelected ? 1 : 0));
     }
 }

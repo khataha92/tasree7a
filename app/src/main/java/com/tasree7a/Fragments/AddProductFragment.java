@@ -73,7 +73,7 @@ public class AddProductFragment extends BaseFragment {
             model.setProductDescription("description");
             model.setProductPrice(((EditText) rootView.findViewById(R.id.price)).getText().toString());
 
-            UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+//            UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
 
             RetrofitManager.getInstance().updateSalonProducts(model, (isSuccess, result) -> {
 

@@ -50,7 +50,7 @@ public class SalonServicesFragment extends BaseFragment implements Observer {
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
         addServices = rootView.findViewById(R.id.add_delete);
 //        addServices.setOnClickListener(v -> startActivityForResult(new Intent(this, AddSalonServiceActivity.class), 123)/**FragmentManager.showAddNewSalonServiceFragment()*/);
-        UIUtils.showLoadingView(rootView, this);
+//        UIUtils.showLoadingView(rootView, this);
         salonService = rootView.findViewById(R.id.services_list);
         salonService.setLayoutManager(new GridLayoutManager(getContext(), 2));
         requestSalonServices();
@@ -59,21 +59,21 @@ public class SalonServicesFragment extends BaseFragment implements Observer {
 
     private void requestSalonServices() {
 
-        RetrofitManager.getInstance().getSalonServices(ReservationSessionManager.getInstance().getSalonModel().getId(), (isSuccess, result) -> {
-
-            if (isSuccess) {
-                List<SalonService> salonServices = ((SalonServicesResponse) result).getServices();
-                if (salonServices == null || salonServices.size() == 0) {
+//        RetrofitManager.getInstance().getSalonServices(ReservationSessionManager.getInstance().getSalonModel().getId(), (isSuccess, result) -> {
+//
+//            if (isSuccess) {
+//                List<SalonService> salonServices = ((SalonServicesResponse) result).getServices();
+//                if (salonServices == null || salonServices.size() == 0) {
 //                    FragmentManager.showAddNewSalonServiceFragment();
-                } else {
-                    services.clear();
-                    services = salonServices;
-                    initList();
-                }
-
-                UIUtils.hideLoadingView(rootView, SalonServicesFragment.this);
-            }
-        });
+//                } else {
+//                    services.clear();
+//                    services = salonServices;
+//                    initList();
+//                }
+//
+//                UIUtils.hideLoadingView(rootView, SalonServicesFragment.this);
+//            }
+//        });
     }
 
     private void initList() {

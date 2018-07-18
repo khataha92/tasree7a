@@ -4,7 +4,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-    <CustomTimePicker
+    <com.tasree7a.customcomponent.CustomTimePicker
         android:id="@+id/timePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

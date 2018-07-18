@@ -38,7 +38,7 @@ public class SalonModel implements Filterable, ClusterItem, Serializable {
     @SerializedName("id")
     private String id;
 
-    @SerializedName("mName")
+    @SerializedName("name")
     private String name;
 
     @SerializedName("latitude")

@@ -57,7 +57,7 @@ public class ProductItemViewHolder extends RecyclerView.ViewHolder {
         mSalonProduct = product;
 
         if (mImage != null) {
-            UIUtils.loadUrlIntoImageView(mImageModel.getImagePath(), mImage, Sizes.MEDIUM);
+            UIUtils.loadUrlIntoImageView(itemView.getContext(), mImageModel.getImagePath(), mImage, Sizes.MEDIUM);
         }
 
         itemView.findViewById(R.id.product_details).setVisibility(View.VISIBLE);

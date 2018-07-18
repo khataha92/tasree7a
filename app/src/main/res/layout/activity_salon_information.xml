@@ -67,6 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/profile_cam"
                     tools:ignore="ContentDescription" />
 
@@ -135,7 +136,7 @@
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="20dp"
                     android:hint="@string/MOBILE"
-                    android:inputType="phone"
+                    android:inputType="number"
                     android:lines="1"
                     android:textColor="@color/APP_TEXT_COLOR"
                     android:textColorHint="@color/APP_TEXT_COLOR" />
@@ -155,9 +156,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:weightSum="3"
-                android:baselineAligned="false">
+                android:weightSum="3">
 
                 <LinearLayout
                     android:layout_width="wrap_content"

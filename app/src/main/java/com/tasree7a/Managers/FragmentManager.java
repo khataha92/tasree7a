@@ -2,6 +2,7 @@ package com.tasree7a.managers;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.tasree7a.fragments.SalonServicesFragment;
 import com.tasree7a.fragments.SettingsFragment;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.models.gallery.ImageModel;
+import com.tasree7a.models.salonbooking.SalonService;
 import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.models.salondetails.SalonProduct;
 import com.tasree7a.utils.FragmentArg;
@@ -59,8 +61,11 @@ public class FragmentManager {
         return currentFragments.get(index);
     }
 
-    public static void showBookScheduleFragment() {
+    public static void showBookScheduleFragment(List<SalonService> mSalonServices) {
         BookScheduleFragment fragment = new BookScheduleFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(BookScheduleFragment.SALON_SERVICES, (ArrayList<? extends Parcelable>) mSalonServices);
+        fragment.setArguments(args);
         replaceFragment(fragment);
     }
 
@@ -125,22 +130,18 @@ public class FragmentManager {
         replaceFragment(fragmentGallery);
     }
 
-    public static void showSalonDetailsFragment(SalonModel salonModel, boolean isFullSalon) {
-        SalonDetailsFragment salonDetailsFragment = new SalonDetailsFragment();
-        salonDetailsFragment.setDidLoadFullSalon(isFullSalon);
-        salonDetailsFragment.setSalonModel(salonModel);
-        Bundle args = new Bundle();
-        args.putBoolean(FragmentArg.IS_REGESTERING, false);
-        salonDetailsFragment.setArguments(args);
-        replaceFragment(salonDetailsFragment);
+    public static void showSalonDetailsFragment() {
+        showSalonDetailsFragment(null);
     }
 
-//    private static void showSalonDetailsFragment(SalonModel salonModel, boolean isFullSalon, boolean showInfo) {
-//
-//    }
-
     public static void showSalonDetailsFragment(SalonModel salonModel) {
-        showSalonDetailsFragment(salonModel, false);
+        SalonDetailsFragment salonDetailsFragment = new SalonDetailsFragment();
+        if (salonModel != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(SalonDetailsFragment.SALON_MODEL, salonModel);
+            salonDetailsFragment.setArguments(bundle);
+        }
+        replaceFragment(salonDetailsFragment);
     }
 
     private static void destroyFragmentProcess(BaseFragment fromFragment) {
@@ -263,19 +264,6 @@ public class FragmentManager {
         replaceFragment(fragment);
     }
 
-    //TODO: Pass Name,Email, for salon from the registration
-    public static void showSalonInfoFragment(boolean shouldPopFragment) {
-        SalonInformationFragment fragment = new SalonInformationFragment();
-        fragment.setShouldPopFragment(shouldPopFragment);
-        replaceFragment(fragment);    }
-
-    public static void showAddNewStaffFragment(SalonModel salonModel, AbstractCallback abstractCallback) {
-        AddStaffMemberFragment fragment = new AddStaffMemberFragment();
-        fragment.setAddStaffCallback(abstractCallback);
-        fragment.setSalonModel(salonModel);
-        //salonModel != null
-        replaceFragment(fragment);
-    }
 
     public static void showAddGalleryItemFragment(SalonModel salon, AbstractCallback callback) {
         AddGalleryFragment fragment = new AddGalleryFragment();
@@ -290,14 +278,4 @@ public class FragmentManager {
         fragment.setCallback(callback);
         replaceFragment(fragment);
     }
-//
-//    public static void showAddNewSalonServiceFragment() {
-//        AddNewSalonServiceFragment fragment = new AddNewSalonServiceFragment();
-//        replaceFragment(fragment);
-//    }
-//
-//    public static void showSalonServicesFragment() {
-//        SalonServicesFragment fragment = new SalonServicesFragment();
-//        replaceFragment(fragment);
-//    }
 }

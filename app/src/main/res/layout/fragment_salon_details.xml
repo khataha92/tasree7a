@@ -1,21 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    android:background="@color/WHITE"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/WHITE">
 
-    <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/FILTER_BG">
 
+        <RelativeLayout
+            android:id="@+id/header_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/WHITE">
+
+            <ImageView
+                android:id="@+id/salon_image"
+                android:layout_width="match_parent"
+                android:layout_height="143dp"
+                android:src="@drawable/salon"
+                tools:ignore="ContentDescription" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="143dp"
+                android:background="@color/VERY_TRANSPARENT_BLACK_COLOR" />
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="21.3dp"
+                android:layout_height="31.7dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="17.3dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                android:tint="@color/APP_GREEN" />
+
+            <ImageView
+                android:id="@+id/add_to_favorite"
+                android:layout_width="35.3dp"
+                android:layout_height="32.3dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="17.3dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_favorite_unchecked" />
+
+            <RelativeLayout
+                android:id="@+id/bookNow"
+                android:layout_width="122.3dp"
+                android:layout_height="41dp"
+                android:layout_alignBottom="@+id/salon_image"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="11.3dp">
+
+                <ImageView
+                    android:id="@+id/book_now"
+                    android:layout_width="122.3dp"
+                    android:layout_height="41dp"
+                    android:src="@drawable/ic_book" />
+
+                <TextView
+                    android:id="@+id/book_now_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="-16.7sp"
+                    android:text="@string/BOOK"
+                    android:textColor="@color/WHITE"
+                    android:textSize="19.3sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/sallon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/salon_image"
+                android:layout_marginBottom="30dp"
+                android:layout_toRightOf="@+id/back"
+                android:lineSpacingExtra="-16.7sp"
+                android:textColor="@color/WHITE"
+                android:textSize="19.3sp"
+                tools:text="Samer Salon" />
+
+            <com.tasree7a.customcomponent.CustomRatingBar
+                android:id="@+id/salon_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/salon_image"
+                android:layout_alignLeft="@+id/sallon_name"
+                android:layout_marginBottom="13.7dp"
+                app:rating="4" />
+
+        </RelativeLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/salon_cards"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_image" />
 
         <include
             android:id="@+id/loading"
@@ -24,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/salon_cards"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

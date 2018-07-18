@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@color/WHITE"
-    >
+    android:background="@color/WHITE">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_container"
-        />
+        android:id="@+id/fragment_container" />
 
-    <include layout="@layout/loading_view"
-        android:id="@+id/loading"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/top_bar_container"
-        />
-
+    <!--<include layout="@layout/loading_view"-->
+        <!--android:id="@+id/loading"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/top_bar_container" />-->
 </RelativeLayout>

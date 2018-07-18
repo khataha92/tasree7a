@@ -22,6 +22,7 @@ import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.ReservationSessionManager;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.salonbooking.AvailableTimesResponse;
+import com.tasree7a.models.salonbooking.SalonService;
 import com.tasree7a.models.salondetails.SalonBarber;
 import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.UIUtils;
@@ -32,8 +33,11 @@ import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class BookScheduleFragment extends BaseFragment {
+
+    public static final String SALON_SERVICES = BookScheduleFragment.class.getName() + "SALON_SERVICES";
 
     SalonModel salonModel;
 
@@ -49,13 +53,17 @@ public class BookScheduleFragment extends BaseFragment {
 
     Tasree7aWheel timeWheel;
 
+    List<SalonService> salonServices;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         salonModel = ReservationSessionManager.getInstance().getSalonModel();
 
-        rootView = LayoutInflater.from(getContext()).inflate(R.layout.view_book_schedule, null);
+        rootView = LayoutInflater.from(getContext()).inflate(R.layout.view_book_schedule, container, false);
+
+        salonServices = Objects.requireNonNull(getArguments()).getParcelableArrayList(SALON_SERVICES);
 
         confirm = rootView.findViewById(R.id.confirm);
 
@@ -65,7 +73,7 @@ public class BookScheduleFragment extends BaseFragment {
 
         timeWheel.setAction(() -> {
 
-            boolean available = salonModel.getAvailableTimesFormatted().indexOf(timeWheel.getTime()+"") != -1;
+            boolean available = salonModel.getAvailableTimesFormatted().indexOf(timeWheel.getTime() + "") != -1;
             confirm.setClickable(available);
             timeWheel.setAvailable(available);
 
@@ -117,12 +125,9 @@ public class BookScheduleFragment extends BaseFragment {
 
             String userId = UserDefaultUtil.getCurrentUser().getId();
 
-            int[] services = new int[ReservationSessionManager.getInstance().getSelectedServices().size()];
-
-            for (int i = 0; i < ReservationSessionManager.getInstance().getSelectedServices().size(); i++) {
-
-                services[i] = Integer.parseInt(ReservationSessionManager.getInstance().getSelectedServices().get(i).getId());
-
+            int[] services = new int[salonServices.size()];
+            for (int i = 0; i < salonServices.size(); i++) {
+                services[i] = Integer.parseInt(salonServices.get(i).getId());
             }
 
             RetrofitManager.getInstance().addBooking(barberId, salonId, services, userId, localDate.toString(), timeWheel.getTime() + "", new AbstractCallback() {
@@ -196,7 +201,7 @@ public class BookScheduleFragment extends BaseFragment {
 
     private void getAvailableTimeOnDate(String date) {
 
-        UIUtils.showLoadingView(rootView, this);
+//        UIUtils.showLoadingView(rootView, this);
 
         RetrofitManager.getInstance().getAvailableTimes(ReservationSessionManager.getInstance().getSalonModel().getId(), date, (isSuccess, result) -> {
 

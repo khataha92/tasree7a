@@ -244,14 +244,14 @@ public class SalonInformationFragment extends BaseFragment {
                 female.setChecked(true);
                 male.setChecked(false);
             }
-            staffContainer.prefillBarbers(salonModel.getSalonBarbers());
+            staffContainer.preFillBarbers(salonModel.getSalonBarbers());
         }
     }
 
     private void executeRequests() {
         prepareAddSalonRequestData();
         if (staffContainer.getBarbers() != null && staffContainer.getBarbers().size() != 0) {
-            UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+//            UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
             RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, (isSuccess, result) -> {
                 final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
                 addSalonBarbers(responseModel);
@@ -320,14 +320,17 @@ public class SalonInformationFragment extends BaseFragment {
             user.setSalonId(model.getId());
             UserDefaultUtil.saveUser(user);
 
-            for (AddNewStaffMemberDataModel staffMemberDataModel : staffContainer.getBarbers()) {
-                RetrofitManager.getInstance().addNewBarber(getRequestDataModel(staffMemberDataModel, responseModel), (isSuccess1, result1) -> {
-                });
+            for (AddNewBarberRequestModel staffMemberDataModel : staffContainer.getBarbers()) {
+                RetrofitManager.getInstance()
+                        .addNewBarber(getRequestDataModel(staffMemberDataModel,
+                                responseModel),
+                                (isSuccess1, result1) -> {
+                                });
             }
 
             UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
             if (shouldPopFragment) {
-                FragmentManager.showSalonDetailsFragment(model);
+                FragmentManager.showSalonDetailsFragment();
                 FragmentManager.popBeforeCurrentVisibleFragment();
             } else {
                 FragmentManager.popCurrentVisibleFragment();
@@ -335,23 +338,23 @@ public class SalonInformationFragment extends BaseFragment {
         });
     }
 
-    private AddNewBarberRequestModel getRequestDataModel(AddNewStaffMemberDataModel staffMemberDataModel, AddNewSalonResponseModel responseModel) {
+    private AddNewBarberRequestModel getRequestDataModel(AddNewBarberRequestModel staffMemberDataModel, AddNewSalonResponseModel responseModel) {
         AddNewBarberRequestModel barberModel;
         barberModel = new AddNewBarberRequestModel();
         barberModel.setSalonId(UserDefaultUtil.getCurrentUser().getId());
         try {
-            barberModel.setFirstName(staffMemberDataModel.getStaffName().split(" ")[0]);
-            barberModel.setLastName(staffMemberDataModel.getStaffName().split(" ")[1]);
+            barberModel.setFirstName(staffMemberDataModel.getFirstName());
+            barberModel.setLastName(staffMemberDataModel.getLastName());
         } catch (Exception e) {
             Log.e("Exception occuered", e.getMessage());
         }
-        barberModel.setEmail(staffMemberDataModel.getStaffEmail());
-        barberModel.setPass(staffMemberDataModel.getStaffPass());
+        barberModel.setEmail(staffMemberDataModel.getEmail());
+        barberModel.setPass(staffMemberDataModel.getPass());
         barberModel.setCreatedAt("1");
         barberModel.setStartTime("12");
         barberModel.setEndTime("15");
         barberModel.setUpdatedAt("16");
-        barberModel.setUserName("username" + staffMemberDataModel.getStaffName() + barberModel.getSalonId());
+//        barberModel.setUserName("username" + staffMemberDataModel.get() + barberModel.getSalonId());//TODO: Check
         return barberModel;
     }
 
@@ -369,56 +372,37 @@ public class SalonInformationFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode != Activity.RESULT_CANCELED) {
-
             Bitmap selectedImage = null;
-
             if (data != null) {
                 if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-
                     selectedImage = (Bitmap) data.getExtras().get("data");
-
                 } else {
-
                     final Uri imageUri = data.getData();
-
                     final InputStream imageStream;
-
                     try {
-
                         imageStream = ThisApplication.getCurrentActivity().getApplicationContext().getContentResolver().openInputStream(imageUri);
-
                         selectedImage = BitmapFactory.decodeStream(imageStream);
-
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
 
-
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
                 selectedImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
-
                 base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
                 ((ImageView) rootView.findViewById(R.id.image)).setImageBitmap(selectedImage);
             }
         }
     }
 
-
     @Override
     public boolean onBackPressed() {
-
         return false;
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -430,32 +414,24 @@ public class SalonInformationFragment extends BaseFragment {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.gallery:
-
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(pickPhoto, 1);//one can be replaced with any action code
-
                 return true;
-
             case R.id.camera:
-
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(takePicture, 0);//zero can be replaced with any action code
-
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     public boolean isShouldPopFragment() {
         return shouldPopFragment;
     }
 
     public void setShouldPopFragment(boolean shouldPopFragment) {
-
         this.shouldPopFragment = shouldPopFragment;
     }
 }

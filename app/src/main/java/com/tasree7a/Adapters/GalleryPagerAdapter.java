@@ -1,5 +1,6 @@
 package com.tasree7a.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -21,11 +22,12 @@ import java.util.List;
 public class GalleryPagerAdapter extends PagerAdapter {
 
     List<ImageModel> images;
+    private Context mContext;
 
-    public GalleryPagerAdapter(List<ImageModel> images){
+    public GalleryPagerAdapter(Context context, List<ImageModel> images){
 
         this.images = images;
-
+        mContext = context;
     }
 
     @NonNull
@@ -34,9 +36,9 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
         View v = ThisApplication.getCurrentActivity().getLayoutInflater().inflate(R.layout.pager_image_card, null);
 
-        ImageView imageView = (ImageView) v.findViewById(R.id.image);
+        ImageView imageView = v.findViewById(R.id.image);
 
-        UIUtils.loadUrlIntoImageView(images.get(position).getImagePath(),imageView, Sizes.LARGE);
+        UIUtils.loadUrlIntoImageView(mContext, images.get(position).getImagePath(),imageView, Sizes.LARGE);
 
         container.addView(v);
 

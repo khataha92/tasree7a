@@ -32,7 +32,7 @@ public class FullScreenGalleryFragment extends BaseFragment {
 
         galleryPager = rootView.findViewById(R.id.gallery_pager);
 
-        GalleryPagerAdapter galleryPagerAdapter = new GalleryPagerAdapter(imageModelList);
+        GalleryPagerAdapter galleryPagerAdapter = new GalleryPagerAdapter(getContext(), imageModelList);
 
         galleryPager.setAdapter(galleryPagerAdapter);
 

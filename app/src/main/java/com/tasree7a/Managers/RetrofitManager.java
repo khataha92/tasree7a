@@ -51,28 +51,18 @@ public class RetrofitManager {
 
     Retrofit retrofit;
 
-
     public static RetrofitManager getInstance() {
-
         if (instance == null) {
-
             instance = new RetrofitManager();
-
         }
-
         return instance;
-
     }
-
 
     private RetrofitManager() {
 
         instance = this;
-
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
         retrofit = new Retrofit.Builder()
@@ -82,9 +72,7 @@ public class RetrofitManager {
                 .build();
 
         request = retrofit.create(ServiceRequest.class);
-
     }
-
 
     public void addBooking(String barberId, String salonId, int[] services, String userId, String date, String time, final AbstractCallback callback) {
 
@@ -148,38 +136,24 @@ public class RetrofitManager {
 
 
     public void getSalonDetails(String salonId, final AbstractCallback callback) {
-
         Call<SalonDetailsResponseModel> call = request.getSalonDetails(salonId);
-
         call.enqueue(new Callback<SalonDetailsResponseModel>() {
-
             @Override
             public void onResponse(Call<SalonDetailsResponseModel> call, Response<SalonDetailsResponseModel> response) {
-
                 if (response.isSuccessful() && response.body() != null) {
-
                     callback.onResult(true, response.body().getSalon());
-
                 } else {
-
                     callback.onResult(false, null);
                 }
-
             }
-
 
             @Override
             public void onFailure(Call<SalonDetailsResponseModel> call, Throwable t) {
-
                 Log.d("RETTT", "Error: ", t);
-
                 callback.onResult(false, null);
-
             }
         });
-
     }
-
 
     public void updateSalonProducts(UpdateProductRequestModel model, final AbstractCallback callback) {
 
@@ -341,38 +315,25 @@ public class RetrofitManager {
 
 
     public void getNearestSalons(double lat, double lng, final AbstractCallback callback) {
-
         Call<PopularSalonsResponseModel> call = request.getNearestSalons(lat, lng);
-
         call.enqueue(new Callback<PopularSalonsResponseModel>() {
-
             @Override
             public void onResponse(Call<PopularSalonsResponseModel> call, Response<PopularSalonsResponseModel> response) {
-
                 if (response.isSuccessful() && response.body() != null) {
-
                     callback.onResult(true, response.body());
-
                 } else {
-
                     callback.onResult(false, null);
                 }
-
             }
-
 
             @Override
             public void onFailure(Call<PopularSalonsResponseModel> call, Throwable t) {
-
                 callback.onResult(false, null);
-
             }
         });
-
     }
 
-
-    public void register(com.tasree7a.Models.Signup.SignupModel model, final AbstractCallback callback) {
+    public void register(com.tasree7a.models.signup.SignupModel model, final AbstractCallback callback) {
 
         Call<SignupResponseModel> call = request.register(model.getFirstName(), model.getLastName(), model.getEmail(), model.getPassword(), model.getUsername(), model.isFbLogin() ? 1 : 0, model.isBuisness() ? 1 : 0, model.getFbId());
 
@@ -615,16 +576,14 @@ public class RetrofitManager {
         get.enqueue(new Callback<AddNewSalonResponseModel>() {
 
             @Override
-            public void onResponse(Call<AddNewSalonResponseModel> call, Response<AddNewSalonResponseModel> response) {
+            public void onResponse(@NonNull Call<AddNewSalonResponseModel> call, @NonNull Response<AddNewSalonResponseModel> response) {
 
-                abstractCallback.onResult(true, response);
+                abstractCallback.onResult(true, response.body());
             }
 
 
             @Override
-            public void onFailure(Call<AddNewSalonResponseModel> call, Throwable t) {
-
-
+            public void onFailure(@NonNull Call<AddNewSalonResponseModel> call, @NonNull Throwable t) {
             }
         });
     }

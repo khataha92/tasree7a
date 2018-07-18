@@ -33,7 +33,7 @@ public class SalonServiceViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(SalonService salonService) {
         mSalonService = salonService;
-        UIUtils.loadUrlIntoImageView(salonService.getImageUrl(), itemView.findViewById(R.id.image), Sizes.MEDIUM);
+        UIUtils.loadUrlIntoImageView(itemView.getContext(), salonService.getImageUrl(), itemView.findViewById(R.id.image), Sizes.MEDIUM);
         ((TextView) itemView.findViewById(R.id.service_name)).setText(salonService.getName());
         ((TextView) itemView.findViewById(R.id.price)).setText(String.format(Locale.ENGLISH, "$%s", salonService.getPrice()));
 

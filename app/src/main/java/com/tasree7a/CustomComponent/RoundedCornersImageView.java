@@ -10,10 +10,6 @@ import android.util.AttributeSet;
 
 import com.tasree7a.utils.UIUtils;
 
-/**
- * Created by mac on 5/11/17.
- */
-
 public class RoundedCornersImageView extends AppCompatImageView {
     public RoundedCornersImageView(Context context) {
         super(context);

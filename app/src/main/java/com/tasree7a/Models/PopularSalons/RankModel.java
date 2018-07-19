@@ -2,13 +2,14 @@ package com.tasree7a.models.popularsalons;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * Created by mac on 7/6/17.
  */
 
-public class RankModel {
+public class RankModel implements Serializable{
 
     @SerializedName("rank")
     double rank;

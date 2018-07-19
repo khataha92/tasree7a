@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/image_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@drawable/rounded_corner_white"
+    android:elevation="10dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -12,57 +14,24 @@
         TODO: Add elevation here
         TODO: ROUNDED CORNERS FROM TOP IF PRODUCT
         -->
-
-    <RelativeLayout
-        android:id="@+id/image_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <com.tasree7a.customcomponent.RoundedCornersImageView
-            android:id="@+id/image"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:adjustViewBounds="true"
-            android:minHeight="100dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher" />
-
-        <ImageView
-            android:id="@+id/selected"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/green_circle_bg"
-            android:padding="10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_select"
-            android:visibility="gone"
-            tools:ignore="ContentDescription" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/product_details"
+    <com.tasree7a.customcomponent.RoundedCornersImageView
+        android:id="@+id/image"
         android:layout_width="160dp"
-        android:layout_height="40dp"
-        android:layout_below="@+id/image_container"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="160dp"
+        android:adjustViewBounds="true"
+        android:minHeight="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher" />
 
-        <TextView
-            android:id="@+id/product_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/APP_BLACK"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/product_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/APP_GREEN"
-            android:textSize="15sp" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/selected"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/green_circle_bg"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_select"
+        android:visibility="gone"
+        tools:ignore="ContentDescription" />
 </RelativeLayout>

@@ -2,11 +2,13 @@ package com.tasree7a.models.salondetails;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by mac on 9/17/17.
  */
 
-public class SalonBarber {
+public class SalonBarber implements Serializable {
 
     @SerializedName("id")
     String barberId;

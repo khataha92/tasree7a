@@ -2,6 +2,7 @@ package com.tasree7a.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -143,7 +144,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
     private void initProductsList() {
         rootView.findViewById(R.id.see_all_products).setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonProductsGalleryActivity.class)
-                .putExtra(SalonProductsGalleryActivity.SALON_PRODUCTS, (Serializable) salonModel.getProducts())
+                .putExtra(SalonProductsGalleryActivity.SALON_PRODUCTS, new ArrayList<>(salonModel.getProducts()))
                 .putExtra(SalonProductsGalleryActivity.SALON_ID, salonModel.getId())
                 .putExtra(SalonProductsGalleryActivity.SALON_NAME, salonModel.getName())));
 

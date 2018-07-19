@@ -6,11 +6,13 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 import com.tasree7a.Constants;
 
+import java.io.Serializable;
+
 /**
  * Created by mac on 8/27/17.
  */
 
-public class SalonService implements Parcelable{
+public class SalonService implements Serializable,Parcelable {
 
     String id;
 

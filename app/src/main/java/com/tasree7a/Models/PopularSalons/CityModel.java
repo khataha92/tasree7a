@@ -2,11 +2,13 @@ package com.tasree7a.models.popularsalons;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by mac on 7/6/17.
  */
 
-public class CityModel {
+public class CityModel implements Serializable {
 
     @SerializedName("id")
     String id;

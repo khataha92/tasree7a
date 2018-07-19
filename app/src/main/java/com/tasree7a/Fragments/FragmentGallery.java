@@ -86,7 +86,7 @@ public class FragmentGallery extends BaseFragment implements Observer, GalleryCl
     }
 
     private void initGalleryRecycler() {
-        adapter = new GalleryAdapter(imageModelList, this);
+//        adapter = new GalleryAdapter(imageModelList, this);
         gallery.setAdapter(adapter);
         gallery.addItemDecoration(new SpacesItemDecoration(UIUtils.dpToPx(7)));
     }

@@ -50,16 +50,15 @@ public interface ServiceRequest {
     Call<FavoriteResponseModel> getUserFavorites(@Field("userId") String userName);
 
 
-    @FormUrlEncoded
+    @Multipart
     @POST("updateSalonImage")
-    Call<UpdateGalleryResponseModel> updateSalonImages(@Field("operation") String operation,
-                                                       @Field("salonId") String salonId,
-                                                       @Field("salonImage") String base64Image,
-                                                       @Field("imageId") List<String> imageId);
+    Call<UpdateGalleryResponseModel> updateSalonImages(@Part("operation") RequestBody operation,
+                                                       @Part("salonId") RequestBody salonId,
+                                                       @Part List<MultipartBody.Part> imagesIds,
+                                                       @Part MultipartBody.Part image);
 
 
     @Multipart
-//    @FormUrlEncoded
     @POST("addSalonService")
     Call<Object> addSalonService(@Part("serviceName") RequestBody serviceName,
                                  @Part("servicePrice") RequestBody servicePrice,
@@ -131,15 +130,15 @@ public interface ServiceRequest {
                               @Field("endTime") String endTime);
 
 
-    @FormUrlEncoded
+    @Multipart
     @POST("updateSalonProduct")
-    Call<Object> updateSalonProduct(@Field("operation") String op,
-                                    @Field("productName") String productName,
-                                    @Field("productDescription") String prodDesc,
-                                    @Field("productPrice") String price,
-                                    @Field("productImage") String image,
-                                    @Field("salonId") String id,
-                                    @Field("productId") String prodId);
+    Call<Object> updateSalonProduct(@Part("operation") RequestBody op,
+                                    @Part("productName") RequestBody productName,
+                                    @Part("productDescription") RequestBody prodDesc,
+                                    @Part("productPrice") RequestBody price,
+                                    @Part("salonId") RequestBody id,
+                                    @Part("productId") RequestBody prodId,
+                                    @Part MultipartBody.Part image);
 
 
     @FormUrlEncoded

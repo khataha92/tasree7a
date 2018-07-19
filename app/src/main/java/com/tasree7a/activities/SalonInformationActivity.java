@@ -348,7 +348,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                     if (PermissionsUtil.isPermessionGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openGallerySelectionIntent();
                     } else {
-                        PermissionsUtil.grantPermession(this, Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE_REQUEST_CODE);
+                        PermissionsUtil.grantPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE_REQUEST_CODE);
                     }
                 });
 
@@ -378,7 +378,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
 //                    startActivityForResult(takePicture, CAMERA_REQUEST);
 //                }
         } else {
-            PermissionsUtil.grantPermession(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
+            PermissionsUtil.grantPermission(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
         }
     }
 //    }

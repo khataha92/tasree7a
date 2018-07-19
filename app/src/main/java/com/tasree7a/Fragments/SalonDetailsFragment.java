@@ -17,9 +17,12 @@ import com.facebook.AccessToken;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
+import com.tasree7a.activities.SalonImagesGalleryActivity;
+import com.tasree7a.activities.SalonProductsGalleryActivity;
 import com.tasree7a.activities.SalonServicesActivity;
 import com.tasree7a.adapters.BaseCardAdapter;
 import com.tasree7a.adapters.CardsRecyclerAdapter;
+import com.tasree7a.adapters.SalonGalleryAdapter;
 import com.tasree7a.customcomponent.CustomRatingBar;
 import com.tasree7a.customcomponent.CustomSwitch;
 import com.tasree7a.enums.CardFactory;
@@ -39,6 +42,7 @@ import com.tasree7a.observables.MenuIconClickedObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Observable;
@@ -58,6 +62,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     private TextView bookNowLbl;
     private TextView salonName;
     private RecyclerView salonDetails;
+    private RecyclerView mGalleryRecyclerView;
+    private RecyclerView mProductsRecyclerView;
     private DrawerLayout nvDrawer;
     private NavigationView nvView;
     private CustomRatingBar ratingBar;
@@ -67,8 +73,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         ReservationSessionManager.getInstance().setSalonModel(salonModel);
         FragmentManager.showBookNowFragment();
     };
-    private View.OnClickListener servicesListener = v -> rootView.getContext().startActivity(new Intent(getContext(), SalonServicesActivity.class));
 
+    private View.OnClickListener servicesListener = v -> rootView.getContext().startActivity(new Intent(getContext(), SalonServicesActivity.class));
 
     @Nullable
     @Override
@@ -81,6 +87,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         closeDrawer = nvView.getHeaderView(0).findViewById(R.id.close_menu);
         //TODO: After getting data
         salonDetails = rootView.findViewById(R.id.salon_cards);
+        mGalleryRecyclerView = rootView.findViewById(R.id.images_list);
 
         Bundle args = getArguments();
         if (args != null) {
@@ -91,6 +98,12 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         addObservables();
         initSideMenuViews();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getSalonDetails();
     }
 
     private void initViews(View rootView) {
@@ -114,6 +127,29 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         salonName = rootView.findViewById(R.id.sallon_name);
         salonCover = rootView.findViewById(R.id.salon_image);
         bookNow = rootView.findViewById(R.id.bookNow);
+
+    }
+
+    private void initGalleryList() {
+        rootView.findViewById(R.id.see_all).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), SalonImagesGalleryActivity.class)
+                        .putExtra(SalonImagesGalleryActivity.IMAGES_LIST, (Serializable) salonModel.getGallery())
+                        .putExtra(SalonImagesGalleryActivity.SALON_ID, salonModel.getId())
+                        .putExtra(SalonImagesGalleryActivity.SALON_NAME, salonModel.getName())));
+
+        mGalleryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mGalleryRecyclerView.setAdapter(new SalonGalleryAdapter(salonModel.getGallery()));
+    }
+
+    private void initProductsList() {
+        rootView.findViewById(R.id.see_all_products).setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonProductsGalleryActivity.class)
+                .putExtra(SalonProductsGalleryActivity.SALON_PRODUCTS, (Serializable) salonModel.getProducts())
+                .putExtra(SalonProductsGalleryActivity.SALON_ID, salonModel.getId())
+                .putExtra(SalonProductsGalleryActivity.SALON_NAME, salonModel.getName())));
+
+        mProductsRecyclerView = rootView.findViewById(R.id.products_list);
+        mProductsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mProductsRecyclerView.setAdapter(new SalonGalleryAdapter(salonModel.getProductsImages()));
     }
 
     private void loadSalonData() {
@@ -199,22 +235,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getSalonDetails();
-    }
-
-    @Override
-    public void fragmentIsVisible() {
-        super.fragmentIsVisible();
-    }
-
-    @Override
     public int getFactoryId() {
         return 0;
     }
@@ -223,25 +243,25 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         BaseCardModel cardModel = new BaseCardModel();
         cardModel.setCardType(type);
         switch (type) {
-            case GALARY_CARD: {
-                GalleryModel galleryModel = new GalleryModel();
-                galleryModel.setTitle(getString(R.string.GALLERY));
-                galleryModel.setImageModelList(salonModel.getGallery());
-                galleryModel.setSalonModel(salonModel);
-                galleryModel.setType(0);
-                cardModel.setCardValue(galleryModel);
-            }
-            break;
-            case PRODUCTS_CARD: {
-                GalleryModel galleryModel = new GalleryModel();
-                galleryModel.setTitle(getString(R.string.PRODUCTS));
-                galleryModel.setImageModelList(salonModel.getProductsImages());
-                galleryModel.setProducts(salonModel.getProducts());
-                galleryModel.setSalonModel(salonModel);
-                galleryModel.setType(1);
-                cardModel.setCardValue(galleryModel);
-            }
-            break;
+//            case GALARY_CARD: {
+//                GalleryModel galleryModel = new GalleryModel();
+//                galleryModel.setTitle(getString(R.string.GALLERY));
+//                galleryModel.setImageModelList(salonModel.getGallery());
+//                galleryModel.setSalonModel(salonModel);
+//                galleryModel.setType(0);
+//                cardModel.setCardValue(galleryModel);
+//            }
+//            break;
+//            case PRODUCTS_CARD: {
+//                GalleryModel galleryModel = new GalleryModel();
+//                galleryModel.setTitle(getString(R.string.PRODUCTS));
+//                galleryModel.setImageModelList(salonModel.getProductsImages());
+//                galleryModel.setProducts(salonModel.getProducts());
+//                galleryModel.setSalonModel(salonModel);
+//                galleryModel.setType(1);
+//                cardModel.setCardValue(galleryModel);
+//            }
+//            break;
             case MAP_CARD:
                 LocationCardModel locationCardModel = new LocationCardModel();
                 locationCardModel.setHasIndicator(true);
@@ -262,12 +282,12 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     public ArrayList<BaseCardModel> getCardModels() {
         ArrayList<BaseCardModel> cardModels = new ArrayList<>();
 
-        if (UserDefaultUtil.isBusinessUser()
-                || salonModel.getGallery() != null && !salonModel.getGallery().isEmpty())
-            cardModels.add(getCardModel(CardType.GALARY_CARD));
-        if (UserDefaultUtil.isBusinessUser()
-                || salonModel.getProducts() != null && !salonModel.getProducts().isEmpty())
-            cardModels.add(getCardModel(CardType.PRODUCTS_CARD));
+//        if (UserDefaultUtil.isBusinessUser()
+//                || salonModel.getGallery() != null && !salonModel.getGallery().isEmpty())
+//            cardModels.add(getCardModel(CardType.GALARY_CARD));
+//        if (UserDefaultUtil.isBusinessUser()
+//                || salonModel.getProducts() != null && !salonModel.getProducts().isEmpty())
+//            cardModels.add(getCardModel(CardType.PRODUCTS_CARD));
         cardModels.add(getCardModel(CardType.CONTACT_DETAILS));
         cardModels.add(getCardModel(CardType.MAP_CARD));
         return cardModels;
@@ -322,9 +342,12 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         RetrofitManager.getInstance().getSalonDetails(salonModel == null ? UserDefaultUtil.getCurrentUser().getSalonId() : salonModel.getId(), (isSuccess, result) -> {
             if (!isAdded()) return;
             if (isSuccess) {
-                //TODO: Refactor this
                 salonModel = (SalonModel) result;
+
                 loadSalonData();
+                initGalleryList();
+                initProductsList();
+
                 UserDefaultUtil.setCurrentSalonUser(salonModel);
                 ReservationSessionManager.getInstance().setSalonModel(salonModel);
                 salonDetails.setLayoutManager(new LinearLayoutManager(getContext()));

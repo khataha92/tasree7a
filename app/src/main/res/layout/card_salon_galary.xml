@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/BG_GRAY">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/BG_GRAY">
 
     <RelativeLayout
         android:id="@+id/title_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        >
+        android:layout_marginTop="18dp">
 
         <TextView
             android:id="@+id/gallery_title"
@@ -20,8 +18,7 @@
             android:lineSpacingExtra="-16.7sp"
             android:text="Gallery"
             android:textColor="@color/APP_TEXT_COLOR"
-            android:textSize="19.3sp"
-            />
+            android:textSize="19.3sp" />
 
         <ImageView
             android:id="@+id/see_all"
@@ -29,8 +26,7 @@
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="26dp"
-            android:src="@drawable/ic_gallery"
-            />
+            android:src="@drawable/ic_gallery" />
     </RelativeLayout>
 
     <HorizontalScrollView
@@ -46,8 +42,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="11.3dp"
             android:orientation="horizontal"
-            android:paddingLeft="18.3dp"
-            >
+            android:paddingLeft="18.3dp">
 
         </LinearLayout>
 

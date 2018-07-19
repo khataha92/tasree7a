@@ -77,7 +77,9 @@ public class FragmentProducts extends BaseFragment implements Observer, ProductI
         Bundle args = getArguments();
         if (args != null) {
             if (args.getSerializable(FragmentArg.IMAGE_LIST) != null) {
+                //noinspection unchecked
                 mImageModels = (List<ImageModel>) getArguments().getSerializable(FragmentArg.IMAGE_LIST);
+                //noinspection unchecked
                 mProductsList = (List<SalonProduct>) getArguments().getSerializable(FragmentArg.PRODUCTS_LIST);
                 mTitle.setText(getString(R.string.PRODUCTS));
             }
@@ -85,7 +87,7 @@ public class FragmentProducts extends BaseFragment implements Observer, ProductI
     }
 
     private void initProductsList() {
-        mProductsAdapter = new ProductsAdapter(mImageModels, mProductsList, this);
+        mProductsAdapter = new ProductsAdapter(mProductsList, this);
         mRecyclerView.setAdapter(mProductsAdapter);
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(UIUtils.dpToPx(7)));
     }

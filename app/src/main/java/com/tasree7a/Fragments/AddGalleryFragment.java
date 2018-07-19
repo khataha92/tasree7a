@@ -1,6 +1,5 @@
 package com.tasree7a.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -33,17 +32,9 @@ import com.tasree7a.utils.UserDefaultUtil;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
-import id.zelory.compressor.Compressor;
-
-/**
- * Created by SamiKhleaf on 10/23/17.
- */
 
 public class AddGalleryFragment extends BaseFragment {
 
@@ -66,7 +57,7 @@ public class AddGalleryFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.add_gallery_item, container, false);
+        rootView = inflater.inflate(R.layout.activity_add_salon_image, container, false);
 
         selectedImage = rootView.findViewById(R.id.add_img);
         saveBtn = rootView.findViewById(R.id.apply);
@@ -81,39 +72,23 @@ public class AddGalleryFragment extends BaseFragment {
     private void initSelectedImage() {
 
         selectedImage.setOnClickListener(v -> {
-            //TODO: TEMP -> create option menu
             AlertDialog alertDialog = new AlertDialog.Builder(ThisApplication.getCurrentActivity()).create();
-
             alertDialog.setTitle("Choose");
-
             alertDialog.setMessage("choose your picture");
-
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Camera",
                     (dialog, which) -> {
-
-                        // Creates an Intent to pick a photo
                         Intent takePicture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//
-//                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//
                         startActivityForResult(takePicture, CAMERA_REQUEST);//zero can be replaced with any action code
-
                     });
 
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Gallery",
                     (dialog, which) -> {
-
                         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
                         startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
-
                     });
-
             alertDialog.show();
-
         });
-
     }
 
 
@@ -138,34 +113,24 @@ public class AddGalleryFragment extends BaseFragment {
 
 
     private void updateSalonImages(UpdateSalonImagesRequestModel model) {
-
-        RetrofitManager.getInstance().updateSalonImages(model, (isSuccess, result) -> {
-
-            if (isSuccess) {
-
-                RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), (isSuccess1, result1) -> salonModel = (SalonModel) result1);
-
-                if (!showG) {
-
-                    FragmentManager.popCurrentVisibleFragment();
-
-                } else {
-
-                    FragmentManager.showFragmentGallery(salonModel, (ArrayList<ImageModel>) salonModel.getGallery(), null);
-                }
-
-                UIUtils.hideSweetLoadingDialog();
-
-                if (callback != null) callback.onResult(true, result);
-
-                GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>() {
-
-                });
-
-            }
-        });
+//        RetrofitManager
+//                .getInstance()
+//                .updateSalonImages(model,
+//                        mSelectedFile, (isSuccess, result) -> {
+//                            if (isSuccess) {
+//                                RetrofitManager.getInstance().getSalonDetails(salonModel.getId(), (isSuccess1, result1) -> salonModel = (SalonModel) result1);
+//                                if (!showG) {
+//                                    FragmentManager.popCurrentVisibleFragment();
+//                                } else {
+//                                    FragmentManager.showFragmentGallery(salonModel, (ArrayList<ImageModel>) salonModel.getGallery(), null);
+//                                }
+//                                UIUtils.hideSweetLoadingDialog();
+//                                if (callback != null) callback.onResult(true, result);
+//                                GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<ImageModel>() {
+//                                });
+//                            }
+//                        });
     }
-
 
     String base64Image;
 
@@ -180,10 +145,10 @@ public class AddGalleryFragment extends BaseFragment {
             Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            yourSelectedImage.compress(Bitmap.CompressFormat.JPEG,50,stream);
+            yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 50, stream);
 
             byte[] byteArray = stream.toByteArray();
-            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArray,0,byteArray.length);
+            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
 //            InputStream imageStream = null;
 //            Uri uri = data.getData();

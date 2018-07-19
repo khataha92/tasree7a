@@ -9,10 +9,7 @@ import android.widget.TextView;
 import com.tasree7a.R;
 import com.tasree7a.enums.Sizes;
 import com.tasree7a.interfaces.ProductItemClickListener;
-import com.tasree7a.managers.ReservationSessionManager;
-import com.tasree7a.models.gallery.ImageModel;
 import com.tasree7a.models.salondetails.SalonProduct;
-import com.tasree7a.observables.ItemSelectedObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -22,7 +19,6 @@ public class ProductItemViewHolder extends RecyclerView.ViewHolder {
 
     private boolean mIsSelected = false;
 
-    private ImageModel mImageModel;
     private SalonProduct mSalonProduct;
 
     private TextView mName;
@@ -35,14 +31,12 @@ public class ProductItemViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         itemView.setOnClickListener(v -> {
-            if (!UserDefaultUtil.isBusinessUser()) {
-                productItemClickListener.onProductClickedListener(false, getAdapterPosition());
-            } else {
+            if (UserDefaultUtil.isBusinessUser()) {
                 mIsSelected = !mIsSelected;
                 mSelectionHover.setVisibility(mIsSelected ? View.VISIBLE : View.GONE);
                 mImageContainer.setAlpha(mIsSelected ? 0.5f : 1.0f);
-//                ItemSelectedObservable.sharedInstance().setItemSelected(ReservationSessionManager.getInstance().getSelectedItems().size() != 0);
             }
+            productItemClickListener.onProductClickedListener(mIsSelected, getAdapterPosition());
         });
 
         mImage = itemView.findViewById(R.id.image);
@@ -52,12 +46,11 @@ public class ProductItemViewHolder extends RecyclerView.ViewHolder {
         mImageContainer = itemView.findViewById(R.id.image_container);
     }
 
-    public void bind(ImageModel imageModel, SalonProduct product) {
-        mImageModel = imageModel;
+    public void bind(SalonProduct product) {
         mSalonProduct = product;
 
-        if (mImage != null) {
-            UIUtils.loadUrlIntoImageView(itemView.getContext(), mImageModel.getImagePath(), mImage, Sizes.MEDIUM);
+        if (mSalonProduct != null) {
+            UIUtils.loadUrlIntoImageView(itemView.getContext(), mSalonProduct.getUrl(), mImage, Sizes.MEDIUM);
         }
 
         itemView.findViewById(R.id.product_details).setVisibility(View.VISIBLE);

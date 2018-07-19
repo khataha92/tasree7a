@@ -149,5 +149,7 @@ soon as possible</string>
     <string name="error_password_not_match">Barber passwords doesn\'t match</string>
     <string name="error_provide_password">Please write a correct password</string>
     <string name="error_add_barbers">You have to Add 1 Barber at least</string>
+    <string name="products_gallery_title">Salon Products</string>
+    <string name="error_fill_fields">Please fill all the Fields</string>
 
 </resources>

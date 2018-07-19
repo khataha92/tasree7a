@@ -1,5 +1,6 @@
 package com.tasree7a.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,9 +17,10 @@ import com.tasree7a.customcomponent.SpacesItemDecoration;
 import com.tasree7a.interfaces.GalleryClickListener;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.ReservationSessionManager;
+import com.tasree7a.managers.RetrofitManager;
+import com.tasree7a.models.UpdateSalonImagesRequestModel;
 import com.tasree7a.models.gallery.ImageModel;
 import com.tasree7a.models.salondetails.SalonModel;
-import com.tasree7a.utils.FragmentArg;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -27,16 +29,22 @@ import java.util.List;
 
 public class SalonImagesGalleryActivity extends AppCompatActivity implements GalleryClickListener {
 
-    private boolean isSelecting = false;
+    public static final String IMAGES_LIST = SalonImagesGalleryActivity.class.getName() + "IMAGES_LIST";
+    public static final String SALON_ID = SalonImagesGalleryActivity.class.getName() + "SALON_ID";
+    public static final String SALON_NAME = SalonImagesGalleryActivity.class.getName() + "SALON_NAME";
 
-    private SalonModel salon;
-    private List<ImageModel> imageModelList;
+    private String mSalonId;
+    private String mSalonName;
+
+    private List<ImageModel> mImageModelsList;
     private List<String> mSelectedImagesList = new ArrayList<>();
 
-    private RecyclerView gallery;
-    private GalleryAdapter adapter;
-    private TextView salonName;
-    private ImageView changeItems;
+    private GalleryAdapter mImagesListAdapter;
+
+    private TextView mSalonNameView;
+    private ImageView mAddImage;
+    private ImageView mRemoveImages;
+    private RecyclerView mImagesListRecyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,91 +53,104 @@ public class SalonImagesGalleryActivity extends AppCompatActivity implements Gal
 
         Intent intent = getIntent();
         if (intent != null) {
-            imageModelList = (List<ImageModel>) intent.getSerializableExtra(FragmentArg.IMAGE_LIST);
-            salon = (SalonModel) intent.getSerializableExtra(FragmentArg.SALON);
+            //noinspection unchecked
+            mImageModelsList = (List<ImageModel>) intent.getSerializableExtra(IMAGES_LIST);
+            mSalonId = intent.getStringExtra(SALON_ID);
+            mSalonName = intent.getStringExtra(SALON_NAME);
         }
 
         initViews();
         initChangeItemsView();
-        addObservers();
         initImagesList();
     }
 
     @Override
-    public void onImageItemClicked(boolean isSelection, int position) {
-        if (!isSelection) {
-            FragmentManager.showGalleryFullScreenFragment(imageModelList, position);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK || data != null) return;
+
+        switch (requestCode) {
+            case AddSalonImageActivity.REQUEST_CODE:
+                //TODO Should have an API only for getting images;
+                RetrofitManager.getInstance().getSalonDetails(mSalonId, (isSuccess, result) -> {
+                    if (isSuccess) {
+                        mImageModelsList.clear();
+                        mImageModelsList.addAll(((SalonModel) result).getGallery());
+                        mImagesListAdapter.notifyDataSetChanged();
+                    }
+                });
+                break;
+        }
+    }
+
+    @Override
+    public void onImageItemClicked(boolean selected, int position) {
+        if (!UserDefaultUtil.isBusinessUser()) {
+            FragmentManager.showGalleryFullScreenFragment(mImageModelsList, position);
         } else {
-            mSelectedImagesList.add(imageModelList.get(position).getImageId());
+            if (selected) {
+                mSelectedImagesList.add(mImageModelsList.get(position).getImageId());
+            } else {
+                mSelectedImagesList.remove(mImageModelsList.get(position).getImageId());
+            }
+
+            mRemoveImages.setVisibility(mSelectedImagesList.isEmpty() ? View.GONE : View.VISIBLE);
+            mAddImage.setVisibility(mSelectedImagesList.isEmpty() ? View.VISIBLE : View.GONE
+            );
         }
     }
 
     private void initViews() {
-        gallery = findViewById(R.id.gallery);
-        gallery.setLayoutManager(new GridLayoutManager(this, 2));
-        salonName = findViewById(R.id.salon_name);
-        changeItems = findViewById(R.id.change_items);
+        mImagesListRecyclerView = findViewById(R.id.gallery);
+        mImagesListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mSalonNameView = findViewById(R.id.salon_name);
+        mAddImage = findViewById(R.id.add_item);
+        mRemoveImages = findViewById(R.id.remove_item);
 
-        salonName.setText(ReservationSessionManager.getInstance().getSalonModel().getName());
-        findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
+        mSalonNameView.setText(ReservationSessionManager.getInstance().getSalonModel().getName());
+        findViewById(R.id.back).setOnClickListener(v -> finish());
     }
 
     private void initChangeItemsView() {
-        //TODO: Minor Refactor
         if (!UserDefaultUtil.isBusinessUser()) {
-            changeItems.setVisibility(View.GONE);
+            mAddImage.setVisibility(View.GONE);
+            mRemoveImages.setVisibility(View.GONE);
         } else {
-            changeItems.setOnClickListener(v -> {
-                if (isSelecting) {
-                    deleteGalleryItem(mSelectedImagesList);
-                } else {
-                    addGalleryItem();
+            mAddImage.setOnClickListener(v -> addGalleryItem());
+            mRemoveImages.setOnClickListener(v -> deleteGalleryItem(mSelectedImagesList));
+        }
+    }
+
+    private void addGalleryItem() {
+        startActivityForResult(new Intent(this, AddSalonImageActivity.class)
+                .putExtra(AddSalonImageActivity.SALON_ID, mSalonId), AddSalonImageActivity.REQUEST_CODE);
+    }
+
+    private void deleteGalleryItem(List<String> items) {
+        UpdateSalonImagesRequestModel model;
+        for (final String item : items) {
+            model = new UpdateSalonImagesRequestModel();
+            model.setSalonId(mSalonId);
+            model.setOperation("DELETE");
+            model.setImageId(items);
+            RetrofitManager.getInstance().updateSalonImages(model, null, (isSuccess, result) -> {
+                if (isSuccess) {
+                    for (ImageModel imageModel : mImageModelsList) {
+                        if (imageModel.getImageId().equalsIgnoreCase(item)) {
+                            mImageModelsList.remove(imageModel);
+                            mImagesListAdapter.notifyDataSetChanged();
+                            break;
+                        }
+                    }
                 }
             });
         }
     }
 
-    private void addGalleryItem() {
-        //        FragmentManager.showAddGalleryItemFragment(salon, (isSuccess, result) -> RetrofitManager.getInstance().getSalonDetails(UserDefaultUtil.getCurrentUser().getSalonId(), (isSuccess1, result1) -> {
-//            List<ImageModel> imageModels = ((SalonModel) result1).getGallery();
-//            adapter.setmImageModels(imageModels);
-//            GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModels);
-//        }));
-    }
-
-    private void deleteGalleryItem(List<String> items) {
-//        UpdateSalonImagesRequestModel model;
-//        for (final String item : items) {
-//            model = new UpdateSalonImagesRequestModel();
-//            model.setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
-//            model.setOperation("DELETE");
-//            model.setImageId(item);
-//            TODO: check el mImage id and put it here
-//            RetrofitManager.getInstance().updateSalonImages(model, (isSuccess, result) -> {
-//                if (isSuccess) {
-//                    for (ImageModel imageModel : imageModelList) {
-//                        if (imageModel.getImageId().equalsIgnoreCase(item)) {
-//                            imageModelList.remove(imageModel);
-//                            adapter.setmImageModels(imageModelList);
-//                            break;
-//                        }
-//                    }
-//                }
-//
-//                GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(imageModelList);
-//            });
-//            model = null;
-//        }
-    }
-
-    private void addObservers() {
-//        ItemSelectedObservable.sharedInstance().addObserver(this);
-//        GallaryItemsChangedObservable.sharedInstance().addObserver(this);
-    }
-
     private void initImagesList() {
-        adapter = new GalleryAdapter(imageModelList, this);
-        gallery.setAdapter(adapter);
-        gallery.addItemDecoration(new SpacesItemDecoration(UIUtils.dpToPx(7)));
+        mImagesListAdapter = new GalleryAdapter(mImageModelsList, this);
+        mImagesListRecyclerView.setAdapter(mImagesListAdapter);
+        mImagesListRecyclerView.addItemDecoration(new SpacesItemDecoration(UIUtils.dpToPx(7)));
     }
 }

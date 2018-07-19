@@ -204,9 +204,7 @@ public class SalonModel implements Filterable, ClusterItem, Serializable {
     }
 
     public List<com.tasree7a.models.salondetails.SalonProduct> getProducts() {
-
         return products;
-
     }
 
     public void setProducts(List<com.tasree7a.models.salondetails.SalonProduct> products) {

@@ -9,107 +9,86 @@ import com.google.gson.annotations.SerializedName;
 public class UpdateProductRequestModel {
 
     @SerializedName("operation")
-    String operation; // ADD/Remove/Update
+    private String operation; // ADD/Remove/Update
 
     @SerializedName("productName")
-    String productName;
+    private String productName;
 
     @SerializedName("productDescription")
-    String productDescription;
+    private String productDescription;
 
     @SerializedName("productPrice")
-    String productPrice;
+    private String productPrice;
 
     @SerializedName("productImage")
-    String base64Image;
+    private String base64Image;
 
     @SerializedName("salonId")
-    String salonId;
+    private String salonId;
 
     @SerializedName("productId")
-    String productId;
-
+    private String productId;
 
     public String getOperation() {
-
         return operation;
     }
 
-
-    public void setOperation(String operation) {
-
+    public UpdateProductRequestModel setOperation(String operation) {
         this.operation = operation;
+        return this;
     }
 
-
     public String getProductName() {
-
         return productName;
     }
 
-
-    public void setProductName(String productName) {
-
+    public UpdateProductRequestModel setProductName(String productName) {
         this.productName = productName;
+        return this;
     }
 
-
     public String getProductDescription() {
-
         return productDescription;
     }
 
-
-    public void setProductDescription(String productDescription) {
-
+    public UpdateProductRequestModel setProductDescription(String productDescription) {
         this.productDescription = productDescription;
+        return this;
     }
 
-
     public String getProductPrice() {
-
         return productPrice;
     }
 
-
-    public void setProductPrice(String productPrice) {
-
+    public UpdateProductRequestModel setProductPrice(String productPrice) {
         this.productPrice = productPrice;
+        return this;
     }
 
-
     public String getBase64Image() {
-
         return base64Image;
     }
 
-
-    public void setBase64Image(String base64Image) {
-
+    public UpdateProductRequestModel setBase64Image(String base64Image) {
         this.base64Image = base64Image;
+        return this;
     }
 
-
     public String getSalonId() {
-
         return salonId;
     }
 
-
-    public void setSalonId(String id) {
-
-        this.salonId = id;
+    public UpdateProductRequestModel setSalonId(String salonId) {
+        this.salonId = salonId;
+        return this;
     }
 
-
     public String getProductId() {
-
         return productId;
     }
 
-
-    public void setProductId(String productId) {
-
+    public UpdateProductRequestModel setProductId(String productId) {
         this.productId = productId;
+        return this;
     }
 }

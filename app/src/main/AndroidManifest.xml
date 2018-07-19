@@ -117,6 +117,26 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
+        <activity
+            android:name=".activities.SalonImagesGalleryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".activities.AddSalonImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".activities.SalonProductsGalleryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".activities.AddSalonProductActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
         <service android:name=".services.PushService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

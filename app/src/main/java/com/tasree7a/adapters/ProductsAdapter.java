@@ -16,13 +16,11 @@ import java.util.List;
 
 public class ProductsAdapter extends RecyclerView.Adapter<ProductItemViewHolder> {
 
-    private List<ImageModel> mImageModels;
     private List<SalonProduct> mProductsList;
 
     private ProductItemClickListener mProductClickListener;
 
-    public ProductsAdapter(List<ImageModel> imageModels, List<SalonProduct> productsList, ProductItemClickListener productItemClickListener) {
-        mImageModels = imageModels;
+    public ProductsAdapter(List<SalonProduct> productsList, ProductItemClickListener productItemClickListener) {
         mProductsList = productsList;
         mProductClickListener = productItemClickListener;
     }
@@ -30,18 +28,17 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductItemViewHolder>
     @NonNull
     @Override
     public ProductItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ProductItemViewHolder(LayoutInflater
-                .from(ThisApplication.getCurrentActivity())
+        return new ProductItemViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gallery_image, parent, false), mProductClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductItemViewHolder holder, int position) {
-        holder.bind(mImageModels.get(position), mProductsList.get(position));
+        holder.bind(mProductsList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mProductsList.size();
+        return mProductsList != null ? mProductsList.size() : 0;
     }
 }

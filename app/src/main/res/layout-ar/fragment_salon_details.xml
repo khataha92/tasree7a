@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/WHITE">
 
-    <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/FILTER_BG">
@@ -19,7 +18,6 @@
             android:layout_height="wrap_content"
             android:background="@color/WHITE">
 
-
             <ImageView
                 android:id="@+id/add_to_favorite"
                 android:layout_width="35.3dp"
@@ -28,18 +26,18 @@
                 android:layout_marginStart="13dp"
                 android:layout_marginTop="17.3dp"
                 android:padding="5dp"
-                android:src="@drawable/ic_favorite_unchecked"/>
+                android:src="@drawable/ic_favorite_unchecked" />
 
             <ImageView
                 android:id="@+id/salon_image"
                 android:layout_width="match_parent"
                 android:layout_height="143dp"
-                android:src="@drawable/salon"/>
+                android:src="@drawable/salon" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="143dp"
-                android:background="@color/VERY_TRANSPARENT_BLACK_COLOR"/>
+                android:background="@color/VERY_TRANSPARENT_BLACK_COLOR" />
 
             <ImageView
                 android:id="@+id/back"
@@ -66,7 +64,7 @@
                     android:id="@+id/book_now"
                     android:layout_width="122.3dp"
                     android:layout_height="41dp"
-                    android:src="@drawable/ic_book"/>
+                    android:src="@drawable/ic_book" />
 
                 <TextView
                     android:id="@+id/book_now_lbl"
@@ -77,7 +75,7 @@
                     android:lineSpacingExtra="-16.7sp"
                     android:text="@string/BOOK"
                     android:textColor="@color/WHITE"
-                    android:textSize="19.3sp"/>
+                    android:textSize="19.3sp" />
             </RelativeLayout>
 
             <TextView
@@ -90,7 +88,7 @@
                 android:lineSpacingExtra="-16.7sp"
                 android:textColor="@color/WHITE"
                 android:textSize="19.3sp"
-                tools:text="Samer Salon"/>
+                tools:text="Samer Salon" />
 
             <com.tasree7a.customcomponent.CustomRatingBar
                 android:id="@+id/salon_rating"
@@ -99,15 +97,59 @@
                 android:layout_alignBottom="@+id/salon_image"
                 android:layout_alignLeft="@+id/sallon_name"
                 android:layout_marginBottom="13.7dp"
-                app:rating="4"/>
+                app:rating="4" />
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/gallery_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_image"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/title_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/gallery_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:lineSpacingExtra="-16.7sp"
+                    android:text="Gallery"
+                    android:textColor="@color/APP_TEXT_COLOR"
+                    android:textSize="19.3sp" />
+
+                <ImageView
+                    android:id="@+id/see_all"
+                    android:layout_width="22.7dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="26dp"
+                    android:src="@drawable/ic_gallery"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/images_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp" />
+
+        </LinearLayout>
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/salon_cards"
-            android:layout_below="@+id/header_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gallery_item" />
 
         <include
             android:id="@+id/loading"
@@ -116,7 +158,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/salon_cards"
-            android:visibility="visible"/>
+            android:visibility="visible" />
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
@@ -128,6 +170,6 @@
         app:headerLayout="@layout/side_menu"
         app:itemIconTint="@color/APP_TEXT_COLOR"
         app:itemTextColor="@color/APP_TEXT_COLOR"
-        app:menu="@menu/drawer_view_busines"/>
+        app:menu="@menu/drawer_view_busines" />
 
 </android.support.v4.widget.DrawerLayout>

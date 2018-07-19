@@ -1,5 +1,6 @@
 package com.tasree7a.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> 
     @NonNull
     @Override
     public GalleryItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new GalleryItemViewHolder(LayoutInflater.from(ThisApplication.getCurrentActivity()).inflate(R.layout.gallery_image, parent, false), mGalleryClickListener);
+        return new GalleryItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.gallery_image, parent, false), mGalleryClickListener);
     }
 
     @Override

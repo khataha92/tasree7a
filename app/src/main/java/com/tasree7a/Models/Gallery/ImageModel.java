@@ -4,30 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-/**
- * Created by mac on 6/14/17.
- */
-
-public class ImageModel implements Serializable{
+public class ImageModel implements Serializable {
 
     @SerializedName("url")
-    String imagePath;
+    private String imagePath;
 
     @SerializedName("id")
-    String imageId;
+    private String imageId;
 
+    private boolean isSelected;
 
     public String getImageId() {
-
         return imageId;
     }
 
-
     public void setImageId(String imageId) {
-
         this.imageId = imageId;
     }
-
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;

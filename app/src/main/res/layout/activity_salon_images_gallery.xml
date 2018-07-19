@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/FILTER_BG"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/FILTER_BG"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/top_bar"
@@ -16,22 +17,24 @@
             android:layout_width="31dp"
             android:layout_height="41dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
             android:padding="10dp"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back"
+            tools:ignore="ContentDescription" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/GRAY"/>
+            android:background="@color/GRAY" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="RelativeOverlap">
 
             <TextView
                 android:id="@+id/title"
@@ -41,7 +44,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/APP_TEXT_COLOR"
                 android:textSize="19sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/salon_name"
@@ -50,21 +53,34 @@
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="-10.7sp"
-                android:text="Samer Salon"
                 android:textColor="@color/APP_TEXT_COLOR"
-                android:textSize="13.3sp"/>
+                android:textSize="13.3sp" />
 
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/change_items"
-            android:layout_width="20dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
+            android:id="@+id/add_item"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:backgroundTint="@color/APP_GREEN"
-            android:src="@drawable/ic_add_white_24dp"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_add"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/remove_item"
+            android:layout_width="25dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_remove"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
 
     </RelativeLayout>
 
@@ -75,6 +91,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false" />
 
 </LinearLayout>

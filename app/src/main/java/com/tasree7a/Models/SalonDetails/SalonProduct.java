@@ -4,25 +4,26 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-/**
- * Created by mac on 7/17/17.
- */
-
-public class SalonProduct implements Serializable{
+public class SalonProduct implements Serializable {
 
     @SerializedName("id")
+    private
     String id;
 
-    @SerializedName("mName")
+    @SerializedName("name")
+    private
     String name;
 
     @SerializedName("description")
+    private
     String description;
 
     @SerializedName("img_url")
+    private
     String url;
 
-    @SerializedName("mPrice")
+    @SerializedName("price")
+    private
     String price;
 
     public String getId() {
@@ -57,14 +58,11 @@ public class SalonProduct implements Serializable{
         this.url = url;
     }
 
-
     public String getPrice() {
-
         return price;
     }
 
     public void setPrice(String price) {
-
         this.price = price;
     }
 }

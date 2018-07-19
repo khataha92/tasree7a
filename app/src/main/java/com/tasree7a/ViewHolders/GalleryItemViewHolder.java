@@ -12,19 +12,13 @@ import com.tasree7a.models.gallery.ImageModel;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
-/**
- * Created by mac on 6/14/17.
- * <p>
- * gallery
- */
-
 public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
 
     private boolean mIsSelected;
 
-    public ImageView mImage;
-    public ImageView mSelectionHover;
-    public RelativeLayout mImageContainer;
+    private ImageView mImage;
+    private ImageView mSelectionHover;
+    private RelativeLayout mImageContainer;
 
     private GalleryClickListener mGalleryClickListener;
 
@@ -37,14 +31,13 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
         mImageContainer = itemView.findViewById(R.id.image_container);
 
         itemView.setOnClickListener(v -> {
-            if (!UserDefaultUtil.isBusinessUser()) {
-                mGalleryClickListener.onImageItemClicked(false, getAdapterPosition());
-            } else {
+            if (UserDefaultUtil.isBusinessUser()) {
                 mIsSelected = !mIsSelected;
                 mSelectionHover.setVisibility(mIsSelected ? View.VISIBLE : View.GONE);
                 mImageContainer.setAlpha(mIsSelected ? 0.5f : 1.0f);
-//                ItemSelectedObservable.sharedInstance().setItemSelected(ReservationSessionManager.getInstance().getSelectedItems().size() != 0);
             }
+
+            mGalleryClickListener.onImageItemClicked(mIsSelected , getAdapterPosition());
         });
     }
 

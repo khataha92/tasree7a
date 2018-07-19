@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,8 +23,6 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.AddNewServiceRequestModel;
-import com.tasree7a.utils.CameraUtils;
-import com.tasree7a.utils.ImagePath_MarshMallow;
 import com.tasree7a.utils.PermissionsUtil;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -47,8 +44,8 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 3253;
 
     private File mSelectedFile;
-    private Uri mFileUri;
-    private String mCurrentPhotoPath;
+//    private Uri mFileUri;
+//    private String mCurrentPhotoPath;
     private ImageView mSelectedImageDisplay;
 
     @Override
@@ -150,7 +147,7 @@ public class AddSalonServiceActivity extends AppCompatActivity {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
+//        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
@@ -188,7 +185,7 @@ public class AddSalonServiceActivity extends AppCompatActivity {
                     if (PermissionsUtil.isPermessionGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openGallerySelectionIntent();
                     } else {
-                        PermissionsUtil.grantPermession(this, Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE_REQUEST_CODE);
+                        PermissionsUtil.grantPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE_REQUEST_CODE);
                     }
                 });
 
@@ -198,7 +195,7 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     private void openCameraDialog() {
         if (PermissionsUtil.isPermessionGranted(this, Manifest.permission.CAMERA)) {
             Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            mFileUri = CameraUtils.getOutputMediaFileUri(this);
+//            mFileUri = CameraUtils.getOutputMediaFileUri(this);
             if (takePicture.resolveActivity(getPackageManager()) != null) {
 
                 try {
@@ -217,7 +214,7 @@ public class AddSalonServiceActivity extends AppCompatActivity {
                     startActivityForResult(takePicture, CAMERA_REQUEST);
                 }
             } else {
-                PermissionsUtil.grantPermession(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
+                PermissionsUtil.grantPermission(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
             }
         }
     }

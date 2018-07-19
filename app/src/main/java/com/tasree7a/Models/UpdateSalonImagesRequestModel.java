@@ -26,36 +26,39 @@ public class UpdateSalonImagesRequestModel {
     private
     List<String> imageId;
 
-
-    public List<String> getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(List<String> imageId) {
-        this.imageId = imageId;
-    }
-
     public String getOperation() {
         return operation;
     }
 
-    public void setOperation(String operation) {
+    public UpdateSalonImagesRequestModel setOperation(String operation) {
         this.operation = operation;
+        return this;
     }
 
     public String getSalonId() {
         return salonId;
     }
 
-    public void setSalonId(String salonId) {
+    public UpdateSalonImagesRequestModel setSalonId(String salonId) {
         this.salonId = salonId;
+        return this;
     }
 
     public String getBase64Image() {
         return base64Image;
     }
 
-    public void setBase64Image(String base64Image) {
+    public UpdateSalonImagesRequestModel setBase64Image(String base64Image) {
         this.base64Image = base64Image;
+        return this;
+    }
+
+    public List<String> getImageId() {
+        return imageId;
+    }
+
+    public UpdateSalonImagesRequestModel setImageId(List<String> imageId) {
+        this.imageId = imageId;
+        return this;
     }
 }

@@ -24,7 +24,6 @@ import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.UpdateProductRequestModel;
-import com.tasree7a.models.gallery.ImageModel;
 import com.tasree7a.observables.GallaryItemsChangedObservable;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
@@ -55,7 +54,7 @@ public class AddProductFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.add_product, container, false);
+        rootView = inflater.inflate(R.layout.activity_add_salon_product, container, false);
 
 
         selectedImage = rootView.findViewById(R.id.add_img);
@@ -75,22 +74,22 @@ public class AddProductFragment extends BaseFragment {
 
 //            UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
 
-            RetrofitManager.getInstance().updateSalonProducts(model, (isSuccess, result) -> {
-
-                if (isSuccess) {
-
-                    if (callback != null)
-                        callback.onResult(true, result);
-
-                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<>());
-
-                    UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
-
-                    FragmentManager.popCurrentVisibleFragment();
-
-                }
-            });
-
+//            RetrofitManager.getInstance().updateSalonProducts(model, (isSuccess, result) -> {
+//
+//                if (isSuccess) {
+//
+//                    if (callback != null)
+//                        callback.onResult(true, result);
+//
+//                    GallaryItemsChangedObservable.sharedInstance().setGallaryChanged(new ArrayList<>());
+//
+//                    UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
+//
+//                    FragmentManager.popCurrentVisibleFragment();
+//
+//                }
+//            });
+//
         });
 
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());

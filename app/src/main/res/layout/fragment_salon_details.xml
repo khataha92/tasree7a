@@ -99,11 +99,99 @@
 
         </RelativeLayout>
 
+
+        <LinearLayout
+            android:id="@+id/gallery_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_image"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/title_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/gallery_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:lineSpacingExtra="-16.7sp"
+                    android:text="Gallery"
+                    android:textColor="@color/APP_TEXT_COLOR"
+                    android:textSize="19.3sp" />
+
+                <ImageView
+                    android:id="@+id/see_all"
+                    android:layout_width="22.7dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="26dp"
+                    android:src="@drawable/ic_gallery"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/images_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/products_gallery_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gallery_item"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/products_title_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/products_gallery_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:lineSpacingExtra="-16.7sp"
+                    android:text="@string/PRODUCTS"
+                    android:textColor="@color/APP_TEXT_COLOR"
+                    android:textSize="19.3sp" />
+
+                <ImageView
+                    android:id="@+id/see_all_products"
+                    android:layout_width="22.7dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="26dp"
+                    android:src="@drawable/ic_gallery"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/products_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp" />
+
+        </LinearLayout>
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/salon_cards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/header_image" />
+            android:layout_below="@+id/products_gallery_item" />
 
         <include
             android:id="@+id/loading"

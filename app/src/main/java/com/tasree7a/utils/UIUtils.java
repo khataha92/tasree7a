@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -364,30 +365,34 @@ public class UIUtils {
                 .replace("/medium/", "/" + (size != null ? size.getValue() : Sizes.LARGE.getValue()) + "/")
                 .replace("/large/", "/" + (size != null ? size.getValue() : Sizes.LARGE.getValue()) + "/");
 
-        Uri uri = Uri.parse(urlStringWithSize);
+        Uri uri;
 
-        if (!urlString.contains("http")) {
+        if (urlString.contains("http")) {
             if (urlStringWithSize.contains("uploads")) {
                 //noinspection ResultOfMethodCallIgnored
-                urlStringWithSize.replace("uploads/", "");
+                urlStringWithSize = urlStringWithSize.replace("http://tasree7a.ps/uploads/", IMAGES_URL);
             }
 
+            uri = Uri.parse(urlStringWithSize);
+        } else {
             uri = Uri.parse(IMAGES_URL + urlStringWithSize);
         }
+
         final DrawableRequestBuilder<Uri> imageRequest = Glide.with(context)
                 .load(uri)
-                .thumbnail(0.1f)
                 .placeholder(R.drawable.default_image)
                 .dontAnimate();
 
         if (size != Sizes.LARGE) {
-
             imageRequest.centerCrop();
-
         }
 
-        imageRequest.placeholder(R.drawable.default_image);
-        imageRequest.into(imageView);
+        Log.d("IMAGE_URL", uri.toString());
+
+        if (context instanceof AppCompatActivity)
+            ((AppCompatActivity) context).runOnUiThread(() -> imageRequest.into(imageView));
+        else
+            imageRequest.into(imageView);
     }
 
 

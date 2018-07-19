@@ -13,7 +13,6 @@ import com.tasree7a.enums.CardType;
 import com.tasree7a.models.BaseCardModel;
 import com.tasree7a.utils.FontUtil;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 /**
@@ -128,7 +127,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
                 itemView = inflate(R.layout.card_salon_galary,parent);
 
-                return  new GalaryCardViewHolder(itemView,cardModel);
+                return  new GalleryCardViewHolder(itemView,cardModel);
 
 //            case PRODUCTS_CARD:
 //

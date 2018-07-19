@@ -25,6 +25,8 @@ import com.tasree7a.models.salondetails.SalonInformationRequestModel;
 import com.tasree7a.models.signup.SignupResponseModel;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -36,6 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Part;
 
 /**
  * Created by mac on 5/17/17.
@@ -139,52 +142,55 @@ public class RetrofitManager {
         Call<SalonDetailsResponseModel> call = request.getSalonDetails(salonId);
         call.enqueue(new Callback<SalonDetailsResponseModel>() {
             @Override
-            public void onResponse(Call<SalonDetailsResponseModel> call, Response<SalonDetailsResponseModel> response) {
+            public void onResponse(@NonNull Call<SalonDetailsResponseModel> call, @NonNull Response<SalonDetailsResponseModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onResult(true, response.body().getSalon());
+                    if (response.body() != null) {
+                        callback.onResult(true, response.body().getSalon());
+                    }
                 } else {
                     callback.onResult(false, null);
                 }
             }
 
             @Override
-            public void onFailure(Call<SalonDetailsResponseModel> call, Throwable t) {
-                Log.d("RETTT", "Error: ", t);
+            public void onFailure(@NonNull Call<SalonDetailsResponseModel> call, @NonNull Throwable t) {
                 callback.onResult(false, null);
             }
         });
     }
 
-    public void updateSalonProducts(UpdateProductRequestModel model, final AbstractCallback callback) {
+    public void updateSalonProducts(UpdateProductRequestModel model, File selectedFile, final AbstractCallback callback) {
 
-        Call<Object> call = request.updateSalonProduct(model.getOperation(),
-                model.getProductName(),
-                model.getProductDescription(),
-                model.getProductPrice(),
-                model.getBase64Image(),
-                model.getSalonId(),
-                model.getProductId());
+        RequestBody reqFile;
+        MultipartBody.Part body = null;
+        if (selectedFile != null) {
+            reqFile = RequestBody.create(MediaType.parse("image/*"), selectedFile);
+            body = MultipartBody.Part.createFormData("img_file", selectedFile.getName(), reqFile);
+        }
+
+        Call<Object> call = request.updateSalonProduct(RequestBody.create(MediaType.parse("multipart/form-data"), model.getOperation()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductName()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductDescription()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductPrice()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getSalonId()),
+                model.getProductId() != null
+                        ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductId())
+                        : null,
+                body);
 
         call.enqueue(new Callback<Object>() {
 
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
+            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                 callback.onResult(true, response.body());
             }
 
-
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
+            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                 callback.onResult(false, null);
-
             }
         });
-
-
     }
-
 
     public void addNewBarber(AddNewBarberRequestModel model, final AbstractCallback callback) {
 
@@ -490,35 +496,47 @@ public class RetrofitManager {
 
     }
 
-    public void updateSalonImages(UpdateSalonImagesRequestModel model, final AbstractCallback callback) {
+    public void updateSalonImages(UpdateSalonImagesRequestModel model, File selectedFile, final AbstractCallback callback) {
+        RequestBody reqFile = null;
+        MultipartBody.Part body = null;
+        if (selectedFile != null) {
+            reqFile = RequestBody.create(MediaType.parse("image/*"), selectedFile);
+            body = MultipartBody.Part.createFormData("img_file", selectedFile.getName(), reqFile);
+        }
 
-        Call<UpdateGalleryResponseModel> get = request.updateSalonImages(model.getOperation(),
-                model.getSalonId(),
-                model.getBase64Image(),
-                model.getImageId());
+        ////////////////////////////////////////////////////////////////
+        List<MultipartBody.Part> imagesIds = null;
+        if (model.getImageId() != null
+                && !model.getImageId().isEmpty()
+                && selectedFile == null) {
+            imagesIds = new ArrayList<>();
+
+            for (String id : model.getImageId()) {
+                imagesIds.add(MultipartBody.Part.createFormData("imageId[]", id));
+            }
+        }
+        ////////////////////////////////////////////////////////////////
+
+        Call<UpdateGalleryResponseModel> get = request.updateSalonImages(RequestBody.create(MediaType.parse("multipart/form-data"), model.getOperation()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getSalonId()),
+                imagesIds,
+                body);
 
         get.enqueue(new Callback<UpdateGalleryResponseModel>() {
 
             @Override
-            public void onResponse(Call<UpdateGalleryResponseModel> call, Response<UpdateGalleryResponseModel> response) {
-
+            public void onResponse(@NonNull Call<UpdateGalleryResponseModel> call, @NonNull Response<UpdateGalleryResponseModel> response) {
                 if (callback != null) {
-
                     callback.onResult(response.isSuccessful(), response.body());
                 }
 
             }
 
-
             @Override
-            public void onFailure(Call<UpdateGalleryResponseModel> call, Throwable t) {
-
+            public void onFailure(@NonNull Call<UpdateGalleryResponseModel> call, @NonNull Throwable t) {
                 if (callback != null) {
-
                     callback.onResult(false, null);
-
                 }
-
             }
         });
     }

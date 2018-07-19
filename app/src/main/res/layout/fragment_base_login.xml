@@ -79,8 +79,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="15dp"
-                android:textColorHint="@color/APP_TEXT_COLOR"
-                >
+                android:textColorHint="@color/APP_TEXT_COLOR">
 
                 <EditText
                     android:id="@+id/input_email"

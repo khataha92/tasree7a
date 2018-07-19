@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="221dp"
+    android:layout_marginBottom="30dp"
     android:background="@color/WHITE">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="221dp"
-        android:layout_marginBottom="15dp"
         android:background="@color/BG_GRAY"
         android:elevation="2dp">
 
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/sallon_image"
-            android:background="@color/WHITE"
+            android:background="@drawable/bottom_rounded_bg"
             android:minHeight="55dp"
             android:paddingBottom="10dp">
 
@@ -66,7 +66,5 @@
                 android:layout_marginTop="3dp" />
 
         </RelativeLayout>
-
     </RelativeLayout>
-
 </RelativeLayout>

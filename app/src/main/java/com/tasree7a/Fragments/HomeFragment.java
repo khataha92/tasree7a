@@ -6,6 +6,7 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +22,7 @@ import com.facebook.AccessToken;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
-import com.tasree7a.adapters.PopularSallonsAdapter;
+import com.tasree7a.adapters.PopularSalonsAdapter;
 import com.tasree7a.customcomponent.CustomSwitch;
 import com.tasree7a.customcomponent.CustomTopBar;
 import com.tasree7a.enums.FilterType;
@@ -44,6 +45,7 @@ import com.tasree7a.observables.LocationChangedObservable;
 import com.tasree7a.observables.PermissionGrantedObservable;
 import com.tasree7a.services.LocationService;
 import com.tasree7a.utils.AppUtil;
+import com.tasree7a.utils.DefaultDividerItemDecoration;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
@@ -51,11 +53,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
 public class HomeFragment extends BaseFragment implements Observer {
-    private RecyclerView popularSallons;
+    private RecyclerView popularSalons;
     private CustomTopBar topBar;
     private DrawerLayout nvDrawer;
     private NavigationView nvView;
@@ -90,8 +93,10 @@ public class HomeFragment extends BaseFragment implements Observer {
         DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) nvView.getLayoutParams();
         params.width = width;
         nvView.setLayoutParams(params);
-        popularSallons = rootView.findViewById(R.id.popular_sallons);
-        popularSallons.setLayoutManager(new LinearLayoutManager(ThisApplication.getCurrentActivity()));
+        popularSalons = rootView.findViewById(R.id.popular_sallons);
+        popularSalons.setLayoutManager(new LinearLayoutManager(getContext()));
+        popularSalons.addItemDecoration(new DefaultDividerItemDecoration(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.list_item_divider)));
+
         return rootView;
     }
 
@@ -134,13 +139,14 @@ public class HomeFragment extends BaseFragment implements Observer {
                     }
                 }
 
-                ((PopularSallonsAdapter) popularSallons.getAdapter()).setSalonModels(salonModels);
-                popularSallons.getAdapter().notifyDataSetChanged();
+                ((PopularSalonsAdapter) popularSalons.getAdapter()).setSalonModels(salonModels);
+                popularSalons.getAdapter().notifyDataSetChanged();
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                transparentView.setVisibility(View.GONE);
             }
         });
     }
@@ -186,7 +192,7 @@ public class HomeFragment extends BaseFragment implements Observer {
                             UserDefaultUtil.logout();
                             AccessToken.setCurrentAccessToken(null);
                             startActivity(new Intent(getContext(), MainActivity.class));
-                            getActivity().finish();
+                            Objects.requireNonNull(getActivity()).finish();
                             break;
                         case R.id.settings:
                             FragmentManager.showSettingsFragment();
@@ -229,8 +235,8 @@ public class HomeFragment extends BaseFragment implements Observer {
             getSallons();
         }
 
-        Intent intent = new Intent(ThisApplication.getCurrentActivity(), LocationService.class);
-        getContext().startService(intent);
+        Intent intent = new Intent(getActivity(), LocationService.class);
+        Objects.requireNonNull(getContext()).startService(intent);
     }
 
     private void getSallons() {
@@ -243,6 +249,8 @@ public class HomeFragment extends BaseFragment implements Observer {
             return;
         }
 
+        rootView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
+
         RetrofitManager.getInstance().getNearestSalons(location.getLatitude(), location.getLongitude(), (isSuccess, result) -> {
             if (isSuccess) {
                 hideLoadingView();
@@ -251,12 +259,12 @@ public class HomeFragment extends BaseFragment implements Observer {
                     List<SalonModel> salons = model.getSalons();
                     filteredSalons = salons;
                     SessionManager.getInstance().setSalons(salons);
-                    PopularSallonsAdapter adapter = new PopularSallonsAdapter();
+                    PopularSalonsAdapter adapter = new PopularSalonsAdapter();
                     adapter.setSalonModels(salons);
-                    popularSallons.setAdapter(adapter);
-                } else {
+                    popularSalons.setAdapter(adapter);
                 }
             }
+            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
         });
     }
 
@@ -265,7 +273,7 @@ public class HomeFragment extends BaseFragment implements Observer {
         if (o instanceof LocationChangedObservable) {
             getSallons();
         } else if (o instanceof FavoriteChangeObservable) {
-            popularSallons.getAdapter().notifyDataSetChanged();
+            popularSalons.getAdapter().notifyDataSetChanged();
         } else if (o instanceof PermissionGrantedObservable) {
             Location location = AppUtil.getCurrentLocation();
             getSalons(location);
@@ -274,7 +282,7 @@ public class HomeFragment extends BaseFragment implements Observer {
             List<FilterType> filterTypes = FilterAndSortManager.getInstance().getFilters();
             if (filterTypes.contains(FilterType.FAVORITE)) {
                 filteredSalons = UserDefaultUtil.getFavoriteSalons();
-                popularSallons.getAdapter().notifyDataSetChanged();
+                popularSalons.getAdapter().notifyDataSetChanged();
             } else {
                 boolean isMale = FilterAndSortManager.getInstance().getSalonType() == Gender.MALE;
                 List<SalonModel> allSalons = SessionManager.getInstance().getSalons();
@@ -300,8 +308,8 @@ public class HomeFragment extends BaseFragment implements Observer {
             }
 
             Collections.sort(filteredSalons, new SalonsComparable(FilterAndSortManager.getInstance().getSortType()));
-            ((PopularSallonsAdapter) popularSallons.getAdapter()).setSalonModels(filteredSalons);
-            popularSallons.getAdapter().notifyDataSetChanged();
+            ((PopularSalonsAdapter) popularSalons.getAdapter()).setSalonModels(filteredSalons);
+            popularSalons.getAdapter().notifyDataSetChanged();
         }
     }
 

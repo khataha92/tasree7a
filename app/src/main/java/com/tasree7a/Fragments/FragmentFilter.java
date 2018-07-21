@@ -63,22 +63,23 @@ public class FragmentFilter extends BaseFragment {
         genderFilter.setChecked(FilterAndSortManager.getInstance().getSalonType() == Gender.FEMALE);
 
         genderFilter.setOnClickListener(v -> genderFilter.setChecked(!genderFilter.isChecked()));
-        Spinner citiesSpinner = rootView.findViewById(R.id.cities_spinner);
 
-        List<SalonModel> salonModels = SessionManager.getInstance().getSalons();
-
-        for(int i = 0; i < salonModels.size() ; i++){
-
-            if(!isCityContained(availableCities,salonModels.get(i).getCityModel())){
-
-                availableCities.add(salonModels.get(i).getCityModel());
-
-            }
-        }
-
-        CitiesSpinnerAdapter adapter = new CitiesSpinnerAdapter(ThisApplication.getCurrentActivity(),android.R.layout.simple_spinner_dropdown_item,availableCities);
-
-        citiesSpinner.setAdapter(adapter);
+//        Spinner citiesSpinner = rootView.findViewById(R.id.cities_spinner);
+//
+//        List<SalonModel> salonModels = SessionManager.getInstance().getSalons();
+//
+//        for(int i = 0; i < salonModels.size() ; i++){
+//
+//            if(!isCityContained(availableCities,salonModels.get(i).getCityModel())){
+//
+//                availableCities.add(salonModels.get(i).getCityModel());
+//
+//            }
+//        }
+//
+//        CitiesSpinnerAdapter adapter = new CitiesSpinnerAdapter(ThisApplication.getCurrentActivity(),android.R.layout.simple_spinner_dropdown_item,availableCities);
+//
+//        citiesSpinner.setAdapter(adapter);
 
         for(int i = 0 ; i < sortTypeGroup.getChildCount() ; i++){
 

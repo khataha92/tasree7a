@@ -10,7 +10,7 @@ import java.util.Map;
 
 public enum SortType {
 
-    DISTANCE(2),RATING(1),PRICE(3);
+    DISTANCE(2),RATING(1);
 
 
     private int value;

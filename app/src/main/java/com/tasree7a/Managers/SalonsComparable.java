@@ -51,7 +51,7 @@ public class SalonsComparable implements Comparator<SalonModel> {
 
                 return 0;
 
-            case PRICE:
+//            case PRICE:
 
 //                if(lhs.get > rhs.getRating()){
 //
@@ -63,7 +63,7 @@ public class SalonsComparable implements Comparator<SalonModel> {
 //
 //                }
 
-                return 0;
+//                return 0;
         }
 
         return 0;

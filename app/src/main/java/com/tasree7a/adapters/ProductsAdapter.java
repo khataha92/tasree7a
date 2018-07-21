@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.tasree7a.R;
-import com.tasree7a.ThisApplication;
 import com.tasree7a.interfaces.ProductItemClickListener;
-import com.tasree7a.models.gallery.ImageModel;
 import com.tasree7a.models.salondetails.SalonProduct;
 import com.tasree7a.viewholders.ProductItemViewHolder;
 

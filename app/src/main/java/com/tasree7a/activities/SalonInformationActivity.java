@@ -237,6 +237,15 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
     }
 
     private SalonInformationRequestModel BuildRequestData() {
+        String salonType;
+        if (mMaleSalonType.isChecked() && mFemaleSalonType.isChecked()) {
+            salonType = "3";
+        } else if (mMaleSalonType.isChecked()) {
+            salonType = "1";
+        } else if (mFemaleSalonType.isChecked()) {
+            salonType = "2";
+        }
+
         return new SalonInformationRequestModel()
                 .setCityID("23")
                 .setOwnerMobile(mSalonPhoneNumber.getText().toString())
@@ -246,7 +255,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                 .setSalonLat("1122")
                 .setSalonLong("1122")
                 .setSalonName(mSalonName.getText().toString())
-                .setSalonType(mMaleSalonType.isChecked() ? "1" : "2")
+                .setSalonType("3")
                 .setUserID(UserDefaultUtil.getCurrentUser().getId());
     }
 

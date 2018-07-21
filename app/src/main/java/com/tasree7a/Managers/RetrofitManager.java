@@ -605,4 +605,19 @@ public class RetrofitManager {
             }
         });
     }
+
+    public void deleteSalonService(String salonId, String serviceId, final AbstractCallback callback) {
+        Call<Void> deleteSalonService = request.deleteSalonService(salonId, serviceId);
+
+        deleteSalonService.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
 }

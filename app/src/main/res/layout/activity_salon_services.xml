@@ -43,18 +43,29 @@
             tools:ignore="RelativeOverlap" />
 
         <!--TODO: Use it to add/delete-->
-        <TextView
-            android:id="@+id/add_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/add_item"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="17dp"
-            android:text="+"
+            android:src="@drawable/ic_add"
             android:textColor="@color/APP_GREEN"
             android:textSize="35sp"
             android:visibility="gone"
-            tools:ignore="HardcodedText" />
+            tools:ignore="ContentDescription,HardcodedText" />
+
+        <ImageView
+            android:id="@+id/delete_item"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="17dp"
+            android:src="@drawable/ic_remove"
+            android:visibility="gone"
+            tools:ignore="ContentDescription,HardcodedText" />
 
         <LinearLayout
             android:id="@+id/price_container"

@@ -152,4 +152,10 @@ public interface ServiceRequest {
                                                           @Field("salonLat") String salonLat,
                                                           @Field("salonLong") String salonLong,
                                                           @Field("salonName") String salonName);
+
+    @FormUrlEncoded
+    @POST("DeleteSalonService")
+    Call<Void> deleteSalonService(@Field("salonId") String salonId,
+                                  @Field("serviceId") String serviceId);
+
 }

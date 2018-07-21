@@ -36,6 +36,7 @@ import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.BaseCardModel;
 import com.tasree7a.models.gallery.GalleryModel;
 import com.tasree7a.models.locationcard.LocationCardModel;
+import com.tasree7a.models.salonbooking.SalonService;
 import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.observables.FavoriteChangeObservable;
 import com.tasree7a.observables.GallaryItemsChangedObservable;
@@ -75,7 +76,9 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         FragmentManager.showBookNowFragment();
     };
 
-    private View.OnClickListener servicesListener = v -> rootView.getContext().startActivity(new Intent(getContext(), SalonServicesActivity.class));
+    private View.OnClickListener servicesListener = v -> rootView.getContext()
+            .startActivity(new Intent(getContext(), SalonServicesActivity.class)
+                    .putExtra(SalonServicesActivity.SALON_ID, salonModel.getId()));
 
     @Nullable
     @Override

@@ -48,7 +48,7 @@ public class SalonServicesFragment extends BaseFragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_salon_services, container, false);
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
-        addServices = rootView.findViewById(R.id.add_delete);
+//        addServices = rootView.findViewById(R.id.add_delete);
 //        addServices.setOnClickListener(v -> startActivityForResult(new Intent(this, AddSalonServiceActivity.class), 123)/**FragmentManager.showAddNewSalonServiceFragment()*/);
 //        UIUtils.showLoadingView(rootView, this);
         salonService = rootView.findViewById(R.id.services_list);

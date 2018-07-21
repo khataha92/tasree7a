@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,11 @@ public class BookNowFragment extends BaseFragment implements SalonServiceSelecti
     private List<SalonService> mSalonServices = new ArrayList<>();
     private List<SalonService> mSelectedSalonServices = new ArrayList<>();
     private SalonServicesAdapter mSalonServicesAdapter;
+
+    private float mTotalPrice = 0.0f;
+
+    private LinearLayout mTotalPriceContainer;
+    private TextView mTotalPriceTextView;
 
     @Nullable
     @Override
@@ -71,7 +77,17 @@ public class BookNowFragment extends BaseFragment implements SalonServiceSelecti
 
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
         rootView.findViewById(R.id.cancel).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
+
+        initViews();
         return rootView;
+    }
+
+    private void initViews() {
+        mTotalPriceContainer = rootView.findViewById(R.id.price_container);
+        mTotalPriceTextView = rootView.findViewById(R.id.total_price);
+
+        mTotalPriceContainer.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -82,6 +98,13 @@ public class BookNowFragment extends BaseFragment implements SalonServiceSelecti
         } else {
             mSelectedSalonServices.remove(mSalonServices.get(position));
         }
+        if (selected) {
+            mTotalPrice += mSalonServices.get(position).getPrice();
+        } else {
+            mTotalPrice -= mSalonServices.get(position).getPrice();
+        }
+        mTotalPriceTextView.setText(String.valueOf(mTotalPrice));
+        mTotalPriceContainer.setVisibility(View.VISIBLE);
         mSalonServicesAdapter.notifyItemChanged(position);
     }
 

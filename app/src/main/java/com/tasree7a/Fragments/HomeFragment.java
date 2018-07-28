@@ -79,6 +79,10 @@ public class HomeFragment extends BaseFragment implements Observer {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         addObservables();
         topBar = rootView.findViewById(R.id.top_bar);
+
+        //TODO: temp -> till using callbacks in topBar
+        topBar.setActivityContext(getActivity());
+
         nvDrawer = rootView.findViewById(R.id.drawer_layout);
         nvView = rootView.findViewById(R.id.nvView);
         navHeader = nvView.getHeaderView(0);
@@ -165,7 +169,7 @@ public class HomeFragment extends BaseFragment implements Observer {
     private void initProfileImage() {
         navHeader.findViewById(R.id.profile_image).setOnClickListener(v -> {
             if (!UserDefaultUtil.isFBUser())
-                FragmentManager.showProfileFragment();
+                FragmentManager.showProfileFragment(getActivity());
         });
     }
 
@@ -175,10 +179,10 @@ public class HomeFragment extends BaseFragment implements Observer {
                     int itemId = menuItem.getItemId();
                     switch (itemId) {
                         case R.id.bookings:
-                            FragmentManager.showFragmentBookingList();
+                            FragmentManager.showFragmentBookingList(getActivity());
                             break;
                         case R.id.map_view:
-                            FragmentManager.showMapViewFragment(SessionManager.getInstance().getSalons());
+                            FragmentManager.showMapViewFragment(getActivity(), SessionManager.getInstance().getSalons());
                             break;
                         case R.id.favorites:
                             FilterAndSortManager.getInstance().getFilters().add(FilterType.FAVORITE);
@@ -195,7 +199,7 @@ public class HomeFragment extends BaseFragment implements Observer {
                             Objects.requireNonNull(getActivity()).finish();
                             break;
                         case R.id.settings:
-                            FragmentManager.showSettingsFragment();
+                            FragmentManager.showSettingsFragment(getActivity());
                             break;
                     }
 
@@ -207,15 +211,16 @@ public class HomeFragment extends BaseFragment implements Observer {
     private void initLangButton() {
         langSwitch = navHeader.findViewById(R.id.switch_item);
         langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
-        langSwitch.setAction(() -> UIUtils.showConfirmLanguageChangeDialog(langSwitch));
-        if (UserDefaultUtil.getAppLanguage() == Language.AR)
-            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        else
-            ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        langSwitch.setAction(() -> UIUtils.showConfirmLanguageChangeDialog(getContext(), langSwitch));
+        if (UserDefaultUtil.getAppLanguage() == Language.AR) {
+            getActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            getActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
     }
 
     private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(ThisApplication.getCurrentActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
         builder.setMessage(getString(R.string.LOCATION_DISABLED_MESSAGE))
 
                 .setCancelable(false)
@@ -245,7 +250,7 @@ public class HomeFragment extends BaseFragment implements Observer {
     }
 
     private void getSalons(Location location) {
-        if (location == null) {
+        if (location == null || filteredSalons != null) {
             return;
         }
 
@@ -259,7 +264,7 @@ public class HomeFragment extends BaseFragment implements Observer {
                     List<SalonModel> salons = model.getSalons();
                     filteredSalons = salons;
                     SessionManager.getInstance().setSalons(salons);
-                    PopularSalonsAdapter adapter = new PopularSalonsAdapter();
+                    PopularSalonsAdapter adapter = new PopularSalonsAdapter(getActivity());
                     adapter.setSalonModels(salons);
                     popularSalons.setAdapter(adapter);
                 }

@@ -37,7 +37,7 @@ public class ProfileFragment extends BaseFragment {
 
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
-        rootView.findViewById(R.id.change_pass_btn).setOnClickListener(v -> FragmentManager.showChangePasswordFragment());
+        rootView.findViewById(R.id.change_pass_btn).setOnClickListener(v -> FragmentManager.showChangePasswordFragment(getActivity()));
 
         ImageView image = (ImageView) rootView.findViewById(R.id.profpic);
 

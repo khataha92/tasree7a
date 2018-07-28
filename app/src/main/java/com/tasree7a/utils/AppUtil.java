@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
 import com.facebook.AccessToken;
@@ -34,10 +35,10 @@ public class AppUtil {
 
     }
 
-    public static void restartApp(){
+    public static void restartApp() {
 
-        Intent i =  ThisApplication.getCurrentActivity().getApplicationContext().getPackageManager()
-                .getLaunchIntentForPackage( ThisApplication.getCurrentActivity().getApplicationContext().getPackageName() );
+        Intent i = ThisApplication.getCurrentActivity().getApplicationContext().getPackageManager()
+                .getLaunchIntentForPackage(ThisApplication.getCurrentActivity().getApplicationContext().getPackageName());
 
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -45,20 +46,14 @@ public class AppUtil {
 
     }
 
-    public static void checkAppLanguage(){
-
-        Resources res =  ThisApplication.getCurrentActivity().getApplicationContext().getResources();
+    public static void checkAppLanguage(Context context) {
+        Resources res = context.getResources();
         // Change locale settings in the app.
         DisplayMetrics dm = res.getDisplayMetrics();
-
         android.content.res.Configuration conf = res.getConfiguration();
-
         Language lang = UserDefaultUtil.getAppLanguage();
-
         conf.locale = new Locale(lang == null ? Language.EN.toString() : lang.toString());
-
         res.updateConfiguration(conf, dm);
-
     }
 
     public static boolean isLoggedIn() {
@@ -105,7 +100,7 @@ public class AppUtil {
                 }
             }
 
-        } catch (SecurityException e){
+        } catch (SecurityException e) {
 
             e.printStackTrace();
 
@@ -116,25 +111,27 @@ public class AppUtil {
         }
     }
 
-    public static boolean isLocationServiceEnabled(){
+    public static boolean isLocationServiceEnabled() {
 
-        LocationManager lm = (LocationManager)ThisApplication.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager lm = (LocationManager) ThisApplication.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
 
         try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch(Exception ex) {}
+        } catch (Exception ex) {
+        }
 
-        if(!gps_enabled && !network_enabled) {
+        if (!gps_enabled && !network_enabled) {
 
             return false;
 
-        } else{
+        } else {
 
             return true;
 

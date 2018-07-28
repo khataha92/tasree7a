@@ -330,8 +330,8 @@ public class SalonInformationFragment extends BaseFragment {
 
             UIUtils.hideLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
             if (shouldPopFragment) {
-                FragmentManager.showSalonDetailsFragment();
-                FragmentManager.popBeforeCurrentVisibleFragment();
+                FragmentManager.showSalonDetailsFragment(getActivity());
+                FragmentManager.popBeforeCurrentVisibleFragment(getActivity());
             } else {
                 FragmentManager.popCurrentVisibleFragment();
             }

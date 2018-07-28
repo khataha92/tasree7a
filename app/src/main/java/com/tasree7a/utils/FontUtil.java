@@ -281,7 +281,7 @@ public class FontUtil {
 
         if (str.isEmpty()) {
 
-            textView.setTypeface(FontUtil.getFont(fontType, UserDefaultUtil.getDeviceLanguage()));
+//            textView.setTypeface(FontUtil.getFont(fontType, UserDefaultUtil.getDeviceLanguage()));
 
         } else if (StringUtil.isStringArabic(str)) {
 

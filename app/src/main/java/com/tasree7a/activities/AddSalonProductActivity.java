@@ -90,6 +90,8 @@ public class AddSalonProductActivity extends AppCompatActivity {
         mProductNameEditText = findViewById(R.id.product_name);
         mProductPriceEditText = findViewById(R.id.product_price);
 
+
+
         findViewById(R.id.add_product_image).setOnClickListener(v -> openSelectImagePromptDialog());
         findViewById(R.id.apply).setOnClickListener(v -> requestAddSalonProduct());
         findViewById(R.id.back).setOnClickListener(v -> {
@@ -111,7 +113,7 @@ public class AddSalonProductActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.gallery),
                 (dialog, which) -> {
-                    if (PermissionsUtil.isPermessionGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (PermissionsUtil.isPermissionGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openGallerySelectionIntent();
                     } else {
                         PermissionsUtil.grantPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE_REQUEST_CODE);

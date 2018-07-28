@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tasree7a.R;
 import com.tasree7a.adapters.ProductsAdapter;
+import com.tasree7a.fragments.FullScreenGalleryActivity;
 import com.tasree7a.interfaces.ProductItemClickListener;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.UpdateProductRequestModel;
@@ -20,6 +21,7 @@ import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.models.salondetails.SalonProduct;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +81,9 @@ public class SalonProductsGalleryActivity extends AppCompatActivity implements P
     @Override
     public void onProductClickedListener(boolean selected, int itemPosition) {
         if (!UserDefaultUtil.isBusinessUser()) {
+//            startActivity(new Intent(this, FullScreenGalleryActivity.class)
+//                    .putExtra(FullScreenGalleryActivity.IMAGE_MODELS_LIST, (Serializable) mImageModelsList)
+//                    .putExtra(FullScreenGalleryActivity.IMAGE_POSITION, position));
 //            FragmentManager.showGalleryFullScreenFragment(mProductsList.get(itemPosition), position);
         } else {
             if (selected) {
@@ -95,6 +100,9 @@ public class SalonProductsGalleryActivity extends AppCompatActivity implements P
     private void initViews() {
         mAddProduct = findViewById(R.id.add_item);
         mRemoveProducts = findViewById(R.id.remove_item);
+
+        mAddProduct.setVisibility(!UserDefaultUtil.isBusinessUser() ? View.GONE : View.VISIBLE);
+
         RecyclerView mSalonProductsRecyclerView = findViewById(R.id.gallery);
 
         mAddProduct.setOnClickListener(v -> openAddSalonProductActivity());
@@ -118,7 +126,6 @@ public class SalonProductsGalleryActivity extends AppCompatActivity implements P
         RetrofitManager
                 .getInstance()
                 .updateSalonProducts(buildRequestDataModel(), null, (isSuccess, result) -> {
-
                 });
     }
 

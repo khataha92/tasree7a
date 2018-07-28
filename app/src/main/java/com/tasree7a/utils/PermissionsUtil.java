@@ -16,24 +16,15 @@ import java.util.Objects;
 
 public class PermissionsUtil {
 
-    public static boolean isPermessionGranted(Activity context, String permission) {
+    public static boolean isPermissionGranted(Activity context, String permission) {
         return ContextCompat.checkSelfPermission(Objects.requireNonNull(context),
                 permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     public static void grantPermission(Activity context, String permission, int permissionRequestCode) {
         // Should we show an explanation?
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
-            // Show an explanation to the user *asynchronously* -- don't block
-            // this thread waiting for the user's response! After the user
-            // sees the explanation, try again to request the permission.
-        } else {
-            // No explanation needed; request the permission
+//        if (ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
             ActivityCompat.requestPermissions(context, new String[]{permission}, permissionRequestCode);
-
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
-        }
+//        }
     }
 }

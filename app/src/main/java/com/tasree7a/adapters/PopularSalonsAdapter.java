@@ -1,10 +1,10 @@
 package com.tasree7a.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
@@ -13,29 +13,31 @@ import com.tasree7a.ThisApplication;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.UserDefaultUtil;
-import com.tasree7a.viewholders.PopularSallonsItemViewHolder;
+import com.tasree7a.viewholders.PopularSalonsItemViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PopularSalonsAdapter extends RecyclerView.Adapter<PopularSallonsItemViewHolder> {
+public class PopularSalonsAdapter extends RecyclerView.Adapter<PopularSalonsItemViewHolder> {
 
     List<SalonModel> salonModels = new ArrayList<>();
+    private Context mContext;
+
+    public PopularSalonsAdapter(Context context) {
+        mContext = context;
+    }
 
     @NonNull
     @Override
-    public PopularSallonsItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View itemView = LayoutInflater.from(ThisApplication.getCurrentActivity()).inflate(R.layout.popular_list_item, null);
-
-        return new PopularSallonsItemViewHolder(itemView);
+    public PopularSalonsItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new PopularSalonsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.popular_list_item, parent, false));
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull final PopularSallonsItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final PopularSalonsItemViewHolder holder, int position) {
 
-        holder.imageView.setOnClickListener(v -> FragmentManager.showSalonDetailsFragment(salonModels.get(position)));
+        holder.imageView.setOnClickListener(v -> FragmentManager.showSalonDetailsFragment(mContext, salonModels.get(position)));
 
         holder.favorite.setImageResource(UserDefaultUtil.isSalonFavorite(salonModels.get(position))
                 ? R.drawable.ic_favorite_checked

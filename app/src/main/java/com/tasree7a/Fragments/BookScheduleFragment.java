@@ -98,7 +98,7 @@ public class BookScheduleFragment extends BaseFragment {
 
         initSalonBarbers();
 
-        rootView.findViewById(R.id.date_container).setOnClickListener(v -> FragmentManager.showCalendarFragment((isSuccess, result) -> {
+        rootView.findViewById(R.id.date_container).setOnClickListener(v -> FragmentManager.showCalendarFragment(getActivity(), (isSuccess, result) -> {
 
             if (isSuccess) {
 

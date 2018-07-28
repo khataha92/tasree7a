@@ -53,7 +53,7 @@ public class SettingsFragment extends BaseFragment {
             rootView.findViewById(R.id.pass_container).setVisibility(GONE);
             return;
         }
-        rootView.findViewById(R.id.change_pass_btn).setOnClickListener(v -> FragmentManager.showChangePasswordFragment());
+        rootView.findViewById(R.id.change_pass_btn).setOnClickListener(v -> FragmentManager.showChangePasswordFragment(getActivity()));
     }
 
     private void initLanguageSwitch() {
@@ -63,6 +63,6 @@ public class SettingsFragment extends BaseFragment {
         //   local    isChecked
         //    ar   ->   true
         //    en   ->   false
-        langSwitch.setAction(() -> UIUtils.showConfirmLanguageChangeDialog(langSwitch));
+        langSwitch.setAction(() -> UIUtils.showConfirmLanguageChangeDialog(getContext(), langSwitch));
     }
 }

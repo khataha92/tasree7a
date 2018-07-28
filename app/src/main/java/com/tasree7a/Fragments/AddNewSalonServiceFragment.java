@@ -80,7 +80,7 @@ public class AddNewSalonServiceFragment extends BaseFragment {
 
         saveBtn.setOnClickListener(v -> {
 
-//            if (PermissionsUtil.isPermessionGranted(this))
+//            if (PermissionsUtil.isPermissionGranted(this))
             if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
                     android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {

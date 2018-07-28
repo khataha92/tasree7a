@@ -81,7 +81,7 @@ public class CustomGridCalendar extends RelativeLayout {
 
             txtDays[i - 1].setText(getResources().getStringArray(R.array.DAYS_APPREVIATIONS)[i - 1]);
 
-            if (UserDefaultUtil.getUserLanguage().name().equalsIgnoreCase("ar")) {
+            if (UserDefaultUtil.getUserLanguage(getContext()).name().equalsIgnoreCase("ar")) {
 
                 txtDays[i - 1].setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
 

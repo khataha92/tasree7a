@@ -3,7 +3,6 @@ package com.tasree7a.activities;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,12 +16,10 @@ import android.widget.ImageView;
 
 import com.tasree7a.R;
 import com.tasree7a.customcomponent.CustomButton;
-import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.UpdateSalonImagesRequestModel;
 import com.tasree7a.utils.PermissionsUtil;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -124,7 +121,7 @@ public class AddSalonImageActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.gallery),
                 (dialog, which) -> {
-                    if (PermissionsUtil.isPermessionGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (PermissionsUtil.isPermissionGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openGallerySelectionIntent();
                     } else {
                         PermissionsUtil.grantPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE_REQUEST_CODE);

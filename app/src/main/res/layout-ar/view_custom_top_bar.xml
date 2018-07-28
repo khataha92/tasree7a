@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/top_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="@dimen/app_bar_height"
-                android:background="@drawable/rounded_corders_bg"
-                android:backgroundTint="@color/WHITE"
-    >
+    android:id="@+id/top_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corders_bg"
+    android:backgroundTint="@color/WHITE"
+    android:minHeight="@dimen/app_bar_height">
+
     <RelativeLayout
+        android:id="@+id/top_bar_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:background="@drawable/rounded_corders_bg"
-        android:backgroundTint="@color/WHITE"
-        android:id="@+id/top_bar_container">
+        android:backgroundTint="@color/WHITE">
 
         <ImageView
             android:id="@+id/open_menu"
             android:layout_width="23.5dp"
-            android:layout_alignParentRight="true"
             android:layout_height="27dp"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:layout_marginTop="19dp"
             android:src="@drawable/ic_side_menu" />
@@ -29,29 +29,29 @@
             android:layout_height="27dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="19dp"
+            android:rotation="180"
             android:src="@drawable/ic_back"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <EditText
+            android:id="@+id/search_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/close_search"
-            android:layout_toLeftOf="@+id/clear_search"
-            android:layout_alignTop="@+id/close_search"
             android:layout_alignBottom="@+id/close_search"
-            android:id="@+id/search_text"
-            android:textSize="15sp"
+            android:layout_alignTop="@+id/close_search"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/clear_search"
+            android:layout_toLeftOf="@+id/close_search"
+            android:background="@color/WHITE"
+            android:gravity="center_vertical"
+            android:hint="@string/SEARCH_HINT"
             android:textColor="@color/APP_BLACK"
             android:textColorHint="@color/TEXT_HINT_COLOR"
-            android:hint="@string/SEARCH_HINT"
-            android:background="@color/WHITE"
-            android:visibility="gone"
-            android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
-            />
+            android:textSize="15sp"
+            android:visibility="gone" />
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -59,7 +59,6 @@
             android:text="@string/SALLONS"
             android:textColor="@color/APP_BLACK"
             android:textSize="19.3sp"
-            android:id="@+id/title"
             android:textStyle="bold" />
 
         <ImageView
@@ -75,14 +74,13 @@
             android:id="@+id/clear_search"
             android:layout_width="26dp"
             android:layout_height="26dp"
-            android:padding="5dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:layout_marginRight="14dp"
+            android:layout_marginLeft="14dp"
+            android:padding="5dp"
             android:src="@drawable/ic_close_menu"
             android:tint="@color/APP_BLACK"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/filter"
@@ -93,27 +91,27 @@
             android:layout_toRightOf="@+id/search"
             android:src="@drawable/ic_filter" />
     </RelativeLayout>
+
     <View
+        android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/APP_BLACK"
         android:layout_below="@+id/top_bar_container"
-        android:id="@+id/separator"
-        android:visibility="gone"
-        />
+        android:background="@color/APP_BLACK"
+        android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/search_history_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_below="@+id/separator"
-        android:visibility="gone"
-        android:id="@+id/search_history_container"
-        >
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <ListView
+            android:id="@+id/search_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/search_history"
 
             ></ListView>
 

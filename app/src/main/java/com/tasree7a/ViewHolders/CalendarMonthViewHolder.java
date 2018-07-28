@@ -43,7 +43,7 @@ public class CalendarMonthViewHolder extends RecyclerView.ViewHolder {
 
         if (recyclerView != null) {
 
-            if (UserDefaultUtil.getUserLanguage()== Language.AR) {
+            if (UserDefaultUtil.getUserLanguage(itemView.getContext())== Language.AR) {
                 recyclerView.setLayoutManager(new RtlGridLayoutManager(itemView.getContext(), 7));
             }else{
                 recyclerView.setLayoutManager(new GridLayoutManager(itemView.getContext(), 7));

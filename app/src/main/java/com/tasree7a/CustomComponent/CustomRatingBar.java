@@ -47,13 +47,13 @@ public class CustomRatingBar extends LinearLayout {
 
     }
 
-    private void init(AttributeSet attrs){
+    private void init(AttributeSet attrs) {
 
         setOrientation(HORIZONTAL);
 
-        if(attrs != null){
+        if (attrs != null) {
 
-            TypedArray array = getContext().obtainStyledAttributes(attrs,R.styleable.CustomRatingBar);
+            TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.CustomRatingBar);
 
             for (int i = 0; i < array.getIndexCount(); ++i) {
 
@@ -63,7 +63,7 @@ public class CustomRatingBar extends LinearLayout {
 
                     case R.styleable.CustomRatingBar_rating:
 
-                        float rating = array.getFloat(attr,0);
+                        float rating = array.getFloat(attr, 0);
 
                         setRating(rating);
 
@@ -82,43 +82,43 @@ public class CustomRatingBar extends LinearLayout {
 
         removeAllViews();
 
-        for(int i = 0 ; i < (int)rating ; i++){
+        for (int i = 0; i < (int) rating; i++) {
 
-            addStar(i==0);
+            addStar(i == 0);
 
         }
 
-        if((int)rating < rating){ // rating is with fractions
+        if ((int) rating < rating) { // rating is with fractions
 
             addSubStart();
         }
 
-        for(int i = (int)rating +1 ; i <= 5 ; i++){
+        for (int i = (int) rating + 1; i <= 5; i++) {
 
             addEmptyStar();
         }
 
     }
 
-    private void addStar(boolean isFirstItem){
+    private void addStar(boolean isFirstItem) {
 
         ImageView star = new ImageView(getContext());
 
         int width = UIUtils.dpToPx(this.width);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,width);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
 
-        if(!isFirstItem){
+        if (!isFirstItem) {
 
             int margin = UIUtils.dpToPx(4);
 
-            if(UserDefaultUtil.getUserLanguage() == Language.AR){
+            if (UserDefaultUtil.getUserLanguage(getContext()) == Language.AR) {
 
-                params.setMargins(0,0,margin,0);
+                params.setMargins(0, 0, margin, 0);
 
-            } else{
+            } else {
 
-                params.setMargins(margin,0,0,0);
+                params.setMargins(margin, 0, 0, 0);
 
             }
         }
@@ -131,23 +131,23 @@ public class CustomRatingBar extends LinearLayout {
 
     }
 
-    private void addEmptyStar(){
+    private void addEmptyStar() {
 
         ImageView star = new ImageView(getContext());
 
         int width = UIUtils.dpToPx(this.width);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,width);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
 
         int margin = UIUtils.dpToPx(4);
 
-        if(UserDefaultUtil.getUserLanguage() == Language.AR){
+        if (UserDefaultUtil.getUserLanguage(getContext()) == Language.AR) {
 
-            params.setMargins(0,0,margin,0);
+            params.setMargins(0, 0, margin, 0);
 
-        } else{
+        } else {
 
-            params.setMargins(margin,0,0,0);
+            params.setMargins(margin, 0, 0, 0);
 
         }
 
@@ -158,7 +158,7 @@ public class CustomRatingBar extends LinearLayout {
         addView(star);
     }
 
-    private void addSubStart(){
+    private void addSubStart() {
 
 
     }

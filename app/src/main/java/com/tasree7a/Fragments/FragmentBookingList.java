@@ -46,7 +46,7 @@ public class FragmentBookingList extends BaseFragment implements CardFactory, Ob
 
         rootView = inflater.inflate(R.layout.fragment_salon_bookings, container, false);
 
-        rootView.findViewById(R.id.add_booking).setOnClickListener(v -> FragmentManager.showBookNowFragment());
+        rootView.findViewById(R.id.add_booking).setOnClickListener(v -> FragmentManager.showBookNowFragment(getActivity()));
         bookingList = rootView.findViewById(R.id.bookings_list);
 
         bookingList.setLayoutManager(new LinearLayoutManager(getContext()));

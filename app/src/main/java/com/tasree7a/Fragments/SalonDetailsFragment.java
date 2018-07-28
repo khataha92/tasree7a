@@ -73,7 +73,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
 
     private View.OnClickListener listener = v -> {
         ReservationSessionManager.getInstance().setSalonModel(salonModel);
-        FragmentManager.showBookNowFragment();
+        FragmentManager.showBookNowFragment(getActivity());
     };
 
     private View.OnClickListener servicesListener = v -> rootView.getContext()
@@ -190,7 +190,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     }
 
     private void initSideMenuViews() {
-        navHeader.findViewById(R.id.profile_image).setOnClickListener(v -> FragmentManager.showProfileFragment());
+        navHeader.findViewById(R.id.profile_image).setOnClickListener(v -> FragmentManager.showProfileFragment(getActivity()));
         closeDrawer.setOnClickListener(v -> nvDrawer.closeDrawers());
 
         initLangButton();
@@ -210,7 +210,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
                             nvDrawer.closeDrawers();
                             break;
                         case R.id.bookings:
-                            FragmentManager.showFragmentBookingList();
+                            FragmentManager.showFragmentBookingList(getActivity());
                             break;
                         case R.id.logout:
                             UserDefaultUtil.logout();
@@ -219,7 +219,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
                             Objects.requireNonNull(getActivity()).finish();
                             break;
                         case R.id.settings:
-                            FragmentManager.showSettingsFragment();
+                            FragmentManager.showSettingsFragment(getActivity());
                             break;
                     }
 
@@ -231,7 +231,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     private void initLangButton() {
         langSwitch = navHeader.findViewById(R.id.switch_item);
         langSwitch.setChecked(UserDefaultUtil.isAppLanguageArabic());
-        langSwitch.setAction(() -> UIUtils.showConfirmLanguageChangeDialog(langSwitch));
+        langSwitch.setAction(() -> UIUtils.showConfirmLanguageChangeDialog(getContext(), langSwitch));
         if (UserDefaultUtil.getAppLanguage() == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         else

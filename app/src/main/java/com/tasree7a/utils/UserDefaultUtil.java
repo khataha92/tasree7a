@@ -1,5 +1,6 @@
 package com.tasree7a.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
@@ -35,20 +36,15 @@ public class UserDefaultUtil {
 
 
     public static boolean isAppLanguageArabic() {
-
         return Language.AR == getAppLanguage();
-
     }
 
 
     public static void init() {
-
         preferences = PreferenceManager.getDefaultSharedPreferences(getCurrentActivity());
     }
 
-
     public static void logout() {
-
         preferences.edit().clear().commit();
     }
 
@@ -65,13 +61,9 @@ public class UserDefaultUtil {
 
     }
 
-
     public static SalonModel getCurrentSalonUser() {
-
         return new Gson().fromJson(getStringValue(UserDefaultKeys.SALON_USER_MODEL.toString()), SalonModel.class);
-
     }
-
 
     public static void setCurrentSalonUser(SalonModel salon) {
         setStringValue(UserDefaultKeys.SALON_USER_MODEL.toString(), new Gson().toJson(salon));
@@ -227,71 +219,48 @@ public class UserDefaultUtil {
     }
 
 
-    public static Language getUserLanguage() {
-
+    public static Language getUserLanguage(Context context) {
         if (!Strings.isNullOrEmpty(cachedUserLanguage)) {
-
             return Language.valueOf(cachedUserLanguage.toUpperCase());
-
         }
 
         String deviceLanguage = getStringValue(UserDefaultKeys.DEVICE_LANGUAGE.toString());
-
         if (deviceLanguage != null && deviceLanguage.trim().length() == 0) {
-
             deviceLanguage = "en";
-
         }
 
         if (deviceLanguage != null) {
-
             cachedUserLanguage = deviceLanguage;
-
             return Language.valueOf(deviceLanguage.toUpperCase());
-
         }
 
-        deviceLanguage = getDeviceLanguage();
-
+        deviceLanguage = getDeviceLanguage(context);
         cachedUserLanguage = deviceLanguage;
-
         return Language.valueOf(deviceLanguage.toUpperCase());
-
     }
 
 
-    public static String getDeviceLanguage() {
+    public static String getDeviceLanguage(Context context) {
 
-        Resources res = getCurrentActivity().getResources();
+        Resources res = context.getResources();
         // Change locale settings in the app.
-
         android.content.res.Configuration conf = res.getConfiguration();
-
         String lang = conf.locale.getLanguage();
-
         if ("ar".equalsIgnoreCase(lang) || "en".equalsIgnoreCase(lang)) {
-
             return lang;
-
         } else {
-
             return "en";
         }
-
     }
 
     public static Language getAppLanguage() {
-
         String lang = getStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString());
-
         return Strings.isNullOrEmpty(lang) ? Language.EN : Language.valueOf(lang);
 
     }
 
     public static void setAppLanguage(Language lang) {
-
         setStringValue(UserDefaultKeys.LANGUAGE_LOCALE.toString(), lang.toString());
-
         restartApp();
     }
 

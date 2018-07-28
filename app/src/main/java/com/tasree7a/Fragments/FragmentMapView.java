@@ -133,7 +133,7 @@ public class FragmentMapView extends BaseFragment {
 
         hotelDetailsLayout.setClickable(true);
 
-        hotelDetailsLayout.setOnClickListener(v -> FragmentManager.showSalonDetailsFragment());
+        hotelDetailsLayout.setOnClickListener(v -> FragmentManager.showSalonDetailsFragment(getActivity()));
 
         hotelDetailsLayout.animateSalonDetailsLayout(showDetails);
 

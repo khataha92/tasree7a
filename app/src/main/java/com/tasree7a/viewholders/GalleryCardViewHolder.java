@@ -60,23 +60,23 @@ public class GalleryCardViewHolder extends BaseCardViewHolder {
             scroll.setVisibility(View.GONE);
         }
         seeAll.setOnClickListener(v -> {
-            if (!salon.isBusiness()) {
-                FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
-            } else {
-                //show add/delete fragment
-                if (galleryModel.getType() == 1)
-                    if (salonProducts == null || salonProducts.size() == 0)
-                        FragmentManager.showAddProductFragment((isSuccess, result) -> {
-                        });
-                    else
-                        FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
-                else if (galleryModel.getType() == 0)
-                    if (galleryModel.getImageModelList() == null || galleryModel.getImageModelList().size() == 0)
-                        FragmentManager.showAddGalleryItemFragment(salon, (isSuccess, result) -> {
-                        });
-                    else
-                        FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
-            }
+//            if (!salon.isBusiness()) {
+//                FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+//            } else {
+//                //show add/delete fragment
+//                if (galleryModel.getType() == 1)
+//                    if (salonProducts == null || salonProducts.size() == 0)
+//                        FragmentManager.showAddProductFragment((isSuccess, result) -> {
+//                        });
+//                    else
+//                        FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+//                else if (galleryModel.getType() == 0)
+//                    if (galleryModel.getImageModelList() == null || galleryModel.getImageModelList().size() == 0)
+//                        FragmentManager.showAddGalleryItemFragment(salon, (isSuccess, result) -> {
+//                        });
+//                    else
+//                        FragmentManager.showFragmentGallery(salon, new ArrayList<>(imageModels), salonProducts == null ? null : new ArrayList<>(salonProducts));
+//            }
         });
     }
 }

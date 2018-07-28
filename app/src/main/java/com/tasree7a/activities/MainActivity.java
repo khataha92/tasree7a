@@ -42,9 +42,9 @@ public class MainActivity extends FragmentActivity {
         initializations();
         setContentView(R.layout.activity_main);
         initTabsView();
-        AppUtil.checkAppLanguage();
+        AppUtil.checkAppLanguage(this);
 
-        if ((UserDefaultUtil.getAppLanguage() == Language.AR) && UserDefaultUtil.getUserLanguage() == Language.AR)
+        if ((UserDefaultUtil.getAppLanguage() == Language.AR) && UserDefaultUtil.getUserLanguage(this) == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         else
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);

@@ -240,6 +240,7 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
                 break;
 
             case R.id.new_user:
+
             case R.id.sign_up:
 
                 startActivity(new Intent(ThisApplication.getCurrentActivity(), SignupActivity.class));

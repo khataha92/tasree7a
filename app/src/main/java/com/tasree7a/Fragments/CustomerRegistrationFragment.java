@@ -68,7 +68,7 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
 
         login.setOnClickListener(this);
 
-        if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage() == Language.AR)
+        if (UserDefaultUtil.getAppLanguage() == Language.AR && UserDefaultUtil.getUserLanguage(getContext()) == Language.AR)
             ThisApplication.getCurrentActivity().getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         else

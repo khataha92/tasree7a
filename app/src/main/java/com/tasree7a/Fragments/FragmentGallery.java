@@ -56,7 +56,7 @@ public class FragmentGallery extends BaseFragment implements Observer, GalleryCl
         title = rootView.findViewById(R.id.title);
         salonName = rootView.findViewById(R.id.salon_name);
         salonName.setText(ReservationSessionManager.getInstance().getSalonModel().getName());
-        changeItems = rootView.findViewById(R.id.change_items);
+//        changeItems = rootView.findViewById(R.id.change_items);
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
         extractArgumentsData();
@@ -69,7 +69,7 @@ public class FragmentGallery extends BaseFragment implements Observer, GalleryCl
     @Override
     public void onImageItemClicked(boolean isSelection, int position) {
         if (!isSelection) {
-            FragmentManager.showGalleryFullScreenFragment(imageModelList, position);
+//            FragmentManager.showGalleryFullScreenFragment(imageModelList, position);
         } else {
             mSelectedImagesList.add(imageModelList.get(position).getImageId());
         }

@@ -31,7 +31,7 @@ public class SignupActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_signup);
 
-        AppUtil.checkAppLanguage();
+        AppUtil.checkAppLanguage(this);
 
         initTabsView();
     }

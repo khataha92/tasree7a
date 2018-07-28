@@ -305,34 +305,19 @@ public class UIUtils {
 
     }
 
-    public static void showConfirmLanguageChangeDialog(final CustomSwitch langSwitch) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(ThisApplication.getCurrentActivity())
-
+    public static void showConfirmLanguageChangeDialog(Context context, final CustomSwitch langSwitch) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setTitle(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.CONFILM_LANG_CHANGE_TITLE))
-
                 .setMessage(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.CONFILM_LANG_CHANGE_TEXT))
-
                 .setPositiveButton(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.YES), (dialog, which) -> {
-
                     Language lang = UserDefaultUtil.isAppLanguageArabic() ? Language.EN : Language.AR;
-
                     langSwitch.setChecked(!langSwitch.isChecked());
-
                     UserDefaultUtil.setAppLanguage(lang);
-
                 })
-
                 .setNegativeButton(ThisApplication.getCurrentActivity().getApplicationContext().getResources().getString(R.string.NO), (dialog, which) -> dialog.dismiss()).setCancelable(false);
 
         AlertDialog dialog = builder.create();
-
         dialog.show();
-
-//        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLUE);
-
-//        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLUE);
-
     }
 
 

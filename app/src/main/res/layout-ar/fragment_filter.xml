@@ -138,7 +138,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                <CustomRadioGroup
+                <com.tasree7a.customcomponent.CustomRadioGroup
                     android:id="@+id/sort_by"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                     android:weightSum="3">
 
 
-                    <CustomRadioButton
+                    <com.tasree7a.customcomponent.CustomRadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -154,7 +154,7 @@
                         app:text="@string/DISTANCE"
                         tools:ignore="MissingPrefix" />
 
-                    <CustomRadioButton
+                    <com.tasree7a.customcomponent.CustomRadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -162,7 +162,7 @@
                         app:text="@string/RATING"
                         tools:ignore="MissingPrefix" />
 
-                </CustomRadioGroup>
+                </com.tasree7a.customcomponent.CustomRadioGroup>
 
             </LinearLayout>
 
@@ -192,21 +192,21 @@
                     android:layout_height="wrap_content"
                     android:weightSum="3">
 
-                    <CustomCheckbox
+                    <com.tasree7a.customcomponent.CustomCheckbox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:FilterType="Favorite"
                         app:text="@string/FAVORITES" />
 
-                    <CustomCheckbox
+                    <com.tasree7a.customcomponent.CustomCheckbox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:FilterType="Available"
                         app:text="@string/AVAILABLE_NOW" />
 
-                    <CustomCheckbox
+                    <com.tasree7a.customcomponent.CustomCheckbox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

@@ -98,7 +98,7 @@ public class BookingItemViewHolder extends BaseCardViewHolder {
 
             models.add(model.getSalon());
 
-            FragmentManager.showMapViewFragment(models);
+//            FragmentManager.showMapViewFragment(models);
 
         });
 

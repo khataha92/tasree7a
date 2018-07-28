@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="221dp"
     android:background="@color/WHITE">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="221dp"
-        android:layout_marginBottom="15dp"
         android:background="@color/BG_GRAY"
-        android:elevation="2dp">
+        android:elevation="2dp"
+        tools:targetApi="lollipop">
 
         <com.tasree7a.customcomponent.RoundedCornersImageView
             android:id="@+id/sallon_image"
@@ -31,31 +32,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/sallon_name"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
                 android:text="Ramallah"
                 android:textColor="@color/APP_BLACK"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/sallon_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="12.3dp"
+                android:layout_marginEnd="12.3dp"
                 android:layout_marginTop="13.7dp"
-                android:layout_toLeftOf="@+id/salon_city"
+                android:layout_toStartOf="@+id/salon_city"
                 android:text="Malki Sallon,"
                 android:textColor="@color/APP_BLACK"
-                android:textSize="19.3sp" />
+                android:textSize="19.3sp"
+                tools:ignore="HardcodedText" />
 
 
             <ImageView
                 android:id="@+id/is_popular"
                 android:layout_width="25dp"
                 android:layout_height="22dp"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
                 android:layout_marginTop="13.7dp"
                 android:src="@drawable/like" />
 
@@ -63,13 +66,10 @@
                 android:id="@+id/salon_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignRight="@+id/sallon_name"
+                android:layout_alignParentEnd="true"
+                android:layout_alignEnd="@+id/sallon_name"
                 android:layout_below="@+id/sallon_name"
                 android:layout_marginTop="3dp" />
-
         </RelativeLayout>
-
     </RelativeLayout>
-
 </RelativeLayout>

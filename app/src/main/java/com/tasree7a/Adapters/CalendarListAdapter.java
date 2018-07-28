@@ -62,7 +62,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarMonthViewH
 
         this.context = ThisApplication.getCurrentActivity();
 
-        this.today = DateUtil.dateToLocalDate(DateUtil.getToday());
+        this.today = DateUtil.dateToLocalDate(DateUtil.getToday(context));
 
         this.markerCheckInDate = cModel.getMarkerCheckInDate();
 
@@ -315,7 +315,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarMonthViewH
 
                     types.add(0);
 
-                    labels.add(DateUtil.format(DateUtil.localDateToDate(date), isRTL? DateFormatsOptions.CALENDER_ALERT_RTL: DateFormatsOptions.CALENDER_ALERT_LTR));
+                    labels.add(DateUtil.format(context, DateUtil.localDateToDate(date), isRTL? DateFormatsOptions.CALENDER_ALERT_RTL: DateFormatsOptions.CALENDER_ALERT_LTR));
 
                     cells.add(null);
 

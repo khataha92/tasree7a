@@ -1,6 +1,7 @@
 package com.tasree7a.customcomponent;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
     View separator;
 
+    Context mContext;
+
     LinearLayout searchHistoryContainer;
 
     OnSearchBarStateChange onSearchBarStateChange;
@@ -69,23 +72,23 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
     }
 
-    private void init(AttributeSet attrs){
+    private void init(AttributeSet attrs) {
 
-        LayoutInflater.from(getContext()).inflate(R.layout.view_custom_top_bar,this);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_custom_top_bar, this);
 
-        searchText = (EditText) findViewById(R.id.search_text);
+        searchText = findViewById(R.id.search_text);
 
-        closeSearch = (ImageView) findViewById(R.id.close_search);
+        closeSearch = findViewById(R.id.close_search);
 
-        clearText = (ImageView) findViewById(R.id.clear_search);
+        clearText = findViewById(R.id.clear_search);
 
-        openMenu = (ImageView) findViewById(R.id.open_menu);
+        openMenu = findViewById(R.id.open_menu);
 
-        search = (ImageView) findViewById(R.id.search);
+        search = findViewById(R.id.search);
 
-        filter = (ImageView) findViewById(R.id.filter);
+        filter = findViewById(R.id.filter);
 
-        title = (TextView) findViewById(R.id.title);
+        title = findViewById(R.id.title);
 
         separator = findViewById(R.id.separator);
 
@@ -93,34 +96,23 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
         closeSearch.setOnClickListener(this);
 
-        openMenu.setOnClickListener(new OnClickListener() {
+        openMenu.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if (onFirstIconClickListener != null) {
 
-                if(onFirstIconClickListener != null){
-
-                    onFirstIconClickListener.onClick(v);
-                }
+                onFirstIconClickListener.onClick(v);
             }
         });
 
-        filter.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        filter.setOnClickListener(v -> FragmentManager.showFilterFragment(mContext));
 
-                FragmentManager.showFilterFragment();
-
-            }
-        });
-
-        searchHistoryContainer = (LinearLayout) findViewById(R.id.search_history_container);
+        searchHistoryContainer = findViewById(R.id.search_history_container);
 
         search.setOnClickListener(this);
 
     }
 
-    public void showNormalMode(){
+    public void showNormalMode() {
 
         searchText.setVisibility(GONE);
 
@@ -140,7 +132,7 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
         search.setVisibility(VISIBLE);
 
-        if(onSearchBarStateChange != null){
+        if (onSearchBarStateChange != null) {
 
             onSearchBarStateChange.onSearchClose();
 
@@ -150,7 +142,7 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
     }
 
-    public void showSearchMode(){
+    public void showSearchMode() {
 
         searchText.setVisibility(VISIBLE);
 
@@ -168,7 +160,7 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
         search.setVisibility(GONE);
 
-        if(UserDefaultUtil.getSearchHistory().size() > 0) {
+        if (UserDefaultUtil.getSearchHistory().size() > 0) {
 
             separator.setVisibility(VISIBLE);
 
@@ -176,7 +168,7 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
         UIUtils.showSoftKeyboard(searchText);
 
-        if(onSearchBarStateChange != null){
+        if (onSearchBarStateChange != null) {
 
             onSearchBarStateChange.onSearchOpen();
         }
@@ -198,7 +190,7 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.close_search:
 
@@ -232,5 +224,9 @@ public class CustomTopBar extends RelativeLayout implements View.OnClickListener
 
     public void setOnFirstIconClickListener(OnClickListener onFirstIconClickListener) {
         this.onFirstIconClickListener = onFirstIconClickListener;
+    }
+
+    public void setActivityContext(Context activityContext) {
+        mContext = activityContext;
     }
 }

@@ -72,7 +72,7 @@ public class BookNowFragment extends BaseFragment implements SalonServiceSelecti
                 Toast.makeText(ThisApplication.getCurrentActivity(), message, Toast.LENGTH_LONG).show();
                 return;
             }
-            FragmentManager.showBookScheduleFragment(mSalonServices);
+            FragmentManager.showBookScheduleFragment(getActivity(), mSalonServices);
         });
 
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());

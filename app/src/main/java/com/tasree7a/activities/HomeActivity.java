@@ -33,15 +33,15 @@ public class HomeActivity extends FragmentActivity {
         ThisApplication.setCurrentActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        AppUtil.checkAppLanguage();
+        AppUtil.checkAppLanguage(this);
         //noinspection ResultOfMethodCallIgnored
         prepareAvailableTimes(0);
         boolean isBusiness = UserDefaultUtil.isBusinessUser();
         if (!isBusiness) {
-            FragmentManager.showHomeFragment();
+            FragmentManager.showHomeFragment(this);
             UIUtils.hideSweetLoadingDialog();
         } else {
-            FragmentManager.showSalonDetailsFragment();
+            FragmentManager.showSalonDetailsFragment(this);
         }
     }
 

@@ -54,7 +54,7 @@ public class FragmentProducts extends BaseFragment implements Observer, ProductI
         mTitle = rootView.findViewById(R.id.title);
         mSalonName = rootView.findViewById(R.id.salon_name);
         mSalonName.setText(ReservationSessionManager.getInstance().getSalonModel().getName());
-        mChangeItems = rootView.findViewById(R.id.change_items);
+//        mChangeItems = rootView.findViewById(R.id.change_items);
         rootView.findViewById(R.id.back).setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
 
         extractArgumentsData();
@@ -67,7 +67,7 @@ public class FragmentProducts extends BaseFragment implements Observer, ProductI
     @Override
     public void onProductClickedListener(boolean isSelection, int itemPosition) {
         if (!isSelection) {
-            FragmentManager.showGalleryFullScreenFragment(mImageModels, itemPosition);
+//            FragmentManager.showGalleryFullScreenFragment(mImageModels, itemPosition);
         } else {
             mSelectedProductsList.add(mProductsList.get(itemPosition).getId());
         }

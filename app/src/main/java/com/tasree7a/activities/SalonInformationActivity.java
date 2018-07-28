@@ -354,7 +354,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
 
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.gallery),
                 (dialog, which) -> {
-                    if (PermissionsUtil.isPermessionGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (PermissionsUtil.isPermissionGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         openGallerySelectionIntent();
                     } else {
                         PermissionsUtil.grantPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE_REQUEST_CODE);
@@ -365,7 +365,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
     }
 
     private void openCameraDialog() {
-        if (PermissionsUtil.isPermessionGranted(this, Manifest.permission.CAMERA)) {
+        if (PermissionsUtil.isPermissionGranted(this, Manifest.permission.CAMERA)) {
             Log.d("", "");
 //            Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 //            mFileUri = CameraUtils.getOutputMediaFileUri(this);

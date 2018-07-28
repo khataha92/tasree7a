@@ -50,7 +50,7 @@ public class FragmentFilter extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_filter,null);
+        rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_filter, container, false);
 
         applyButton = rootView.findViewById(R.id.btn_apply);
 
@@ -81,17 +81,17 @@ public class FragmentFilter extends BaseFragment {
 //
 //        citiesSpinner.setAdapter(adapter);
 
-        for(int i = 0 ; i < sortTypeGroup.getChildCount() ; i++){
+        for (int i = 0; i < sortTypeGroup.getChildCount(); i++) {
 
             View view = sortTypeGroup.getChildAt(i);
 
-            if(view instanceof CustomRadioButton){
+            if (view instanceof CustomRadioButton) {
 
                 CustomRadioButton radioButton = (CustomRadioButton) view;
 
                 radioButton.uncheck();
 
-                if(radioButton.getSortType() == FilterAndSortManager.getInstance().getSortType()){
+                if (radioButton.getSortType() == FilterAndSortManager.getInstance().getSortType()) {
 
                     radioButton.check();
 
@@ -99,17 +99,17 @@ public class FragmentFilter extends BaseFragment {
             }
         }
 
-        for(int i = 0 ; i < filters.getChildCount() ; i++){
+        for (int i = 0; i < filters.getChildCount(); i++) {
 
             View view = filters.getChildAt(i);
 
-            if(view instanceof CustomCheckbox){
+            if (view instanceof CustomCheckbox) {
 
                 CustomCheckbox checkbox = (CustomCheckbox) view;
 
                 checkbox.uncheck();
 
-                if(FilterAndSortManager.getInstance().getFilters().contains(checkbox.getFilterType())){
+                if (FilterAndSortManager.getInstance().getFilters().contains(checkbox.getFilterType())) {
 
                     checkbox.check();
 
@@ -127,9 +127,9 @@ public class FragmentFilter extends BaseFragment {
 
             List<Checkable> checkables = filters.getCheckedList();
 
-            for(int i = 0 ; i < checkables.size() ; i++){
+            for (int i = 0; i < checkables.size(); i++) {
 
-                filterTypes.add(((CustomCheckbox)checkables.get(i)).getFilterType());
+                filterTypes.add(((CustomCheckbox) checkables.get(i)).getFilterType());
             }
 
 //                if (genderFilter.isChecked()){
@@ -161,11 +161,11 @@ public class FragmentFilter extends BaseFragment {
         return rootView;
     }
 
-    private boolean isCityContained(List<CityModel> cities, CityModel cityModel){
+    private boolean isCityContained(List<CityModel> cities, CityModel cityModel) {
 
-        for(int i = 0 ; i < cities.size() ; i++){
+        for (int i = 0; i < cities.size(); i++) {
 
-            if(cities.get(i).getName().equalsIgnoreCase( cityModel.getName())){
+            if (cities.get(i).getName().equalsIgnoreCase(cityModel.getName())) {
 
                 return true;
             }

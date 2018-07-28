@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.tasree7a.R;
 import com.tasree7a.adapters.GalleryAdapter;
 import com.tasree7a.customcomponent.SpacesItemDecoration;
+import com.tasree7a.fragments.FullScreenGalleryActivity;
 import com.tasree7a.interfaces.GalleryClickListener;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.ReservationSessionManager;
@@ -24,6 +25,7 @@ import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +89,9 @@ public class SalonImagesGalleryActivity extends AppCompatActivity implements Gal
     @Override
     public void onImageItemClicked(boolean selected, int position) {
         if (!UserDefaultUtil.isBusinessUser()) {
-            FragmentManager.showGalleryFullScreenFragment(mImageModelsList, position);
+            startActivity(new Intent(this, FullScreenGalleryActivity.class)
+            .putExtra(FullScreenGalleryActivity.IMAGE_MODELS_LIST, (Serializable) mImageModelsList)
+            .putExtra(FullScreenGalleryActivity.IMAGE_POSITION, position));
         } else {
             if (selected) {
                 mSelectedImagesList.add(mImageModelsList.get(position).getImageId());

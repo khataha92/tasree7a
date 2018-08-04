@@ -285,6 +285,7 @@
                 android:textSize="19.3sp" />
 
             <LinearLayout
+                android:id="@+id/from_to"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="17dp"

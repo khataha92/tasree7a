@@ -152,5 +152,7 @@ soon as possible</string>
     <string name="products_gallery_title">Salon Products</string>
     <string name="error_fill_fields">Please fill all the Fields</string>
     <string name="total_label">Total:</string>
+    <string name="from_time">From</string>
+    <string name="to_time">To</string>
 
 </resources>

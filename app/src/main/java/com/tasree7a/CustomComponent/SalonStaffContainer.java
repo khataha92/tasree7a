@@ -21,6 +21,7 @@ import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SalonStaffContainer extends LinearLayout {
 
@@ -64,10 +65,10 @@ public class SalonStaffContainer extends LinearLayout {
 
     public void addNewBarber(AddNewBarberRequestModel staffMemberDataModel) {
         RelativeLayout barberItem = (RelativeLayout) LayoutInflater.from(getContext()).inflate(R.layout.staff_item_view, this, false);
-        ((TextView) barberItem.findViewById(R.id.new_item)).setText(staffMemberDataModel.getEmail());
+        ((TextView) barberItem.findViewById(R.id.new_item)).setText(String.format(Locale.ENGLISH, "%s %s", staffMemberDataModel.getFirstName(), staffMemberDataModel.getLastName()));
         barberItem.findViewById(R.id.new_item).setOnClickListener(v -> {
             //TODO: handle removing items
-            Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
+            Toast.makeText(getContext(),
                     "delete it!!",
                     Toast.LENGTH_LONG).show();
         });

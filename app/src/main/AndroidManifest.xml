@@ -140,24 +140,23 @@
         <activity
             android:name=".fragments.FullScreenGalleryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
 
         <service android:name=".services.PushService">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-    </service>
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
-    <service android:name=".services.InstanceIdService">
-        <intent-filter>
-            <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-        </intent-filter>
-    </service>
+        <service android:name=".services.InstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBsC-jNEKMbSWQgeuOyd28aYTsT61Cy17Q" />
+    </application>
 
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyBsC-jNEKMbSWQgeuOyd28aYTsT61Cy17Q" />
-</application>
-
-    </manifest>
+</manifest>

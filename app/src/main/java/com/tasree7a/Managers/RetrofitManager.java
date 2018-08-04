@@ -578,6 +578,37 @@ public class RetrofitManager {
         });
     }
 
+    public void updateSalonDetails(SalonInformationRequestModel salonInformationRequestModel, File file, final AbstractCallback abstractCallback) {
+
+        MultipartBody.Part body = null;
+        if (file != null) {
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            body = MultipartBody.Part.createFormData("img_file", file.getName(), reqFile);
+
+        }
+        Call<AddNewSalonResponseModel> updateSalonDetailsCall = request.
+                updateSalonDetails(RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonId()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getCityID()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonType()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getOwnerName()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getOwnerMobile()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonLat()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonLong()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonName()),
+                        body);
+
+        updateSalonDetailsCall.enqueue(new Callback<AddNewSalonResponseModel>() {
+            @Override
+            public void onResponse(@NonNull Call<AddNewSalonResponseModel> call, @NonNull Response<AddNewSalonResponseModel> response) {
+                abstractCallback.onResult(response.isSuccessful(), response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AddNewSalonResponseModel> call, @NonNull Throwable t) {
+                abstractCallback.onResult(false, t);
+            }
+        });
+    }
 
     public void addNewSalon(SalonInformationRequestModel salonInformationRequestModel, final AbstractCallback abstractCallback) {
 

@@ -153,6 +153,20 @@ public interface ServiceRequest {
                                                           @Field("salonLong") String salonLong,
                                                           @Field("salonName") String salonName);
 
+//		-img_file
+
+    @Multipart
+    @POST("updateSalonInformation")
+    Call<AddNewSalonResponseModel> updateSalonDetails(@Part("salonId") RequestBody salonId,
+                                                      @Part("salonCityId") RequestBody cityId,
+                                                      @Part("salonType") RequestBody salonType,
+                                                      @Part("ownerName") RequestBody ownerName,
+                                                      @Part("ownerMobile") RequestBody ownerMobile,
+                                                      @Part("salonLat") RequestBody salonLat,
+                                                      @Part("salonLong") RequestBody salonLong,
+                                                      @Part("salonName") RequestBody salonName,
+                                                      @Part MultipartBody.Part image);
+
     @FormUrlEncoded
     @POST("DeleteSalonService")
     Call<Void> deleteSalonService(@Field("salonId") String salonId,

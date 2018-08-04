@@ -6,6 +6,7 @@ package com.tasree7a.models.salondetails;
 
 public class SalonInformationRequestModel {
 
+    private String salonId;
     private String userID;
     private String cityID;
     private String salonType;
@@ -15,6 +16,25 @@ public class SalonInformationRequestModel {
     private String salonLat;
     private String salonLong;
     private String salonName;
+    private String userEmail;
+
+    public String getSalonId() {
+        return salonId;
+    }
+
+    public SalonInformationRequestModel setSalonId(String salonId) {
+        this.salonId = salonId;
+        return this;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public SalonInformationRequestModel setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+        return this;
+    }
 
     public String getUserID() {
         return userID;

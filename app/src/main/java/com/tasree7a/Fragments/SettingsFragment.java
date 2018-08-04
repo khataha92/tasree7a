@@ -44,7 +44,7 @@ public class SettingsFragment extends BaseFragment {
         if (!UserDefaultUtil.isBusinessUser())
             rootView.findViewById(R.id.info_cont).setVisibility(GONE);
         else {
-            rootView.findViewById(R.id.change_info_btn).setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonInformationActivity.class)));
+            rootView.findViewById(R.id.change_info_btn).setOnClickListener(v -> SalonInformationActivity.launch(this, true));
         }
     }
 

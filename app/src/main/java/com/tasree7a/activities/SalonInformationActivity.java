@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mcsoft.timerangepickerdialog.RangeTimePickerDialog;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.customcomponent.CircularCheckBox;
@@ -29,16 +32,19 @@ import com.tasree7a.customcomponent.CustomTimePicker;
 import com.tasree7a.customcomponent.SalonStaffContainer;
 import com.tasree7a.enums.Gender;
 import com.tasree7a.fragments.BaseFragment;
+import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.AddBarberClickListener;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.AddNewBarberRequestModel;
 import com.tasree7a.models.login.User;
 import com.tasree7a.models.salondetails.AddNewSalonResponseModel;
+import com.tasree7a.models.salondetails.SalonBarber;
 import com.tasree7a.models.salondetails.SalonInformationRequestModel;
 import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.PermissionsUtil;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,11 +56,13 @@ import java.util.Objects;
  * pre-fill data -> if from settings {all data}.
  * pre-fill some data if from registration {name, salonName, pass, email}
  */
-public class SalonInformationActivity extends AppCompatActivity implements AddBarberClickListener {
+public class SalonInformationActivity extends AppCompatActivity implements AddBarberClickListener, RangeTimePickerDialog.ISelectedTime {
 
+    public static final String TAG = SalonInformationActivity.class.getName() + "_TAG";
     public static final String SALON_NAME = SalonInformationActivity.class.getName() + "SALON_NAME";
     public static final String SALON_OWNER_NAME = SalonInformationActivity.class.getName() + "SALON_OWNER_NAME";
     public static final String SALON_EMAIL = SalonInformationActivity.class.getName() + "SALON_EMAIL";
+    public static final String UPDATE = SalonInformationActivity.class.getName() + "UPDATE";
 
     private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 435;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 347;
@@ -63,7 +71,11 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
     private final int CAMERA_REQUEST = 1888;
     private final int GALLERY_REQUEST = 1889;
 
+    private boolean isUpdate;
+
     private String mFinalTime = null;
+
+    private File mSelectedFile = null;
 
     private ImageView mSelectImage;
     private ImageView mBack;
@@ -93,19 +105,26 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
             R.id.fri
     };
 
-    public static void launch(BaseFragment fragment, String salonName, String salonEmail, String salonOwnerName) {
+    public static void launch(BaseFragment fragment, String salonName, String salonEmail, String salonOwnerName, boolean update) {
         Intent intent = new Intent(fragment.getContext(), SalonInformationActivity.class);
         intent.putExtra(SalonInformationActivity.SALON_NAME, salonName);
         intent.putExtra(SalonInformationActivity.SALON_EMAIL, salonEmail);
         intent.putExtra(SalonInformationActivity.SALON_OWNER_NAME, salonOwnerName);
+        intent.putExtra(SalonInformationActivity.UPDATE, update);
         fragment.startActivity(intent);
     }
 
-    public static void launch(FragmentActivity fragmentActivity, String salonName, String salonEmail, String salonOwnerName) {
+    public static void launch(BaseFragment fragment, boolean update) {
+        fragment.startActivity(new Intent(fragment.getContext(), SalonInformationActivity.class)
+                .putExtra(SalonInformationActivity.UPDATE, update));
+    }
+
+    public static void launch(FragmentActivity fragmentActivity, String salonName, String salonEmail, String salonOwnerName, boolean update) {
         Intent intent = new Intent(fragmentActivity, SalonInformationActivity.class);
         intent.putExtra(SalonInformationActivity.SALON_NAME, salonName);
         intent.putExtra(SalonInformationActivity.SALON_EMAIL, salonEmail);
         intent.putExtra(SalonInformationActivity.SALON_OWNER_NAME, salonOwnerName);
+        intent.putExtra(SalonInformationActivity.UPDATE, update);
         fragmentActivity.startActivity(intent);
     }
 
@@ -117,10 +136,9 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         initViews();
 
         Intent intent = getIntent();
-        if (intent != null
-                && intent.hasExtra(SALON_NAME)
-                && intent.hasExtra(SALON_OWNER_NAME)
-                && intent.hasExtra(SALON_EMAIL)) {
+        isUpdate = intent.getBooleanExtra(UPDATE, false);
+
+        if (intent.hasExtra(SALON_NAME) && intent.hasExtra(SALON_OWNER_NAME) && intent.hasExtra(SALON_EMAIL)) {
             //pre-fill registration data
             mSalonName.setText(intent.getStringExtra(SALON_NAME));
             mSalonOwnerNAme.setText(intent.getStringExtra(SALON_OWNER_NAME));
@@ -165,10 +183,26 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                 try {
                     Bitmap mSelectedBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedUri);
                     mSelectImage.setImageBitmap(mSelectedBitmap);
+                    mSelectedFile = new File(getRealPathFromUri(selectedUri));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
+        }
+    }
+
+    public String getRealPathFromUri(Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = Objects.requireNonNull(cursor).getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
     }
 
@@ -177,7 +211,24 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         startActivityForResult(new Intent(this, AddBarberActivity.class), AddBarberActivity.REQUEST_CODE);
     }
 
-    //TODO: E-Mail does not exist in SalonModel
+    @Override
+    public void onSelectedTime(int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
+        mFromTime.setText(to12HourFormat(String.format(Locale.ENGLISH, "%02d:%02d", hourStart, minuteStart)));
+        mToTime.setText(to12HourFormat(String.format(Locale.ENGLISH, "%02d:%02d", hourEnd, minuteEnd)));
+    }
+
+    private String to12HourFormat(String time) {
+
+        try {
+            final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+            return new SimpleDateFormat("K:mm aa", Locale.ENGLISH).format(sdf.parse(time));
+
+        } catch (final ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private void loadSalonInformation() {
         SalonModel salonModel = UserDefaultUtil.getCurrentSalonUser();
         if (salonModel != null) {
@@ -186,12 +237,15 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
             mSalonPhoneNumber.setText(salonModel.getOwnerMobileNumber());
             mMaleSalonType.setChecked(salonModel.getSalonType() == Gender.MALE);
             mFemaleSalonType.setChecked(salonModel.getSalonType() == Gender.FEMALE);
-            mSalonStaffContainer.preFillBarbers(salonModel.getSalonBarbers());
+
+//            mSalonStaffContainer.preFillBarbers(salonModel.getSalonBarbers());
         }
     }
 
     private void initViews() {
         mBack = findViewById(R.id.back);
+        mFromTime = findViewById(R.id.from_hours);
+        mToTime = findViewById(R.id.to_hours);
         mSelectImage = findViewById(R.id.image);
         mSelectImage.setOnClickListener(v -> openImageSelectionDialog());
         mSalonName = findViewById(R.id.salon_name);
@@ -204,40 +258,72 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         CustomButton mSaveSalonInformationBtn = findViewById(R.id.save);
         mCancelSalonInformationBtn = findViewById(R.id.cancel);
 
+        mBack.setOnClickListener(v -> finish());
+
+        findViewById(R.id.save).setOnClickListener(v -> finish());
+
+        findViewById(R.id.from_to).setOnClickListener(v -> {
+            RangeTimePickerDialog dialog = new RangeTimePickerDialog();
+            dialog.newInstance(R.color.CyanWater, R.color.White, R.color.Yellow, R.color.colorPrimary, true);
+            dialog.setIs24HourView(false);
+            FragmentManager fragmentManager = getFragmentManager();
+            dialog.show(fragmentManager, TAG);
+        });
+
         mSalonStaffContainer.setOnAddNewBarberClicked(this);
         mSaveSalonInformationBtn
                 .setOnClickListener(v -> {
 
                     if (mSalonStaffContainer.getBarbers() != null && mSalonStaffContainer.getBarbers().size() != 0) {
-
-                        RetrofitManager.getInstance().addNewSalon(BuildRequestData(),
-                                (isSuccess, result) -> {
-
-                                    if (isSuccess) {
-                                        User user = UserDefaultUtil.getCurrentUser();
-                                        user.setSalonId(((AddNewSalonResponseModel) result).getDetails().getSalonId());
-                                        UserDefaultUtil.saveUser(user);
-
+                        if (isUpdate) {
+                            RetrofitManager.getInstance().updateSalonDetails(BuildRequestData(),
+                                    mSelectedFile,
+                                    (isSuccess, result) -> {
+                                        updateSalonBarbers();
                                         startActivity(new Intent(this, HomeActivity.class));
                                         finish();
-                                    } else {
-                                        Toast.makeText(this, R.string.something_wrong, Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                                    });
+                        } else {
+                            RetrofitManager.getInstance().addNewSalon(BuildRequestData(), (isSuccess, result) -> {
+                                if (isSuccess) {
+                                    User user = UserDefaultUtil.getCurrentUser();
+                                    user.setSalonId(((AddNewSalonResponseModel) result).getDetails().getSalonId());
+                                    UserDefaultUtil.saveUser(user);
+
+                                    updateSalonBarbers();
+
+                                    startActivity(new Intent(this, HomeActivity.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(this, R.string.something_wrong, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
                     } else {
                         Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
                                 R.string.error_add_barbers,
                                 Toast.LENGTH_SHORT).show();
                     }
+
                 });
 
         initWorkingDays();
-        initFromTime();
-        initToTome();
+    }
+
+    private void updateSalonBarbers() {
+        for (AddNewBarberRequestModel salonBarber : mSalonStaffContainer.getBarbers()) {
+            RetrofitManager.getInstance()
+                    .addNewBarber(salonBarber,
+                            (isSuccess, result) -> {
+                                if (!isSuccess) {
+                                    Toast.makeText(this, getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
+                                }
+                            });
+        }
     }
 
     private SalonInformationRequestModel BuildRequestData() {
-        String salonType;
+        String salonType = "";
         if (mMaleSalonType.isChecked() && mFemaleSalonType.isChecked()) {
             salonType = "3";
         } else if (mMaleSalonType.isChecked()) {
@@ -247,88 +333,16 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         }
 
         return new SalonInformationRequestModel()
-                .setCityID("23")
+                .setCityID("15")
                 .setOwnerMobile(mSalonPhoneNumber.getText().toString())
                 .setOwnerName(mSalonOwnerNAme.getText().toString())
-//                .setSalonLat(String.format(Locale.ENGLISH, "%f", curLoc == null ? 1122 : curLoc.getLatitude()))
-//                .setSalonLat(String.format(Locale.ENGLISH, "%f", curLoc == null ? 1122 : curLoc.getLongitude()))
                 .setSalonLat("1122")
                 .setSalonLong("1122")
                 .setSalonName(mSalonName.getText().toString())
-                .setSalonType("3")
+                .setSalonType(salonType)
+                .setUserEmail("static@email.com")
+                .setSalonId(UserDefaultUtil.getCurrentSalonUser().getId())
                 .setUserID(UserDefaultUtil.getCurrentUser().getId());
-    }
-
-    private void initToTome() {
-        mToTime = findViewById(R.id.to_hours);
-        mToTime.setOnClickListener(v -> {
-            final Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.date_dialog);
-            dialog.findViewById(R.id.done).setOnClickListener(null);
-            dialog.findViewById(R.id.done).setAlpha(0.5f);
-            dialog.findViewById(R.id.done).setEnabled(false);
-
-            ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener((view, hourOfDay, minute) -> {
-
-                dialog.findViewById(R.id.done).setOnClickListener(mFinalTime == null
-                        ? null
-                        : (View.OnClickListener) v1 -> {
-                    SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-                    SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
-                    try {
-                        Date date = parseFormat.parse(mFinalTime);
-                        mToTime.setText(displayFormat.format(date));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    dialog.dismiss();
-                });
-
-                dialog.findViewById(R.id.done).setAlpha(mFinalTime == null
-                        ? 0.5f
-                        : 1f);
-
-                dialog.findViewById(R.id.done).setEnabled(mFinalTime != null);
-                mFinalTime = hourOfDay + ":" + minute;
-            });
-            dialog.show();
-        });
-    }
-
-    private void initFromTime() {
-        mFromTime = findViewById(R.id.from_hours);
-        mFromTime.setOnClickListener(v -> {
-            final Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.date_dialog);
-            dialog.findViewById(R.id.done).setOnClickListener(null);
-            dialog.findViewById(R.id.done).setAlpha(0.5f);
-            dialog.findViewById(R.id.done).setEnabled(false);
-
-            ((CustomTimePicker) dialog.findViewById(R.id.timePicker)).setOnTimeChangedListener((view, hourOfDay, minute) -> {
-                dialog.findViewById(R.id.done).setOnClickListener(mFinalTime == null
-                        ? null
-                        : (View.OnClickListener) v12 -> {
-                    SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-                    SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
-                    try {
-                        Date date = parseFormat.parse(mFinalTime);
-                        mFromTime.setText(displayFormat.format(date));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    dialog.dismiss();
-                });
-
-                dialog.findViewById(R.id.done).setAlpha(mFinalTime == null
-                        ? 0.5f
-                        : 1f);
-
-                dialog.findViewById(R.id.done).setEnabled(mFinalTime != null);
-
-                mFinalTime = hourOfDay + ":" + minute;
-            });
-            dialog.show();
-        });
     }
 
     private void initWorkingDays() {

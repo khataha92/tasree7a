@@ -74,7 +74,8 @@ public class MainActivity extends FragmentActivity {
             SalonInformationActivity.launch(this,
                     String.format(Locale.ENGLISH, "%s %s", regUser.getFirstName(), regUser.getLastName()),
                     regUser.getEmail(),
-                    regUser.getUsername());
+                    regUser.getUsername(),
+                    false);
             finish();
         } else {
             Intent intent = new Intent(this, HomeActivity.class);
@@ -90,17 +91,11 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void setUpViewPager(ViewPager tabsViewPager) {
-
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
         adapter.addFragment(new BaseLoginFragment(LoginType.USER), getApplicationContext().getResources().getString(R.string.CUSTOMER_TAB_TITLE));
-
         adapter.addFragment(new BaseLoginFragment(LoginType.BUSINESS), getApplicationContext().getResources().getString(R.string.BUSINESS_TAB_TITLE));
-
         tabsViewPager.setAdapter(adapter);
-
     }
-
 
     private void initTabsView() {
 

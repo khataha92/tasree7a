@@ -101,7 +101,8 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
                         SalonInformationActivity.launch(this,
                                 salonName,
                                 email,
-                                username);
+                                username,
+                                false);
                         getActivity().finish();
                     }
                 });

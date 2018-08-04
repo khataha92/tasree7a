@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://jitpack.io' }
         mavenCentral()
     }
 
@@ -123,6 +124,8 @@ dependencies {
     implementation 'com.github.drawers:SpinnerDatePicker:0.0.7'
     implementation 'id.zelory:compressor:2.1.0'
     implementation 'com.stripe:stripe-android:6.1.2'
+    implementation 'com.github.PuffoCyano:Range-Time-Picker-Dialog:v1.5'
+
     testImplementation 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

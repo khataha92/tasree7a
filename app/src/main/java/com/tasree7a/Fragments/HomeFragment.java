@@ -30,6 +30,7 @@ import com.tasree7a.enums.Gender;
 import com.tasree7a.enums.Language;
 import com.tasree7a.enums.ResponseCode;
 import com.tasree7a.interfaces.OnSearchBarStateChange;
+import com.tasree7a.interfaces.ScrollListener;
 import com.tasree7a.managers.FilterAndSortManager;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.RetrofitManager;
@@ -57,7 +58,10 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-public class HomeFragment extends BaseFragment implements Observer {
+public class HomeFragment extends BaseFragment implements Observer, ScrollListener {
+
+    private int pageIndex = 0;
+
     private RecyclerView popularSalons;
     private CustomTopBar topBar;
     private DrawerLayout nvDrawer;
@@ -65,11 +69,16 @@ public class HomeFragment extends BaseFragment implements Observer {
     private ImageView closeDrawer;
     private View transparentView;
     private View loadingView;
-    private List<SalonModel> filteredSalons;
+
+    private List<SalonModel> filteredSalons = new ArrayList<>();
+    private List<SalonModel> salons = new ArrayList<>();
+
     private CustomSwitch langSwitch;
     private View navHeader;
 
     static Location currentLocation;
+    private PopularSalonsAdapter mAdapter;
+
 
     public static MyLocationListener listener = new MyLocationListener();
 
@@ -100,6 +109,8 @@ public class HomeFragment extends BaseFragment implements Observer {
         popularSalons = rootView.findViewById(R.id.popular_sallons);
         popularSalons.setLayoutManager(new LinearLayoutManager(getContext()));
         popularSalons.addItemDecoration(new DefaultDividerItemDecoration(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.list_item_divider)));
+        mAdapter = new PopularSalonsAdapter(getActivity(), salons, this);
+        popularSalons.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -249,24 +260,36 @@ public class HomeFragment extends BaseFragment implements Observer {
         getSalons(location);
     }
 
+
+    @Override
+    public void onReachedEnd() {
+        pageIndex += 1;
+        getSallons();
+    }
+
     private void getSalons(Location location) {
-        if (location == null || filteredSalons != null) {
+
+        if (location == null || filteredSalons == null) {
             return;
         }
 
-        rootView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
-        RetrofitManager.getInstance().getNearestSalons(location.getLatitude(), location.getLongitude(), (isSuccess, result) -> {
+        RetrofitManager.getInstance().getNearestSalons(location.getLatitude(), location.getLongitude(), pageIndex, (isSuccess, result) -> {
             if (isSuccess) {
                 hideLoadingView();
                 PopularSalonsResponseModel model = (PopularSalonsResponseModel) result;
                 if (model.getResponseCode() == ResponseCode.SUCCESS) {
-                    List<SalonModel> salons = model.getSalons();
-                    filteredSalons = salons;
-                    SessionManager.getInstance().setSalons(salons);
-                    PopularSalonsAdapter adapter = new PopularSalonsAdapter(getActivity());
-                    adapter.setSalonModels(salons);
-                    popularSalons.setAdapter(adapter);
+                    if (model.getSalons() == null || model.getSalons().isEmpty()) {
+                        mAdapter.setHasMore(false);
+                        mAdapter.notifyDataSetChanged();
+
+                    } else {
+                        salons.addAll(model.getSalons());
+                        filteredSalons.addAll(salons);
+                        SessionManager.getInstance().setSalons(salons);
+                        mAdapter.setHasMore(true);
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
             }
             rootView.findViewById(R.id.loading).setVisibility(View.GONE);
@@ -276,12 +299,13 @@ public class HomeFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof LocationChangedObservable) {
-            getSallons();
+//            getSallons();
         } else if (o instanceof FavoriteChangeObservable) {
             popularSalons.getAdapter().notifyDataSetChanged();
         } else if (o instanceof PermissionGrantedObservable) {
-            Location location = AppUtil.getCurrentLocation();
-            getSalons(location);
+//            rootView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
+//            Location location = AppUtil.getCurrentLocation();
+//            getSalons(location);
         } else if (o instanceof FilterAndSortObservable) {
             filteredSalons = new ArrayList<>();
             List<FilterType> filterTypes = FilterAndSortManager.getInstance().getFilters();

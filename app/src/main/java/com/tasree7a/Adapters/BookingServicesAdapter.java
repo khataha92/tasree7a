@@ -56,7 +56,7 @@ public class BookingServicesAdapter extends BaseAdapter {
 
         serviceName.setText(bookingServiceList.get(position).getServiceName());
 
-        cost.setText("$" + bookingServiceList.get(position).getCost());
+        cost.setText("" + bookingServiceList.get(position).getCost());
 
         return view;
 

@@ -55,6 +55,6 @@ public class ProductItemViewHolder extends RecyclerView.ViewHolder {
 
         itemView.findViewById(R.id.product_details).setVisibility(View.VISIBLE);
         mName.setText(mSalonProduct.getName());
-        mPrice.setText(String.format(Locale.ENGLISH, "$%s", mSalonProduct.getPrice()));
+        mPrice.setText(String.format(Locale.ENGLISH, "%s", mSalonProduct.getPrice()));
     }
 }

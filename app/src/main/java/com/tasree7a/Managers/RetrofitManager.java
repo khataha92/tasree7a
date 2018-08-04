@@ -26,7 +26,9 @@ import com.tasree7a.models.signup.SignupResponseModel;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -168,14 +170,19 @@ public class RetrofitManager {
             body = MultipartBody.Part.createFormData("img_file", selectedFile.getName(), reqFile);
         }
 
+        StringBuilder ids = new StringBuilder();
+
+        for (String id : model.getProductId()) {
+            ids.append(id).append("~");
+        }
+        /////////
+
         Call<Object> call = request.updateSalonProduct(RequestBody.create(MediaType.parse("multipart/form-data"), model.getOperation()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductName()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductDescription()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductPrice()),
-                RequestBody.create(MediaType.parse("multipart/form-data"), model.getSalonId()),
-                model.getProductId() != null
-                        ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductId())
-                        : null,
+                model.getProductName() != null ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductName()) : null,
+                model.getProductDescription() != null ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductDescription()) : null,
+                model.getProductPrice() != null ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductPrice()) : null,
+                model.getSalonId() != null ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getSalonId()) : null,
+                RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(ids)),
                 body);
 
         call.enqueue(new Callback<Object>() {
@@ -320,8 +327,8 @@ public class RetrofitManager {
     }
 
 
-    public void getNearestSalons(double lat, double lng, final AbstractCallback callback) {
-        Call<PopularSalonsResponseModel> call = request.getNearestSalons(lat, lng);
+    public void getNearestSalons(double lat, double lng, int pageIndex, final AbstractCallback callback) {
+        Call<PopularSalonsResponseModel> call = request.getNearestSalons(lat, lng, pageIndex);
         call.enqueue(new Callback<PopularSalonsResponseModel>() {
             @Override
             public void onResponse(Call<PopularSalonsResponseModel> call, Response<PopularSalonsResponseModel> response) {
@@ -505,21 +512,27 @@ public class RetrofitManager {
         }
 
         ////////////////////////////////////////////////////////////////
-        List<MultipartBody.Part> imagesIds = null;
-        if (model.getImageId() != null
-                && !model.getImageId().isEmpty()
-                && selectedFile == null) {
-            imagesIds = new ArrayList<>();
 
-            for (String id : model.getImageId()) {
-                imagesIds.add(MultipartBody.Part.createFormData("imageId[]", id));
-            }
+//        List<MultipartBody.Part> images = new ArrayList<>();
+//        for (String imageId : model.getImageId()) {
+//            images.add(RequestBody.create(MediaType.parse("multipart/form-data"), imageId));
+//        }
+//
+//        Map<String, RequestBody> imageIds = new HashMap<>();
+//        RequestBody requestFile;
+//        for (int i = 0; i < model.getImageId().size(); i++) {
+//            requestFile = RequestBody.create(MultipartBody.FORM, model.getImageId().get(i));
+//            imageIds.put("imageId[" + i + "]", requestFile);
+//        }
+        StringBuilder imageIds = new StringBuilder();
+        for (String id : model.getImageId()) {
+            imageIds.append(id).append("~");
         }
         ////////////////////////////////////////////////////////////////
 
         Call<UpdateGalleryResponseModel> get = request.updateSalonImages(RequestBody.create(MediaType.parse("multipart/form-data"), model.getOperation()),
                 RequestBody.create(MediaType.parse("multipart/form-data"), model.getSalonId()),
-                imagesIds,
+                RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(imageIds)),
                 body);
 
         get.enqueue(new Callback<UpdateGalleryResponseModel>() {
@@ -643,11 +656,12 @@ public class RetrofitManager {
         deleteSalonService.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                callback.onResult(response.isSuccessful(), response.body());
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-
+                callback.onResult(false, t);
             }
         });
     }

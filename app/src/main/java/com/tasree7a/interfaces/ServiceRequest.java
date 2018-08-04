@@ -12,6 +12,7 @@ import com.tasree7a.models.salondetails.SalonDetailsResponseModel;
 import com.tasree7a.models.signup.SignupResponseModel;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -54,7 +55,7 @@ public interface ServiceRequest {
     @POST("updateSalonImage")
     Call<UpdateGalleryResponseModel> updateSalonImages(@Part("operation") RequestBody operation,
                                                        @Part("salonId") RequestBody salonId,
-                                                       @Part List<MultipartBody.Part> imagesIds,
+                                                       @Part("imageId") RequestBody images,
                                                        @Part MultipartBody.Part image);
 
 
@@ -63,7 +64,7 @@ public interface ServiceRequest {
     Call<Object> addSalonService(@Part("serviceName") RequestBody serviceName,
                                  @Part("servicePrice") RequestBody servicePrice,
                                  @Part("salonId") RequestBody salonId,
-                                 @Part MultipartBody.Part image/*@Field("serviceImage") String serviceImage*/);
+                                 @Part MultipartBody.Part image);
 
 
     @FormUrlEncoded
@@ -98,7 +99,7 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("getNearestSalons")
-    Call<PopularSalonsResponseModel> getNearestSalons(@Field("currentUserLat") double lat, @Field("currentUserLong") double lng);
+    Call<PopularSalonsResponseModel> getNearestSalons(@Field("currentUserLat") double lat, @Field("currentUserLong") double lng, @Field("pageIndex") int pageIndex);
 
 
     @FormUrlEncoded
@@ -137,7 +138,7 @@ public interface ServiceRequest {
                                     @Part("productDescription") RequestBody prodDesc,
                                     @Part("productPrice") RequestBody price,
                                     @Part("salonId") RequestBody id,
-                                    @Part("productId") RequestBody prodId,
+                                    @Part("product_ids_list") RequestBody prodId,
                                     @Part MultipartBody.Part image);
 
 

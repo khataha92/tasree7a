@@ -116,6 +116,10 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         bookNowLbl = rootView.findViewById(R.id.book_now_lbl);
 
         addToFavorite = rootView.findViewById(R.id.add_to_favorite);
+        if (UserDefaultUtil.isBusinessUser()) {
+            addToFavorite.setVisibility(View.GONE);
+        }
+
         addToFavorite.setOnClickListener(v -> {
             if (UserDefaultUtil.isSalonFavorite(salonModel)) {
                 UserDefaultUtil.removeSalonFromFavorite(salonModel);

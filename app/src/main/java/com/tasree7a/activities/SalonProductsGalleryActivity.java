@@ -130,6 +130,9 @@ public class SalonProductsGalleryActivity extends AppCompatActivity implements P
     }
 
     private UpdateProductRequestModel buildRequestDataModel() {
-        return new UpdateProductRequestModel();
+        return new UpdateProductRequestModel()
+                .setSalonId(UserDefaultUtil.getCurrentSalonUser().getId())
+                .setProductId(mSelectedProductsList)
+                .setOperation("DELETE");
     }
 }

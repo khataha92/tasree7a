@@ -2,6 +2,8 @@ package com.tasree7a.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by SamiKhleaf on 10/23/17.
  */
@@ -27,7 +29,7 @@ public class UpdateProductRequestModel {
     private String salonId;
 
     @SerializedName("productId")
-    private String productId;
+    private List<String> productId;
 
     public String getOperation() {
         return operation;
@@ -83,11 +85,11 @@ public class UpdateProductRequestModel {
         return this;
     }
 
-    public String getProductId() {
+    public List<String> getProductId() {
         return productId;
     }
 
-    public UpdateProductRequestModel setProductId(String productId) {
+    public UpdateProductRequestModel setProductId(List<String> productId) {
         this.productId = productId;
         return this;
     }

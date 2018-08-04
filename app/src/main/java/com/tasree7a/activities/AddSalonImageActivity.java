@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.tasree7a.R;
 import com.tasree7a.customcomponent.CustomButton;
@@ -40,6 +41,7 @@ public class AddSalonImageActivity extends AppCompatActivity {
 
     private Bitmap mSelectedBitmap;
     private File mSelectedFile;
+    private boolean dataValid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +85,13 @@ public class AddSalonImageActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        findViewById(R.id.apply).setOnClickListener(v -> requestAddSalonGalleryImage());
+        findViewById(R.id.apply).setOnClickListener(v -> {
+            if (isDataValid()) {
+                requestAddSalonGalleryImage();
+            } else {
+                Toast.makeText(this, "Missing data required", Toast.LENGTH_LONG).show();
+            }
+        });
         findViewById(R.id.cancel).setOnClickListener(v -> {
             setResult(Activity.RESULT_CANCELED);
             finish();
@@ -161,5 +169,9 @@ public class AddSalonImageActivity extends AppCompatActivity {
                 cursor.close();
             }
         }
+    }
+
+    public boolean isDataValid() {
+        return mSelectedFile != null;
     }
 }

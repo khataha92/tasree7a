@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+
 /**
  * Created by SamiKhleaf on 10/23/17.
  */

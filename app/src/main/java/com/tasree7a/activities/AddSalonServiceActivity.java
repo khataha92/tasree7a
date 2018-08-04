@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 3253;
 
     private File mSelectedFile;
-//    private Uri mFileUri;
+    //    private Uri mFileUri;
 //    private String mCurrentPhotoPath;
     private ImageView mSelectedImageDisplay;
 
@@ -111,7 +112,13 @@ public class AddSalonServiceActivity extends AppCompatActivity {
         mSelectedImageDisplay = findViewById(R.id.add_img);
 
         findViewById(R.id.add_product_image).setOnClickListener(v1 -> openImageSelectionDialog());
-        findViewById(R.id.apply).setOnClickListener(v -> requestAddService());
+        findViewById(R.id.apply).setOnClickListener(v -> {
+            if (isDataValid()) {
+                requestAddService();
+            } else {
+                Toast.makeText(this, "Missing data required", Toast.LENGTH_LONG).show();
+            }
+        });
 
         findViewById(R.id.cancel).setOnClickListener(v -> {
             setResult(Activity.RESULT_CANCELED);
@@ -237,5 +244,11 @@ public class AddSalonServiceActivity extends AppCompatActivity {
                 .setServiceName(((TextView) findViewById(R.id.service_type)).getText().toString())
                 .setServicePrice(((TextView) findViewById(R.id.price)).getText().toString())
                 .setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
+    }
+
+    public boolean isDataValid() {
+        return mSelectedFile != null
+                && !TextUtils.isEmpty(((TextView) findViewById(R.id.service_type)).getText().toString())
+                && !TextUtils.isEmpty(((TextView) findViewById(R.id.price)).getText().toString());
     }
 }

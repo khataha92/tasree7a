@@ -91,7 +91,6 @@ public class AddSalonProductActivity extends AppCompatActivity {
         mProductPriceEditText = findViewById(R.id.product_price);
 
 
-
         findViewById(R.id.add_product_image).setOnClickListener(v -> openSelectImagePromptDialog());
         findViewById(R.id.apply).setOnClickListener(v -> requestAddSalonProduct());
         findViewById(R.id.back).setOnClickListener(v -> {
@@ -157,7 +156,8 @@ public class AddSalonProductActivity extends AppCompatActivity {
 
     private void requestAddSalonProduct() {
         if (!TextUtils.isEmpty(mProductPriceEditText.getText())
-                && !TextUtils.isEmpty(mProductNameEditText.getText())) {
+                && !TextUtils.isEmpty(mProductNameEditText.getText())
+                && mSelectedFile != null) {
             RetrofitManager
                     .getInstance()
                     .updateSalonProducts(buildRequestDataModel(),

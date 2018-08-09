@@ -98,7 +98,7 @@ public class AddBarberActivity extends AppCompatActivity implements RangeTimePic
                 barberModel.setCreatedAt(new Date().toString());
                 barberModel.setFirstName(mBarberName.getText().toString().split(" ")[0]);
                 barberModel.setLastName(mBarberName.getText().toString().split(" ")[1]);
-                barberModel.setSalonId((UserDefaultUtil.getCurrentSalonUser().getId()));
+//                barberModel.setSalonId((UserDefaultUtil.getCurrentSalonUser().getId()));
                 barberModel.setEmail("static@email.com");
                 barberModel.setUserName("staticUserName" + new Random().nextInt());
                 barberModel.setStartTime(mFromTime.getText().toString());

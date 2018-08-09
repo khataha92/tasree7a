@@ -252,10 +252,10 @@ public class SalonInformationFragment extends BaseFragment {
         prepareAddSalonRequestData();
         if (staffContainer.getBarbers() != null && staffContainer.getBarbers().size() != 0) {
 //            UIUtils.showLoadingView(rootView, FragmentManager.getCurrentVisibleFragment());
-            RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, (isSuccess, result) -> {
-                final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
-                addSalonBarbers(responseModel);
-            });
+//            RetrofitManager.getInstance().addNewSalon(salonInformationRequestModel, (isSuccess, result) -> {
+//                final AddNewSalonResponseModel responseModel = (AddNewSalonResponseModel) ((Response) result).body();
+//                addSalonBarbers(responseModel);
+//            });
         } else {
             Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
                     "You have to Add 1 Barber at least",

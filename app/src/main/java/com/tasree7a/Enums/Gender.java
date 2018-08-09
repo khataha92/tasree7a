@@ -12,11 +12,13 @@ public enum Gender {
     @SerializedName("Male")
     MALE(4),
     @SerializedName("Female")
-    FEMALE(5);
+    FEMALE(5),
+    @SerializedName("Both")
+    ALL(6);
 
     int val;
 
-    Gender(int val){
+    Gender(int val) {
 
         this.val = val;
     }

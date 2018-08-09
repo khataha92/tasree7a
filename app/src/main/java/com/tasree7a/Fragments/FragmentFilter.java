@@ -42,7 +42,7 @@ public class FragmentFilter extends BaseFragment {
 
     CustomRadioGroup sortTypeGroup = null;
 
-    CustomCheckableGroup filters = null;
+    CustomRadioGroup filters = null;
 
     List<CityModel> availableCities = new ArrayList<>();
 
@@ -63,6 +63,9 @@ public class FragmentFilter extends BaseFragment {
         genderFilter.setChecked(FilterAndSortManager.getInstance().getSalonType() == Gender.FEMALE);
 
         genderFilter.setOnClickListener(v -> genderFilter.setChecked(!genderFilter.isChecked()));
+
+        rootView.findViewById(R.id.layout1).setOnClickListener(v -> genderFilter.setChecked(!genderFilter.isChecked()));
+
 
 //        Spinner citiesSpinner = rootView.findViewById(R.id.cities_spinner);
 //
@@ -103,9 +106,9 @@ public class FragmentFilter extends BaseFragment {
 
             View view = filters.getChildAt(i);
 
-            if (view instanceof CustomCheckbox) {
+            if (view instanceof CustomRadioButton) {
 
-                CustomCheckbox checkbox = (CustomCheckbox) view;
+                CustomRadioButton checkbox = (CustomRadioButton) view;
 
                 checkbox.uncheck();
 
@@ -125,13 +128,13 @@ public class FragmentFilter extends BaseFragment {
 
             List<FilterType> filterTypes = new ArrayList<>();
 
-            List<Checkable> checkables = filters.getCheckedList();
+            Checkable checkable = filters.getCheckedItem();
 
-            for (int i = 0; i < checkables.size(); i++) {
-
-                filterTypes.add(((CustomCheckbox) checkables.get(i)).getFilterType());
-            }
-
+//            for (int i = 0; i < checkable.size(); i++) {
+//
+            filterTypes.add(((CustomRadioButton) checkable).getFilterType());
+//            }
+//
 //                if (genderFilter.isChecked()){
 //
 //                    filterTypes.add(FilterType.FEMALE);

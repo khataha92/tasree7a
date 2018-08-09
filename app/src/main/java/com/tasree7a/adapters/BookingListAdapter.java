@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.tasree7a.R;
+import com.tasree7a.interfaces.OnBookingStatusChangedListener;
 import com.tasree7a.models.bookings.BookingModel;
 import com.tasree7a.viewholders.BookingItemViewHolder;
 
@@ -14,15 +15,17 @@ import java.util.List;
 public class BookingListAdapter extends RecyclerView.Adapter<BookingItemViewHolder> {
 
     private List<BookingModel> mBookingList;
+    private OnBookingStatusChangedListener mOnBookingStatusChangedListener;
 
-    public BookingListAdapter(List<BookingModel> bookingModelsList) {
+    public BookingListAdapter(List<BookingModel> bookingModelsList, OnBookingStatusChangedListener onBookingStatusChangedListener) {
         mBookingList = bookingModelsList;
+        mOnBookingStatusChangedListener = onBookingStatusChangedListener;
     }
 
     @NonNull
     @Override
     public BookingItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new BookingItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_booking_item, parent, false));
+        return new BookingItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_booking_item, parent, false), mOnBookingStatusChangedListener);
     }
 
     @Override

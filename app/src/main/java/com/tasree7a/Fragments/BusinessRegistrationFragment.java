@@ -18,6 +18,8 @@ import com.tasree7a.models.signup.SignupResponseModel;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import es.dmoral.toasty.Toasty;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -44,39 +46,28 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_business_registration, container, false);
-
         fullName = rootView.findViewById(R.id.input_full_name);
-
         username = rootView.findViewById(R.id.input_username);
-
         inputEmail = rootView.findViewById(R.id.input_email);
-
         inputPassword = rootView.findViewById(R.id.input_password);
-
         register = rootView.findViewById(R.id.register);
-
         register.setOnClickListener(this);
 
-
         RelativeLayout login = rootView.findViewById(R.id.login_container);
-
         login.setOnClickListener(this);
-
         // Inflate the layout for this fragment
         return rootView;
     }
 
-
     private void signup() {
-
         try {
-
+            register.showLoader();
             String salonName = fullName.getText().toString();
             String username = this.username.getText().toString();
             String password = inputPassword.getText().toString();
             String email = inputEmail.getText().toString();
 
-            if (!salonName.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
+            if (!salonName.isEmpty() && (!username.isEmpty()) && !password.isEmpty()) {
 
                 com.tasree7a.models.signup.SignupModel model = new com.tasree7a.models.signup.SignupModel();
                 model.setUsername(username);
@@ -103,36 +94,37 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
                                 email,
                                 username,
                                 false);
+                        //noinspection ConstantConditions
                         getActivity().finish();
                     }
                 });
             } else {
-                Toast.makeText(ThisApplication.getCurrentActivity(), getString(R.string.SIGN_UP_ERROR_MISSING_INPUT), Toast.LENGTH_SHORT).show();
+                //noinspection ConstantConditions
+                Toasty.error(getContext(), "Missing required Fields", Toast.LENGTH_LONG).show();
             }
-        } catch (IndexOutOfBoundsException e) {
-            Toast.makeText(getApplicationContext(), getString(R.string.ERROR_FIRST_NAME_LAST_NAME), Toast.LENGTH_LONG).show();
+
+            register.hideLoader();
+        } catch (Exception e) {
+            signUpError();
         }
 
     }
 
+    @SuppressWarnings("ConstantConditions")
+    private void signUpError() {
+        Toasty.error(getContext(), getString(R.string.salon_sign_up_error), Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-
             case R.id.login_container:
-
                 ThisApplication.getCurrentActivity().finish();
-
                 break;
-
             case R.id.register:
-
                 signup();
-
                 break;
         }
     }
-
 }

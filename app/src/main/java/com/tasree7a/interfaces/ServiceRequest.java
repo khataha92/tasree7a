@@ -68,7 +68,7 @@ public interface ServiceRequest {
 
 
     @FormUrlEncoded
-    @POST("resetPassword")
+    @POST("forgetPassword")
     Call<Object> resetPassword(@Field("email") String email);
 
 
@@ -140,19 +140,20 @@ public interface ServiceRequest {
                                     @Part("salonId") RequestBody id,
                                     @Part("product_ids_list") RequestBody prodId,
                                     @Part MultipartBody.Part image);
-
-
-    @FormUrlEncoded
+    ;
+    @Multipart
     @POST("addNewSalon")
-    Call<AddNewSalonResponseModel> addNewSalonInformation(@Field("userId") String userID,
-                                                          @Field("cityId") String cityId,
-                                                          @Field("salonType") String salonType,
-                                                          @Field("salonImageBase64") String salonImageBase64,
-                                                          @Field("ownerName") String ownerName,
-                                                          @Field("ownerMobile") String ownerMobile,
-                                                          @Field("salonLat") String salonLat,
-                                                          @Field("salonLong") String salonLong,
-                                                          @Field("salonName") String salonName);
+    Call<AddNewSalonResponseModel> addNewSalonInformation(@Part("userId") RequestBody salonId,
+                                                          @Part("cityId") RequestBody cityId,
+                                                          @Part("salonType") RequestBody salonType,
+                                                          @Part("ownerName") RequestBody ownerName,
+                                                          @Part("ownerMobile") RequestBody ownerMobile,
+                                                          @Part("salonLat") RequestBody salonLat,
+                                                          @Part("salonLong") RequestBody salonLong,
+                                                          @Part("salonName") RequestBody salonName,
+                                                          @Part("start_work_on") RequestBody startWorkAt,
+                                                          @Part("end_work_on") RequestBody endWorkAt,
+                                                          @Part MultipartBody.Part image);
 
 //		-img_file
 
@@ -166,6 +167,8 @@ public interface ServiceRequest {
                                                       @Part("salonLat") RequestBody salonLat,
                                                       @Part("salonLong") RequestBody salonLong,
                                                       @Part("salonName") RequestBody salonName,
+                                                      @Part("start_work_on") RequestBody startWorkAt,
+                                                      @Part("end_work_on") RequestBody endWorkAt,
                                                       @Part MultipartBody.Part image);
 
     @FormUrlEncoded

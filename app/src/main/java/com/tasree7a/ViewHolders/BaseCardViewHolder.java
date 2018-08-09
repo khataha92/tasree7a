@@ -136,9 +136,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 //                return new ProductsCardViewHolder(itemView,cardModel);
 
             case MAP_CARD:
-
                 itemView = inflate(R.layout.view_salon_location,parent);
-
                 return new LocationCardViewHolder(itemView, cardModel);
 
             case CONTACT_DETAILS:

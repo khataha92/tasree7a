@@ -29,7 +29,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void init() {
 
-        final EditText email = findViewById(R.id.email);
+        final EditText email = findViewById(R.id.input_email);
 
         findViewById(R.id.reset).setOnClickListener(v -> {
 

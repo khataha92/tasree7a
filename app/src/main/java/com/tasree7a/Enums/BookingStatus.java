@@ -1,7 +1,7 @@
 package com.tasree7a.enums;
 
 public enum BookingStatus {
-    CANCELED_BY_BARBER(0),
+    CANCELED_BY_BARBER(6),
     CREATED(1),
     ACCEPTED(2),
     REJECTED(3),

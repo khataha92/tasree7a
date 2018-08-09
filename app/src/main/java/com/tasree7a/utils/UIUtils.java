@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.common.base.Strings;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
@@ -365,12 +366,49 @@ public class UIUtils {
 
         final DrawableRequestBuilder<Uri> imageRequest = Glide.with(context)
                 .load(uri)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.default_image)
                 .dontAnimate();
 
         if (size != Sizes.LARGE) {
             imageRequest.centerCrop();
         }
+
+        Log.d("IMAGE_URL", uri.toString());
+
+        if (context instanceof AppCompatActivity)
+            ((AppCompatActivity) context).runOnUiThread(() -> imageRequest.into(imageView));
+        else
+            imageRequest.into(imageView);
+    }
+
+
+    public static void loadUrlIntoMap(Context context, String urlString, final ImageView imageView) {
+
+        if (Strings.isNullOrEmpty(urlString)) return;
+
+//        String urlStringWithSize = urlString.replace("[size]", size != null ? size.getValue() : Sizes.LARGE.getValue())
+//                .replace("/medium/", "/" + (size != null ? size.getValue() : Sizes.LARGE.getValue()) + "/")
+//                .replace("/large/", "/" + (size != null ? size.getValue() : Sizes.LARGE.getValue()) + "/");
+
+        Uri uri;
+//
+//        if (urlString.contains("http")) {
+//            if (urlStringWithSize.contains("uploads")) {
+//                //noinspection ResultOfMethodCallIgnored
+//                urlStringWithSize = urlStringWithSize.replace("http://tasree7a.ps/uploads/", IMAGES_URL);
+//            }
+//
+            uri = Uri.parse(urlString);
+//        } else {
+//            uri = Uri.parse(IMAGES_URL + urlStringWithSize);
+//        }
+
+        final DrawableRequestBuilder<Uri> imageRequest = Glide.with(context)
+                .load(uri)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.default_image)
+                .dontAnimate();
 
         Log.d("IMAGE_URL", uri.toString());
 

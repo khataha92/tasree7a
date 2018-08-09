@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
 
-        <AutoStopRippleBackground
+        <om.tasree7a.customcomponent.AutoStopRippleBackground
             android:id="@+id/favouriteContainer"
             android:layout_width="60dp"
             android:layout_height="50dp"
@@ -40,7 +40,7 @@
                 android:id="@+id/add_to_favorite"
                 android:src="@drawable/favorite_red"/>
 
-        </AutoStopRippleBackground>
+        </om.tasree7a.customcomponent.AutoStopRippleBackground>
 
     </RelativeLayout>
 

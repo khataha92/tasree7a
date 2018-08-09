@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SalonLocationCard
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.tasree7a.customcomponent.SalonLocationCard xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginLeft="17dp"
+    android:layout_height="200dp"
     android:layout_marginBottom="17dp"
+    android:layout_marginLeft="17dp"
     android:layout_marginRight="17dp"
-    android:background="@color/WHITE"
-    android:layout_height="200dp">
+    android:background="@color/WHITE">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/salon_map"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_centerVertical="true"
-        android:scaleType="centerCrop"
-        android:visibility="visible"
-        android:src="@drawable/default_image"
-        />
+        android:layout_height="wrap_content">
 
-    <View
-        android:id="@+id/view_to_click"
-        android:layout_width="match_parent"
-        android:layout_centerVertical="true"
-        android:visibility="visible"
-        android:layout_height="500dp"/>
-</RelativeLayout>
-</SalonLocationCard>
+        <ImageView
+            android:id="@+id/salon_map"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_image"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/view_to_click"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_centerVertical="true"
+            android:visibility="visible" />
+    </RelativeLayout>
+</com.tasree7a.customcomponent.SalonLocationCard>

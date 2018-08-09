@@ -52,7 +52,7 @@
 
             <LinearLayout
                 android:id="@+id/layout1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
@@ -176,34 +176,34 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                <com.tasree7a.customcomponent.CustomCheckableGroup
+                <com.tasree7a.customcomponent.CustomRadioGroup
                     android:id="@+id/filters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="3">
 
-                    <com.tasree7a.customcomponent.CustomCheckbox
+                    <com.tasree7a.customcomponent.CustomRadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:FilterType="Favorite"
                         app:text="@string/FAVORITES" />
 
-                    <com.tasree7a.customcomponent.CustomCheckbox
+                    <com.tasree7a.customcomponent.CustomRadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:FilterType="Available"
                         app:text="@string/AVAILABLE_NOW" />
 
-                    <com.tasree7a.customcomponent.CustomCheckbox
+                    <com.tasree7a.customcomponent.CustomRadioButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:FilterType="ALL"
                         app:text="@string/ALL" />
 
-                </com.tasree7a.customcomponent.CustomCheckableGroup>
+                </com.tasree7a.customcomponent.CustomRadioGroup>
             </LinearLayout>
 
         </RelativeLayout>

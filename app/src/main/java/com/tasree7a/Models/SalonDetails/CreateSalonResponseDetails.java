@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class CreateSalonResponseDetails {
 
-    @SerializedName("mName")
+    @SerializedName("name")
     String salonName;
 
     @SerializedName("latitude")

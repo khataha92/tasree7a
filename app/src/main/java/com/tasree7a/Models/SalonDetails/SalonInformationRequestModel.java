@@ -17,6 +17,26 @@ public class SalonInformationRequestModel {
     private String salonLong;
     private String salonName;
     private String userEmail;
+    private String startAt;
+    private String closeAt;
+
+    public String getStartAt() {
+        return startAt;
+    }
+
+    public SalonInformationRequestModel setStartAt(String startAt) {
+        this.startAt = startAt;
+        return this;
+    }
+
+    public String getCloseAt() {
+        return closeAt;
+    }
+
+    public SalonInformationRequestModel setCloseAt(String closeAt) {
+        this.closeAt = closeAt;
+        return this;
+    }
 
     public String getSalonId() {
         return salonId;

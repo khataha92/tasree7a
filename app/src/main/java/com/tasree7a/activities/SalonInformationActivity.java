@@ -1,18 +1,26 @@
 package com.tasree7a.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -23,32 +31,42 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.SettingsClient;
 import com.mcsoft.timerangepickerdialog.RangeTimePickerDialog;
+import com.tasree7a.BuildConfig;
 import com.tasree7a.R;
-import com.tasree7a.ThisApplication;
 import com.tasree7a.customcomponent.CircularCheckBox;
 import com.tasree7a.customcomponent.CustomButton;
-import com.tasree7a.customcomponent.CustomTimePicker;
 import com.tasree7a.customcomponent.SalonStaffContainer;
 import com.tasree7a.enums.Gender;
 import com.tasree7a.fragments.BaseFragment;
-import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.AddBarberClickListener;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.AddNewBarberRequestModel;
 import com.tasree7a.models.login.User;
 import com.tasree7a.models.salondetails.AddNewSalonResponseModel;
-import com.tasree7a.models.salondetails.SalonBarber;
 import com.tasree7a.models.salondetails.SalonInformationRequestModel;
 import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.utils.PermissionsUtil;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -57,6 +75,76 @@ import java.util.Objects;
  * pre-fill some data if from registration {name, salonName, pass, email}
  */
 public class SalonInformationActivity extends AppCompatActivity implements AddBarberClickListener, RangeTimePickerDialog.ISelectedTime {
+
+    /**
+     * Code used in requesting runtime permissions.
+     */
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+
+    /**
+     * Constant used in the location settings dialog.
+     */
+    private static final int REQUEST_CHECK_SETTINGS = 0x1;
+
+    /**
+     * The desired interval for location updates. Inexact. Updates may be more or less frequent.
+     */
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+
+    /**
+     * The fastest rate for active location updates. Exact. Updates will never be more frequent
+     * than this value.
+     */
+    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+
+    // Keys for storing activity state in the Bundle.
+    private final static String KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
+    private final static String KEY_LOCATION = "location";
+    private final static String KEY_LAST_UPDATED_TIME_STRING = "last-updated-time-string";
+
+    /**
+     * Provides access to the Fused Location Provider API.
+     */
+    private FusedLocationProviderClient mFusedLocationClient;
+
+    /**
+     * Provides access to the Location Settings API.
+     */
+    private SettingsClient mSettingsClient;
+
+    /**
+     * Stores parameters for requests to the FusedLocationProviderApi.
+     */
+    private LocationRequest mLocationRequest;
+
+    /**
+     * Stores the types of location services the client is interested in using. Used for checking
+     * settings to determine if the device has optimal location settings.
+     */
+    private LocationSettingsRequest mLocationSettingsRequest;
+
+    /**
+     * Callback for Location events.
+     */
+    private LocationCallback mLocationCallback;
+
+    /**
+     * Represents a geographical location.
+     */
+    private Location mCurrentLocation;
+
+    /**
+     * Tracks the status of the location updates request. Value changes when the user presses the
+     * Start Updates and Stop Updates buttons.
+     */
+    private Boolean mRequestingLocationUpdates;
+
+    /**
+     * Time when the location was updated represented as a String.
+     */
+    private String mLastUpdateTime;
+
 
     public static final String TAG = SalonInformationActivity.class.getName() + "_TAG";
     public static final String SALON_NAME = SalonInformationActivity.class.getName() + "SALON_NAME";
@@ -75,6 +163,9 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
 
     private String mFinalTime = null;
 
+    private double mSalonLong;
+    private double mSalonLat;
+
     private File mSelectedFile = null;
 
     private ImageView mSelectImage;
@@ -83,6 +174,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
     private EditText mSalonOwnerNAme;
     private EditText mSalonEmail;
     private EditText mSalonPhoneNumber;
+    private CustomButton mSaveSalonInformationBtn;
 
     private AppCompatCheckBox mMaleSalonType;
     private AppCompatCheckBox mFemaleSalonType;
@@ -133,6 +225,8 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon_information);
 
+        initUserLocation();
+
         initViews();
 
         Intent intent = getIntent();
@@ -150,9 +244,68 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         }
     }
 
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void onResume() {
+        super.onResume();
+        // Within {@code onPause()}, we remove location updates. Here, we resume receiving
+        // location updates if the user has requested them.
+        if (mRequestingLocationUpdates && checkPermissions()) {
+            startLocationUpdates();
+        } else if (!checkPermissions()) {
+            requestPermissions();
+        }
+
+//        updateUI();
+    }
+
+    /**
+     * Callback received when a permissions request has been completed.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionResult");
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                Log.i(TAG, "User interaction was cancelled.");
+
+                mSaveSalonInformationBtn.setButtonEnabled(false);
+                requestPermissions();
+
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (mRequestingLocationUpdates) {
+                    Log.i(TAG, "Permission granted, updates requested, starting location updates");
+                    startLocationUpdates();
+                }
+            } else {
+                // Permission denied.
+
+                // Notify the user via a SnackBar that they have rejected a core permission for the
+                // app, which makes the Activity useless. In a real app, core permissions would
+                // typically be best requested during a welcome-screen flow.
+
+                // Additionally, it is important to remember that a permission might have been
+                // rejected without asking the user for permission (device policy or "Never ask
+                // again" prompts). Therefore, a user interface affordance is typically implemented
+                // when permissions are denied. Otherwise, your app could appear unresponsive to
+                // touches or interactions which have required permissions.
+                showSnackbar(R.string.permission_denied_explanation,
+                        R.string.settings, view -> {
+                            // Build intent that displays the App settings screen.
+                            Intent intent = new Intent();
+                            intent.setAction(
+                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package",
+                                    BuildConfig.APPLICATION_ID, null);
+                            intent.setData(uri);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        });
+            }
+        }
 
         switch (requestCode) {
             case CAMERA_PERMISSION_REQUEST_CODE:
@@ -160,6 +313,186 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 break;
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Remove location updates to save battery.
+        stopLocationUpdates();
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void requestPermissions() {
+        boolean shouldProvideRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION);
+
+        // Provide an additional rationale to the user. This would happen if the user denied the
+        // request previously, but didn't check the "Don't ask again" checkbox.
+        if (shouldProvideRationale) {
+            Log.i(TAG, "Displaying permission rationale to provide additional context.");
+            showSnackbar(R.string.permission_rationale,
+                    android.R.string.ok, view -> {
+                        // Request permission
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                REQUEST_PERMISSIONS_REQUEST_CODE);
+                    });
+        } else {
+            Log.i(TAG, "Requesting permission");
+            // Request permission. It's possible this can be auto answered if device policy
+            // sets the permission in a given state or the user denied the permission
+            // previously and checked "Never ask again".
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
+        }
+    }
+
+    /**
+     * Shows a {@link Snackbar}.
+     *
+     * @param mainTextStringId The id for the string resource for the Snackbar text.
+     * @param actionStringId   The text of the action item.
+     * @param listener         The listener associated with the Snackbar action.
+     */
+    private void showSnackbar(final int mainTextStringId, final int actionStringId,
+                              View.OnClickListener listener) {
+        Snackbar.make(
+                findViewById(android.R.id.content),
+                getString(mainTextStringId),
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(actionStringId), listener).show();
+    }
+
+    /**
+     * Return the current state of the permissions needed.
+     */
+    private boolean checkPermissions() {
+        //noinspection ConstantConditions
+        int permissionState = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * Removes location updates from the FusedLocationApi.
+     */
+    private void stopLocationUpdates() {
+        if (!mRequestingLocationUpdates) {
+            Log.d(TAG, "stopLocationUpdates: updates never requested, no-op.");
+            return;
+        }
+
+        // It is a good practice to remove location requests when the activity is in a paused or
+        // stopped state. Doing so helps battery performance and is especially
+        // recommended in applications that request frequent location updates.
+        //noinspection ConstantConditions
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback)
+                .addOnCompleteListener(this, task -> mRequestingLocationUpdates = false);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void initUserLocation() {
+        mRequestingLocationUpdates = false;
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mSettingsClient = LocationServices.getSettingsClient(this);
+
+        // Kick off the process of building the LocationCallback, LocationRequest, and
+        // LocationSettingsRequest objects.
+        createLocationCallback();
+        createLocationRequest();
+        buildLocationSettingsRequest();
+
+        if (!mRequestingLocationUpdates) {
+            mRequestingLocationUpdates = true;
+            startLocationUpdates();
+        }
+    }
+
+
+    @SuppressLint("MissingPermission")
+    @SuppressWarnings("ConstantConditions")
+    private void startLocationUpdates() {
+        // Begin by checking if the device has the necessary location settings.
+        mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
+                .addOnSuccessListener(this, locationSettingsResponse -> {
+                    Log.i(TAG, "All location settings are satisfied.");
+
+                    //noinspection MissingPermission
+                    mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                            mLocationCallback, Looper.myLooper());
+
+//                        updateUI();
+                })
+                .addOnFailureListener(this, e -> {
+                    int statusCode = ((ApiException) e).getStatusCode();
+                    switch (statusCode) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            Log.i(TAG, "Location settings are not satisfied. Attempting to upgrade " +
+                                    "location settings ");
+                            try {
+                                // Show the dialog by calling startResolutionForResult(), and check the
+                                // result in onActivityResult().
+                                ResolvableApiException rae = (ResolvableApiException) e;
+                                rae.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+                            } catch (IntentSender.SendIntentException sie) {
+                                Log.i(TAG, "PendingIntent unable to execute request.");
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            String errorMessage = "Location settings are inadequate, and cannot be " +
+                                    "fixed here. Fix in Settings.";
+                            Log.e(TAG, errorMessage);
+                            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                            mRequestingLocationUpdates = false;
+                    }
+
+//                    updateUI();
+                });
+    }
+
+    private void buildLocationSettingsRequest() {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        mLocationSettingsRequest = builder.build();
+    }
+
+    private void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+
+        // Sets the desired interval for active location updates. This interval is
+        // inexact. You may not receive updates at all if no location sources are available, or
+        // you may receive them slower than requested. You may also receive updates faster than
+        // requested if other applications are requesting location at a faster interval.
+        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        // Sets the fastest rate for active location updates. This interval is exact, and your
+        // application will never receive updates faster than this value.
+        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    private void createLocationCallback() {
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                if (mCurrentLocation == null) {
+                    mCurrentLocation = locationResult.getLastLocation();
+                    mSalonLat = mCurrentLocation.getLatitude();
+                    mSalonLong = mCurrentLocation.getLongitude();
+                    mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+                    mSaveSalonInformationBtn.setButtonEnabled(true);
+                }
+
+            }
+        };
     }
 
     @Override
@@ -171,6 +504,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
 
         switch (requestCode) {
             case AddBarberActivity.REQUEST_CODE:
+                //noinspection unchecked
                 mSalonStaffContainer.addNewBarber((AddNewBarberRequestModel) data.getSerializableExtra(AddBarberActivity.BARBER_MODEL));
                 break;
 
@@ -189,6 +523,13 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                 }
                 break;
         }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "image", null);
+        return Uri.parse(path);
     }
 
     public String getRealPathFromUri(Uri contentUri) {
@@ -238,6 +579,10 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
             mMaleSalonType.setChecked(salonModel.getSalonType() == Gender.MALE);
             mFemaleSalonType.setChecked(salonModel.getSalonType() == Gender.FEMALE);
 
+            if (salonModel.getSalonType() == Gender.ALL) {
+                mMaleSalonType.setChecked(true);
+                mFemaleSalonType.setChecked(true);
+            }
 //            mSalonStaffContainer.preFillBarbers(salonModel.getSalonBarbers());
         }
     }
@@ -255,7 +600,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         mMaleSalonType = findViewById(R.id.male);
         mFemaleSalonType = findViewById(R.id.female);
         mSalonStaffContainer = findViewById(R.id.salon_staff_container);
-        CustomButton mSaveSalonInformationBtn = findViewById(R.id.save);
+        mSaveSalonInformationBtn = findViewById(R.id.save);
         mCancelSalonInformationBtn = findViewById(R.id.cancel);
 
         mBack.setOnClickListener(v -> finish());
@@ -276,21 +621,21 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
 
                     if (mSalonStaffContainer.getBarbers() != null && mSalonStaffContainer.getBarbers().size() != 0) {
                         if (isUpdate) {
-                            RetrofitManager.getInstance().updateSalonDetails(BuildRequestData(),
+                            RetrofitManager.getInstance().updateSalonDetails(BuildRequestData(true),
                                     mSelectedFile,
                                     (isSuccess, result) -> {
-                                        updateSalonBarbers();
+                                        updateSalonBarbers(UserDefaultUtil.getCurrentSalonUser().getId());
                                         startActivity(new Intent(this, HomeActivity.class));
                                         finish();
                                     });
                         } else {
-                            RetrofitManager.getInstance().addNewSalon(BuildRequestData(), (isSuccess, result) -> {
+                            RetrofitManager.getInstance().addNewSalon(BuildRequestData(false), mSelectedFile, (isSuccess, result) -> {
                                 if (isSuccess) {
                                     User user = UserDefaultUtil.getCurrentUser();
                                     user.setSalonId(((AddNewSalonResponseModel) result).getDetails().getSalonId());
                                     UserDefaultUtil.saveUser(user);
 
-                                    updateSalonBarbers();
+                                    updateSalonBarbers(((AddNewSalonResponseModel) result).getDetails().getSalonId());
 
                                     startActivity(new Intent(this, HomeActivity.class));
                                     finish();
@@ -300,7 +645,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                             });
                         }
                     } else {
-                        Toast.makeText(ThisApplication.getCurrentActivity().getApplicationContext(),
+                        Toast.makeText(this,
                                 R.string.error_add_barbers,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -310,8 +655,9 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         initWorkingDays();
     }
 
-    private void updateSalonBarbers() {
+    private void updateSalonBarbers(String salonId) {
         for (AddNewBarberRequestModel salonBarber : mSalonStaffContainer.getBarbers()) {
+            salonBarber.setSalonId(salonId);
             RetrofitManager.getInstance()
                     .addNewBarber(salonBarber,
                             (isSuccess, result) -> {
@@ -322,7 +668,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         }
     }
 
-    private SalonInformationRequestModel BuildRequestData() {
+    private SalonInformationRequestModel BuildRequestData(boolean update) {
         String salonType = "";
         if (mMaleSalonType.isChecked() && mFemaleSalonType.isChecked()) {
             salonType = "3";
@@ -332,17 +678,24 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
             salonType = "2";
         }
 
-        return new SalonInformationRequestModel()
+        SalonInformationRequestModel model = new SalonInformationRequestModel()
                 .setCityID("15")
                 .setOwnerMobile(mSalonPhoneNumber.getText().toString())
                 .setOwnerName(mSalonOwnerNAme.getText().toString())
-                .setSalonLat("1122")
-                .setSalonLong("1122")
+                .setSalonLat(mSalonLat + "")
+                .setSalonLong(mSalonLong + "")
                 .setSalonName(mSalonName.getText().toString())
                 .setSalonType(salonType)
+                .setStartAt(mFromTime.getText().toString())
+                .setCloseAt(mToTime.getText().toString())
                 .setUserEmail("static@email.com")
-                .setSalonId(UserDefaultUtil.getCurrentSalonUser().getId())
                 .setUserID(UserDefaultUtil.getCurrentUser().getId());
+        if (update) {
+            model.setSalonId(UserDefaultUtil.getCurrentSalonUser().getId());
+        } else {
+            model.setSalonId(UserDefaultUtil.getCurrentUser().getId());
+        }
+        return model;
     }
 
     private void initWorkingDays() {

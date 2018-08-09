@@ -154,5 +154,14 @@ soon as possible</string>
     <string name="total_label">Total:</string>
     <string name="from_time">From</string>
     <string name="to_time">To</string>
+    <string name="login_error">Wrong email or password</string>
+    <string name="sign_up_error">Error registering customer</string>
+    <string name="salon_sign_up_error">Error registering salon</string>
+    <string name="salon_barbers">Salon Barbers</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
+    <string name="settings">Settings</string>
 
 </resources>

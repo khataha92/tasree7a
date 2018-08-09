@@ -13,8 +13,10 @@ import android.widget.ImageView;
 import com.tasree7a.R;
 import com.tasree7a.adapters.BaseCardAdapter;
 import com.tasree7a.adapters.BookingListAdapter;
+import com.tasree7a.enums.BookingStatus;
 import com.tasree7a.enums.CardFactory;
 import com.tasree7a.enums.CardType;
+import com.tasree7a.interfaces.OnBookingStatusChangedListener;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.BaseCardModel;
@@ -28,7 +30,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class FragmentBookingList extends BaseFragment implements Observer {
+public class FragmentBookingList extends BaseFragment implements Observer, OnBookingStatusChangedListener {
 
     private String mUserID;
 
@@ -73,6 +75,11 @@ public class FragmentBookingList extends BaseFragment implements Observer {
         }
     }
 
+    @Override
+    public void onBookingStatusChanged(int position, BookingStatus status) {
+        requestBookings(mUserID);
+    }
+
     private void requestBookings(String userID) {
         RetrofitManager.getInstance().getUserBookings(userID, UserDefaultUtil.isBusinessUser() ? "S" : "C", (isSuccess, result) -> {
             hideLoadingView();
@@ -85,7 +92,7 @@ public class FragmentBookingList extends BaseFragment implements Observer {
     }
 
     private void initBookings() {
-        mAdapter = new BookingListAdapter(mBookingsList);
+        mAdapter = new BookingListAdapter(mBookingsList, this);
         mBookingRecyclerView.setAdapter(mAdapter);
     }
 

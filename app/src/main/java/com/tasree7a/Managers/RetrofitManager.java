@@ -9,6 +9,7 @@ import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.ServiceRequest;
 import com.tasree7a.models.AddNewBarberRequestModel;
 import com.tasree7a.models.AddNewServiceRequestModel;
+import com.tasree7a.models.ApiError;
 import com.tasree7a.models.UpdateGalleryResponseModel;
 import com.tasree7a.models.UpdateProductRequestModel;
 import com.tasree7a.models.UpdateSalonImagesRequestModel;
@@ -25,6 +26,7 @@ import com.tasree7a.models.salondetails.SalonInformationRequestModel;
 import com.tasree7a.models.signup.SignupResponseModel;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -171,9 +173,10 @@ public class RetrofitManager {
         }
 
         StringBuilder ids = new StringBuilder();
-
-        for (String id : model.getProductId()) {
-            ids.append(id).append("~");
+        if (model.getProductId() != null && !model.getProductId().isEmpty()) {
+            for (String id : model.getProductId()) {
+                ids.append(id).append("~");
+            }
         }
         /////////
 
@@ -202,10 +205,10 @@ public class RetrofitManager {
     public void addNewBarber(AddNewBarberRequestModel model, final AbstractCallback callback) {
 
         Call<Object> call = request.addNewBarber(model.getSalonId(),
-                model.getFirstName(),
+                model.getLastName(),
                 model.getEmail(),
                 model.getUserName(),
-                model.getLastName(),
+                model.getFirstName(),
                 model.getCreatedAt(),
                 model.getPass(),
                 model.getUpdatedAt(),
@@ -353,20 +356,20 @@ public class RetrofitManager {
         call.enqueue(new Callback<SignupResponseModel>() {
 
             @Override
-            public void onResponse(Call<SignupResponseModel> call, Response<SignupResponseModel> response) {
+            public void onResponse(@NonNull Call<SignupResponseModel> call, @NonNull Response<SignupResponseModel> response) {
 
                 if (response.body() != null && response.code() == 200 && response.body().getResponseCode().equalsIgnoreCase("200")) {
-
                     callback.onResult(true, response.body());
-
                 } else {
-
-                    callback.onResult(false, null);
-
+                    if (response.errorBody() != null) {
+                        try {
+                            callback.onResult(false, new ApiError().setmErrorMessage(response.errorBody().string()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-
             }
-
 
             @Override
             public void onFailure(Call<SignupResponseModel> call, Throwable t) {
@@ -524,9 +527,12 @@ public class RetrofitManager {
 //            requestFile = RequestBody.create(MultipartBody.FORM, model.getImageId().get(i));
 //            imageIds.put("imageId[" + i + "]", requestFile);
 //        }
-        StringBuilder imageIds = new StringBuilder();
-        for (String id : model.getImageId()) {
-            imageIds.append(id).append("~");
+        StringBuilder imageIds = null;
+        if (model.getImageId() != null && !model.getImageId().isEmpty()) {
+            imageIds = new StringBuilder();
+            for (String id : model.getImageId()) {
+                imageIds.append(id).append("~");
+            }
         }
         ////////////////////////////////////////////////////////////////
 
@@ -608,6 +614,8 @@ public class RetrofitManager {
                         RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonLat()),
                         RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonLong()),
                         RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonName()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getStartAt()),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getCloseAt()),
                         body);
 
         updateSalonDetailsCall.enqueue(new Callback<AddNewSalonResponseModel>() {
@@ -623,17 +631,25 @@ public class RetrofitManager {
         });
     }
 
-    public void addNewSalon(SalonInformationRequestModel salonInformationRequestModel, final AbstractCallback abstractCallback) {
+    public void addNewSalon(SalonInformationRequestModel salonInformationRequestModel, File file, final AbstractCallback abstractCallback) {
+        MultipartBody.Part body = null;
+        if (file != null) {
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            body = MultipartBody.Part.createFormData("img_file", file.getName(), reqFile);
 
-        Call<AddNewSalonResponseModel> get = request.addNewSalonInformation(salonInformationRequestModel.getUserID(),
-                salonInformationRequestModel.getCityID(),
-                salonInformationRequestModel.getSalonType(),
-                salonInformationRequestModel.getSalonBase64Image(),
-                salonInformationRequestModel.getOwnerName(),
-                salonInformationRequestModel.getOwnerMobile(),
-                salonInformationRequestModel.getSalonLat(),
-                salonInformationRequestModel.getSalonLong(),
-                salonInformationRequestModel.getSalonName());
+        }
+
+        Call<AddNewSalonResponseModel> get = request.addNewSalonInformation(RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonId()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getCityID()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonType()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getOwnerName()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getOwnerMobile()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonLat()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonLong()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonName()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getStartAt()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getCloseAt()),
+                body);
 
         get.enqueue(new Callback<AddNewSalonResponseModel>() {
 

@@ -14,7 +14,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.android.airmapview.AirMapView;
 import com.facebook.AccessToken;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.MainActivity;
@@ -26,6 +35,7 @@ import com.tasree7a.adapters.CardsRecyclerAdapter;
 import com.tasree7a.adapters.SalonGalleryAdapter;
 import com.tasree7a.customcomponent.CustomRatingBar;
 import com.tasree7a.customcomponent.CustomSwitch;
+import com.tasree7a.customcomponent.SalonLocationCard;
 import com.tasree7a.enums.CardFactory;
 import com.tasree7a.enums.CardType;
 import com.tasree7a.enums.Language;
@@ -50,7 +60,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SalonDetailsFragment extends BaseFragment implements CardFactory, Observer {
+public class SalonDetailsFragment extends BaseFragment implements CardFactory, Observer, OnMapReadyCallback {
     public static final String SALON_MODEL = SalonDetailsFragment.class.getName() + "SALON_MODEL";
 
     private SalonModel salonModel;
@@ -70,6 +80,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     private NavigationView nvView;
     private CustomRatingBar ratingBar;
     private CustomSwitch langSwitch;
+
+    private AirMapView mapView;
 
     private View.OnClickListener listener = v -> {
         ReservationSessionManager.getInstance().setSalonModel(salonModel);
@@ -92,6 +104,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         //TODO: After getting data
         salonDetails = rootView.findViewById(R.id.salon_cards);
         mGalleryRecyclerView = rootView.findViewById(R.id.images_list);
+
+        initMapView();
 
         Bundle args = getArguments();
         if (args != null) {
@@ -135,7 +149,13 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         salonName = rootView.findViewById(R.id.sallon_name);
         salonCover = rootView.findViewById(R.id.salon_image);
         bookNow = rootView.findViewById(R.id.bookNow);
+    }
 
+    private void initMapView() {
+        //noinspection ConstantConditions
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map_view);
+        mapFragment.getMapAsync(this);
     }
 
     private void initGalleryList() {
@@ -251,25 +271,6 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         BaseCardModel cardModel = new BaseCardModel();
         cardModel.setCardType(type);
         switch (type) {
-//            case GALARY_CARD: {
-//                GalleryModel galleryModel = new GalleryModel();
-//                galleryModel.setTitle(getString(R.string.GALLERY));
-//                galleryModel.setImageModelList(salonModel.getGallery());
-//                galleryModel.setSalonModel(salonModel);
-//                galleryModel.setType(0);
-//                cardModel.setCardValue(galleryModel);
-//            }
-//            break;
-//            case PRODUCTS_CARD: {
-//                GalleryModel galleryModel = new GalleryModel();
-//                galleryModel.setTitle(getString(R.string.PRODUCTS));
-//                galleryModel.setImageModelList(salonModel.getProductsImages());
-//                galleryModel.setProducts(salonModel.getProducts());
-//                galleryModel.setSalonModel(salonModel);
-//                galleryModel.setType(1);
-//                cardModel.setCardValue(galleryModel);
-//            }
-//            break;
             case MAP_CARD:
                 LocationCardModel locationCardModel = new LocationCardModel();
                 locationCardModel.setHasIndicator(true);
@@ -289,15 +290,8 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     @Override
     public ArrayList<BaseCardModel> getCardModels() {
         ArrayList<BaseCardModel> cardModels = new ArrayList<>();
-
-//        if (UserDefaultUtil.isBusinessUser()
-//                || salonModel.getGallery() != null && !salonModel.getGallery().isEmpty())
-//            cardModels.add(getCardModel(CardType.GALARY_CARD));
-//        if (UserDefaultUtil.isBusinessUser()
-//                || salonModel.getProducts() != null && !salonModel.getProducts().isEmpty())
-//            cardModels.add(getCardModel(CardType.PRODUCTS_CARD));
         cardModels.add(getCardModel(CardType.CONTACT_DETAILS));
-        cardModels.add(getCardModel(CardType.MAP_CARD));
+//        cardModels.add(getCardModel(CardType.MAP_CARD));
         return cardModels;
     }
 
@@ -356,6 +350,20 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
                 initGalleryList();
                 initProductsList();
 
+                LatLng sydney = new LatLng(salonModel.getLat(), salonModel.getLng());
+                mMap.addMarker(new MarkerOptions()
+                        .position(sydney)
+                        .title(salonModel.getName())
+                        .visible(true)
+                        .draggable(false)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+                LatLngBounds bounds
+                        = new LatLngBounds.Builder()
+                        .include(sydney)
+                        .build();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+
                 UserDefaultUtil.setCurrentSalonUser(salonModel);
                 ReservationSessionManager.getInstance().setSalonModel(salonModel);
                 salonDetails.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -372,5 +380,13 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     public boolean isSalonDataValid() {
         return UserDefaultUtil.getCurrentUser().isBusiness()
                 && (Integer.parseInt(UserDefaultUtil.getCurrentUser().getId()) == -1);
+    }
+
+    private GoogleMap mMap;
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(false);
     }
 }

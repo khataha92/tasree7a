@@ -13,7 +13,7 @@ public class CityModel implements Serializable {
     @SerializedName("id")
     String id;
 
-    @SerializedName("mName")
+    @SerializedName("name")
     String name;
 
 //    @SerializedName("cLat")

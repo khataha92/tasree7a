@@ -1,6 +1,7 @@
 package com.tasree7a.models.bookings;
 
 import com.google.gson.annotations.SerializedName;
+import com.tasree7a.models.login.User;
 import com.tasree7a.models.popularsalons.CityModel;
 import com.tasree7a.models.popularsalons.CountryModel;
 import com.tasree7a.models.salondetails.SalonModel;
@@ -31,7 +32,20 @@ public class BookingModel {
     @SerializedName("country")
     CountryModel country;
 
+    @SerializedName("user")
+    User user;
+
+    @SerializedName("services")
     List<BookingServiceModel> bookingServiceList = new ArrayList<>();
+
+    public User getUser() {
+        return user;
+    }
+
+    public BookingModel setUser(User user) {
+        this.user = user;
+        return this;
+    }
 
     public String getBookingId() {
         return bookingId;

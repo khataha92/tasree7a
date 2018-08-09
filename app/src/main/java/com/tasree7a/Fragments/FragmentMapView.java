@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -24,6 +25,7 @@ import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.customcomponent.CustomMapSalonRenderer;
 import com.tasree7a.customcomponent.SalonMapDetails;
+import com.tasree7a.fragments.BaseFragment;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.models.salondetails.SalonModel;
@@ -123,17 +125,32 @@ public class FragmentMapView extends BaseFragment {
 
     public void showSalonDetails(boolean showDetails, final SalonModel salonModel) {
 
-        SalonMapDetails hotelDetailsLayout = rootView.findViewById(R.id.salon_map_details);
+        SalonMapDetails hotelDetailsLayout = (SalonMapDetails) rootView.findViewById(R.id.salon_map_details);
 
         if (showDetails && salonModel != null) {
 
-            hotelDetailsLayout.setSalonDetails(salonModel, true, null, () -> mCustomMapSalonRenderer.onClusterItemClick(salonModel));
+            hotelDetailsLayout.setSalonDetails(salonModel, true, null, new Runnable() {
+
+                @Override
+                public void run() {
+
+                    mCustomMapSalonRenderer.onClusterItemClick(salonModel);
+                }
+            });
 
         }
 
         hotelDetailsLayout.setClickable(true);
 
-        hotelDetailsLayout.setOnClickListener(v -> FragmentManager.showSalonDetailsFragment(getActivity()));
+        hotelDetailsLayout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+//                FragmentManager.showSalonDetailsFragment(salonModel);
+
+            }
+        });
 
         hotelDetailsLayout.animateSalonDetailsLayout(showDetails);
 
@@ -217,22 +234,26 @@ public class FragmentMapView extends BaseFragment {
                 googlePlayAvailable = true;
 
                 // Try to obtain the mMap from the SupportMapFragment.
-                fragment.getMapAsync(googleMap -> {
+                fragment.getMapAsync(new OnMapReadyCallback() {
 
-                    mMap = googleMap;
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
 
-                    Location location = AppUtil.getCurrentLocation();
+                        mMap = googleMap;
 
-                    IconGenerator iconGenerator = new IconGenerator(ThisApplication.getCurrentActivity());
+                        Location location = AppUtil.getCurrentLocation();
 
-                    MapsUtils.addSimpleMarkerToMap(location, iconGenerator, mMap);
+                        IconGenerator iconGenerator = new IconGenerator(ThisApplication.getCurrentActivity());
 
-                    // Check if we were successful in obtaining the mMap.
-                    if (mMap != null) {
+                        MapsUtils.addSimpleMarkerToMap(location, iconGenerator, mMap);
 
-                        setUpMap();
+                        // Check if we were successful in obtaining the mMap.
+                        if (mMap != null) {
+
+                            setUpMap();
+                        }
+
                     }
-
                 });
 
             }
@@ -306,9 +327,7 @@ public class FragmentMapView extends BaseFragment {
     private void initializeClusterManagers() {
 
         if (rootView == null || !isVisible()) {
-
             return;
-
         }
 
         if (mHotelClusterManager == null) {

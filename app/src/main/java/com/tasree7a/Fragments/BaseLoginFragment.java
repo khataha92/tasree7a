@@ -40,74 +40,50 @@ import com.tasree7a.utils.UserDefaultUtil;
 
 import org.json.JSONObject;
 
+import es.dmoral.toasty.Toasty;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tasree7a.ThisApplication.callbackManager;
 
 public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment implements View.OnClickListener {
 
     CustomButton login;
-
     LoginButton loginButton;
-
     CustomButton normalLogin;
-
     TextView signup;
-
     LoginModel model;
-
     boolean isBusiness;
 
-
     public BaseLoginFragment() {
-
     }
-
 
     @SuppressLint("ValidFragment")
     public BaseLoginFragment(LoginType type) {
         isBusiness = type == LoginType.BUSINESS;
-
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_base_login, container, false);
-
         signup = rootView.findViewById(R.id.sign_up);
-
         rootView.findViewById(R.id.forgot_password).setOnClickListener(v -> {
-
             Intent intent = new Intent(ThisApplication.getCurrentActivity(), ResetPasswordActivity.class);
-
             startActivity(intent);
-
         });
 
         signup.setOnClickListener(this);
-
         rootView.findViewById(R.id.new_user).setOnClickListener(this);
-
         login = rootView.findViewById(R.id.login_with_fb);
-
         login.setOnClickListener(this);
-
         normalLogin = rootView.findViewById(R.id.normal_login_button);
-
         normalLogin.setOnClickListener(this);
-
         loginButton = rootView.findViewById(R.id.login_button);
-
         callbackManager = CallbackManager.Factory.create();
-
         if (isBusiness) {
-
             login.setVisibility(View.GONE);
-
             rootView.findViewById(R.id.or_container).setVisibility(View.GONE);
-
             rootView.findViewById(R.id.container).setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         }
@@ -121,142 +97,91 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
 
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
+                        (object, response) -> {
+                            Log.v("LoginActivity", response.toString());
 
-                            @Override
-                            public void onCompleted(JSONObject object, final GraphResponse response) {
+                            // Application code
+                            try {
+                                com.tasree7a.models.signup.SignupModel signupModel = new com.tasree7a.models.signup.SignupModel();
+                                String name = object.getString("name");
+                                String email = object.getString("email");
+                                String fbId = object.getString("id");
+                                String fbImage = "https://graph.facebook.com/" + fbId + "/picture?type=large";
+                                ReservationSessionManager.getInstance().setFbImage(fbImage);
+                                String[] names = name.split(" ");
+                                String firstName = names[0];
+                                String lastName = "";
 
-                                Log.v("LoginActivity", response.toString());
-
-                                // Application code
-                                try {
-
-                                    com.tasree7a.models.signup.SignupModel signupModel = new com.tasree7a.models.signup.SignupModel();
-
-                                    String name = object.getString("mName");
-
-                                    String email = object.getString("email");
-
-                                    String fbId = object.getString("id");
-
-                                    String fbImage = "https://graph.facebook.com/" + fbId + "/picture?type=large";
-
-                                    ReservationSessionManager.getInstance().setFbImage(fbImage);
-
-                                    String[] names = name.split(" ");
-
-                                    String firstName = names[0];
-
-                                    String lastName = "";
-
-                                    if (names.length > 1) {
-
-                                        lastName = names[names.length - 1];
-
-                                    }
-
-                                    signupModel.setFirstName(firstName);
-
-                                    signupModel.setLastName(lastName);
-
-                                    signupModel.setFbLogin(true);
-
-                                    signupModel.setFbId(fbId);
-
-                                    signupModel.setEmail(email);
-
-                                    signupModel.setUsername("");
-
-                                    RetrofitManager.getInstance().register(signupModel, (isSuccess, result) -> {
-
-                                        if (isSuccess) {
-
-                                            SignupResponseModel model = (SignupResponseModel) result;
-
-                                            User user = model.getUserDetails().getUser();
-
-                                            UserDefaultUtil.saveUser(user);
-
-                                            startHomeActivity();
-                                        } else {
-
-                                            Toast.makeText(getContext(), "Error in login, please try again later", Toast.LENGTH_LONG).show();
-
-                                        }
-
-                                    });
-
-                                } catch (Exception e) {
-
-                                    e.printStackTrace();
-
-                                    Toast.makeText(getContext(), "Error in login, please try again later", Toast.LENGTH_LONG).show();
-
+                                if (names.length > 1) {
+                                    lastName = names[names.length - 1];
                                 }
+
+                                signupModel.setFirstName(firstName);
+                                signupModel.setLastName(lastName);
+                                signupModel.setFbLogin(true);
+                                signupModel.setFbId(fbId);
+                                signupModel.setEmail(email);
+                                signupModel.setUsername("");
+                                RetrofitManager.getInstance().register(signupModel, (isSuccess, result) -> {
+                                    if (isSuccess) {
+                                        SignupResponseModel model = (SignupResponseModel) result;
+                                        User user = model.getUserDetails().getUser();
+                                        user.setFacebook(true);
+                                        UserDefaultUtil.saveUser(user);
+                                        startHomeActivity();
+                                    } else {
+                                        Toast.makeText(getContext(), "Error in login, please try again later", Toast.LENGTH_LONG).show();
+                                    }
+                                    login.hideLoader();
+                                });
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), "Error in login, please try again later", Toast.LENGTH_LONG).show();
                             }
                         });
 
                 Bundle parameters = new Bundle();
                 parameters.putString("fields",
-                        "id,mName,email,gender,birthday");
+                        "id,name,email,gender,birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
 
-
             @Override
             public void onCancel() {
-
                 Log.d("status", "cancel");
             }
 
 
             @Override
             public void onError(FacebookException error) {
-
                 Log.d("status", "error");
-
                 error.printStackTrace();
-
             }
-
         });
 
         return rootView;
     }
 
-
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-
             case R.id.login_with_fb:
-
 //                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
-
+                login.showLoader();
                 loginButton.callOnClick();
-
                 break;
 
             case R.id.new_user:
-
             case R.id.sign_up:
-
                 startActivity(new Intent(ThisApplication.getCurrentActivity(), SignupActivity.class));
-
                 break;
 
             case R.id.normal_login_button:
-
                 EditText email = rootView.findViewById(R.id.input_email);
-
                 EditText password = rootView.findViewById(R.id.input_password);
-
                 String emailStr = email.getText().toString();
-
                 String pass = password.getText().toString();
-
                 if (!emailStr.isEmpty() && !pass.isEmpty()) {
 
                     model = new LoginModel();
@@ -265,6 +190,9 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
                     model.setFacebookLogin(false);
                     model.setBusiness(isBusiness);
                     UIUtils.showSweetLoadingDialog();
+
+                    normalLogin.showLoader();
+
                     RetrofitManager.getInstance().login(model, (isSuccess, result) -> {
                         UIUtils.hideSweetLoadingDialog();
                         if (isSuccess) {
@@ -276,39 +204,35 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
                                 UserDefaultUtil.saveUser(user);
                                 startHomeActivity();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Error in login ", Toast.LENGTH_LONG).show();
+                                showLoginError();
                             }
+                        } else {
+                            showLoginError();
                         }
+
+                        normalLogin.hideLoader();
                     });
-                } else {
                 }
                 break;
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
+    private void showLoginError() {
+        Toasty.error(getContext(), getString(R.string.login_error), Toast.LENGTH_LONG).show();
+    }
 
     private void startHomeActivity() {
-
         if (!isBusiness) {
-
             startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
-
         } else {
-
             //TODO: Start Salon Details later
-
             Intent intent = new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class);
-
             intent.putExtra(FragmentArg.IS_BUSINESS, isBusiness);
-
             startActivity(intent);
-
         }
 
         if (ThisApplication.getCurrentActivity() != null)
             ThisApplication.getCurrentActivity().finishAffinity();
-
     }
-
-
 }

@@ -34,32 +34,22 @@ public class CustomCheckableGroup extends LinearLayout  {
 
     public CustomCheckableGroup(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         init();
     }
 
     private void init(){
-
         setOrientation(HORIZONTAL);
-
     }
 
     public List<Checkable> getCheckedList(){
-
         checkedList.clear();
-
         for(int i = 0 ; i < getChildCount() ; i++){
-
             if(getChildAt(i) instanceof CustomCheckbox){
-
                 if(((CustomCheckbox) getChildAt(i)).isChecked()){
-
                     checkedList.add((Checkable)getChildAt(i));
-
                 }
             }
         }
-
         return checkedList;
     }
 }

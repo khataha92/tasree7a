@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 
 import com.facebook.CallbackManager;
+import com.mapbox.mapboxsdk.Mapbox;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.util.concurrent.ExecutorService;
@@ -36,6 +37,8 @@ public class ThisApplication extends Application {
         super.onCreate();
 
         UserDefaultUtil.init();
+        Mapbox.getInstance(this, "pk.eyJ1Ijoia2hsZWFmc2FtaSIsImEiOiJjamtsamt3NXAxdmlnM3ZvZ2N1bWo4eTY1In0.EnxUjz3HDOrjuNr0qtgUHQ");
+
     }
 
     public static ExecutorService getNonUIThread() {

@@ -1,15 +1,20 @@
 package com.tasree7a.models.bookings;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by mac on 8/31/17.
  */
 
 public class BookingServiceModel {
 
+    @SerializedName("name")
     String serviceName;
 
+    @SerializedName("price")
     double cost;
 
+    @SerializedName("url")
     String imageUrl;
 
     public String getServiceName() {

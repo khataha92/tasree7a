@@ -83,7 +83,7 @@ public class PopularSalonsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((PopularSalonsItemViewHolder) holder).city.setText(salonModels.get(position).getSalonCity());
                 ((PopularSalonsItemViewHolder) holder).sallonName.setText(salonModels.get(position).getName() + ",");
 
-                Picasso.with(ThisApplication.getCurrentActivity())
+                Picasso.with(mContext)
                         .load(salonModels.get(position).getImage()).into(((PopularSalonsItemViewHolder) holder).imageView);
             } catch (Exception e) {
                 Log.e("CRASH", "CRASH: ", e);

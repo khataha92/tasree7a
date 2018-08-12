@@ -112,7 +112,7 @@ public class SalonModel implements Filterable, ClusterItem, Serializable {
     }
 
     public String getImage() {
-        return Constants.IMAGE_PREFIX + image;
+        return image;
     }
 
     public String getId() {

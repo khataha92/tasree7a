@@ -14,6 +14,7 @@ import com.tasree7a.fragments.HomeFragment;
 import com.tasree7a.interfaces.ScrollListener;
 import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 import com.tasree7a.viewholders.PopularSalonsItemViewHolder;
 
@@ -83,8 +84,10 @@ public class PopularSalonsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((PopularSalonsItemViewHolder) holder).city.setText(salonModels.get(position).getSalonCity());
                 ((PopularSalonsItemViewHolder) holder).sallonName.setText(salonModels.get(position).getName() + ",");
 
-                Picasso.with(mContext)
-                        .load(salonModels.get(position).getImage()).into(((PopularSalonsItemViewHolder) holder).imageView);
+                UIUtils.loadUrlIntoImageView(mContext, salonModels.get(position).getImage(), ((PopularSalonsItemViewHolder) holder).imageView, null);
+
+//                Picasso.with(mContext)
+//                        .load(salonModels.get(position).getImage()).into(((PopularSalonsItemViewHolder) holder).imageView);
             } catch (Exception e) {
                 Log.e("CRASH", "CRASH: ", e);
             }

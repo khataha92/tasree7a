@@ -17,6 +17,9 @@ public class AddNewServiceRequestModel {
     @SerializedName("salonId")
     String salonId;
 
+    @SerializedName("serviceDuration")
+    String serviceDuration;
+
     public String getServiceName() {
 
         return serviceName;
@@ -42,6 +45,15 @@ public class AddNewServiceRequestModel {
 
     public AddNewServiceRequestModel setSalonId(String salonId) {
         this.salonId = salonId;
+        return this;
+    }
+
+    public String getServiceDuration() {
+        return serviceDuration;
+    }
+
+    public AddNewServiceRequestModel setServiceDuration(String serviceDuration) {
+        this.serviceDuration = serviceDuration;
         return this;
     }
 }

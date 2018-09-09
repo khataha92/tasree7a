@@ -21,27 +21,35 @@ public class LoginModel {
         return username;
     }
 
-    public void setUsername(String username) {
+    public LoginModel setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public LoginModel setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public boolean isFacebookLogin() {
         return isFacebookLogin;
     }
 
-    public void setFacebookLogin(boolean facebookLogin) {
+    public LoginModel setFacebookLogin(boolean facebookLogin) {
         isFacebookLogin = facebookLogin;
+        return this;
     }
 
-    public boolean isBusiness() { return isBusiness; }
+    public boolean isBusiness() {
+        return isBusiness;
+    }
 
-    public void setBusiness(boolean business) { isBusiness = business; }
+    public LoginModel setBusiness(boolean business) {
+        isBusiness = business;
+        return this;
+    }
 }

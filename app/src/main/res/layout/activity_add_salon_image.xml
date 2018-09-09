@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/BG_GRAY">
+    android:layout_height="match_parent"
+    android:background="@color/BG_GRAY">
 
     <RelativeLayout
         android:id="@+id/top_bar"
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/GRAY"/>
+            android:background="@color/GRAY" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,66 +36,95 @@
             android:textAllCaps="true"
             android:textColor="@color/APP_TEXT_COLOR"
             android:textSize="19.3sp"
-            android:textStyle="bold"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/add_image"
-        android:layout_width="360dp"
-        android:layout_height="260dp"
-        android:layout_below="@+id/top_bar"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="19dp"
-        android:background="@drawable/shadow_bg">
-
-        <ImageView
-            android:id="@+id/add_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/profile_cam"
-            tools:ignore="ContentDescription" />
-
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
+        android:layout_centerInParent="true"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <com.tasree7a.customcomponent.CustomButton
-            android:id="@+id/cancel"
-            android:layout_width="145dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="26dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/shadow"
-            android:paddingBottom="10dp"
-            app:customButtonRadius="20"
-            app:customButtonText="@string/CANCEL"
-            app:customButtonTextColor="@color/WHITE"
-            app:customButtonTextSize="19sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/uploading"
+            android:textColor="@color/BLACK"
+            android:textSize="18sp" />
 
-
-        <com.tasree7a.customcomponent.CustomButton
-            android:id="@+id/apply"
-            android:layout_width="145dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/shadow2"
-            android:paddingBottom="10dp"
-            app:customButtonRadius="20"
-            app:customButtonText="@string/SAVE"
-            app:customButtonTextColor="@color/WHITE"
-            app:customButtonTextSize="19sp"/>
-
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_bar">
+
+        <RelativeLayout
+            android:id="@+id/add_image"
+            android:layout_width="360dp"
+            android:layout_height="260dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="19dp"
+            android:background="@drawable/shadow_bg">
+
+            <ImageView
+                android:id="@+id/add_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_cam"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.tasree7a.customcomponent.CustomButton
+                android:id="@+id/cancel"
+                android:layout_width="145dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="26dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/shadow"
+                android:paddingBottom="10dp"
+                app:customButtonRadius="20"
+                app:customButtonText="@string/CANCEL"
+                app:customButtonTextColor="@color/WHITE"
+                app:customButtonTextSize="19sp" />
+
+
+            <com.tasree7a.customcomponent.CustomButton
+                android:id="@+id/apply"
+                android:layout_width="145dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/shadow2"
+                android:paddingBottom="10dp"
+                app:customButtonRadius="20"
+                app:customButtonText="@string/SAVE"
+                app:customButtonTextColor="@color/WHITE"
+                app:customButtonTextSize="19sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

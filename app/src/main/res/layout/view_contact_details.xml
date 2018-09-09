@@ -6,38 +6,4 @@
     android:layout_marginTop="17dp"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:background="@color/WHITE"
-        android:orientation="vertical"
-        >
-
-        <TextView
-            android:id="@+id/salon_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:layout_marginRight="17dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Ramallah, Mahmoud Darwish St."
-            android:textColor="@color/APP_TEXT_COLOR"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/contact_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="0595000000"
-            android:textColor="@color/APP_GREEN"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="15dp"
-            />
-    </LinearLayout>
 </LinearLayout>

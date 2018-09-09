@@ -23,10 +23,6 @@ import com.tasree7a.managers.ReservationSessionManager;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
-/**
- * Created by SamiKhleaf on 7/31/17.
- */
-
 public class ProfileFragment extends BaseFragment {
 
     @Nullable

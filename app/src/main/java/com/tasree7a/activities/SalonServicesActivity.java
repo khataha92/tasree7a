@@ -26,12 +26,14 @@ import com.tasree7a.utils.UserDefaultUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class SalonServicesActivity extends AppCompatActivity implements SalonServiceSelectionListener {
 
     public static final String IS_SELECTION_MODE = SalonServicesActivity.class.getName() + "IS_SELECTION_MODE";
     public static final String SALON_ID = SalonServicesActivity.class.getName() + "SALON_ID";
 
-//    private boolean isSelectionMode;isSelectionMode
+    //    private boolean isSelectionMode;isSelectionMode
 //    private float mTotalPrice = 0.0f;
     private String mSalonId;
 
@@ -45,6 +47,8 @@ public class SalonServicesActivity extends AppCompatActivity implements SalonSer
 
     private ImageView mAddService;
     private ImageView mRemoveService;
+
+    private View loading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +110,9 @@ public class SalonServicesActivity extends AppCompatActivity implements SalonSer
 
     private void initViews() {
 
+        loading = findViewById(R.id.loading);
+        loading.setVisibility(View.VISIBLE);
+
         mAddService = findViewById(R.id.add_item);
         mRemoveService = findViewById(R.id.delete_item);
 
@@ -143,7 +150,6 @@ public class SalonServicesActivity extends AppCompatActivity implements SalonSer
     }
 
     private void requestSalonServices() {
-
         RetrofitManager.getInstance().getSalonServices(ReservationSessionManager.getInstance().getSalonModel().getId(), (isSuccess, result) -> {
 
             if (isSuccess) {
@@ -151,10 +157,11 @@ public class SalonServicesActivity extends AppCompatActivity implements SalonSer
                 mSalonServicesList.addAll(((SalonServicesResponse) result).getServices());
                 if (mSalonServicesList == null || mSalonServicesList.size() == 0) {
                     //TODO: Show Empty textview message
-                    Log.d("EMPTY", "EMPTY_VIEW_MESSAGE");
+                    Timber.d("EMPTY_VIEW_MESSAGE");
                 } else {
                     mServicesAdapter.notifyDataSetChanged();
                 }
+                loading.setVisibility(View.GONE);
             }
         });
     }

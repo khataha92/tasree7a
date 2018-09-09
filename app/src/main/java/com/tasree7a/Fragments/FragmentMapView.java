@@ -95,7 +95,7 @@ public class FragmentMapView extends BaseFragment {
 
         try {
 
-            rootView = inflater.inflate(R.layout.fragment_map_view, null, false);
+            rootView = inflater.inflate(R.layout.fragment_map_view, container, false);
 
             mMap = null;
 

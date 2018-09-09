@@ -127,6 +127,7 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
                                         SignupResponseModel model = (SignupResponseModel) result;
                                         User user = model.getUserDetails().getUser();
                                         user.setFacebook(true);
+                                        UserDefaultUtil.saveUserToken(user.getUserToken());
                                         UserDefaultUtil.saveUser(user);
                                         startHomeActivity();
                                     } else {
@@ -202,6 +203,7 @@ public class BaseLoginFragment extends com.tasree7a.fragments.BaseFragment imple
                                 user.setBusiness(isBusiness ? 1 : 0);
                                 user.setSalonId(responseModel.getSalonId());
                                 UserDefaultUtil.saveUser(user);
+                                UserDefaultUtil.saveUserToken(user.getUserToken());
                                 startHomeActivity();
                             } else {
                                 showLoginError();

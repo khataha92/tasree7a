@@ -12,18 +12,24 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.tasree7a.R;
 import com.tasree7a.customcomponent.CustomButton;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.UpdateSalonImagesRequestModel;
+import com.tasree7a.utils.ImagePickerHelper;
 import com.tasree7a.utils.PermissionsUtil;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
 
 public class AddSalonImageActivity extends AppCompatActivity {
 
@@ -32,16 +38,21 @@ public class AddSalonImageActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE = 4567;
     private static final int GALLERY_REQUEST = 3254;
+    private static final int CAMERA_REQUEST = 1888;
     private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 3452;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 3458;
 
     private String mSalonId;
     private CustomButton mSaveImage;
     private CustomButton mCancel;
     private ImageView mBack;
+    private ImageView mselectedImage;
+    private LinearLayout mLoading;
 
     private Bitmap mSelectedBitmap;
     private File mSelectedFile;
     private boolean dataValid;
+    private String mImagePath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,11 +68,25 @@ public class AddSalonImageActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode != Activity.RESULT_OK || data == null) return;
+        if (resultCode != Activity.RESULT_OK) return;
 
-        Uri selectedUri = data.getData();
+        Uri selectedUri = null;
+        if (data != null)
+            selectedUri = data.getData();
 
         switch (requestCode) {
+            case CAMERA_REQUEST:
+
+                Bitmap selectedBitmap = ImagePickerHelper.handleCameraResult(this, mImagePath);
+                if (selectedBitmap != null) {
+                    mSelectedFile = new File(mImagePath);
+                    mselectedImage.setImageBitmap(selectedBitmap);
+                    mselectedImage.setRotation(90);
+                } else {
+                    Toasty.error(this, getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
+                }
+                break;
+
             case GALLERY_REQUEST:
                 try {
                     mSelectedBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedUri);
@@ -81,10 +106,16 @@ public class AddSalonImageActivity extends AppCompatActivity {
             case READ_EXTERNAL_STORAGE_REQUEST_CODE:
                 openGallerySelectionIntent();
                 break;
+            case CAMERA_PERMISSION_REQUEST_CODE:
+                openCameraDialog();
+                break;
         }
     }
 
     private void initViews() {
+        mLoading = findViewById(R.id.loading);
+        mselectedImage = findViewById(R.id.add_img);
+
         findViewById(R.id.apply).setOnClickListener(v -> {
             if (isDataValid()) {
                 requestAddSalonGalleryImage();
@@ -92,23 +123,32 @@ public class AddSalonImageActivity extends AppCompatActivity {
                 Toast.makeText(this, "Missing data required", Toast.LENGTH_LONG).show();
             }
         });
+
         findViewById(R.id.cancel).setOnClickListener(v -> {
             setResult(Activity.RESULT_CANCELED);
             finish();
         });
+
         findViewById(R.id.back).setOnClickListener(v -> {
             setResult(Activity.RESULT_CANCELED);
             finish();
         });
-        findViewById(R.id.add_image).setOnClickListener(v -> openImageSelectionPromptDialog());
+
+
+        mselectedImage.setOnClickListener(v -> openImageSelectionPromptDialog());
     }
 
     private void requestAddSalonGalleryImage() {
+        mLoading.setVisibility(View.VISIBLE);
+        findViewById(R.id.content).setVisibility(View.GONE);
+
         RetrofitManager
                 .getInstance()
-                .updateSalonImages(buildRequestDataMode(),
+                .updateSalonImages(UserDefaultUtil.getCurrentUser().getId(),
+                        buildRequestDataMode(),
                         mSelectedFile,
                         (isSuccess, result) -> {
+                            mLoading.setVisibility(View.GONE);
                             setResult(Activity.RESULT_OK);
                             finish();
                         });
@@ -153,7 +193,11 @@ public class AddSalonImageActivity extends AppCompatActivity {
     }
 
     private void openCameraDialog() {
-
+        if (PermissionsUtil.isPermissionGranted(this, Manifest.permission.CAMERA)) {
+            mImagePath = ImagePickerHelper.dispatchTakePictureIntent(this, CAMERA_REQUEST);
+        } else {
+            PermissionsUtil.grantPermission(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
+        }
     }
 
     public String getRealPathFromUri(Uri contentUri) {

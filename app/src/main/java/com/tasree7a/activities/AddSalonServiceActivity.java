@@ -16,15 +16,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.AddNewServiceRequestModel;
+import com.tasree7a.utils.BitmapUtil;
+import com.tasree7a.utils.ImagePickerHelper;
 import com.tasree7a.utils.PermissionsUtil;
+import com.tasree7a.utils.URIFilePathFormater;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -35,7 +40,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import es.dmoral.toasty.Toasty;
+
 public class AddSalonServiceActivity extends AppCompatActivity {
+    public static final String TAG = AddSalonServiceActivity.class + "";
+
 
     private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 987;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 3458;
@@ -45,8 +54,9 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 3253;
 
     private File mSelectedFile;
-    //    private Uri mFileUri;
-//    private String mCurrentPhotoPath;
+    private Uri mFileUri;
+    private String mImagePath;
+    //    private String mCurrentPhotoPath;
     private ImageView mSelectedImageDisplay;
 
     @Override
@@ -66,24 +76,27 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode != Activity.RESULT_OK || data == null) return;
-
-        Uri selectedUri = data.getData();
+        if (resultCode != Activity.RESULT_OK) return;
 
         switch (requestCode) {
             case CAMERA_REQUEST:
-                try {
-                    Bitmap selectedBitmap = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+                Bitmap selectedBitmap = ImagePickerHelper.handleCameraResult(this, mImagePath);
+                if (selectedBitmap != null) {
+                    mSelectedFile = new File(mImagePath);
                     mSelectedImageDisplay.setImageBitmap(selectedBitmap);
-                    Uri tempUri = getImageUri(getApplicationContext(), selectedBitmap);
-                    mSelectedFile = new File(getRealPathFromUri(tempUri));
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    mSelectedImageDisplay.setRotation(90);
+                } else {
+                    Toasty.error(this, getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
                 }
-
                 break;
+
             case GALLERY_REQUEST:
                 try {
+                    if (data == null) {
+                        return;
+                    }
+
+                    Uri selectedUri = data.getData();
                     Bitmap mSelectedBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedUri);
                     mSelectedImageDisplay.setImageBitmap(mSelectedBitmap);
                     mSelectedFile = new File(getRealPathFromUri(selectedUri));
@@ -132,7 +145,7 @@ public class AddSalonServiceActivity extends AppCompatActivity {
     }
 
     private void requestAddService() {
-        RetrofitManager.getInstance().addSalonService(getServiceModel(), mSelectedFile, (isSuccess, result) -> {
+        RetrofitManager.getInstance().addSalonService(UserDefaultUtil.getCurrentUser().getId(), getServiceModel(), mSelectedFile, (isSuccess, result) -> {
             if (isSuccess) {
                 setResult(Activity.RESULT_OK);
                 finish();
@@ -201,28 +214,9 @@ public class AddSalonServiceActivity extends AppCompatActivity {
 
     private void openCameraDialog() {
         if (PermissionsUtil.isPermissionGranted(this, Manifest.permission.CAMERA)) {
-            Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//            mFileUri = CameraUtils.getOutputMediaFileUri(this);
-            if (takePicture.resolveActivity(getPackageManager()) != null) {
-
-                try {
-                    mSelectedFile = createImageFile();
-                } catch (IOException ignore) {
-                    // Error occurred while creating the File
-                }
-
-                // Continue only if the File was successfully created
-                if (mSelectedFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this,
-                            "com.example.android.fileprovider",
-                            mSelectedFile);
-
-                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePicture, CAMERA_REQUEST);
-                }
-            } else {
-                PermissionsUtil.grantPermission(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
-            }
+            mImagePath = ImagePickerHelper.dispatchTakePictureIntent(this, CAMERA_REQUEST);
+        } else {
+            PermissionsUtil.grantPermission(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
         }
     }
 
@@ -243,12 +237,14 @@ public class AddSalonServiceActivity extends AppCompatActivity {
         return new AddNewServiceRequestModel()
                 .setServiceName(((TextView) findViewById(R.id.service_type)).getText().toString())
                 .setServicePrice(((TextView) findViewById(R.id.price)).getText().toString())
+                .setServiceDuration(((TextView) findViewById(R.id.duration_time)).getText().toString())
                 .setSalonId(UserDefaultUtil.getCurrentUser().getSalonId());
     }
 
     public boolean isDataValid() {
         return mSelectedFile != null
                 && !TextUtils.isEmpty(((TextView) findViewById(R.id.service_type)).getText().toString())
+                && !TextUtils.isEmpty(((TextView) findViewById(R.id.duration_time)).getText().toString())
                 && !TextUtils.isEmpty(((TextView) findViewById(R.id.price)).getText().toString());
     }
 }

@@ -1,5 +1,6 @@
 package com.tasree7a.interfaces;
 
+import com.tasree7a.models.LocationResponseModel;
 import com.tasree7a.models.UpdateGalleryResponseModel;
 import com.tasree7a.models.UserBookingsResponse;
 import com.tasree7a.models.favoritemodels.FavoriteResponseModel;
@@ -31,7 +32,10 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("login")
-    Call<LoginResponseModel> login(@Field("username") String username, @Field("password") String password, @Field("fb_flag") int isFBLogin, @Field("isBusiness") int isBusiness);
+    Call<LoginResponseModel> login(@Field("username") String username,
+                                   @Field("password") String password,
+                                   @Field("fb_flag") int isFBLogin,
+                                   @Field("isBusiness") int isBusiness);
 
 
     @FormUrlEncoded
@@ -48,12 +52,14 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("getUserFavoriteSalons")
-    Call<FavoriteResponseModel> getUserFavorites(@Field("userId") String userName);
+    Call<FavoriteResponseModel> getUserFavorites(@Field("userId") String userName,
+                                                 @Field("user_id") String userId);
 
 
     @Multipart
     @POST("updateSalonImage")
-    Call<UpdateGalleryResponseModel> updateSalonImages(@Part("operation") RequestBody operation,
+    Call<UpdateGalleryResponseModel> updateSalonImages(@Part("user_id") RequestBody userId,
+                                                       @Part("operation") RequestBody operation,
                                                        @Part("salonId") RequestBody salonId,
                                                        @Part("imageId") RequestBody images,
                                                        @Part MultipartBody.Part image);
@@ -61,7 +67,9 @@ public interface ServiceRequest {
 
     @Multipart
     @POST("addSalonService")
-    Call<Object> addSalonService(@Part("serviceName") RequestBody serviceName,
+    Call<Object> addSalonService(@Part("user_id") RequestBody userId,
+                                 @Part("serviceName") RequestBody serviceName,
+                                 @Part("serviceDuration") RequestBody duration,
                                  @Part("servicePrice") RequestBody servicePrice,
                                  @Part("salonId") RequestBody salonId,
                                  @Part MultipartBody.Part image);
@@ -74,52 +82,54 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("addUserBooking")
-    Call<Object> addUserBooking(@Field("barberId") String barberId,
+    Call<Object> addUserBooking(@Field("user_id") String uSerId,
+                                @Field("barberId") String barberId,
                                 @Field("salonId") String salonId,
-                                @Field("services") int[] services,
+                                @Field("services") String services,
                                 @Field("userId") String userId,
                                 @Field("book_date") String date,
                                 @Field("book_time") String time);
 
     @FormUrlEncoded
     @POST("updateBookingStatus")
-    Call<Object> updateBookingStatus(@Field("bookId") String bookingID, @Field("bookStatus") String status);
+    Call<Object> updateBookingStatus(@Field("user_id") String userId, @Field("bookId") String bookingID, @Field("bookStatus") String status);
 
     @FormUrlEncoded
     @POST("getUserBookings")
-    Call<UserBookingsResponse> getUserBookings(@Field("userId") String userId, @Field("userType") String userType);
+    Call<UserBookingsResponse> getUserBookings(@Field("user_id") String userid, @Field("userId") String userId, @Field("userType") String userType);
 
 
     @FormUrlEncoded
     @POST("changeFavorites")
-    Call<SignupResponseModel> changeUserFavorite(@Field("userId") String userName,
+    Call<SignupResponseModel> changeUserFavorite(@Field("user_id") String userid, @Field("userId") String userName,
                                                  @Field("salonId") String salonId,
                                                  @Field("action") String action);
 
 
     @FormUrlEncoded
     @POST("getNearestSalons")
-    Call<PopularSalonsResponseModel> getNearestSalons(@Field("currentUserLat") double lat, @Field("currentUserLong") double lng, @Field("pageIndex") int pageIndex);
+    Call<PopularSalonsResponseModel> getNearestSalons(@Field("user_id") String userId, @Field("currentUserLat") double lat, @Field("currentUserLong") double lng, @Field("pageIndex") int pageIndex);
 
 
     @FormUrlEncoded
     @POST("getSalonDetails")
-    Call<SalonDetailsResponseModel> getSalonDetails(@Field("salonID") String salonId);
+    Call<SalonDetailsResponseModel> getSalonDetails(@Field("salonID") String salonId, @Field("user_id") String userId);
 
 
     @FormUrlEncoded
     @POST("getSalonServices")
-    Call<SalonServicesResponse> getSalonServices(@Field("salonId") String salonId);
+    Call<SalonServicesResponse> getSalonServices(@Field("user_id") String userId, @Field("salonId") String salonId);
 
 
     @FormUrlEncoded
     @POST("getAvailableBookingTime")
-    Call<AvailableTimesResponse> getAvailableTime(@Field("date") String date, @Field("salonId") String salonId);
+    Call<AvailableTimesResponse> getAvailableTime(@Field("user_id") String userId, @Field("date") String date, @Field("salonId") String salonId);
 
 
     @FormUrlEncoded
     @POST("addNewBarber")
-    Call<Object> addNewBarber(@Field("salonId") String salonId,
+    Call<Object> addNewBarber(@Field("user_id") String userId,
+                              @Field("salonId") String salonId,
                               @Field("lastName") String lastName,
                               @Field("email") String email,
                               @Field("username") String userName,
@@ -133,17 +143,20 @@ public interface ServiceRequest {
 
     @Multipart
     @POST("updateSalonProduct")
-    Call<Object> updateSalonProduct(@Part("operation") RequestBody op,
+    Call<Object> updateSalonProduct(@Part("user_id") RequestBody userId, @Part("operation") RequestBody op,
                                     @Part("productName") RequestBody productName,
                                     @Part("productDescription") RequestBody prodDesc,
                                     @Part("productPrice") RequestBody price,
                                     @Part("salonId") RequestBody id,
                                     @Part("product_ids_list") RequestBody prodId,
                                     @Part MultipartBody.Part image);
+
     ;
+
     @Multipart
     @POST("addNewSalon")
-    Call<AddNewSalonResponseModel> addNewSalonInformation(@Part("userId") RequestBody salonId,
+    Call<AddNewSalonResponseModel> addNewSalonInformation(@Part("user_id") RequestBody userid,
+                                                          @Part("userId") RequestBody salonId,
                                                           @Part("cityId") RequestBody cityId,
                                                           @Part("salonType") RequestBody salonType,
                                                           @Part("ownerName") RequestBody ownerName,
@@ -159,7 +172,8 @@ public interface ServiceRequest {
 
     @Multipart
     @POST("updateSalonInformation")
-    Call<AddNewSalonResponseModel> updateSalonDetails(@Part("salonId") RequestBody salonId,
+    Call<AddNewSalonResponseModel> updateSalonDetails(@Part("user_id") RequestBody userid,
+                                                      @Part("salonId") RequestBody salonId,
                                                       @Part("salonCityId") RequestBody cityId,
                                                       @Part("salonType") RequestBody salonType,
                                                       @Part("ownerName") RequestBody ownerName,
@@ -173,7 +187,14 @@ public interface ServiceRequest {
 
     @FormUrlEncoded
     @POST("DeleteSalonService")
-    Call<Void> deleteSalonService(@Field("salonId") String salonId,
+    Call<Void> deleteSalonService(@Field("user_id") String userId, @Field("salonId") String salonId,
                                   @Field("serviceId") String serviceId);
+
+    @FormUrlEncoded
+    @POST("getSalonCityAddress")
+    Call<LocationResponseModel> getUserAddress(@Field("user_id") String userId,
+                                               @Field("lang") String language,
+                                               @Field("lat") String lat,
+                                               @Field("long") String lon);
 
 }

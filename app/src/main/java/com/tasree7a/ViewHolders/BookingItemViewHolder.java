@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tasree7a.AvailableTimesHelper;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
 import com.tasree7a.enums.BookingStatus;
@@ -24,12 +25,17 @@ import com.tasree7a.managers.FragmentManager;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.BaseCardModel;
 import com.tasree7a.models.bookings.BookingModel;
+import com.tasree7a.models.bookings.BookingServiceModel;
 import com.tasree7a.models.salondetails.SalonModel;
 import com.tasree7a.observables.BookingStatusChangedObservable;
+import com.tasree7a.utils.DateUtil;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,28 +52,48 @@ public class BookingItemViewHolder extends RecyclerView.ViewHolder {
 
         itemView.findViewById(R.id.cancel_booking).setOnClickListener(v ->
                 RetrofitManager.getInstance()
-                        .updateBookingStatus(mBookingModel.getBookingId(),
+                        .updateBookingStatus(UserDefaultUtil.getCurrentUser().getId(), mBookingModel.getBookingId(),
                                 UserDefaultUtil.isBusinessUser()
                                         ? BookingStatus.CANCELED_BY_BARBER
                                         : BookingStatus.CANCELED_BY_USER,
                                 (isSuccess, result) -> BookingStatusChangedObservable.sharedInstance().setStatusChanged(mBookingModel)));
 
-        itemView.findViewById(R.id.salon_accept).setOnClickListener(v -> {
-            RetrofitManager.getInstance().updateBookingStatus(mBookingModel.getBookingId(), BookingStatus.ACCEPTED, (isSuccess, result) -> {
-                onBookingStatusChangedListener.onBookingStatusChanged(getAdapterPosition(), BookingStatus.ACCEPTED);
-            });
-        });
+        itemView.findViewById(R.id.salon_accept).setOnClickListener(v -> RetrofitManager.getInstance().updateBookingStatus(UserDefaultUtil.getCurrentUser().getId(), mBookingModel.getBookingId(), BookingStatus.ACCEPTED, (isSuccess, result) -> {
+            onBookingStatusChangedListener.onBookingStatusChanged(getAdapterPosition(), BookingStatus.ACCEPTED);
+        }));
 
-        itemView.findViewById(R.id.salon_reject).setOnClickListener(v -> {
-            RetrofitManager.getInstance().updateBookingStatus(mBookingModel.getBookingId(), BookingStatus.CANCELED_BY_BARBER, (isSuccess, result) -> {
-                onBookingStatusChangedListener.onBookingStatusChanged(getAdapterPosition(), BookingStatus.CANCELED_BY_BARBER);
-            });
-        });
+        itemView.findViewById(R.id.salon_reject).setOnClickListener(v -> RetrofitManager.getInstance().updateBookingStatus(UserDefaultUtil.getCurrentUser().getId(), mBookingModel.getBookingId(), BookingStatus.CANCELED_BY_BARBER, (isSuccess, result) -> {
+            onBookingStatusChangedListener.onBookingStatusChanged(getAdapterPosition(), BookingStatus.CANCELED_BY_BARBER);
+        }));
 
     }
 
     public void bind(BookingModel model) {
         mBookingModel = model;
+
+        SimpleDateFormat formatIn = new SimpleDateFormat("YYYY-MM-dd");
+        SimpleDateFormat formatOut = new SimpleDateFormat("EEE, d MMM yyyy");
+
+        SimpleDateFormat inFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        SimpleDateFormat outFormat = new SimpleDateFormat("hh:mm aa", Locale.ENGLISH);
+
+
+        String dateText = "";
+        String fromTime = "";
+        String toTime = "";
+        try {
+            dateText = formatOut.format(formatIn.parse(mBookingModel.getBookDate()));
+            fromTime = outFormat.format(inFormat.parse(mBookingModel.getStartTime()));
+            toTime = outFormat.format(inFormat.parse(mBookingModel.getEndTime()));
+        } catch (ParseException e) {
+            Log.e("Errorrrr", "e", e);
+        }
+
+//        Date bookingDate = DateUtil.parseDate(mBookingModel.getBookDate(), "MMM dd, yyyy");
+
+        ((TextView) itemView.findViewById(R.id.booking_time)).setText(dateText + " " + fromTime + " - " + toTime);
+
+
         ImageView location = itemView.findViewById(R.id.salon_location);
         ImageView callSalon = itemView.findViewById(R.id.salon_phone);
         TextView bookingId = itemView.findViewById(R.id.booking_id);
@@ -88,7 +114,6 @@ public class BookingItemViewHolder extends RecyclerView.ViewHolder {
 
         salonName.setText(title);
         bookingId.setText(mBookingModel.getBookingId());
-        bookingTime.setText(mBookingModel.getBookingTime());
         salonAddress.setText(mBookingModel.getSalonAddress());
 
         LinearLayout services = itemView.findViewById(R.id.booking_services);
@@ -110,27 +135,29 @@ public class BookingItemViewHolder extends RecyclerView.ViewHolder {
             ((ImageView) itemView.findViewById(R.id.badge_image)).setImageResource(R.drawable.ic_waiting);
         }
 
-        if (mBookingModel.getBookStatus() == BookingStatus.FINISHED.value) {
-            itemView.findViewById(R.id.badge).setVisibility(View.GONE);
-            location.setVisibility(View.GONE);
-            itemView.findViewById(R.id.cancel_booking).setVisibility(View.GONE);
-            callSalon.setVisibility(View.GONE);
-            itemView.findViewById(R.id.salon_accept).setVisibility(View.GONE);
-            itemView.findViewById(R.id.salon_reject).setVisibility(View.GONE);
-        } else if (mBookingModel.getBookStatus() == BookingStatus.CREATED.value) {
-            itemView.findViewById(R.id.badge).setVisibility(View.VISIBLE);
-            location.setVisibility(View.INVISIBLE);
-            itemView.findViewById(R.id.cancel_booking).setVisibility(View.INVISIBLE);
-            callSalon.setVisibility(View.INVISIBLE);
-            itemView.findViewById(R.id.salon_accept).setVisibility(View.VISIBLE);
-            itemView.findViewById(R.id.salon_reject).setVisibility(View.VISIBLE);
-        } else {
-            itemView.findViewById(R.id.badge).setVisibility(View.VISIBLE);
-            location.setVisibility(View.INVISIBLE);
-            itemView.findViewById(R.id.cancel_booking).setVisibility(View.INVISIBLE);
-            callSalon.setVisibility(View.INVISIBLE);
-            itemView.findViewById(R.id.salon_accept).setVisibility(View.INVISIBLE);
-            itemView.findViewById(R.id.salon_reject).setVisibility(View.INVISIBLE);
+        if (UserDefaultUtil.isBusinessUser()) {
+            if (mBookingModel.getBookStatus() == BookingStatus.FINISHED.value) {
+                itemView.findViewById(R.id.badge).setVisibility(View.GONE);
+                location.setVisibility(View.GONE);
+                itemView.findViewById(R.id.cancel_booking).setVisibility(View.GONE);
+                callSalon.setVisibility(View.GONE);
+                itemView.findViewById(R.id.salon_accept).setVisibility(View.GONE);
+                itemView.findViewById(R.id.salon_reject).setVisibility(View.GONE);
+            } else if (mBookingModel.getBookStatus() == BookingStatus.CREATED.value) {
+                itemView.findViewById(R.id.badge).setVisibility(View.VISIBLE);
+                location.setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.cancel_booking).setVisibility(View.INVISIBLE);
+                callSalon.setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.salon_accept).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.salon_reject).setVisibility(View.VISIBLE);
+            } else {
+                itemView.findViewById(R.id.badge).setVisibility(View.VISIBLE);
+                location.setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.cancel_booking).setVisibility(View.INVISIBLE);
+                callSalon.setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.salon_accept).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.salon_reject).setVisibility(View.INVISIBLE);
+            }
         }
 
         location.setOnClickListener(v -> {
@@ -165,5 +192,12 @@ public class BookingItemViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
+        int total = 0;
+        for (BookingServiceModel serviceModel : mBookingModel.getBookingServiceList()) {
+            total += Integer.parseInt(serviceModel.getCost());
+        }
+
+        ((TextView) itemView.findViewById(R.id.total)).setText(itemView.getContext().getString(R.string.total, total));
     }
 }

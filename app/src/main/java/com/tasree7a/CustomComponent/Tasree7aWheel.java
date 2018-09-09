@@ -15,6 +15,7 @@ import com.tasree7a.R;
 import com.tsongkha.spinnerdatepicker.TwoDigitFormatter;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 public class Tasree7aWheel extends LinearLayout {
 
@@ -68,14 +69,20 @@ public class Tasree7aWheel extends LinearLayout {
 
     private void initViews(Context context) {
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View itemView = inflater.inflate(R.layout.availability_wheel, this, true);
+        final View itemView = LayoutInflater
+                .from(context)
+                .inflate(R.layout.availability_wheel, this, true);
 
         mHoursPicker = itemView.findViewById(R.id.hours);
         mMinuetsPicker = itemView.findViewById(R.id.minutes);
         hoursValue = itemView.findViewById(R.id.hours_value);
         minuetsValue = itemView.findViewById(R.id.minutes_value);
         mAmPm = itemView.findViewById(R.id.am_pm);
+        mAmPm.setVisibility(View.VISIBLE);
+        mAmPm.setText("PM");
+        AM = false;
+
+
         available = itemView.findViewById(R.id.available);
         setNumberPickerTextColor(mHoursPicker, R.color.APP_GREEN);
         setNumberPickerTextColor(mMinuetsPicker, R.color.APP_GREEN);
@@ -89,36 +96,34 @@ public class Tasree7aWheel extends LinearLayout {
         mHoursPicker.setFormatter(new TwoDigitFormatter());
         mMinuetsPicker.setFormatter(new TwoDigitFormatter());
 
-        mHoursPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if ((oldVal == 12 && newVal == 1 && AM)
-                        || (oldVal == 1 && newVal == 12 && AM)) {
-                    mAmPm.setText("PM");
-                    AM = !AM;
-                } else if ((oldVal == 1 && newVal == 12) ||
-                        (oldVal == 12 && newVal == 1)) {
-                    mAmPm.setText("AM");
-                    AM = !AM;
-                }
-                hoursValue.setText(String.format("%02d", newVal));
-                minuetsValue.setText(String.format("%02d", getMinValue()));
-                itemView.findViewById(R.id.selected_time).setVisibility(VISIBLE);
-                itemView.findViewById(R.id.select_time).setVisibility(GONE);
-                hour = newVal;
-                action.run();
+        mHoursPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            if ((oldVal == 12 && newVal == 1 && AM)
+                    || (oldVal == 1 && newVal == 12 && AM)) {
+                mAmPm.setText("PM");
+                AM = !AM;
+            } else if ((oldVal == 1 && newVal == 12) ||
+                    (oldVal == 12 && newVal == 1)) {
+                mAmPm.setText("AM");
+                AM = !AM;
             }
+            hoursValue.setText(String.format(Locale.ENGLISH, "%02d", newVal));
+            minuetsValue.setText(String.format(Locale.ENGLISH, "%02d", getMinValue()));
+            itemView.findViewById(R.id.selected_time).setVisibility(VISIBLE);
+            itemView.findViewById(R.id.select_time).setVisibility(GONE);
+            hour = newVal;
+            action.run();
         });
 
-        mMinuetsPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                hoursValue.setText(String.format("%02d", mHoursPicker.getValue()));
-                minuetsValue.setText(String.format("%02d", getMinValue(newVal)));
-                action.run();
-            }
+        mMinuetsPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            hoursValue.setText(String.format(Locale.ENGLISH, "%02d", mHoursPicker.getValue()));
+            minuetsValue.setText(String.format(Locale.ENGLISH, "%02d", getMinValue(newVal)));
+            itemView.findViewById(R.id.selected_time).setVisibility(VISIBLE);
+            itemView.findViewById(R.id.select_time).setVisibility(GONE);
+            action.run();
         });
+
+        hoursValue.setText(String.format(Locale.ENGLISH, "%02d", mHoursPicker.getValue()));
+        minuetsValue.setText(String.format(Locale.ENGLISH, "%02d", getMinValue()));
 
     }
 
@@ -129,7 +134,6 @@ public class Tasree7aWheel extends LinearLayout {
             case 1:
             default:
                 return 0;
-
         }
     }
 
@@ -147,7 +151,7 @@ public class Tasree7aWheel extends LinearLayout {
     public String getTime() {
 //        int time = convertTimeToInt(mHoursPicker.getValue(), mMinuetsPicker.getValue());
 //        Calendar c = Calendar.getInstance();
-        return String.format("%02d", mHoursPicker.getValue()) + ":" + String.format("%02d", getMinValue()) + " " + mAmPm.getText();//time != 0 ? time : convertTimeToInt(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
+        return String.format(Locale.ENGLISH, "%02d", mHoursPicker.getValue()) + ":" + String.format(Locale.ENGLISH, "%02d", getMinValue()) + " " + mAmPm.getText();//time != 0 ? time : convertTimeToInt(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
     }
 
     private int convertTimeToInt(int hourOfDay, int minute) {

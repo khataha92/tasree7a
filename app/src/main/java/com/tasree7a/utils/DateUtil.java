@@ -6,6 +6,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.tasree7a.R;
 import com.tasree7a.ThisApplication;
+import com.tasree7a.enums.Language;
 
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -183,6 +184,16 @@ public abstract class DateUtil {
      */
     public static Date zeroHoursDate(Context context, Date date) {
         return formatDate(context, date, DateFormatsOptions.API_FORMAT, new Locale("en"));
+    }
+
+    public static Date parseDate(String date, String format) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat(format, new Locale(UserDefaultUtil.getAppLanguage().equals(Language.AR) ? "ar" : "en"));
+            return formatter.parse(date);
+        } catch (ParseException e) {
+            Log.d(TAG, "Error:", e);
+        }
+        return new Date();
     }
 
     /**

@@ -67,7 +67,7 @@ public class SalonProductsGalleryActivity extends AppCompatActivity implements P
             case AddSalonProductActivity.REQUEST_CODE:
                 RetrofitManager
                         .getInstance()
-                        .getSalonDetails(mSalonId, (isSuccess, result) -> {
+                        .getSalonDetails(mSalonId, UserDefaultUtil.getCurrentUser().getId(), (isSuccess, result) -> {
                             if (isSuccess) {
                                 mProductsList.clear();
                                 mProductsList.addAll(((SalonModel) result).getProducts());

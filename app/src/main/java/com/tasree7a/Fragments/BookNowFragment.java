@@ -62,6 +62,8 @@ public class BookNowFragment extends BaseFragment implements SalonServiceSelecti
                 salonService.setAdapter(mSalonServicesAdapter);
                 UIUtils.hideLoadingView(rootView, BookNowFragment.this);
             }
+
+            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
         });
 
         //salonService.setAdapter(new SalonServicesAdapter(salonServices));

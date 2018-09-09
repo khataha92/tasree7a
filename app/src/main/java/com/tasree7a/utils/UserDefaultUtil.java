@@ -3,6 +3,7 @@ package com.tasree7a.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.media.session.MediaSession;
 import android.preference.PreferenceManager;
 
 import com.google.common.base.Strings;
@@ -45,9 +46,11 @@ public class UserDefaultUtil {
     }
 
     public static void logout() {
-        preferences.edit().clear().commit();
+        preferences
+                .edit()
+                .clear()
+                .apply();
     }
-
 
     public static void saveLogedUser(LoginModel user) {
 
@@ -307,4 +310,11 @@ public class UserDefaultUtil {
 
     }
 
+    public static String getUserToken() {
+        return getStringValue(UserDefaultKeys.USER_TOKEN.getValue());
+    }
+
+    public static void saveUserToken(String token) {
+        setStringValue(UserDefaultKeys.USER_TOKEN.getValue(), token);
+    }
 }

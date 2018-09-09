@@ -12,7 +12,7 @@ public class BookingServiceModel {
     String serviceName;
 
     @SerializedName("price")
-    double cost;
+    String cost;
 
     @SerializedName("url")
     String imageUrl;
@@ -25,11 +25,11 @@ public class BookingServiceModel {
         this.serviceName = serviceName;
     }
 
-    public double getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 
@@ -40,4 +40,5 @@ public class BookingServiceModel {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 }

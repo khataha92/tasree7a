@@ -66,24 +66,6 @@ public class FragmentFilter extends BaseFragment {
 
         rootView.findViewById(R.id.layout1).setOnClickListener(v -> genderFilter.setChecked(!genderFilter.isChecked()));
 
-
-//        Spinner citiesSpinner = rootView.findViewById(R.id.cities_spinner);
-//
-//        List<SalonModel> salonModels = SessionManager.getInstance().getSalons();
-//
-//        for(int i = 0; i < salonModels.size() ; i++){
-//
-//            if(!isCityContained(availableCities,salonModels.get(i).getCityModel())){
-//
-//                availableCities.add(salonModels.get(i).getCityModel());
-//
-//            }
-//        }
-//
-//        CitiesSpinnerAdapter adapter = new CitiesSpinnerAdapter(ThisApplication.getCurrentActivity(),android.R.layout.simple_spinner_dropdown_item,availableCities);
-//
-//        citiesSpinner.setAdapter(adapter);
-
         for (int i = 0; i < sortTypeGroup.getChildCount(); i++) {
 
             View view = sortTypeGroup.getChildAt(i);
@@ -130,20 +112,7 @@ public class FragmentFilter extends BaseFragment {
 
             Checkable checkable = filters.getCheckedItem();
 
-//            for (int i = 0; i < checkable.size(); i++) {
-//
             filterTypes.add(((CustomRadioButton) checkable).getFilterType());
-//            }
-//
-//                if (genderFilter.isChecked()){
-//
-//                    filterTypes.add(FilterType.FEMALE);
-//
-//                } else {
-//
-//                    filterTypes.add(FilterType.MALE);
-//
-//                }
 
             FilterAndSortManager.getInstance().setSalonType(genderFilter.isChecked() ? Gender.FEMALE : Gender.MALE);
 

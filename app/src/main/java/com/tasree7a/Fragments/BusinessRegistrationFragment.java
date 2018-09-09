@@ -87,6 +87,7 @@ public class BusinessRegistrationFragment extends BaseFragment implements View.O
                         UserDefaultUtil.saveRegesteringUser(model);
                         SignupResponseModel signupResponseModel = (SignupResponseModel) result;
                         User user = signupResponseModel.getUserDetails().getUser();
+                        UserDefaultUtil.saveUserToken(user.getUserToken());
                         UserDefaultUtil.saveUser(user);
                         UserDefaultUtil.setIsRegestering(true);
                         SalonInformationActivity.launch(this,

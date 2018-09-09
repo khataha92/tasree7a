@@ -1,15 +1,19 @@
 package com.tasree7a.managers;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.tasree7a.Constants;
 import com.tasree7a.enums.BookingStatus;
+import com.tasree7a.enums.Language;
 import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.interfaces.ServiceRequest;
 import com.tasree7a.models.AddNewBarberRequestModel;
 import com.tasree7a.models.AddNewServiceRequestModel;
 import com.tasree7a.models.ApiError;
+import com.tasree7a.models.LocationResponseModel;
 import com.tasree7a.models.UpdateGalleryResponseModel;
 import com.tasree7a.models.UpdateProductRequestModel;
 import com.tasree7a.models.UpdateSalonImagesRequestModel;
@@ -24,13 +28,10 @@ import com.tasree7a.models.salondetails.AddNewSalonResponseModel;
 import com.tasree7a.models.salondetails.SalonDetailsResponseModel;
 import com.tasree7a.models.salondetails.SalonInformationRequestModel;
 import com.tasree7a.models.signup.SignupResponseModel;
+import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -42,7 +43,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Part;
 
 /**
  * Created by mac on 5/17/17.
@@ -71,7 +71,10 @@ public class RetrofitManager {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
+        httpClient
+                .addInterceptor(logging)
+                .addInterceptor(new HeadersApiInterceptor());
+
         retrofit = new Retrofit.Builder()
                 .client(httpClient.build())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -83,7 +86,17 @@ public class RetrofitManager {
 
     public void addBooking(String barberId, String salonId, int[] services, String userId, String date, String time, final AbstractCallback callback) {
 
-        Call<Object> addBooking = request.addUserBooking(barberId, salonId, services, userId, date, time);
+        String ids = "";
+        String[] idsList = new String[services.length];
+        int i = 0;
+        for (int service : services) {
+            idsList[i] = service + "";
+
+        }
+        if (services.length > 0) {
+            ids = TextUtils.join(",", idsList);
+        }
+        Call<Object> addBooking = request.addUserBooking(userId, barberId, salonId, ids, userId, date, time);
 
         addBooking.enqueue(new Callback<Object>() {
 
@@ -142,8 +155,8 @@ public class RetrofitManager {
     }
 
 
-    public void getSalonDetails(String salonId, final AbstractCallback callback) {
-        Call<SalonDetailsResponseModel> call = request.getSalonDetails(salonId);
+    public void getSalonDetails(String salonId, String userId, final AbstractCallback callback) {
+        Call<SalonDetailsResponseModel> call = request.getSalonDetails(salonId, userId);
         call.enqueue(new Callback<SalonDetailsResponseModel>() {
             @Override
             public void onResponse(@NonNull Call<SalonDetailsResponseModel> call, @NonNull Response<SalonDetailsResponseModel> response) {
@@ -180,7 +193,8 @@ public class RetrofitManager {
         }
         /////////
 
-        Call<Object> call = request.updateSalonProduct(RequestBody.create(MediaType.parse("multipart/form-data"), model.getOperation()),
+        Call<Object> call = request.updateSalonProduct(RequestBody.create(MediaType.parse("multipart/form-data"), UserDefaultUtil.getCurrentUser().getId()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getOperation()),
                 model.getProductName() != null ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductName()) : null,
                 model.getProductDescription() != null ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductDescription()) : null,
                 model.getProductPrice() != null ? RequestBody.create(MediaType.parse("multipart/form-data"), model.getProductPrice()) : null,
@@ -204,7 +218,7 @@ public class RetrofitManager {
 
     public void addNewBarber(AddNewBarberRequestModel model, final AbstractCallback callback) {
 
-        Call<Object> call = request.addNewBarber(model.getSalonId(),
+        Call<Object> call = request.addNewBarber(UserDefaultUtil.getCurrentUser().getId(), model.getSalonId(),
                 model.getLastName(),
                 model.getEmail(),
                 model.getUserName(),
@@ -238,7 +252,7 @@ public class RetrofitManager {
 
     public void getUserFavoriteSalons(String userName, final AbstractCallback callback) {
 
-        Call<FavoriteResponseModel> call = request.getUserFavorites(userName);
+        Call<FavoriteResponseModel> call = request.getUserFavorites(userName, userName);
 
         call.enqueue(new Callback<FavoriteResponseModel>() {
 
@@ -269,7 +283,7 @@ public class RetrofitManager {
 
     public void getUserBookings(String userId, String userType, final AbstractCallback callback) {
 
-        Call<UserBookingsResponse> getBookings = request.getUserBookings(userId, userType);
+        Call<UserBookingsResponse> getBookings = request.getUserBookings(userId, userId, userType);
 
         getBookings.enqueue(new Callback<UserBookingsResponse>() {
 
@@ -300,7 +314,7 @@ public class RetrofitManager {
 
     public void changeSalonToUserFavorite(String salonId, String userId, String action, final AbstractCallback callback) {
 
-        Call<SignupResponseModel> call = request.changeUserFavorite(userId, salonId, action);
+        Call<SignupResponseModel> call = request.changeUserFavorite(userId, userId, salonId, action);
 
         call.enqueue(new Callback<SignupResponseModel>() {
 
@@ -330,11 +344,11 @@ public class RetrofitManager {
     }
 
 
-    public void getNearestSalons(double lat, double lng, int pageIndex, final AbstractCallback callback) {
-        Call<PopularSalonsResponseModel> call = request.getNearestSalons(lat, lng, pageIndex);
+    public void getNearestSalons(String userId, double lat, double lng, int pageIndex, final AbstractCallback callback) {
+        Call<PopularSalonsResponseModel> call = request.getNearestSalons(userId, lat, lng, pageIndex);
         call.enqueue(new Callback<PopularSalonsResponseModel>() {
             @Override
-            public void onResponse(Call<PopularSalonsResponseModel> call, Response<PopularSalonsResponseModel> response) {
+            public void onResponse(@NonNull Call<PopularSalonsResponseModel> call, @NonNull Response<PopularSalonsResponseModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onResult(true, response.body());
                 } else {
@@ -427,7 +441,7 @@ public class RetrofitManager {
 
     public void getSalonServices(String salonId, final AbstractCallback callback) {
 
-        Call<SalonServicesResponse> getServices = request.getSalonServices(salonId);
+        Call<SalonServicesResponse> getServices = request.getSalonServices(UserDefaultUtil.getCurrentUser().getId(), salonId);
 
         getServices.enqueue(new Callback<SalonServicesResponse>() {
 
@@ -458,7 +472,7 @@ public class RetrofitManager {
 
     public void getAvailableTimes(String salonId, String date, final AbstractCallback callback) {
 
-        Call<AvailableTimesResponse> get = request.getAvailableTime(date, salonId);
+        Call<AvailableTimesResponse> get = request.getAvailableTime(UserDefaultUtil.getCurrentUser().getId(), date, salonId);
 
         get.enqueue(new Callback<AvailableTimesResponse>() {
 
@@ -487,9 +501,9 @@ public class RetrofitManager {
         });
     }
 
-    public void updateBookingStatus(String BookingId, BookingStatus bookingStatus, final AbstractCallback callback) {
+    public void updateBookingStatus(String userId, String BookingId, BookingStatus bookingStatus, final AbstractCallback callback) {
 
-        Call<Object> call = request.updateBookingStatus(BookingId, bookingStatus.value + "");
+        Call<Object> call = request.updateBookingStatus(userId, BookingId, bookingStatus.value + "");
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -506,7 +520,7 @@ public class RetrofitManager {
 
     }
 
-    public void updateSalonImages(UpdateSalonImagesRequestModel model, File selectedFile, final AbstractCallback callback) {
+    public void updateSalonImages(String userId, UpdateSalonImagesRequestModel model, File selectedFile, final AbstractCallback callback) {
         RequestBody reqFile = null;
         MultipartBody.Part body = null;
         if (selectedFile != null) {
@@ -536,7 +550,8 @@ public class RetrofitManager {
         }
         ////////////////////////////////////////////////////////////////
 
-        Call<UpdateGalleryResponseModel> get = request.updateSalonImages(RequestBody.create(MediaType.parse("multipart/form-data"), model.getOperation()),
+        Call<UpdateGalleryResponseModel> get = request.updateSalonImages(RequestBody.create(MediaType.parse("multipart/form-data"), userId),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getOperation()),
                 RequestBody.create(MediaType.parse("multipart/form-data"), model.getSalonId()),
                 RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(imageIds)),
                 body);
@@ -561,12 +576,14 @@ public class RetrofitManager {
     }
 
 
-    public void addSalonService(AddNewServiceRequestModel model, File file, final AbstractCallback callback) {
+    public void addSalonService(String userId, AddNewServiceRequestModel model, File file, final AbstractCallback callback) {
 
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("img_file", file.getName(), reqFile);
 
-        Call<Object> get = request.addSalonService(RequestBody.create(MediaType.parse("multipart/form-data"), model.getServiceName()),
+        Call<Object> get = request.addSalonService(RequestBody.create(MediaType.parse("multipart/form-data"), userId),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getServiceName()),
+                RequestBody.create(MediaType.parse("multipart/form-data"), model.getServiceDuration()),
                 RequestBody.create(MediaType.parse("multipart/form-data"), model.getServicePrice()),
                 RequestBody.create(MediaType.parse("multipart/form-data"), model.getSalonId()),
                 body);
@@ -606,7 +623,7 @@ public class RetrofitManager {
 
         }
         Call<AddNewSalonResponseModel> updateSalonDetailsCall = request.
-                updateSalonDetails(RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonId()),
+                updateSalonDetails(RequestBody.create(MediaType.parse("multipart/form-data"), UserDefaultUtil.getCurrentUser().getId()), RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonId()),
                         RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getCityID()),
                         RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonType()),
                         RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getOwnerName()),
@@ -639,7 +656,7 @@ public class RetrofitManager {
 
         }
 
-        Call<AddNewSalonResponseModel> get = request.addNewSalonInformation(RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonId()),
+        Call<AddNewSalonResponseModel> get = request.addNewSalonInformation(RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonId()), RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonId()),
                 RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getCityID()),
                 RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getSalonType()),
                 RequestBody.create(MediaType.parse("multipart/form-data"), salonInformationRequestModel.getOwnerName()),
@@ -667,7 +684,7 @@ public class RetrofitManager {
     }
 
     public void deleteSalonService(String salonId, String serviceId, final AbstractCallback callback) {
-        Call<Void> deleteSalonService = request.deleteSalonService(salonId, serviceId);
+        Call<Void> deleteSalonService = request.deleteSalonService(UserDefaultUtil.getCurrentUser().getId(), salonId, serviceId);
 
         deleteSalonService.enqueue(new Callback<Void>() {
             @Override
@@ -677,6 +694,24 @@ public class RetrofitManager {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                callback.onResult(false, t);
+            }
+        });
+    }
+
+    public void getSalonAddress(Language lang, LatLng latLong, AbstractCallback callback) {
+        Call<LocationResponseModel> getAddress = request.getUserAddress(UserDefaultUtil.getCurrentUser().getId(), lang == Language.AR ? "ar" : "en",
+                latLong.getLatitude() + "",
+                latLong.getLongitude() + "");
+
+        getAddress.enqueue(new Callback<LocationResponseModel>() {
+            @Override
+            public void onResponse(@NonNull Call<LocationResponseModel> call, @NonNull Response<LocationResponseModel> response) {
+                callback.onResult(true, response.body().getAddress());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<LocationResponseModel> call, @NonNull Throwable t) {
                 callback.onResult(false, t);
             }
         });

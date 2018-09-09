@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/BG_GRAY"
-    >
+    android:background="@color/BG_GRAY">
 
     <RelativeLayout
         android:id="@+id/top_bar"
@@ -20,13 +18,13 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="17dp"
             android:padding="10dp"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/GRAY"/>
+            android:background="@color/GRAY" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,16 +34,16 @@
             android:textAllCaps="true"
             android:textColor="@color/APP_TEXT_COLOR"
             android:textSize="19.3sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:id="@+id/add_booking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:clickable="true">
+            android:clickable="true"
+            android:visibility="invisible">
 
             <View
                 android:layout_width="2dp"
@@ -53,7 +51,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="35.8dp"
                 android:background="@color/APP_GREEN"
-                android:clickable="false"/>
+                android:clickable="false" />
 
             <View
                 android:layout_width="21.7dp"
@@ -61,45 +59,44 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="26dp"
                 android:background="@color/APP_GREEN"
-                android:clickable="false"/>
+                android:clickable="false" />
 
         </RelativeLayout>
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/barber_list"
-        android:layout_width="match_parent"
-        android:layout_height="37.7dp"
-        android:layout_below="@+id/top_bar"
-        android:background="@color/BLACK"
-        android:visibility="invisible">
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/barber_list"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="37.7dp"-->
+    <!--android:layout_below="@+id/top_bar"-->
+    <!--android:background="@color/BLACK"-->
+    <!--android:visibility="g">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Barber Name"
-            android:textColor="@color/WHITE"
-            android:textSize="19.3sp"
-            />
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:text="Barber Name"-->
+    <!--android:textColor="@color/WHITE"-->
+    <!--android:textSize="19.3sp"-->
+    <!--/>-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="26dp"
-            android:src="@drawable/ic_dropdown_arrow"/>
-    </RelativeLayout>
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="26dp"-->
+    <!--android:src="@drawable/ic_dropdown_arrow"/>-->
+    <!--</RelativeLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bookings_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/barber_list"
-        />
+        android:layout_below="@+id/top_bar" />
 
     <include
         android:id="@+id/loading"
@@ -107,6 +104,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/top_bar_container"
-        android:visibility="visible"
-        />
+        android:visibility="gone" />
 </RelativeLayout>

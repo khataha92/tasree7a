@@ -24,10 +24,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +58,9 @@ import com.tasree7a.models.login.User;
 import com.tasree7a.models.salondetails.AddNewSalonResponseModel;
 import com.tasree7a.models.salondetails.SalonInformationRequestModel;
 import com.tasree7a.models.salondetails.SalonModel;
+import com.tasree7a.utils.ImagePickerHelper;
 import com.tasree7a.utils.PermissionsUtil;
+import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -66,9 +70,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * pre-fill data -> if from settings {all data}.
@@ -162,6 +167,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
     private boolean isUpdate;
 
     private String mFinalTime = null;
+    private String mImagePath = null;
 
     private double mSalonLong;
     private double mSalonLat;
@@ -171,9 +177,10 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
     private ImageView mSelectImage;
     private ImageView mBack;
     private EditText mSalonName;
-    private EditText mSalonOwnerNAme;
+    private EditText mSalonOwnerName;
     private EditText mSalonEmail;
     private EditText mSalonPhoneNumber;
+    private LinearLayout mLoading;
     private CustomButton mSaveSalonInformationBtn;
 
     private AppCompatCheckBox mMaleSalonType;
@@ -235,7 +242,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         if (intent.hasExtra(SALON_NAME) && intent.hasExtra(SALON_OWNER_NAME) && intent.hasExtra(SALON_EMAIL)) {
             //pre-fill registration data
             mSalonName.setText(intent.getStringExtra(SALON_NAME));
-            mSalonOwnerNAme.setText(intent.getStringExtra(SALON_OWNER_NAME));
+            mSalonOwnerName.setText(intent.getStringExtra(SALON_OWNER_NAME));
             mSalonEmail.setText(intent.getStringExtra(SALON_EMAIL));
             mCancelSalonInformationBtn.setVisibility(View.GONE);
             mBack.setVisibility(View.GONE);
@@ -500,7 +507,9 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_CANCELED) return;
-        Uri selectedUri = data.getData();
+        Uri selectedUri = null;
+        if (data != null)
+            selectedUri = data.getData();
 
         switch (requestCode) {
             case AddBarberActivity.REQUEST_CODE:
@@ -509,8 +518,14 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                 break;
 
             case CAMERA_REQUEST:
-                Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
-                mSelectImage.setImageBitmap(photo);
+                Bitmap selectedBitmap = ImagePickerHelper.handleCameraResult(this, mImagePath);
+                if (selectedBitmap != null) {
+                    mSelectedFile = new File(mImagePath);
+                    mSelectImage.setImageBitmap(selectedBitmap);
+                    mSelectImage.setRotation(90);
+                } else {
+                    Toasty.error(this, getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
+                }
                 break;
 
             case GALLERY_REQUEST:
@@ -574,10 +589,11 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         SalonModel salonModel = UserDefaultUtil.getCurrentSalonUser();
         if (salonModel != null) {
             mSalonName.setText(salonModel.getName());
-            mSalonOwnerNAme.setText(salonModel.getOwnerName());
+            mSalonOwnerName.setText(salonModel.getOwnerName());
             mSalonPhoneNumber.setText(salonModel.getOwnerMobileNumber());
             mMaleSalonType.setChecked(salonModel.getSalonType() == Gender.MALE);
             mFemaleSalonType.setChecked(salonModel.getSalonType() == Gender.FEMALE);
+            UIUtils.loadUrlIntoImageView(this, salonModel.getImage(), mSelectImage, null);
 
             if (salonModel.getSalonType() == Gender.ALL) {
                 mMaleSalonType.setChecked(true);
@@ -591,10 +607,11 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         mBack = findViewById(R.id.back);
         mFromTime = findViewById(R.id.from_hours);
         mToTime = findViewById(R.id.to_hours);
+        mLoading = findViewById(R.id.loading);
         mSelectImage = findViewById(R.id.image);
         mSelectImage.setOnClickListener(v -> openImageSelectionDialog());
         mSalonName = findViewById(R.id.salon_name);
-        mSalonOwnerNAme = findViewById(R.id.owner_name);
+        mSalonOwnerName = findViewById(R.id.owner_name);
         mSalonEmail = findViewById(R.id.email);
         mSalonPhoneNumber = findViewById(R.id.mobile);
         mMaleSalonType = findViewById(R.id.male);
@@ -605,7 +622,7 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
 
         mBack.setOnClickListener(v -> finish());
 
-        findViewById(R.id.save).setOnClickListener(v -> finish());
+//        findViewById(R.id.save).setOnClickListener(v -> finish());
 
         findViewById(R.id.from_to).setOnClickListener(v -> {
             RangeTimePickerDialog dialog = new RangeTimePickerDialog();
@@ -620,29 +637,38 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                 .setOnClickListener(v -> {
 
                     if (mSalonStaffContainer.getBarbers() != null && mSalonStaffContainer.getBarbers().size() != 0) {
+                        mLoading.setVisibility(View.VISIBLE);
+
                         if (isUpdate) {
                             RetrofitManager.getInstance().updateSalonDetails(BuildRequestData(true),
                                     mSelectedFile,
                                     (isSuccess, result) -> {
+                                        mLoading.setVisibility(View.GONE);
                                         updateSalonBarbers(UserDefaultUtil.getCurrentSalonUser().getId());
                                         startActivity(new Intent(this, HomeActivity.class));
                                         finish();
                                     });
                         } else {
-                            RetrofitManager.getInstance().addNewSalon(BuildRequestData(false), mSelectedFile, (isSuccess, result) -> {
-                                if (isSuccess) {
-                                    User user = UserDefaultUtil.getCurrentUser();
-                                    user.setSalonId(((AddNewSalonResponseModel) result).getDetails().getSalonId());
-                                    UserDefaultUtil.saveUser(user);
 
-                                    updateSalonBarbers(((AddNewSalonResponseModel) result).getDetails().getSalonId());
+                            if (isDataValid()) {
+                                RetrofitManager.getInstance().addNewSalon(BuildRequestData(false), mSelectedFile, (isSuccess, result) -> {
+                                    mLoading.setVisibility(View.GONE);
+                                    if (isSuccess) {
+                                        User user = UserDefaultUtil.getCurrentUser();
+                                        user.setSalonId(((AddNewSalonResponseModel) result).getDetails().getSalonId());
+                                        UserDefaultUtil.saveUser(user);
 
-                                    startActivity(new Intent(this, HomeActivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(this, R.string.something_wrong, Toast.LENGTH_LONG).show();
-                                }
-                            });
+                                        updateSalonBarbers(((AddNewSalonResponseModel) result).getDetails().getSalonId());
+
+                                        startActivity(new Intent(this, HomeActivity.class));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(this, R.string.something_wrong, Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                Toasty.error(this, getString(R.string.error_fill_fields), Toast.LENGTH_LONG).show();
+                            }
                         }
                     } else {
                         Toast.makeText(this,
@@ -653,6 +679,14 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
                 });
 
         initWorkingDays();
+    }
+
+    private boolean isDataValid() {
+        return !TextUtils.isEmpty(mSalonOwnerName.getText().toString())
+                && !TextUtils.isEmpty(mSalonPhoneNumber.getText().toString())
+                && (mFemaleSalonType.isChecked() || mMaleSalonType.isChecked())
+                && !TextUtils.isEmpty(mSalonEmail.getText().toString())
+                && mSelectedFile != null;
     }
 
     private void updateSalonBarbers(String salonId) {
@@ -681,14 +715,14 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
         SalonInformationRequestModel model = new SalonInformationRequestModel()
                 .setCityID("15")
                 .setOwnerMobile(mSalonPhoneNumber.getText().toString())
-                .setOwnerName(mSalonOwnerNAme.getText().toString())
+                .setOwnerName(mSalonOwnerName.getText().toString())
                 .setSalonLat(mSalonLat + "")
                 .setSalonLong(mSalonLong + "")
                 .setSalonName(mSalonName.getText().toString())
                 .setSalonType(salonType)
                 .setStartAt(mFromTime.getText().toString())
                 .setCloseAt(mToTime.getText().toString())
-                .setUserEmail("static@email.com")
+                .setUserEmail(mSalonEmail.getText().toString())
                 .setUserID(UserDefaultUtil.getCurrentUser().getId());
         if (update) {
             model.setSalonId(UserDefaultUtil.getCurrentSalonUser().getId());
@@ -733,31 +767,11 @@ public class SalonInformationActivity extends AppCompatActivity implements AddBa
 
     private void openCameraDialog() {
         if (PermissionsUtil.isPermissionGranted(this, Manifest.permission.CAMERA)) {
-            Log.d("", "");
-//            Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//            mFileUri = CameraUtils.getOutputMediaFileUri(this);
-//            if (takePicture.resolveActivity(getPackageManager()) != null) {
-
-//                try {
-//                    mSelectedFile = createImageFile();
-//                } catch (IOException ignore) {
-//                     Error occurred while creating the File
-//                }
-
-//                 Continue only if the File was successfully created
-//                if (mSelectedFile != null) {
-//                    Uri photoURI = FileProvider.getUriForFile(this,
-//                            "com.example.android.fileprovider",
-//                            mSelectedFile);
-//
-//                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//                    startActivityForResult(takePicture, CAMERA_REQUEST);
-//                }
+            mImagePath = ImagePickerHelper.dispatchTakePictureIntent(this, CAMERA_REQUEST);
         } else {
             PermissionsUtil.grantPermission(this, Manifest.permission.CAMERA, CAMERA_PERMISSION_REQUEST_CODE);
         }
     }
-//    }
 
     private void openGallerySelectionIntent() {
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);

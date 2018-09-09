@@ -19,6 +19,9 @@ public class SalonService implements Serializable, Parcelable {
     @SerializedName("picture")
     String imageUrl;
 
+    @SerializedName("duration")
+    String duration;
+
     String name;
 
     double price;
@@ -92,6 +95,19 @@ public class SalonService implements Serializable, Parcelable {
     public void setPrice(double price) {
 
         this.price = price;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public SalonService setDuration(String duration) {
+        this.duration = duration;
+        return this;
+    }
+
+    public static Creator<SalonService> getCREATOR() {
+        return CREATOR;
     }
 
     @Override

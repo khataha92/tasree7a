@@ -2,12 +2,9 @@ package com.tasree7a.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
@@ -18,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +22,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,13 +38,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.tasree7a.BuildConfig;
 import com.tasree7a.R;
 import com.tasree7a.activities.MainActivity;
@@ -75,23 +65,25 @@ import com.tasree7a.observables.FavoriteChangeObservable;
 import com.tasree7a.observables.FilterAndSortObservable;
 import com.tasree7a.observables.LocationChangedObservable;
 import com.tasree7a.observables.PermissionGrantedObservable;
-import com.tasree7a.services.LocationService;
 import com.tasree7a.utils.AppUtil;
 import com.tasree7a.utils.DefaultDividerItemDecoration;
 import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
+
+import timber.log.Timber;
+
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 public class HomeFragment extends BaseFragment implements Observer, ScrollListener {
     private static final String TAG = HomeFragment.class.getSimpleName();
@@ -168,8 +160,6 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
 
     private int pageIndex = 0;
 
-    private long mLastClickTimeStamp;
-
     private RecyclerView popularSalons;
     private CustomTopBar topBar;
     private DrawerLayout nvDrawer;
@@ -186,6 +176,7 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
 
     static Location currentLocation;
     private PopularSalonsAdapter mAdapter;
+    private boolean shouldRequestData = true;
 
 
     public static MyLocationListener listener = new MyLocationListener();
@@ -216,8 +207,6 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
         } else if (!checkPermissions()) {
             requestPermissions();
         }
-
-//        updateUI();
     }
 
     /**
@@ -233,22 +222,11 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
                 // receive empty arrays.
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (mRequestingLocationUpdates) {
+                if (!mRequestingLocationUpdates) {
                     Log.i(TAG, "Permission granted, updates requested, starting location updates");
                     startLocationUpdates();
                 }
             } else {
-                // Permission denied.
-
-                // Notify the user via a SnackBar that they have rejected a core permission for the
-                // app, which makes the Activity useless. In a real app, core permissions would
-                // typically be best requested during a welcome-screen flow.
-
-                // Additionally, it is important to remember that a permission might have been
-                // rejected without asking the user for permission (device policy or "Never ask
-                // again" prompts). Therefore, a user interface affordance is typically implemented
-                // when permissions are denied. Otherwise, your app could appear unresponsive to
-                // touches or interactions which have required permissions.
                 showSnackbar(R.string.permission_denied_explanation,
                         R.string.settings, view -> {
                             // Build intent that displays the App settings screen.
@@ -281,30 +259,12 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
 
     @SuppressWarnings("ConstantConditions")
     private void requestPermissions() {
-        boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION);
-
-        // Provide an additional rationale to the user. This would happen if the user denied the
-        // request previously, but didn't check the "Don't ask again" checkbox.
-        if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.");
-            showSnackbar(R.string.permission_rationale,
-                    android.R.string.ok, view -> {
-                        // Request permission
-                        ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                REQUEST_PERMISSIONS_REQUEST_CODE);
-                    });
-        } else {
-            Log.i(TAG, "Requesting permission");
-            // Request permission. It's possible this can be auto answered if device policy
-            // sets the permission in a given state or the user denied the permission
-            // previously and checked "Never ask again".
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
+        Log.i(TAG, "Requesting permission");
+        // Request permission. It's possible this can be auto answered if device policy
+        // sets the permission in a given state or the user denied the permission
+        // previously and checked "Never ask again".
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                REQUEST_PERMISSIONS_REQUEST_CODE);
     }
 
     /**
@@ -314,13 +274,15 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
      * @param actionStringId   The text of the action item.
      * @param listener         The listener associated with the Snackbar action.
      */
-    private void showSnackbar(final int mainTextStringId, final int actionStringId,
-                              View.OnClickListener listener) {
-        Snackbar.make(
-                rootView.findViewById(android.R.id.content),
-                getString(mainTextStringId),
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(actionStringId), listener).show();
+    private void showSnackbar(final int mainTextStringId, final int actionStringId, View.OnClickListener listener) {
+        try {
+            Snackbar.make(
+                    rootView.findViewById(android.R.id.content),
+                    getString(mainTextStringId),
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(actionStringId), listener).show();
+        } catch (Exception ignored) {
+        }
     }
 
     /**
@@ -328,7 +290,7 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
      */
     private boolean checkPermissions() {
         //noinspection ConstantConditions
-        int permissionState = ActivityCompat.checkSelfPermission(getContext(),
+        int permissionState = checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
@@ -342,10 +304,6 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
             return;
         }
 
-        // It is a good practice to remove location requests when the activity is in a paused or
-        // stopped state. Doing so helps battery performance and is especially
-        // recommended in applications that request frequent location updates.
-        //noinspection ConstantConditions
         mFusedLocationClient.removeLocationUpdates(mLocationCallback)
                 .addOnCompleteListener(getActivity(), task -> mRequestingLocationUpdates = false);
     }
@@ -369,7 +327,6 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
         }
     }
 
-
     @SuppressLint("MissingPermission")
     @SuppressWarnings("ConstantConditions")
     private void startLocationUpdates() {
@@ -388,21 +345,20 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
                     int statusCode = ((ApiException) e).getStatusCode();
                     switch (statusCode) {
                         case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            Log.i(TAG, "Location settings are not satisfied. Attempting to upgrade " +
-                                    "location settings ");
+                            Timber.i("Location settings are not satisfied. Attempting to upgrade location settings ");
                             try {
                                 // Show the dialog by calling startResolutionForResult(), and check the
                                 // result in onActivityResult().
                                 ResolvableApiException rae = (ResolvableApiException) e;
                                 rae.startResolutionForResult(getActivity(), REQUEST_CHECK_SETTINGS);
                             } catch (IntentSender.SendIntentException sie) {
-                                Log.i(TAG, "PendingIntent unable to execute request.");
+                                Timber.i("PendingIntent unable to execute request.");
                             }
                             break;
                         case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                             String errorMessage = "Location settings are inadequate, and cannot be " +
                                     "fixed here. Fix in Settings.";
-                            Log.e(TAG, errorMessage);
+                            Timber.e(errorMessage);
                             Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = false;
                     }
@@ -441,10 +397,9 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
 
                 mCurrentLocation = locationResult.getLastLocation();
                 mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-                mLastClickTimeStamp  = System.currentTimeMillis();
 
                 if (salons == null || salons.isEmpty())
-                getSalonsWithLocation(mCurrentLocation);
+                    getSalonsWithLocation(mCurrentLocation);
             }
         };
     }
@@ -543,12 +498,13 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
 
     private void initProfileImage() {
         navHeader.findViewById(R.id.profile_image).setOnClickListener(v -> {
-            if (!UserDefaultUtil.isFBUser())
+            if (!UserDefaultUtil.isFBUser() || UserDefaultUtil.isBusinessUser())
                 FragmentManager.showProfileFragment(getActivity());
         });
     }
 
     private void initMenuItems() {
+        nvView.getMenu().getItem(4).setVisible(UserDefaultUtil.isBusinessUser());
         nvView.setNavigationItemSelectedListener(
                 menuItem -> {
                     int itemId = menuItem.getItemId();
@@ -564,11 +520,11 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
                             FilterAndSortObservable.getInstance().notifyFilterChanged();
                             break;
                         case R.id.sallons:
-                            FilterAndSortManager.getInstance().reset();
-                            FilterAndSortObservable.getInstance().notifyFilterChanged();
+                            FragmentManager.showHomeFragment(getActivity());
                             break;
                         case R.id.logout:
                             UserDefaultUtil.logout();
+                            UserDefaultUtil.saveUserToken("");
                             AccessToken.setCurrentAccessToken(null);
                             startActivity(new Intent(getContext(), MainActivity.class));
                             Objects.requireNonNull(getActivity()).finish();
@@ -594,31 +550,17 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
         }
     }
 
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
-        builder.setMessage(getString(R.string.LOCATION_DISABLED_MESSAGE))
-
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.ENABLE_LOCATION), (dialog, id) -> startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
-                .setNegativeButton(getString(R.string.CLOSE), (dialog, id) -> FragmentManager.popCurrentVisibleFragment());
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-
     private void getSalons() {
         Location location = AppUtil.getCurrentLocation();
         getSalonsWithLocation(location);
     }
 
     private void getSalonsWithLocation(Location location) {
-
-        if (location == null || filteredSalons == null) {
+        if (location == null || filteredSalons == null || !shouldRequestData) {
             return;
         }
 
-
-        RetrofitManager.getInstance().getNearestSalons(location.getLatitude(), location.getLongitude(), pageIndex, (isSuccess, result) -> {
+        RetrofitManager.getInstance().getNearestSalons(UserDefaultUtil.getCurrentUser().getId(), location.getLatitude(), location.getLongitude(), pageIndex, (isSuccess, result) -> {
             if (isSuccess) {
                 hideLoadingView();
                 PopularSalonsResponseModel model = (PopularSalonsResponseModel) result;
@@ -626,7 +568,6 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
                     if (model.getSalons() == null || model.getSalons().isEmpty()) {
                         mAdapter.setHasMore(false);
                         mAdapter.notifyDataSetChanged();
-
                     } else {
                         salons.addAll(model.getSalons());
                         filteredSalons.addAll(salons);
@@ -642,21 +583,17 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof LocationChangedObservable) {
-//            getSalons();
-        } else if (o instanceof FavoriteChangeObservable) {
+        if (o instanceof FavoriteChangeObservable) {
             popularSalons.getAdapter().notifyDataSetChanged();
-        } else if (o instanceof PermissionGrantedObservable) {
-//            rootView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
-//            Location location = AppUtil.getCurrentLocation();
-//            getSalonsWithLocation(location);
         } else if (o instanceof FilterAndSortObservable) {
+            pageIndex = 0;
             filteredSalons = new ArrayList<>();
             List<FilterType> filterTypes = FilterAndSortManager.getInstance().getFilters();
             if (filterTypes.contains(FilterType.FAVORITE)) {
                 filteredSalons = UserDefaultUtil.getFavoriteSalons();
                 popularSalons.getAdapter().notifyDataSetChanged();
             } else {
+                shouldRequestData = false;
                 boolean isMale = FilterAndSortManager.getInstance().getSalonType() == Gender.MALE;
                 List<SalonModel> allSalons = SessionManager.getInstance().getSalons();
                 for (int i = 0; i < allSalons.size(); i++) {
@@ -668,13 +605,9 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
                         }
                     }
 
-                    if (shouldContain && (isMale && allSalons.get(i).getSalonType() == Gender.MALE) || (!isMale && allSalons.get(i).getSalonType() == Gender.FEMALE)) {
-                        shouldContain = true;
-                    } else {
-                        shouldContain = false;
-                        break;
-                    }
-                    if (shouldContain) {
+                    if (shouldContain
+                            && ((isMale && allSalons.get(i).getSalonType() == Gender.MALE)
+                            || (!isMale && allSalons.get(i).getSalonType() == Gender.FEMALE))) {
                         filteredSalons.add(allSalons.get(i));
                     }
                 }
@@ -698,7 +631,6 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
         }
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -721,12 +653,14 @@ public class HomeFragment extends BaseFragment implements Observer, ScrollListen
     public void getUserFavouriteSalons() {
         if (!UserDefaultUtil.isBusinessUser()) {
             RetrofitManager.getInstance().getUserFavoriteSalons(UserDefaultUtil.getCurrentUser().getId(), (isSuccess, result) -> {
-                if (isSuccess && result != null) {
+                if (isSuccess && result != null && ((FavoriteResponseModel) result).getDetails() != null) {
                     List<SalonModel> salonModels = new ArrayList<>();
-                    for (FavoriteDetailsModel details : ((FavoriteResponseModel) result).getDetails()) {
-                        salonModels.add(details.getSalonModel());
-                    }
+                    Iterator it = ((FavoriteResponseModel) result).getDetails().iterator();
                     UserDefaultUtil.saveFavoriteSalons(salonModels);
+
+                    while (it.hasNext()) {
+                        salonModels.add(((FavoriteDetailsModel) it).getSalonModel());
+                    }
                 }
             });
         }

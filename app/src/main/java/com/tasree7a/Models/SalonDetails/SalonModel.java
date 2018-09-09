@@ -76,34 +76,32 @@ public class SalonModel implements Filterable, ClusterItem, Serializable {
     @SerializedName("salon_services")
     private List<SalonService> salonServices;
 
-    @SerializedName("available_time")
+    @SerializedName("reserved_times")
     @Expose
-    private List<Integer> availableTimes;
+    private List<String> reservedTimes;
 
 //    @SerializedName("available_time")
 //    int[] availableTimess;
 
 
-    public void setAvailableTimes(List<Integer> availableTimes) {
-        this.availableTimes = availableTimes;
+    public void setReservedTimes(List<String> reservedTimes) {
+        this.reservedTimes = reservedTimes;
     }
 
-    public List<Integer> getAvailableTimes() {
-        return availableTimes;
+    public List<String> getReservedTimes() {
+        return reservedTimes;
     }
 
     public List<String> getAvailableTimesFormatted() {
-        List<String> times = new ArrayList<>();
-        for (int i = 0; i < availableTimes.size(); i++) {
-            times.add(AvailableTimesHelper.prepareAvailableTimes(availableTimes.get(i)));
-        }
+//        List<String> times = new ArrayList<>();
+//        for (int i = 0; i < reservedTimes.size(); i++) {
+//            times.add(AvailableTimesHelper.prepareAvailableTimes(reservedTimes.get(i)));
+//        }
 
-        return times;
+        return null;
     }
 
-
     public List<SalonService> getSalonServices() {
-
         return salonServices;
     }
 

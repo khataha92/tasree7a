@@ -101,7 +101,6 @@ public class PopularSalonsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemViewType(int position) {
-        Log.d("POS_I_TION", "pos_" + position + "     size_" + salonModels.size());
         if (mHasMore && (position + 1) == salonModels.size()) {
             return LOADER_VIEW_TYPE;
         } else {

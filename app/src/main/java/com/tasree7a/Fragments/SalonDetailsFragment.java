@@ -1,10 +1,14 @@
 package com.tasree7a.fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,8 +64,11 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
+import static android.Manifest.permission.CALL_PHONE;
+
 public class SalonDetailsFragment extends BaseFragment implements CardFactory, Observer, OnMapReadyCallback {
     public static final String SALON_MODEL = SalonDetailsFragment.class.getName() + "SALON_MODEL";
+    private static final int REQUEST_CALL_PERMISSION = 1111;
 
     private SalonModel salonModel;
 
@@ -124,7 +131,35 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
         getSalonDetails();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void initViews(View rootView) {
+        rootView.findViewById(R.id.salon_phone).setOnClickListener(v -> {
+            if (ActivityCompat.checkSelfPermission(getContext(),
+                    CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + salonModel.getOwnerMobileNumber()));
+                startActivity(callIntent);
+
+            } else {
+                ActivityCompat.requestPermissions(ThisApplication.getCurrentActivity(),
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        REQUEST_CALL_PERMISSION);
+                if (ActivityCompat.checkSelfPermission(getContext(),
+                        CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + salonModel.getOwnerMobileNumber()));
+                    startActivity(callIntent);
+                }
+            }
+        });
+
         back = rootView.findViewById(R.id.back);
         back.setOnClickListener(v -> FragmentManager.popCurrentVisibleFragment());
         bookNowLbl = rootView.findViewById(R.id.book_now_lbl);
@@ -181,6 +216,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     }
 
     private void loadSalonData() {
+        if (salonModel == null) return;
         ratingBar.setRating(salonModel.getRating());
         salonName.setText(salonModel.getName());
         UIUtils.loadUrlIntoImageView(getContext(), salonModel.getImage(), salonCover, Sizes.MEDIUM);
@@ -290,7 +326,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     @Override
     public ArrayList<BaseCardModel> getCardModels() {
         ArrayList<BaseCardModel> cardModels = new ArrayList<>();
-        cardModels.add(getCardModel(CardType.CONTACT_DETAILS));
+//        cardModels.add(getCardModel(CardType.CONTACT_DETAILS));
 //        cardModels.add(getCardModel(CardType.MAP_CARD));
         return cardModels;
     }
@@ -341,7 +377,7 @@ public class SalonDetailsFragment extends BaseFragment implements CardFactory, O
     }
 
     public void getSalonDetails() {
-        RetrofitManager.getInstance().getSalonDetails(salonModel == null ? UserDefaultUtil.getCurrentUser().getSalonId() : salonModel.getId(), (isSuccess, result) -> {
+        RetrofitManager.getInstance().getSalonDetails(salonModel == null ? UserDefaultUtil.getCurrentUser().getSalonId() : salonModel.getId(), UserDefaultUtil.getCurrentUser().getId(), (isSuccess, result) -> {
             if (!isAdded()) return;
             if (isSuccess) {
                 salonModel = (SalonModel) result;

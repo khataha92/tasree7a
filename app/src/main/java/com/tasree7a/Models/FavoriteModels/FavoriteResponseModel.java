@@ -45,7 +45,6 @@ public class FavoriteResponseModel {
 
 
     public List<FavoriteDetailsModel> getDetails() {
-
         return details;
     }
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/login_bg"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    android:orientation="vertical">
 
 
     <RelativeLayout
@@ -21,15 +21,13 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="21dp"
             android:padding="10dp"
-            android:src="@drawable/ic_back"
-            />
+            android:src="@drawable/ic_back" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/GRAY"
-            />
+            android:background="@color/GRAY" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,8 +37,7 @@
             android:textAllCaps="true"
             android:textColor="@color/APP_TEXT_COLOR"
             android:textSize="19sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
     </RelativeLayout>
 
 
@@ -70,8 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
-                    android:textColorHint="@color/APP_TEXT_COLOR"
-                    >
+                    android:textColorHint="@color/APP_TEXT_COLOR">
 
                     <EditText
                         android:id="@+id/input_full_name"
@@ -80,8 +76,7 @@
                         android:hint="@string/FULL_NAME"
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
-                        android:textColor="@color/APP_TEXT_COLOR"
-                        />
+                        android:textColor="@color/APP_TEXT_COLOR" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -93,8 +88,7 @@
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="15dp"
                     android:textColorHint="@color/APP_TEXT_COLOR"
-                    android:visibility="gone"
-                    >
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/input_username"
@@ -103,8 +97,7 @@
                         android:hint="@string/USERNAME"
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
-                        android:textColor="@color/APP_TEXT_COLOR"
-                        />
+                        android:textColor="@color/APP_TEXT_COLOR" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -115,8 +108,7 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="15dp"
-                    android:textColorHint="@color/APP_TEXT_COLOR"
-                    >
+                    android:textColorHint="@color/APP_TEXT_COLOR">
 
                     <EditText
                         android:id="@+id/input_email"
@@ -125,35 +117,40 @@
                         android:hint="@string/EMAIL"
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
-                        android:textColor="@color/APP_TEXT_COLOR"
-                        />
+                        android:textColor="@color/APP_TEXT_COLOR" />
                 </android.support.design.widget.TextInputLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/password_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/input_layout_email">
+                    android:layout_below="@+id/input_layout_email"
+                    android:orientation="vertical">
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_layout_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginTop="20dp"
+                        android:layout_toLeftOf="@+id/change_pass_btn"
+                        android:clickable="false"
+                        android:enabled="false"
                         android:orientation="horizontal"
-                        android:textColorHint="@color/APP_TEXT_COLOR"
-                        >
+                        android:textColorHint="@color/APP_TEXT_COLOR">
 
                         <EditText
                             android:id="@+id/input_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:enabled="false"
                             android:hint="@string/PASSWORD"
                             android:inputType="textPassword"
                             android:singleLine="true"
-                            android:textColor="@color/APP_TEXT_COLOR"/>
+                            android:textColor="@color/APP_TEXT_COLOR" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -161,17 +158,20 @@
                         android:id="@+id/change_pass_btn"
                         android:layout_width="50dp"
                         android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="-75dp"
+                        android:layout_marginRight="20dp"
                         android:background="@drawable/shadow"
                         android:paddingBottom="5dp"
                         android:visibility="visible"
                         app:customButtonRadius="20"
                         app:customButtonText="@string/CHANGE"
                         app:customButtonTextColor="@color/WHITE"
-                        app:customButtonTextSize="11sp"/>
-                </LinearLayout>
+                        app:customButtonTextSize="11sp" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -196,7 +196,7 @@
                         app:customButtonRadius="20"
                         app:customButtonText="@string/CANCEL"
                         app:customButtonTextColor="@color/WHITE"
-                        app:customButtonTextSize="19sp"/>
+                        app:customButtonTextSize="19sp" />
 
 
                     <com.tasree7a.customcomponent.CustomButton
@@ -210,7 +210,7 @@
                         app:customButtonRadius="20"
                         app:customButtonText="@string/APPLY"
                         app:customButtonTextColor="@color/WHITE"
-                        app:customButtonTextSize="19sp"/>
+                        app:customButtonTextSize="19sp" />
 
                 </LinearLayout>
             </RelativeLayout>
@@ -234,7 +234,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/profile_cam"/>
+            android:src="@drawable/profile_cam" />
 
     </RelativeLayout>
 

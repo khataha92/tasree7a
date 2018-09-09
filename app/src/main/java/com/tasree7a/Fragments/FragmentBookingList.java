@@ -37,7 +37,6 @@ public class FragmentBookingList extends BaseFragment implements Observer, OnBoo
     private List<BookingModel> mBookingsList = new ArrayList<>();
 
     private RecyclerView mBookingRecyclerView;
-    private BookingListAdapter mAdapter;
 
     @Nullable
     @Override
@@ -92,7 +91,7 @@ public class FragmentBookingList extends BaseFragment implements Observer, OnBoo
     }
 
     private void initBookings() {
-        mAdapter = new BookingListAdapter(mBookingsList, this);
+        BookingListAdapter mAdapter = new BookingListAdapter(mBookingsList, this);
         mBookingRecyclerView.setAdapter(mAdapter);
     }
 

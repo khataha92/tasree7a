@@ -53,6 +53,8 @@ public class User implements Serializable {
     @SerializedName("salon_id")
     String salonId;
 
+    @SerializedName("user_auth_token")
+    private String mUserToken;
 
     public String getSalonId () {
 
@@ -219,5 +221,14 @@ public class User implements Serializable {
     public void setFacebookId(String facebookId) {
 
         this.facebookId = facebookId;
+    }
+
+    public String getUserToken() {
+        return mUserToken;
+    }
+
+    public User setUserToken(String userToken) {
+        mUserToken = userToken;
+        return this;
     }
 }

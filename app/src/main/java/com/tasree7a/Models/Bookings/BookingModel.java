@@ -21,10 +21,14 @@ public class BookingModel {
     @SerializedName("salon")
     SalonModel salon;
 
+    @SerializedName("book_time")
     String bookingTime;
 
     @SerializedName("book_status")
     int bookStatus;
+
+    @SerializedName("book_date")
+    String bookDate;
 
     @SerializedName("city")
     CityModel city;
@@ -35,8 +39,23 @@ public class BookingModel {
     @SerializedName("user")
     User user;
 
+    @SerializedName("start_time")
+    String startTime;
+
+    @SerializedName("end_time")
+    String endTime;
+
     @SerializedName("services")
     List<BookingServiceModel> bookingServiceList = new ArrayList<>();
+
+    public String getBookDate() {
+        return bookDate;
+    }
+
+    public BookingModel setBookDate(String bookDate) {
+        this.bookDate = bookDate;
+        return this;
+    }
 
     public User getUser() {
         return user;
@@ -145,4 +164,21 @@ public class BookingModel {
         this.bookingServiceList = bookingServiceList;
     }
 
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public BookingModel setStartTime(String startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public BookingModel setEndTime(String endTime) {
+        this.endTime = endTime;
+        return this;
+    }
 }

@@ -47,6 +47,7 @@ public class SalonImagesGalleryActivity extends AppCompatActivity implements Gal
     private ImageView mAddImage;
     private ImageView mRemoveImages;
     private RecyclerView mImagesListRecyclerView;
+    private View mLoadingView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class SalonImagesGalleryActivity extends AppCompatActivity implements Gal
         switch (requestCode) {
             case AddSalonImageActivity.REQUEST_CODE:
                 //TODO Should have an API only for getting images;
-                RetrofitManager.getInstance().getSalonDetails(mSalonId, (isSuccess, result) -> {
+                RetrofitManager.getInstance().getSalonDetails(mSalonId, UserDefaultUtil.getCurrentUser().getId(), (isSuccess, result) -> {
                     if (isSuccess) {
                         mImageModelsList.clear();
                         mImageModelsList.addAll(((SalonModel) result).getGallery());
@@ -90,8 +91,8 @@ public class SalonImagesGalleryActivity extends AppCompatActivity implements Gal
     public void onImageItemClicked(boolean selected, int position) {
         if (!UserDefaultUtil.isBusinessUser()) {
             startActivity(new Intent(this, FullScreenGalleryActivity.class)
-            .putExtra(FullScreenGalleryActivity.IMAGE_MODELS_LIST, (Serializable) mImageModelsList)
-            .putExtra(FullScreenGalleryActivity.IMAGE_POSITION, position));
+                    .putExtra(FullScreenGalleryActivity.IMAGE_MODELS_LIST, (Serializable) mImageModelsList)
+                    .putExtra(FullScreenGalleryActivity.IMAGE_POSITION, position));
         } else {
             if (selected) {
                 mSelectedImagesList.add(mImageModelsList.get(position).getImageId());
@@ -106,6 +107,8 @@ public class SalonImagesGalleryActivity extends AppCompatActivity implements Gal
     }
 
     private void initViews() {
+        mLoadingView = findViewById(R.id.loading);
+
         mImagesListRecyclerView = findViewById(R.id.gallery);
         mImagesListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mSalonNameView = findViewById(R.id.salon_name);
@@ -138,17 +141,18 @@ public class SalonImagesGalleryActivity extends AppCompatActivity implements Gal
             model.setSalonId(mSalonId);
             model.setOperation("DELETE");
             model.setImageId(items);
-            RetrofitManager.getInstance().updateSalonImages(model, null, (isSuccess, result) -> {
-                if (isSuccess) {
-                    for (ImageModel imageModel : mImageModelsList) {
-                        if (imageModel.getImageId().equalsIgnoreCase(item)) {
-                            mImageModelsList.remove(imageModel);
-                            mImagesListAdapter.notifyDataSetChanged();
-                            break;
+            RetrofitManager.getInstance().updateSalonImages(UserDefaultUtil.getCurrentUser().getId(),
+                    model, null, (isSuccess, result) -> {
+                        if (isSuccess) {
+                            for (ImageModel imageModel : mImageModelsList) {
+                                if (imageModel.getImageId().equalsIgnoreCase(item)) {
+                                    mImageModelsList.remove(imageModel);
+                                    mImagesListAdapter.notifyDataSetChanged();
+                                    break;
+                                }
+                            }
                         }
-                    }
-                }
-            });
+                    });
         }
     }
 

@@ -40,6 +40,29 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/uploading"
+            android:textColor="@color/BLACK"
+            android:textSize="18sp" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/add_product_image"
         android:layout_width="160dp"
@@ -133,8 +156,5 @@
             app:customButtonText="@string/SAVE"
             app:customButtonTextColor="@color/WHITE"
             app:customButtonTextSize="19sp" />
-
     </LinearLayout>
-
-
 </RelativeLayout>

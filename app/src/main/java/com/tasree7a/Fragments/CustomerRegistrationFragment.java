@@ -2,7 +2,6 @@ package com.tasree7a.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.tasree7a.ThisApplication;
 import com.tasree7a.activities.HomeActivity;
 import com.tasree7a.customcomponent.CustomButton;
 import com.tasree7a.enums.Language;
-import com.tasree7a.interfaces.AbstractCallback;
 import com.tasree7a.managers.RetrofitManager;
 import com.tasree7a.models.ApiError;
 import com.tasree7a.models.signup.SignupResponseModel;
@@ -23,8 +21,6 @@ import com.tasree7a.utils.UIUtils;
 import com.tasree7a.utils.UserDefaultUtil;
 
 import es.dmoral.toasty.Toasty;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by SamiKhleaf on 7/28/17.
@@ -89,6 +85,7 @@ public class CustomerRegistrationFragment extends BaseFragment implements View.O
                     if (isSuccess) {
                         SignupResponseModel signupResponseModel = (SignupResponseModel) result;
                         UserDefaultUtil.saveUser(signupResponseModel.getUserDetails().getUser());
+                        UserDefaultUtil.saveUserToken(signupResponseModel.getUserDetails().getUser().getUserToken());
                         startActivity(new Intent(ThisApplication.getCurrentActivity(), HomeActivity.class));
                         ThisApplication.getCurrentActivity().finish();
                     } else {

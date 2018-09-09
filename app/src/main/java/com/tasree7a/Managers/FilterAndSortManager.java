@@ -22,28 +22,18 @@ public class FilterAndSortManager {
     private List<FilterType> filters = new ArrayList<>();
 
     private FilterAndSortManager() {
-
-
     }
 
     public static FilterAndSortManager getInstance() {
-
         if (instance == null) {
-
             instance = new FilterAndSortManager();
-
             instance.getFilters().add(FilterType.ALL);
-
         }
-
         return instance;
-
     }
 
     public void reset() {
-
         sortType = SortType.DISTANCE;
-
         filters.clear();
     }
 
